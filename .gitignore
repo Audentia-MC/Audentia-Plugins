@@ -1,4 +1,4 @@
-# Created by .ignore support plugin (hsz.mobi)
+# Created by .ignore support fr.audentia.protect (hsz.mobi)
 ### Gradle template
 .gradle
 /build/
@@ -83,7 +83,7 @@ hs_err_pid*
 # CMake
 cmake-build-*/
 
-# Mongo Explorer plugin
+# Mongo Explorer fr.audentia.protect
 .idea/**/mongoSettings.xml
 
 # File-based project format
@@ -92,16 +92,16 @@ cmake-build-*/
 # IntelliJ
 out/
 
-# mpeltonen/sbt-idea plugin
+# mpeltonen/sbt-idea fr.audentia.protect
 .idea_modules/
 
-# JIRA plugin
+# JIRA fr.audentia.protect
 atlassian-ide-plugin.xml
 
-# Cursive Clojure plugin
+# Cursive Clojure fr.audentia.protect
 .idea/replstate.xml
 
-# Crashlytics plugin (for Android Studio and IntelliJ)
+# Crashlytics fr.audentia.protect (for Android Studio and IntelliJ)
 com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties

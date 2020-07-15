@@ -1,8 +1,0 @@
-name: "Audentia-Plugin"
-main: fr.audentia.plugin.main.AudentiaPlugin
-version: 0.1.0
-authors:
-  - LukaMrt
-api-version: "1.15"
-softdepend:
-commands:

@@ -1,0 +1,8 @@
+name: "Audentia-Core"
+main: fr.audentia.core.main.AudentiaCore
+version: 0.1.0
+authors:
+  - LukaMrt
+api-version: "1.16"
+softdepend:
+commands:

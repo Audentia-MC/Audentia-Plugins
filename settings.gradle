@@ -1,2 +1,5 @@
-rootProject.name = 'Audentia-Plugin'
+rootProject.name = 'Audentia-Plugins'
+include 'Audentia-Players'
+include 'Audentia-Protect'
+include 'Audentia-Core'
 
