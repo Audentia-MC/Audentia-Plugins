@@ -5,9 +5,9 @@ import org.bukkit.plugin.Plugin;
 public class TasksManager {
 
     private final Plugin plugin;
-    private final ManagersProvider provider;
+    private final AudentiaPlayersManagersProvider provider;
 
-    public TasksManager(Plugin plugin, ManagersProvider provider) {
+    public TasksManager(Plugin plugin, AudentiaPlayersManagersProvider provider) {
         this.plugin = plugin;
         this.provider = provider;
     }

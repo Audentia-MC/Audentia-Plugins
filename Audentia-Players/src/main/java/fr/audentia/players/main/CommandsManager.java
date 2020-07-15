@@ -13,10 +13,10 @@ public class CommandsManager {
     private final Map<PluginCommand, CommandExecutor> commands;
     private final Map<PluginCommand, TabCompleter> tabCompleters;
     private final String version;
-    private final ManagersProvider provider;
+    private final AudentiaPlayersManagersProvider provider;
     private final JavaPlugin plugin;
 
-    public CommandsManager(JavaPlugin plugin, String version, ManagersProvider provider) {
+    public CommandsManager(JavaPlugin plugin, String version, AudentiaPlayersManagersProvider provider) {
         this.plugin = plugin;
         this.version = version;
         this.provider = provider;

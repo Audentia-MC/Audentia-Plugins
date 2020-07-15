@@ -5,4 +5,7 @@ authors:
   - LukaMrt
 api-version: "1.16"
 softdepend:
+  - "Audentia-Players"
 commands:
+  balance:
+    description: display emeraude count

@@ -10,10 +10,10 @@ import java.util.List;
 public class ListenersManager {
 
     private final Plugin plugin;
-    private final ManagersProvider provider;
+    private final AudentiaPlayersManagersProvider provider;
     private final List<Listener> listeners;
 
-    public ListenersManager(Plugin plugin, ManagersProvider provider) {
+    public ListenersManager(Plugin plugin, AudentiaPlayersManagersProvider provider) {
         this.plugin = plugin;
         this.provider = provider;
 

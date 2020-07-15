@@ -1,6 +1,7 @@
 package fr.audentia.core.main;
 
 import fr.audentia.core.application.commands.CommandAbout;
+import fr.audentia.core.application.commands.CommandBalance;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
@@ -14,10 +15,10 @@ public class CommandsManager {
     private final Map<PluginCommand, CommandExecutor> commands;
     private final Map<PluginCommand, TabCompleter> tabCompleters;
     private final String version;
-    private final ManagersProvider provider;
+    private final AudentiaCoreManagersProvider provider;
     private final JavaPlugin plugin;
 
-    public CommandsManager(JavaPlugin plugin, String version, ManagersProvider provider) {
+    public CommandsManager(JavaPlugin plugin, String version, AudentiaCoreManagersProvider provider) {
         this.plugin = plugin;
         this.version = version;
         this.provider = provider;
@@ -30,6 +31,7 @@ public class CommandsManager {
         Map<PluginCommand, CommandExecutor> commands = new HashMap<>();
 
         commands.put(getCommand("about"), new CommandAbout(version));
+        commands.put(getCommand("balance"), new CommandBalance(provider.BALANCE_MANAGER));
 
         return commands;
     }
