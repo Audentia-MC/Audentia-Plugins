@@ -2,10 +2,10 @@ package fr.audentia.core.domain.balance;
 
 import fr.audentia.players.domain.teams.Team;
 
-import java.util.OptionalDouble;
+import java.util.OptionalInt;
 
 public interface BalanceRepository {
 
-    OptionalDouble getTeamBalance(Team team);
+    OptionalInt getTeamBalance(Team team);
 
 }

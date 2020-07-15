@@ -2,8 +2,9 @@ package fr.audentia.core.domain.balance;
 
 import fr.audentia.players.domain.teams.Team;
 import fr.audentia.players.domain.teams.TeamsManager;
+import fr.audentia.players.utils.ColorsUtils;
 
-import java.util.OptionalDouble;
+import java.util.OptionalInt;
 import java.util.UUID;
 
 public class BalanceManager {
@@ -23,11 +24,11 @@ public class BalanceManager {
 
         String message = "<error>Votre groupe ne possède pas de compte en banque.";
 
-        OptionalDouble balance = this.balanceRepository.getTeamBalance(team);
+        OptionalInt balance = this.balanceRepository.getTeamBalance(team);
 
         if (balance.isPresent()) {
 
-            message = "&#" + team.color + "Balance : " + balance.getAsDouble() + ".";
+            message = "&" + ColorsUtils.fromColorToHexadecimal(team.color) + "Balance : " + balance.getAsInt() + " émeraudes.";
 
         }
 

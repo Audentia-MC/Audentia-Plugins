@@ -48,7 +48,7 @@ public class ColorsUtils {
         return Arrays.asList(Color.WHITE, Color.BLACK).contains(color);
     }
 
-    public static String fromColor(Color color) {
+    public static String fromColorToString(Color color) {
 
         if (Color.BLUE == color) return "<blue";
 
@@ -69,12 +69,20 @@ public class ColorsUtils {
         return "<white";
     }
 
-    public static Color hex2Rgb(String colorStr) {
+    public static Color hex2Rgb(String hex) {
         return new Color(
-                Integer.valueOf(colorStr.substring(1, 3), 16),
-                Integer.valueOf(colorStr.substring(3, 5), 16),
-                Integer.valueOf(colorStr.substring(5, 7), 16));
+                Integer.valueOf(hex.substring(1, 3), 16),
+                Integer.valueOf(hex.substring(3, 5), 16),
+                Integer.valueOf(hex.substring(5, 7), 16));
     }
 
+    public static String fromColorToHexadecimal(Color color) {
+
+        int red = color.getRed();
+        int green = color.getGreen();
+        int blue = color.getBlue();
+
+        return String.format("#%02X%02X%02X", red, green, blue);
+    }
 
 }
