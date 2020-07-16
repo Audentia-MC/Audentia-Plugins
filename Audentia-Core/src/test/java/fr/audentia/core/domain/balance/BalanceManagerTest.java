@@ -31,7 +31,7 @@ public class BalanceManagerTest {
     }
 
     @Test
-    public void getBalanceOfPlayer_ShouldReturnSuccessMessage_WhenPlayerTeamHasBalance() {
+    public void getBalanceOfPlayer_shouldReturnSuccessMessage_whenPlayerTeamHasBalance() {
 
         when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(OptionalInt.of(0));
 
@@ -41,7 +41,7 @@ public class BalanceManagerTest {
     }
 
     @Test
-    public void getBalanceOfPlayer_ShouldReturnErrorMessage_WhenPlayerTeamHasNotBalance() {
+    public void getBalanceOfPlayer_shouldReturnErrorMessage_whenPlayerTeamHasNotBalance() {
 
         when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(OptionalInt.empty());
 

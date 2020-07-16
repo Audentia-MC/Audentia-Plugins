@@ -6,6 +6,6 @@ import java.util.OptionalInt;
 
 public interface BalanceRepository {
 
-    OptionalInt getTeamBalance(Team team);
+    OptionalInt getTeamBalance(Team team); // TODO : change return to a Balance object
 
 }
