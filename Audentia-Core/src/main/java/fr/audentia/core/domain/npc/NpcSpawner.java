@@ -6,6 +6,6 @@ public interface NpcSpawner {
 
     void spawnNpc(Npc npc);
 
-    void deleteNpcNpc(Npc npc);
+    void deleteNpc(Npc npc); // TODO : delete by name and not by location (maybe db changed)
 
 }

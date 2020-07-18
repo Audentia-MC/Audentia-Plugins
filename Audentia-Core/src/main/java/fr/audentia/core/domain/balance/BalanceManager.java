@@ -17,7 +17,6 @@ public class BalanceManager {
         this.balanceRepository = balanceRepository;
     }
 
-
     public String getBalanceOfPlayer(UUID playerUUID) {
 
         Team team = this.teamsManager.getTeamOfPlayer(playerUUID);
