@@ -17,15 +17,7 @@ public class NpcSpawnManager {
         this.worldNpcFinder = worldNpcFinder;
     }
 
-    public void spawnNpc(String npcName) {
-        spawnNpcWithResult(npcName);
-    }
-
-    public void deleteNpc(String npcName) {
-        deleteNpcWithResult(npcName);
-    }
-
-    public String spawnNpcWithResult(String npcName) {
+    public String spawnNpc(String npcName) {
 
         Optional<Npc> optionalNpc = this.npcRepository.getNpc(npcName);
 
@@ -38,7 +30,7 @@ public class NpcSpawnManager {
         return "<success>Le PNJ " + npcName + " a bien spawn.";
     }
 
-    public String deleteNpcWithResult(String npcName) {
+    public String deleteNpc(String npcName) {
 
         Optional<Npc> optionalNpc = this.worldNpcFinder.findNpc(npcName);
 
@@ -51,67 +43,43 @@ public class NpcSpawnManager {
         return "<success>Le PNJ " + npcName + " a bien été supprimé.";
     }
 
-    public void spawnAllNpcs() {
-
-        this.npcRepository.getAllNpc().stream()
-                .map(npc -> npc.name)
-                .forEach(this::spawnNpc);
-    }
-
-    public void deleteAllNpcs() {
-
-        this.worldNpcFinder.findAllNpc().stream()
-                .map(npc -> npc.name)
-                .forEach(this::deleteNpc);
-    }
-
-    public String spawnAllNpcsWithResult() {
+    public String spawnAllNpcs() {
 
         return this.npcRepository.getAllNpc().stream()
                 .map(npc -> npc.name)
-                .map(this::spawnNpcWithResult)
+                .map(this::spawnNpc)
                 .collect(Collectors.joining("\n"));
     }
 
-    public String deleteAllNpcsWithResult() {
+    public String deleteAllNpcs() {
 
         return this.worldNpcFinder.findAllNpc().stream()
                 .map(npc -> npc.name)
-                .map(this::deleteNpcWithResult)
+                .map(this::deleteNpc)
                 .collect(Collectors.joining("\n"));
     }
 
-    public void reloadNpc(String npcName) {
-
-        deleteNpc(npcName);
-        spawnNpc(npcName);
-    }
-
-    public void reloadAllNpcs() {
-
-        this.worldNpcFinder.findAllNpc().stream()
-                .map(npc -> npc.name)
-                .forEach(this::deleteNpc);
-
-        this.npcRepository.getAllNpc().stream()
-                .map(npc -> npc.name)
-                .forEach(this::spawnNpc);
-    }
-
-    public String reloadNpcWithResult(String npcName) {
+    public String reloadNpc(String npcName) {
 
         String result = "<success>Le PNJ " + npcName + " a bien été rechargé.";
 
-        if (deleteNpcWithResult(npcName).contains("<error>") || spawnNpcWithResult(npcName).contains("<error>")) {
+        if (deleteNpc(npcName).contains("<error>") || spawnNpc(npcName).contains("<error>")) {
             result = "<error>Une erreur s'est produite.";
         }
 
         return result;
     }
 
-    public String reloadAllNpcsWithResult() {
+    public String reloadAllNpcs() {
 
-        reloadAllNpcs();
+        this.worldNpcFinder.findAllNpc().stream()
+                .map(npc -> npc.name)
+                .forEach(this::deleteNpc);
+
+        this.npcRepository.getAllNpc().stream()
+                .map(npc -> npc.name)
+                .forEach(this::spawnNpc);
+
         return "<success>Les PNJ ont bien été rechargés.";
     }
 
