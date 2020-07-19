@@ -5,13 +5,13 @@ import fr.audentia.core.domain.model.npc.Npc;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class NpcSpawnManager {
+public class NpcSpawn {
 
     private final NpcSpawner npcSpawner;
     private final NpcRepository npcRepository;
     private final WorldNpcFinder worldNpcFinder;
 
-    public NpcSpawnManager(NpcSpawner npcSpawner, NpcRepository npcRepository, WorldNpcFinder worldNpcFinder) {
+    public NpcSpawn(NpcSpawner npcSpawner, NpcRepository npcRepository, WorldNpcFinder worldNpcFinder) {
         this.npcSpawner = npcSpawner;
         this.npcRepository = npcRepository;
         this.worldNpcFinder = worldNpcFinder;

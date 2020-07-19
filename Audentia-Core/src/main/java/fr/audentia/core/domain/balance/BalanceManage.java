@@ -7,12 +7,12 @@ import fr.audentia.players.utils.ColorsUtils;
 import java.util.OptionalInt;
 import java.util.UUID;
 
-public class BalanceManager {
+public class BalanceManage {
 
     private final TeamsManager teamsManager;
     private final BalanceRepository balanceRepository;
 
-    public BalanceManager(TeamsManager teamsManager, BalanceRepository balanceRepository) {
+    public BalanceManage(TeamsManager teamsManager, BalanceRepository balanceRepository) {
         this.teamsManager = teamsManager;
         this.balanceRepository = balanceRepository;
     }

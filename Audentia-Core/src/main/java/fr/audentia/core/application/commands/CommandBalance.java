@@ -1,6 +1,6 @@
 package fr.audentia.core.application.commands;
 
-import fr.audentia.core.domain.balance.BalanceManager;
+import fr.audentia.core.domain.balance.BalanceManage;
 import fr.audentia.players.utils.ChatUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,10 +9,10 @@ import org.bukkit.entity.Player;
 
 public class CommandBalance implements CommandExecutor {
 
-    private final BalanceManager balanceManager;
+    private final BalanceManage balanceManage;
 
-    public CommandBalance(BalanceManager balanceManager) {
-        this.balanceManager = balanceManager;
+    public CommandBalance(BalanceManage balanceManage) {
+        this.balanceManage = balanceManage;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class CommandBalance implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        String balance = this.balanceManager.getBalanceOfPlayer(player.getUniqueId());
+        String balance = this.balanceManage.getBalanceOfPlayer(player.getUniqueId());
         player.sendMessage(ChatUtils.format(balance));
 
         return false;

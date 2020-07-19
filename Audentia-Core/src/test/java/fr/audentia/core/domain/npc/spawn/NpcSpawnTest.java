@@ -13,19 +13,19 @@ import static fr.audentia.core.domain.model.npc.NpcBuilder.aNpc;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-public class NpcSpawnManagerTest {
+public class NpcSpawnTest {
 
     private NpcSpawner npcSpawner;
     private NpcRepository npcRepository;
     private WorldNpcFinder worldNpcFinder;
-    private NpcSpawnManager npcSpawnManager;
+    private NpcSpawn npcSpawn;
 
     @Before
     public void setUp() {
         this.npcSpawner = Mockito.mock(NpcSpawner.class);
         this.npcRepository = Mockito.mock(NpcRepository.class);
         this.worldNpcFinder = Mockito.mock(WorldNpcFinder.class);
-        this.npcSpawnManager = new NpcSpawnManager(npcSpawner, npcRepository, worldNpcFinder);
+        this.npcSpawn = new NpcSpawn(npcSpawner, npcRepository, worldNpcFinder);
     }
 
     @Test
@@ -34,7 +34,7 @@ public class NpcSpawnManagerTest {
         Npc npc = buildNpc("Tony");
         when(npcRepository.getNpc("Tony")).thenReturn(Optional.of(npc));
 
-        String result = npcSpawnManager.spawnNpc("Tony");
+        String result = npcSpawn.spawnNpc("Tony");
 
         verify(npcSpawner, times(1)).spawnNpc(npc);
         assertThat(result).isEqualTo("<success>Le PNJ Tony a bien spawn.");
@@ -45,7 +45,7 @@ public class NpcSpawnManagerTest {
 
         when(npcRepository.getNpc(anyString())).thenReturn(Optional.empty());
 
-        String result = npcSpawnManager.spawnNpc("Tony");
+        String result = npcSpawn.spawnNpc("Tony");
 
         verifyNoInteractions(npcSpawner);
         assertThat(result).isEqualTo("<error>Le PNJ Tony n'a pas été trouvé.");
@@ -57,7 +57,7 @@ public class NpcSpawnManagerTest {
         Npc npc = buildNpc("Tony");
         when(worldNpcFinder.findNpc("Tony")).thenReturn(Optional.of(npc));
 
-        String result = npcSpawnManager.deleteNpc("Tony");
+        String result = npcSpawn.deleteNpc("Tony");
 
         verify(npcSpawner, times(1)).deleteNpc(npc);
         assertThat(result).isEqualTo("<success>Le PNJ Tony a bien été supprimé.");
@@ -68,7 +68,7 @@ public class NpcSpawnManagerTest {
 
         when(worldNpcFinder.findNpc(anyString())).thenReturn(Optional.empty());
 
-        String result = npcSpawnManager.deleteNpc("Tony");
+        String result = npcSpawn.deleteNpc("Tony");
 
         verifyNoInteractions(npcSpawner);
         assertThat(result).isEqualTo("<error>Le PNJ Tony n'a pas été trouvé.");
@@ -85,7 +85,7 @@ public class NpcSpawnManagerTest {
         when(npcRepository.getNpc("Manu")).thenReturn(Optional.of(npc2));
         when(npcRepository.getNpc("Kevin")).thenReturn(Optional.of(npc3));
 
-        String result = npcSpawnManager.spawnAllNpcs();
+        String result = npcSpawn.spawnAllNpcs();
 
         verify(npcSpawner, times(1)).spawnNpc(npc1);
         verify(npcSpawner, times(1)).spawnNpc(npc2);
@@ -104,7 +104,7 @@ public class NpcSpawnManagerTest {
         when(worldNpcFinder.findNpc("Tony")).thenReturn(Optional.of(npc1));
         when(worldNpcFinder.findNpc("Manu")).thenReturn(Optional.of(npc2));
 
-        String result = npcSpawnManager.deleteAllNpcs();
+        String result = npcSpawn.deleteAllNpcs();
 
         verify(npcSpawner, times(1)).deleteNpc(npc1);
         verify(npcSpawner, times(1)).deleteNpc(npc2);
@@ -119,7 +119,7 @@ public class NpcSpawnManagerTest {
         when(npcRepository.getNpc("Tony")).thenReturn(Optional.of(npc));
         when(worldNpcFinder.findNpc("Tony")).thenReturn(Optional.of(npc));
 
-        String result = npcSpawnManager.reloadNpc("Tony");
+        String result = npcSpawn.reloadNpc("Tony");
 
         InOrder order = inOrder(npcSpawner, npcSpawner);
         order.verify(npcSpawner).deleteNpc(npc);
@@ -135,7 +135,7 @@ public class NpcSpawnManagerTest {
         when(npcRepository.getNpc(anyString())).thenReturn(Optional.empty());
         when(worldNpcFinder.findNpc(anyString())).thenReturn(Optional.empty());
 
-        String result = npcSpawnManager.reloadNpc("Tony");
+        String result = npcSpawn.reloadNpc("Tony");
 
         verifyNoInteractions(npcSpawner);
         assertThat(result).isEqualTo("<error>Une erreur s'est produite.");
@@ -156,7 +156,7 @@ public class NpcSpawnManagerTest {
         when(worldNpcFinder.findNpc("Manu")).thenReturn(Optional.of(npc2));
         when(worldNpcFinder.findNpc("Kevin")).thenReturn(Optional.of(npc3));
 
-        String result = npcSpawnManager.reloadAllNpcs();
+        String result = npcSpawn.reloadAllNpcs();
 
         InOrder order = inOrder(npcSpawner, npcSpawner, npcSpawner, npcSpawner, npcSpawner, npcSpawner);
         order.verify(npcSpawner).deleteNpc(npc1);
@@ -183,7 +183,7 @@ public class NpcSpawnManagerTest {
         when(worldNpcFinder.findNpc("Tony")).thenReturn(Optional.of(npc1));
         when(worldNpcFinder.findNpc("Manu")).thenReturn(Optional.of(npc2));
 
-        String result = npcSpawnManager.reloadAllNpcs();
+        String result = npcSpawn.reloadAllNpcs();
 
         InOrder order = inOrder(npcSpawner, npcSpawner, npcSpawner, npcSpawner, npcSpawner);
         order.verify(npcSpawner).deleteNpc(npc1);

@@ -13,19 +13,19 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-public class BalanceManagerTest {
+public class BalanceManageTest {
 
     private static final UUID PLAYER_UUID = UUID.randomUUID();
     private static final Team FAKE_TEAM = new Team(Color.RED);
 
     private BalanceRepository balanceRepository;
-    private BalanceManager balanceManager;
+    private BalanceManage balanceManage;
 
     @Before
     public void setUp() {
         TeamsManager teamsManager = Mockito.mock(TeamsManager.class);
         this.balanceRepository = Mockito.mock(BalanceRepository.class);
-        this.balanceManager = new BalanceManager(teamsManager, balanceRepository);
+        this.balanceManage = new BalanceManage(teamsManager, balanceRepository);
 
         when(teamsManager.getTeamOfPlayer(PLAYER_UUID)).thenReturn(FAKE_TEAM);
     }
@@ -35,7 +35,7 @@ public class BalanceManagerTest {
 
         when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(OptionalInt.of(0));
 
-        String balance = this.balanceManager.getBalanceOfPlayer(PLAYER_UUID);
+        String balance = this.balanceManage.getBalanceOfPlayer(PLAYER_UUID);
 
         assertThat(balance).isEqualTo("&#FF0000Balance : 0 émeraudes.");
     }
@@ -45,7 +45,7 @@ public class BalanceManagerTest {
 
         when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(OptionalInt.empty());
 
-        String balance = this.balanceManager.getBalanceOfPlayer(PLAYER_UUID);
+        String balance = this.balanceManage.getBalanceOfPlayer(PLAYER_UUID);
 
         assertThat(balance).isEqualTo("<error>Votre groupe ne possède pas de compte en banque.");
     }

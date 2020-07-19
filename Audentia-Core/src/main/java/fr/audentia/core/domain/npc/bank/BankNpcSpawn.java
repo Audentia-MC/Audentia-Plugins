@@ -1,17 +1,17 @@
 package fr.audentia.core.domain.npc.bank;
 
-import fr.audentia.core.domain.npc.spawn.NpcSpawnManager;
+import fr.audentia.core.domain.npc.spawn.NpcSpawn;
 
 import java.util.Optional;
 
-public class BankNpcSpawner {
+public class BankNpcSpawn {
 
     private final BankNpcProvider bankNpcProvider;
-    private NpcSpawnManager npcSpawnManager;
+    private NpcSpawn npcSpawn;
 
-    public BankNpcSpawner(BankNpcProvider bankNpcProvider, NpcSpawnManager npcSpawnManager) {
+    public BankNpcSpawn(BankNpcProvider bankNpcProvider, NpcSpawn npcSpawn) {
         this.bankNpcProvider = bankNpcProvider;
-        this.npcSpawnManager = npcSpawnManager;
+        this.npcSpawn = npcSpawn;
     }
 
     public String spawnBankNpc() {
@@ -20,7 +20,7 @@ public class BankNpcSpawner {
         String result = "<error>Le PNJ de la banque n'a pas été trouvé.";
 
         if (name.isPresent()) {
-            npcSpawnManager.spawnNpc(name.get());
+            npcSpawn.spawnNpc(name.get());
             result = "<success>Le PNJ de la banque a bien spawn.";
         }
 
