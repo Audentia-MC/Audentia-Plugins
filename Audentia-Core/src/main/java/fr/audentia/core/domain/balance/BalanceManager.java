@@ -20,15 +20,12 @@ public class BalanceManager {
     public String getBalanceOfPlayer(UUID playerUUID) {
 
         Team team = this.teamsManager.getTeamOfPlayer(playerUUID);
-
         String message = "<error>Votre groupe ne possède pas de compte en banque.";
 
         OptionalInt balance = this.balanceRepository.getTeamBalance(team);
 
         if (balance.isPresent()) {
-
             message = "&" + ColorsUtils.fromColorToHexadecimal(team.color) + "Balance : " + balance.getAsInt() + " émeraudes.";
-
         }
 
         return message;

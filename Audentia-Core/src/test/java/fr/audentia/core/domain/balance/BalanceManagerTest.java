@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 public class BalanceManagerTest {
 
     private static final UUID PLAYER_UUID = UUID.randomUUID();
-    private static final Team FAKE_TEAM = new Team(Color.BLACK);
+    private static final Team FAKE_TEAM = new Team(Color.RED);
 
     private BalanceRepository balanceRepository;
     private BalanceManager balanceManager;
@@ -37,7 +37,7 @@ public class BalanceManagerTest {
 
         String balance = this.balanceManager.getBalanceOfPlayer(PLAYER_UUID);
 
-        assertThat(balance).isEqualTo("&#000000Balance : 0 émeraudes.");
+        assertThat(balance).isEqualTo("&#FF0000Balance : 0 émeraudes.");
     }
 
     @Test

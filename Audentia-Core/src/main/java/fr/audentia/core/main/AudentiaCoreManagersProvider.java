@@ -2,7 +2,7 @@ package fr.audentia.core.main;
 
 import fr.audentia.core.domain.balance.BalanceManager;
 import fr.audentia.core.domain.balance.BalanceRepository;
-import fr.audentia.core.infrastructure.repositories.balance.MariaDbBalanceRepository;
+import fr.audentia.core.infrastructure.balance.MariaDbBalanceRepository;
 import fr.audentia.players.main.AudentiaPlayersManagersProvider;
 
 public class AudentiaCoreManagersProvider {

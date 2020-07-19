@@ -1,4 +1,4 @@
-package fr.audentia.core.domain.npc;
+package fr.audentia.core.domain.npc.spawn;
 
 import fr.audentia.core.domain.model.npc.Npc;
 import org.junit.Before;
@@ -9,7 +9,7 @@ import org.mockito.Mockito;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static fr.audentia.core.domain.model.npc.NpcBuilder.aNpcLocation;
+import static fr.audentia.core.domain.model.npc.NpcBuilder.aNpc;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -29,7 +29,7 @@ public class NpcSpawnManagerTest {
     }
 
     @Test
-    public void spawnNpc_shouldSpawnNpc_whenNpcExists() {
+    public void spawnNpc_shouldSpawnNpc_whenNpcStored() {
 
         Npc npc = buildNpc("Tony");
         when(npcRepository.getNpc("Tony")).thenReturn(Optional.of(npc));
@@ -41,7 +41,7 @@ public class NpcSpawnManagerTest {
     }
 
     @Test
-    public void spawnNpc_shouldNotSpawnNpc_whenNpcDoesNotExists() {
+    public void spawnNpc_shouldNotSpawnNpc_whenNpcIsNotStored() {
 
         when(npcRepository.getNpc(anyString())).thenReturn(Optional.empty());
 
@@ -52,7 +52,7 @@ public class NpcSpawnManagerTest {
     }
 
     @Test
-    public void deleteNpc_shouldSpawnNpc_whenNpLivesInWorld() {
+    public void deleteNpc_shouldSpawnNpc_whenNpcLivesInWorld() {
 
         Npc npc = buildNpc("Tony");
         when(worldNpcFinder.findNpc("Tony")).thenReturn(Optional.of(npc));
@@ -64,7 +64,7 @@ public class NpcSpawnManagerTest {
     }
 
     @Test
-    public void deleteNpc_shouldNotSpawnNpc_whenNpcDoesNotLivesInWorld() {
+    public void deleteNpc_shouldNotSpawnNpc_whenNpcDoesNotLiveInWorld() {
 
         when(worldNpcFinder.findNpc(anyString())).thenReturn(Optional.empty());
 
@@ -75,7 +75,7 @@ public class NpcSpawnManagerTest {
     }
 
     @Test
-    public void spawnAllNpcs_shouldSpawn3Npcs_whenThereAre3NpcsStored() {
+    public void spawnAllNpcs_shouldSpawn3Npcs_when3NpcsStored() {
 
         Npc npc1 = buildNpc("Tony");
         Npc npc2 = buildNpc("Manu");
@@ -96,7 +96,7 @@ public class NpcSpawnManagerTest {
     }
 
     @Test
-    public void deleteAllNpcs_shouldDelete2Npc_whenThereAre2NpcsLivesInWorld() {
+    public void deleteAllNpcs_shouldDelete2Npc_when2NpcsLiveInWorld() {
 
         Npc npc1 = buildNpc("Tony");
         Npc npc2 = buildNpc("Manu");
@@ -113,7 +113,7 @@ public class NpcSpawnManagerTest {
     }
 
     @Test
-    public void reloadNpc_shouldDeleteThenSpawnNpc_whenNpcExists() {
+    public void reloadNpc_shouldDeleteThenSpawnNpc_whenNpcLivesInWorldAndStored() {
 
         Npc npc = buildNpc("Tony");
         when(npcRepository.getNpc("Tony")).thenReturn(Optional.of(npc));
@@ -130,7 +130,7 @@ public class NpcSpawnManagerTest {
     }
 
     @Test
-    public void reloadNpc_shouldDoNothing_whenNpcDoesNotExists() {
+    public void reloadNpc_shouldDoNothing_whenNpcDoesNotLiveInWorldAndStored() {
 
         when(npcRepository.getNpc(anyString())).thenReturn(Optional.empty());
         when(worldNpcFinder.findNpc(anyString())).thenReturn(Optional.empty());
@@ -142,7 +142,7 @@ public class NpcSpawnManagerTest {
     }
 
     @Test
-    public void reloadAllNpcs_shouldDeleteThenSpawn3Npcs_when3NpcsExists() {
+    public void reloadAllNpcs_shouldDeleteThenSpawn3Npcs_when3NpcsLiveInWorldAndStored() {
 
         Npc npc1 = buildNpc("Tony");
         Npc npc2 = buildNpc("Manu");
@@ -170,7 +170,7 @@ public class NpcSpawnManagerTest {
     }
 
     @Test
-    public void reloadAllNpcs_shouldDelete2NpcsThenSpawn3Npcs_when2NpcsLiveInWorldAnd3AreStored() {
+    public void reloadAllNpcs_shouldDelete2NpcsThenSpawn3Npcs_when2NpcsLiveInWorldAnd3Stored() {
 
         Npc npc1 = buildNpc("Tony");
         Npc npc2 = buildNpc("Manu");
@@ -197,7 +197,7 @@ public class NpcSpawnManagerTest {
 
     private Npc buildNpc(String name) {
 
-        return aNpcLocation()
+        return aNpc()
                 .withName(name)
                 .withX(0)
                 .withY(0)

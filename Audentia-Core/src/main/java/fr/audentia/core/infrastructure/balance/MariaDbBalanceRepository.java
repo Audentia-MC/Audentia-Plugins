@@ -1,4 +1,4 @@
-package fr.audentia.core.infrastructure.repositories.balance;
+package fr.audentia.core.infrastructure.balance;
 
 import fr.audentia.core.domain.balance.BalanceRepository;
 import fr.audentia.players.domain.teams.Team;

@@ -1,4 +1,4 @@
-package fr.audentia.core.domain.npc;
+package fr.audentia.core.domain.npc.spawn;
 
 import fr.audentia.core.domain.model.npc.Npc;
 

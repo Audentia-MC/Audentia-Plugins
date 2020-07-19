@@ -12,7 +12,7 @@ public class NpcBuilder {
     private NpcBuilder() {
     }
 
-    public static NpcBuilder aNpcLocation() {
+    public static NpcBuilder aNpc() {
         return new NpcBuilder();
     }
 

@@ -1,4 +1,4 @@
-package fr.audentia.core.domain.npc;
+package fr.audentia.core.domain.npc.spawn;
 
 import fr.audentia.core.domain.model.npc.Npc;
 
@@ -20,27 +20,27 @@ public class NpcSpawnManager {
     public String spawnNpc(String npcName) {
 
         Optional<Npc> optionalNpc = this.npcRepository.getNpc(npcName);
+        String result = "<error>Le PNJ " + npcName + " n'a pas été trouvé.";
 
-        if (!optionalNpc.isPresent()) {
-            return "<error>Le PNJ " + npcName + " n'a pas été trouvé.";
+        if (optionalNpc.isPresent()) {
+            this.npcSpawner.spawnNpc(optionalNpc.get());
+            result =  "<success>Le PNJ " + npcName + " a bien spawn.";
         }
 
-        this.npcSpawner.spawnNpc(optionalNpc.get());
-
-        return "<success>Le PNJ " + npcName + " a bien spawn.";
+        return result;
     }
 
     public String deleteNpc(String npcName) {
 
         Optional<Npc> optionalNpc = this.worldNpcFinder.findNpc(npcName);
+        String result = "<error>Le PNJ " + npcName + " n'a pas été trouvé.";
 
-        if (!optionalNpc.isPresent()) {
-            return "<error>Le PNJ " + npcName + " n'a pas été trouvé.";
+        if (optionalNpc.isPresent()) {
+            this.npcSpawner.deleteNpc(optionalNpc.get());
+            result = "<success>Le PNJ " + npcName + " a bien été supprimé.";
         }
 
-        this.npcSpawner.deleteNpc(optionalNpc.get());
-
-        return "<success>Le PNJ " + npcName + " a bien été supprimé.";
+        return result;
     }
 
     public String spawnAllNpcs() {
