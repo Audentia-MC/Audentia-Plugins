@@ -16,11 +16,11 @@ public class EmeraldsLimitation {
             return -1;
         }
 
-        if (dayTransfers.value + count < limitation) {
-            return count;
+        if (dayTransfers.value + count > limitation) {
+            return limitation - dayTransfers.value;
         }
 
-        return dayTransfers.value + count - limitation;
+        return count;
     }
 
 }

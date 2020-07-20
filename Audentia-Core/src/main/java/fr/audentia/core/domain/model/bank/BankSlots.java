@@ -11,6 +11,7 @@ public class BankSlots {
     }
 
     public boolean isOpen(int hour) {
+
         return slots.stream()
                 .anyMatch(slot -> slot.start <= hour && hour < slot.end);
     }

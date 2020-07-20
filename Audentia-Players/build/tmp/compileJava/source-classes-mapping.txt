@@ -32,7 +32,7 @@ fr/audentia/players/domain/model/balance/Balance.java
  fr.audentia.players.domain.model.balance.Balance
 fr/audentia/players/main/ListenersManager.java
  fr.audentia.players.main.ListenersManager
-fr/audentia/players/main/TasksManager.java
- fr.audentia.players.main.TasksManager
 fr/audentia/players/domain/model/Day.java
  fr.audentia.players.domain.model.Day
+fr/audentia/players/main/TasksManager.java
+ fr.audentia.players.main.TasksManager
