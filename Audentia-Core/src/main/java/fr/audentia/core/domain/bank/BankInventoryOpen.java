@@ -1,4 +1,4 @@
-package fr.audentia.core.domain.npc.bank;
+package fr.audentia.core.domain.bank;
 
 import fr.audentia.players.domain.teams.TeamsManager;
 

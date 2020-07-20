@@ -17,7 +17,7 @@ public class BalanceManage {
         this.balanceRepository = balanceRepository;
     }
 
-    public String getBalanceOfPlayer(UUID playerUUID) {
+    public String getBalanceWithMessage(UUID playerUUID) {
 
         Team team = this.teamsManager.getTeamOfPlayer(playerUUID);
         String message = "<error>Votre groupe ne possède pas de compte en banque.";
@@ -29,6 +29,12 @@ public class BalanceManage {
         }
 
         return message;
+    }
+
+    public int getBalance(UUID playerUUID) {
+
+        Team team = this.teamsManager.getTeamOfPlayer(playerUUID);
+        return this.balanceRepository.getTeamBalance(team).orElse(0);
     }
 
 }

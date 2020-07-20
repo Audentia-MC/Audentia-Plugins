@@ -1,6 +1,6 @@
-package fr.audentia.core.domain.npc.bank;
+package fr.audentia.core.domain.bank;
 
-import fr.audentia.core.domain.npc.spawn.NpcSpawn;
+import fr.audentia.core.domain.npc.NpcSpawn;
 
 import java.util.Optional;
 

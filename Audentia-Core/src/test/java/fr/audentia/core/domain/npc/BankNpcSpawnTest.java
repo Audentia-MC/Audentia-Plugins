@@ -1,6 +1,7 @@
-package fr.audentia.core.domain.npc.bank;
+package fr.audentia.core.domain.npc;
 
-import fr.audentia.core.domain.npc.spawn.NpcSpawn;
+import fr.audentia.core.domain.bank.BankNpcProvider;
+import fr.audentia.core.domain.bank.BankNpcSpawn;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

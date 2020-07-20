@@ -1,4 +1,4 @@
-package fr.audentia.core.domain.npc.bank;
+package fr.audentia.core.domain.bank;
 
 import java.awt.*;
 import java.util.UUID;

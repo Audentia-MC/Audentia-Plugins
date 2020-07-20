@@ -2,7 +2,7 @@ package fr.audentia.core.infrastructure.npc;
 
 import fr.audentia.core.domain.model.npc.Npc;
 import fr.audentia.core.domain.model.npc.NpcBuilder;
-import fr.audentia.core.domain.npc.spawn.WorldNpcFinder;
+import fr.audentia.core.domain.npc.WorldNpcFinder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

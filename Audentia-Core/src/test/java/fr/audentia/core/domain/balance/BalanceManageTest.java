@@ -31,23 +31,43 @@ public class BalanceManageTest {
     }
 
     @Test
-    public void getBalanceOfPlayer_shouldReturnSuccessMessage_whenPlayerTeamHasBalance() {
+    public void getBalanceWithMessage_shouldReturnSuccessMessage_whenPlayerTeamHasBalance() {
 
         when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(OptionalInt.of(0));
 
-        String balance = this.balanceManage.getBalanceOfPlayer(PLAYER_UUID);
+        String balance = this.balanceManage.getBalanceWithMessage(PLAYER_UUID);
 
         assertThat(balance).isEqualTo("&#FF0000Balance : 0 émeraudes.");
     }
 
     @Test
-    public void getBalanceOfPlayer_shouldReturnErrorMessage_whenPlayerTeamHasNotBalance() {
+    public void getBalanceWithMessage_shouldReturnErrorMessage_whenPlayerTeamHasNotBalance() {
 
         when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(OptionalInt.empty());
 
-        String balance = this.balanceManage.getBalanceOfPlayer(PLAYER_UUID);
+        String balance = this.balanceManage.getBalanceWithMessage(PLAYER_UUID);
 
         assertThat(balance).isEqualTo("<error>Votre groupe ne possède pas de compte en banque.");
+    }
+
+    @Test
+    public void getBalance_shouldReturn10_whenPlayerTeamHas10Emeralds() {
+
+        when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(OptionalInt.of(10));
+
+        int balance = this.balanceManage.getBalance(PLAYER_UUID);
+
+        assertThat(balance).isEqualTo(10);
+    }
+
+    @Test
+    public void getBalance_shouldReturn0_whenPlayerTeamHasNotBalance() {
+
+        when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(OptionalInt.empty());
+
+        int balance = this.balanceManage.getBalance(PLAYER_UUID);
+
+        assertThat(balance).isEqualTo(0);
     }
 
 }
