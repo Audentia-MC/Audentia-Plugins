@@ -1,17 +1,15 @@
 package fr.audentia.core.domain.bank;
 
-import fr.audentia.core.domain.balance.BalanceManage;
-
 import java.util.UUID;
 
 public class BankInventoryInteract {
 
     private final InventoryUtilities inventoryUtilities;
-    private final BalanceManage balanceManage;
+    private final BankManager bankManager;
 
-    public BankInventoryInteract(InventoryUtilities inventoryUtilities, BalanceManage balanceManage) {
+    public BankInventoryInteract(InventoryUtilities inventoryUtilities, BankManager balanceManage) {
         this.inventoryUtilities = inventoryUtilities;
-        this.balanceManage = balanceManage;
+        this.bankManager = balanceManage;
     }
 
     public String interact(UUID playerUUID, int count) {
@@ -20,8 +18,13 @@ public class BankInventoryInteract {
             return "<error>Vous ne pouvez pas déposer ce nombre d'émeraudes.";
         }
 
-        inventoryUtilities.removeEmeralds(playerUUID, count);
-        return balanceManage.addToBalance(playerUUID, count);
+        String result = bankManager.depositEmeralds(playerUUID, count);
+
+        if (result.contains("<success>")) {
+            inventoryUtilities.removeEmeralds(playerUUID, count);
+        }
+
+        return result;
     }
 
 }

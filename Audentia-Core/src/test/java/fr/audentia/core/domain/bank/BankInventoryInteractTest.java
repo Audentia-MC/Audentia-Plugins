@@ -1,6 +1,5 @@
 package fr.audentia.core.domain.bank;
 
-import fr.audentia.core.domain.balance.BalanceManage;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -15,23 +14,24 @@ public class BankInventoryInteractTest {
 
     private InventoryUtilities inventoryUtilities;
     private BankInventoryInteract bankInventoryInteract;
-    private BalanceManage balanceManage;
+    private BankManager bankManager;
 
     @Before
     public void setUp() {
         inventoryUtilities = Mockito.mock(InventoryUtilities.class);
-        balanceManage = Mockito.mock(BalanceManage.class);
-        bankInventoryInteract = new BankInventoryInteract(inventoryUtilities, balanceManage);
+        bankManager = Mockito.mock(BankManager.class);
+        bankInventoryInteract = new BankInventoryInteract(inventoryUtilities, bankManager);
     }
 
     @Test
-    public void interact_shouldAdd1EmeraldToTeam_whenInteractWith1AndPeopleHas1Emerald() {
+    public void interact_shouldAdd1EmeraldToTeam_whenInteractWith1AndPeopleHas1EmeraldAndDayIs1() {
 
         when(inventoryUtilities.hasEmeralds(FAKE_UUID, 1)).thenReturn(true);
+        when(bankManager.depositEmeralds(FAKE_UUID, 1)).thenReturn("<success>");
 
         bankInventoryInteract.interact(FAKE_UUID, 1);
 
-        verify(balanceManage, times(1)).addToBalance(FAKE_UUID, 1);
+        verify(bankManager, times(1)).depositEmeralds(FAKE_UUID, 1);
         verify(inventoryUtilities, times(1)).removeEmeralds(FAKE_UUID, 1);
     }
 
@@ -44,7 +44,7 @@ public class BankInventoryInteractTest {
 
         verify(inventoryUtilities, times(1)).hasEmeralds(FAKE_UUID, 64);
         verifyNoMoreInteractions(inventoryUtilities);
-        verifyNoInteractions(balanceManage);
+        verifyNoInteractions(bankManager);
     }
 
 }

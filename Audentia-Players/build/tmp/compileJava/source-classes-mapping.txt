@@ -2,33 +2,37 @@ fr/audentia/players/utils/ChatUtils.java
  fr.audentia.players.utils.ChatUtils
 fr/audentia/players/infrastructure/repositories/teams/MariaDbTeamsRepository.java
  fr.audentia.players.infrastructure.repositories.teams.MariaDbTeamsRepository
-fr/audentia/players/infrastructure/repositories/MariaDbRolesRepository.java
- fr.audentia.players.infrastructure.repositories.MariaDbRolesRepository
-fr/audentia/players/domain/model/Role.java
- fr.audentia.players.domain.model.Role
-fr/audentia/players/utils/ItemStackBuilder.java
- fr.audentia.players.utils.ItemStackBuilder
-fr/audentia/players/domain/teams/TeamsRepository.java
- fr.audentia.players.domain.teams.TeamsRepository
-fr/audentia/players/utils/ColorsUtils.java
- fr.audentia.players.utils.ColorsUtils
-fr/audentia/players/domain/teams/RolesRepository.java
- fr.audentia.players.domain.teams.RolesRepository
-fr/audentia/players/domain/teams/Team.java
- fr.audentia.players.domain.teams.Team
-fr/audentia/players/domain/model/balance/Balance.java
- fr.audentia.players.domain.model.balance.Balance
 fr/audentia/players/domain/teams/DefaultTeamsManager.java
  fr.audentia.players.domain.teams.DefaultTeamsManager
-fr/audentia/players/main/ListenersManager.java
- fr.audentia.players.main.ListenersManager
+fr/audentia/players/domain/model/Role.java
+ fr.audentia.players.domain.model.Role
 fr/audentia/players/main/AudentiaPlayers.java
  fr.audentia.players.main.AudentiaPlayers
 fr/audentia/players/main/AudentiaPlayersManagersProvider.java
  fr.audentia.players.main.AudentiaPlayersManagersProvider
+fr/audentia/players/domain/model/teams/DayTransfers.java
+ fr.audentia.players.domain.model.teams.DayTransfers
+fr/audentia/players/utils/ColorsUtils.java
+ fr.audentia.players.utils.ColorsUtils
 fr/audentia/players/domain/teams/TeamsManager.java
  fr.audentia.players.domain.teams.TeamsManager
-fr/audentia/players/main/TasksManager.java
- fr.audentia.players.main.TasksManager
 fr/audentia/players/main/CommandsManager.java
  fr.audentia.players.main.CommandsManager
+fr/audentia/players/utils/ItemStackBuilder.java
+ fr.audentia.players.utils.ItemStackBuilder
+fr/audentia/players/domain/teams/RolesRepository.java
+ fr.audentia.players.domain.teams.RolesRepository
+fr/audentia/players/domain/teams/TeamsRepository.java
+ fr.audentia.players.domain.teams.TeamsRepository
+fr/audentia/players/domain/teams/Team.java
+ fr.audentia.players.domain.teams.Team
+fr/audentia/players/infrastructure/repositories/MariaDbRolesRepository.java
+ fr.audentia.players.infrastructure.repositories.MariaDbRolesRepository
+fr/audentia/players/domain/model/balance/Balance.java
+ fr.audentia.players.domain.model.balance.Balance
+fr/audentia/players/main/ListenersManager.java
+ fr.audentia.players.main.ListenersManager
+fr/audentia/players/main/TasksManager.java
+ fr.audentia.players.main.TasksManager
+fr/audentia/players/domain/model/Day.java
+ fr.audentia.players.domain.model.Day

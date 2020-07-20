@@ -1,18 +1,23 @@
 package fr.audentia.players.domain.teams;
 
+import fr.audentia.players.domain.model.Day;
 import fr.audentia.players.domain.model.balance.Balance;
+import fr.audentia.players.domain.model.teams.DayTransfers;
 
 import java.awt.*;
+import java.util.Map;
 import java.util.Objects;
 
 public class Team {
 
     public final Color color;
     public final Balance balance;
+    public final Map<Day, DayTransfers> transfers;
 
-    public Team(Color color, Balance balance) {
+    public Team(Color color, Balance balance, Map<Day, DayTransfers> transfers) {
         this.color = color;
         this.balance = balance;
+        this.transfers = transfers;
     }
 
     @Override

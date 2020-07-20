@@ -5,6 +5,7 @@ import fr.audentia.players.domain.teams.Team;
 import fr.audentia.players.domain.teams.TeamsManager;
 import fr.audentia.players.utils.ColorsUtils;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 public class BalanceManage {
@@ -44,7 +45,7 @@ public class BalanceManage {
             return "<error>Votre groupe ne peut pas déposer d'émeraude dans la banque.";
         }
 
-        team = new Team(team.color, balance.add(count));
+        team = new Team(team.color, balance.add(count), new HashMap<>());
         teamsManager.saveTeam(team);
         return "<success>Transaction effectuée avec succès. Nouveau solde d'émeraudes en banque : 1.";
     }
