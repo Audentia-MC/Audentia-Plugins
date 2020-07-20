@@ -13,35 +13,37 @@ public class BankInventoryInteractTest {
 
     private static final UUID FAKE_UUID = UUID.randomUUID();
 
-    private InventoryChecker inventoryChecker;
+    private InventoryUtilities inventoryUtilities;
     private BankInventoryInteract bankInventoryInteract;
     private BalanceManage balanceManage;
 
     @Before
     public void setUp() {
-        inventoryChecker = Mockito.mock(InventoryChecker.class);
+        inventoryUtilities = Mockito.mock(InventoryUtilities.class);
         balanceManage = Mockito.mock(BalanceManage.class);
-        bankInventoryInteract = new BankInventoryInteract(inventoryChecker, balanceManage);
+        bankInventoryInteract = new BankInventoryInteract(inventoryUtilities, balanceManage);
     }
 
     @Test
     public void interact_shouldAdd1EmeraldToTeam_whenInteractWith1AndPeopleHas1Emerald() {
 
-        when(inventoryChecker.hasEmeralds(FAKE_UUID, 1)).thenReturn(true);
+        when(inventoryUtilities.hasEmeralds(FAKE_UUID, 1)).thenReturn(true);
 
         bankInventoryInteract.interact(FAKE_UUID, 1);
 
         verify(balanceManage, times(1)).addToBalance(FAKE_UUID, 1);
+        verify(inventoryUtilities, times(1)).removeEmeralds(FAKE_UUID, 1);
     }
-
 
     @Test
     public void interact_shouldDoNothing_whenInteractWith64AndPeopleHasNot64Emeralds() {
 
-        when(inventoryChecker.hasEmeralds(FAKE_UUID, 64)).thenReturn(false);
+        when(inventoryUtilities.hasEmeralds(FAKE_UUID, 64)).thenReturn(false);
 
         bankInventoryInteract.interact(FAKE_UUID, 64);
 
+        verify(inventoryUtilities, times(1)).hasEmeralds(FAKE_UUID, 64);
+        verifyNoMoreInteractions(inventoryUtilities);
         verifyNoInteractions(balanceManage);
     }
 
