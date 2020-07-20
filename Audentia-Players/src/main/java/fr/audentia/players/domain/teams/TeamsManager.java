@@ -10,4 +10,6 @@ public interface TeamsManager {
 
     boolean isPlayer(UUID playerUUID);
 
+    void saveTeam(Team team);
+
 }

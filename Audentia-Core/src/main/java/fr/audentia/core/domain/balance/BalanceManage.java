@@ -1,6 +1,6 @@
 package fr.audentia.core.domain.balance;
 
-import fr.audentia.core.domain.model.balance.Balance;
+import fr.audentia.players.domain.model.balance.Balance;
 import fr.audentia.players.domain.teams.Team;
 import fr.audentia.players.domain.teams.TeamsManager;
 import fr.audentia.players.utils.ColorsUtils;
@@ -10,11 +10,9 @@ import java.util.UUID;
 public class BalanceManage {
 
     private final TeamsManager teamsManager;
-    private final BalanceRepository balanceRepository;
 
-    public BalanceManage(TeamsManager teamsManager, BalanceRepository balanceRepository) {
+    public BalanceManage(TeamsManager teamsManager) {
         this.teamsManager = teamsManager;
-        this.balanceRepository = balanceRepository;
     }
 
     public String getBalanceWithMessage(UUID playerUUID) {
@@ -22,7 +20,7 @@ public class BalanceManage {
         Team team = this.teamsManager.getTeamOfPlayer(playerUUID);
         String message = "<error>Votre groupe ne possède pas de compte en banque.";
 
-        Balance balance = this.balanceRepository.getTeamBalance(team);
+        Balance balance = team.balance;
 
         if (balance.hasBalance()) {
             message = "&" + ColorsUtils.fromColorToHexadecimal(team.color) + "Balance : " + balance.toString() + " émeraudes.";
@@ -34,7 +32,21 @@ public class BalanceManage {
     public String getBalance(UUID playerUUID) {
 
         Team team = this.teamsManager.getTeamOfPlayer(playerUUID);
-        return this.balanceRepository.getTeamBalance(team).toString();
+        return team.balance.toString();
+    }
+
+    public String addToBalance(UUID playerUUID, int count) {
+
+        Team team = teamsManager.getTeamOfPlayer(playerUUID);
+        Balance balance = team.balance;
+
+        if (!balance.hasBalance()) {
+            return "<error>Votre groupe ne peut pas déposer d'émeraude dans la banque.";
+        }
+
+        team = new Team(team.color, balance.add(count));
+        teamsManager.saveTeam(team);
+        return "<success>Transaction effectuée avec succès. Nouveau solde d'émeraudes en banque : 1.";
     }
 
 }

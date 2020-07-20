@@ -7,7 +7,7 @@ import java.util.Optional;
 public class BankNpcSpawn {
 
     private final BankNpcProvider bankNpcProvider;
-    private NpcSpawn npcSpawn;
+    private final NpcSpawn npcSpawn;
 
     public BankNpcSpawn(BankNpcProvider bankNpcProvider, NpcSpawn npcSpawn) {
         this.bankNpcProvider = bankNpcProvider;

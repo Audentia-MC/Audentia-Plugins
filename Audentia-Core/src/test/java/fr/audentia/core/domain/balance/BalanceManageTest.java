@@ -1,6 +1,6 @@
 package fr.audentia.core.domain.balance;
 
-import fr.audentia.core.domain.model.balance.Balance;
+import fr.audentia.players.domain.model.balance.Balance;
 import fr.audentia.players.domain.teams.Team;
 import fr.audentia.players.domain.teams.TeamsManager;
 import org.junit.Before;
@@ -11,31 +11,29 @@ import java.awt.*;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.extractProperty;
+import static org.mockito.Mockito.*;
 
 public class BalanceManageTest {
 
-    private static final UUID PLAYER_UUID = UUID.randomUUID();
-    private static final Team FAKE_TEAM = new Team(Color.RED);
+    private static final UUID FAKE_UUID = UUID.randomUUID();
 
-    private BalanceRepository balanceRepository;
+    private TeamsManager teamsManager;
     private BalanceManage balanceManage;
 
     @Before
     public void setUp() {
-        TeamsManager teamsManager = Mockito.mock(TeamsManager.class);
-        this.balanceRepository = Mockito.mock(BalanceRepository.class);
-        this.balanceManage = new BalanceManage(teamsManager, balanceRepository);
-
-        when(teamsManager.getTeamOfPlayer(PLAYER_UUID)).thenReturn(FAKE_TEAM);
+        this.teamsManager = Mockito.mock(TeamsManager.class);
+        this.balanceManage = new BalanceManage(teamsManager);
     }
 
     @Test
     public void getBalanceWithMessage_shouldReturnSuccessMessage_whenPlayerTeamHasBalance() {
 
-        when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(new Balance(0));
+        Team team = new Team(Color.RED, new Balance(0));
+        when(teamsManager.getTeamOfPlayer(FAKE_UUID)).thenReturn(team);
 
-        String balance = this.balanceManage.getBalanceWithMessage(PLAYER_UUID);
+        String balance = this.balanceManage.getBalanceWithMessage(FAKE_UUID);
 
         assertThat(balance).isEqualTo("&#FF0000Balance : 0 émeraudes.");
     }
@@ -43,9 +41,10 @@ public class BalanceManageTest {
     @Test
     public void getBalanceWithMessage_shouldReturnErrorMessage_whenPlayerTeamHasNotBalance() {
 
-        when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(new Balance(-1));
+        Team team = new Team(Color.RED, new Balance(-1));
+        when(teamsManager.getTeamOfPlayer(FAKE_UUID)).thenReturn(team);
 
-        String balance = this.balanceManage.getBalanceWithMessage(PLAYER_UUID);
+        String balance = this.balanceManage.getBalanceWithMessage(FAKE_UUID);
 
         assertThat(balance).isEqualTo("<error>Votre groupe ne possède pas de compte en banque.");
     }
@@ -53,9 +52,10 @@ public class BalanceManageTest {
     @Test
     public void getBalance_shouldReturn10_whenPlayerTeamHas10Emeralds() {
 
-        when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(new Balance(10));
+        Team team = new Team(Color.RED, new Balance(10));
+        when(teamsManager.getTeamOfPlayer(FAKE_UUID)).thenReturn(team);
 
-        String balance = this.balanceManage.getBalance(PLAYER_UUID);
+        String balance = this.balanceManage.getBalance(FAKE_UUID);
 
         assertThat(balance).isEqualTo("10");
     }
@@ -63,11 +63,38 @@ public class BalanceManageTest {
     @Test
     public void getBalance_shouldReturnMinus1_whenPlayerTeamHasNotBalance() {
 
-        when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(new Balance(-1));
+        Team team = new Team(Color.RED, new Balance(-1));
+        when(teamsManager.getTeamOfPlayer(FAKE_UUID)).thenReturn(team);
 
-        String balance = this.balanceManage.getBalance(PLAYER_UUID);
+        String balance = this.balanceManage.getBalance(FAKE_UUID);
 
         assertThat(balance).isEqualTo("-1");
+    }
+
+    @Test
+    public void addToBalance_shouldSaveNewBalance_whenPeopleIsPlayer() {
+
+        Team team = new Team(Color.RED, new Balance(0));
+        Team expectedTeam = new Team(Color.RED, new Balance(1));
+        when(teamsManager.getTeamOfPlayer(FAKE_UUID)).thenReturn(team);
+
+        String result = balanceManage.addToBalance(FAKE_UUID, 1);
+
+        assertThat(result).isEqualTo("<success>Transaction effectuée avec succès. Nouveau solde d'émeraudes en banque : 1.");
+        verify(teamsManager, times(1)).saveTeam(expectedTeam);
+    }
+
+    @Test
+    public void addToBalance_shouldDoNothing_whenPeopleIsNotPlayer() {
+
+        Team team = new Team(Color.RED, new Balance(-1));
+        when(teamsManager.getTeamOfPlayer(FAKE_UUID)).thenReturn(team);
+
+        String result = balanceManage.addToBalance(FAKE_UUID, 1);
+
+        assertThat(result).isEqualTo("<error>Votre groupe ne peut pas déposer d'émeraude dans la banque.");
+        verify(teamsManager, times(1)).getTeamOfPlayer(FAKE_UUID);
+        verifyNoMoreInteractions(teamsManager);
     }
 
 }

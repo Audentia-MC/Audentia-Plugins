@@ -1,5 +1,7 @@
 package fr.audentia.players.domain.teams;
 
+import fr.audentia.players.domain.model.balance.Balance;
+
 import java.awt.*;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,7 +19,7 @@ public class DefaultTeamsManager implements TeamsManager {
     @Override
     public Team getTeamOfPlayer(UUID playerUUID) {
 
-        Team defaultTeam = new Team(new Color(0, 0, 0));
+        Team defaultTeam = new Team(new Color(0, 0, 0), new Balance(-1));
         Optional<Team> optionalTeam = this.teamsRepository.getTeamOfPlayer(playerUUID);
 
         return optionalTeam.orElse(defaultTeam);
@@ -26,11 +28,16 @@ public class DefaultTeamsManager implements TeamsManager {
     @Override
     public boolean isStaff(UUID playerUUID) {
         return rolesRepository.getRole(playerUUID).staff;
-    }
+    } // TODO : change to RoleManage
 
     @Override
     public boolean isPlayer(UUID playerUUID) {
         return rolesRepository.getRole(playerUUID).player;
+    }
+
+    @Override
+    public void saveTeam(Team team) {
+
     }
 
 }
