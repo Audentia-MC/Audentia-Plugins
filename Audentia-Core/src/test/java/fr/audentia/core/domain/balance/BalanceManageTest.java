@@ -1,5 +1,6 @@
 package fr.audentia.core.domain.balance;
 
+import fr.audentia.core.domain.model.balance.Balance;
 import fr.audentia.players.domain.teams.Team;
 import fr.audentia.players.domain.teams.TeamsManager;
 import org.junit.Before;
@@ -7,7 +8,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.awt.*;
-import java.util.OptionalInt;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,7 +33,7 @@ public class BalanceManageTest {
     @Test
     public void getBalanceWithMessage_shouldReturnSuccessMessage_whenPlayerTeamHasBalance() {
 
-        when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(OptionalInt.of(0));
+        when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(new Balance(0));
 
         String balance = this.balanceManage.getBalanceWithMessage(PLAYER_UUID);
 
@@ -43,7 +43,7 @@ public class BalanceManageTest {
     @Test
     public void getBalanceWithMessage_shouldReturnErrorMessage_whenPlayerTeamHasNotBalance() {
 
-        when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(OptionalInt.empty());
+        when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(new Balance(-1));
 
         String balance = this.balanceManage.getBalanceWithMessage(PLAYER_UUID);
 
@@ -53,21 +53,21 @@ public class BalanceManageTest {
     @Test
     public void getBalance_shouldReturn10_whenPlayerTeamHas10Emeralds() {
 
-        when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(OptionalInt.of(10));
+        when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(new Balance(10));
 
-        int balance = this.balanceManage.getBalance(PLAYER_UUID);
+        String balance = this.balanceManage.getBalance(PLAYER_UUID);
 
-        assertThat(balance).isEqualTo(10);
+        assertThat(balance).isEqualTo("10");
     }
 
     @Test
-    public void getBalance_shouldReturn0_whenPlayerTeamHasNotBalance() {
+    public void getBalance_shouldReturnMinus1_whenPlayerTeamHasNotBalance() {
 
-        when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(OptionalInt.empty());
+        when(balanceRepository.getTeamBalance(FAKE_TEAM)).thenReturn(new Balance(-1));
 
-        int balance = this.balanceManage.getBalance(PLAYER_UUID);
+        String balance = this.balanceManage.getBalance(PLAYER_UUID);
 
-        assertThat(balance).isEqualTo(0);
+        assertThat(balance).isEqualTo("-1");
     }
 
 }
