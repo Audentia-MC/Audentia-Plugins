@@ -28,19 +28,19 @@ public class CommandsManager {
 
     private Map<PluginCommand, CommandExecutor> loadCommands() {
 
-        Map<PluginCommand, CommandExecutor> commands = new HashMap<>();
+        Map<PluginCommand, CommandExecutor> loadedCommands = new HashMap<>();
 
-        commands.put(getCommand("about"), new CommandAbout(version));
-        commands.put(getCommand("balance"), new CommandBalance(provider.BALANCE_MANAGER));
+        loadedCommands.put(getCommand("about"), new CommandAbout(version));
+        loadedCommands.put(getCommand("balance"), new CommandBalance(provider.balanceManage));
 
-        return commands;
+        return loadedCommands;
     }
 
     private Map<PluginCommand, TabCompleter> loadTabCompleters() {
 
-        Map<PluginCommand, TabCompleter> tabCompleters = new HashMap<>();
+        Map<PluginCommand, TabCompleter> loadedTabCompleters = new HashMap<>();
 
-        return tabCompleters;
+        return loadedTabCompleters;
     }
 
     private PluginCommand getCommand(String name) {

@@ -1,16 +1,16 @@
 package fr.audentia.core.main;
 
 import fr.audentia.players.main.AudentiaPlayers;
-import fr.audentia.players.main.AudentiaPlayersManagersProvider;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.logging.Logger;
 
 public class AudentiaCore extends JavaPlugin {
 
     public static final String VERSION = "0.1.0";
 
-    private static AudentiaCoreManagersProvider MANAGERS_PROVIDER;
+    private AudentiaCoreManagersProvider managersProvider;
 
     private CommandsManager commandsManager;
     private ListenersManager listenersManager;
@@ -18,17 +18,17 @@ public class AudentiaCore extends JavaPlugin {
 
     private void loadPlugin() {
         AudentiaPlayers audentiaPlayers = (AudentiaPlayers) Bukkit.getServer().getPluginManager().getPlugin("Audentia-Players");
-        MANAGERS_PROVIDER = new AudentiaCoreManagersProvider(audentiaPlayers.getManagersProvider());
+        managersProvider = new AudentiaCoreManagersProvider(audentiaPlayers.getManagersProvider());
 
-        this.commandsManager = new CommandsManager(this, VERSION, MANAGERS_PROVIDER);
-        this.listenersManager = new ListenersManager(this, MANAGERS_PROVIDER);
-        this.tasksManager = new TasksManager(this, MANAGERS_PROVIDER);
+        this.commandsManager = new CommandsManager(this, VERSION, managersProvider);
+        this.listenersManager = new ListenersManager(this, managersProvider);
+        this.tasksManager = new TasksManager(this, managersProvider);
     }
 
     @Override
     public void onEnable() {
 
-        System.out.println("Le plugin Audentia s'allume.");
+        Logger.getLogger("Minecraft").info("Le plugin Audentia s'allume.");
 
         loadPlugin();
 
@@ -45,7 +45,7 @@ public class AudentiaCore extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        System.out.println("Le plugin Audentia s'éteint.");
+        Logger.getLogger("Minecraft").info("Le plugin Audentia s'éteint.");
 
     }
 

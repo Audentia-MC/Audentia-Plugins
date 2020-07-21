@@ -5,11 +5,11 @@ import fr.audentia.players.main.AudentiaPlayersManagersProvider;
 
 public class AudentiaCoreManagersProvider {
 
-    public final BalanceManage BALANCE_MANAGER;
+    public final BalanceManage balanceManage;
 
     public AudentiaCoreManagersProvider(AudentiaPlayersManagersProvider audentiaPlayersManagersProvider) {
 
-        this.BALANCE_MANAGER = new BalanceManage(audentiaPlayersManagersProvider.TEAMS_MANAGER);
+        this.balanceManage = new BalanceManage(audentiaPlayersManagersProvider.TEAMS_MANAGER);
     }
 
 }

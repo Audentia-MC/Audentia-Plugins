@@ -1,5 +1,7 @@
 package fr.audentia.core.domain.model.border;
 
+import java.util.Objects;
+
 public class BorderLocation {
 
     public final int x;
@@ -17,6 +19,11 @@ public class BorderLocation {
         BorderLocation that = (BorderLocation) o;
         return x == that.x &&
                 y == that.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 
 }

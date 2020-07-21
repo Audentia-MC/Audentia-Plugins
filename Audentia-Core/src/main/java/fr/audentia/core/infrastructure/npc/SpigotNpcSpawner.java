@@ -11,11 +11,13 @@ import org.bukkit.util.Vector;
 
 public class SpigotNpcSpawner implements NpcSpawner {
 
+    public static final String DEFAULT_WORLD_NAME = "world";
+
     @Override
     public void spawnNpc(Npc npc) {
         Location location = buildLocation(npc);
 
-        World world = Bukkit.getWorld("world");
+        World world = Bukkit.getWorld(DEFAULT_WORLD_NAME);
 
         if (world == null) {
             return;
