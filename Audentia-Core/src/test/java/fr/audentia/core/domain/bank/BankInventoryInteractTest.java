@@ -1,30 +1,38 @@
 package fr.audentia.core.domain.bank;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 
-public class BankInventoryInteractTest {
+@ExtendWith(MockitoExtension.class)
+class BankInventoryInteractTest {
 
     private static final UUID FAKE_UUID = UUID.randomUUID();
 
+    @Mock
     private InventoryUtilities inventoryUtilities;
-    private BankInventoryInteract bankInventoryInteract;
+
+    @Mock
     private BankManager bankManager;
 
-    @Before
-    public void setUp() {
-        inventoryUtilities = Mockito.mock(InventoryUtilities.class);
-        bankManager = Mockito.mock(BankManager.class);
+    private BankInventoryInteract bankInventoryInteract;
+
+
+    @BeforeEach
+    void setUp() {
         bankInventoryInteract = new BankInventoryInteract(inventoryUtilities, bankManager);
     }
 
     @Test
-    public void interact_shouldAdd1EmeraldToTeam_whenInteractWith1AndPeopleHas1EmeraldAndDayIs1() {
+    @DisplayName("interact should call bankManager when the player has the requested emerald count in his inventory")
+    void interact_shouldAdd1EmeraldToTeam_whenInteractWith1AndPeopleHas1Emerald() {
 
         when(inventoryUtilities.hasEmeralds(FAKE_UUID, 1)).thenReturn(true);
         when(bankManager.depositEmeralds(FAKE_UUID, 1)).thenReturn("<success>");
@@ -36,7 +44,8 @@ public class BankInventoryInteractTest {
     }
 
     @Test
-    public void interact_shouldDoNothing_whenInteractWith64AndPeopleHasNot64Emeralds() {
+    @DisplayName("interact shouldn't call bankManager when the player hasn't the requested emerald count in his inventory")
+    void interact_shouldDoNothing_whenInteractWith64AndPeopleHasNot64Emeralds() {
 
         when(inventoryUtilities.hasEmeralds(FAKE_UUID, 64)).thenReturn(false);
 

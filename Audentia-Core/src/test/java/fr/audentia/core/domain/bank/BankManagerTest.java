@@ -10,37 +10,44 @@ import fr.audentia.players.domain.model.balance.Balance;
 import fr.audentia.players.domain.model.teams.DayTransfers;
 import fr.audentia.players.domain.teams.Team;
 import fr.audentia.players.domain.teams.TeamsRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.awt.*;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
-
-public class BankManagerTest {
+// TODO : write tests display names
+@ExtendWith(MockitoExtension.class)
+class BankManagerTest {
 
     private static final UUID FAKE_UUID = UUID.randomUUID();
 
+    @Mock
     private GamesInfosRepository gamesInfosRepository;
+
+    @Mock
     private TimeProvider timeProvider;
+
+    @Mock
     private TeamsRepository teamsRepository;
+
+    @Mock
     private BalanceManage balanceManage;
+
     private BankManager bankManager;
 
-    @Before
-    public void setUp() {
-        gamesInfosRepository = Mockito.mock(GamesInfosRepository.class);
-        timeProvider = Mockito.mock(TimeProvider.class);
-        balanceManage = Mockito.mock(BalanceManage.class);
-        teamsRepository = Mockito.mock(TeamsRepository.class);
+    @BeforeEach
+    void setUp() {
         bankManager = new BankManager(balanceManage, gamesInfosRepository, timeProvider, teamsRepository);
     }
 
     @Test
-    public void depositEmeralds_shouldAddEmeraldsToBalance_whenBankIsOpenAndTeamCanDepositEmeralds() {
+    void depositEmeralds_shouldAddEmeraldsToBalance_whenBankIsOpenAndTeamCanDepositEmeralds() {
 
         Team team = new Team(Color.RED, new Balance(0), new HashMap<>());
 
@@ -56,7 +63,7 @@ public class BankManagerTest {
     }
 
     @Test
-    public void depositEmeralds_shouldAdd1Emeralds_whenTeamWantDeposit20ButCanOnly10() {
+    void depositEmeralds_shouldAdd1Emeralds_whenTeamWantDeposit20ButCanOnly10() {
 
         Map<Day, DayTransfers> transfers = new HashMap<>();
         transfers.put(new Day(1), new DayTransfers(118));
@@ -74,7 +81,7 @@ public class BankManagerTest {
     }
 
     @Test
-    public void depositEmeralds_shouldAdd10Emeralds_whenTeamWantDeposit10AndCanOnly10() {
+    void depositEmeralds_shouldAdd10Emeralds_whenTeamWantDeposit10AndCanOnly10() {
 
         Map<Day, DayTransfers> transfers = new HashMap<>();
         transfers.put(new Day(1), new DayTransfers(118));
@@ -92,12 +99,11 @@ public class BankManagerTest {
     }
 
     @Test
-    public void depositEmeralds_shouldDoNothing_whenHourIsBeforeBankOpenSlot() {
+    void depositEmeralds_shouldDoNothing_whenHourIsBeforeBankOpenSlot() {
 
         Team team = new Team(Color.RED, new Balance(0), new HashMap<>());
 
         when(gamesInfosRepository.getDay()).thenReturn(new Day(1));
-        when(gamesInfosRepository.getEmeraldsLimitation(new Day(1))).thenReturn(new EmeraldsLimitation(128));
         when(gamesInfosRepository.getBankOpenSlots(new Day(1))).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(9);
         when(teamsRepository.getTeamOfPlayer(FAKE_UUID)).thenReturn(Optional.of(team));
@@ -108,12 +114,11 @@ public class BankManagerTest {
     }
 
     @Test
-    public void depositEmeralds_shouldDoNothing_whenHourIsAfterBankOpenSlot() {
+    void depositEmeralds_shouldDoNothing_whenHourIsAfterBankOpenSlot() {
 
         Team team = new Team(Color.RED, new Balance(0), new HashMap<>());
 
         when(gamesInfosRepository.getDay()).thenReturn(new Day(1));
-        when(gamesInfosRepository.getEmeraldsLimitation(new Day(1))).thenReturn(new EmeraldsLimitation(128));
         when(gamesInfosRepository.getBankOpenSlots(new Day(1))).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(12);
         when(teamsRepository.getTeamOfPlayer(FAKE_UUID)).thenReturn(Optional.of(team));
@@ -124,7 +129,7 @@ public class BankManagerTest {
     }
 
     @Test
-    public void depositEmeralds_shouldDoNothing_whenTeamCantDepositEmerald() {
+    void depositEmeralds_shouldDoNothing_whenTeamCantDepositEmerald() {
 
         Map<Day, DayTransfers> transfers = new HashMap<>();
         transfers.put(new Day(1), new DayTransfers(128));
@@ -142,7 +147,7 @@ public class BankManagerTest {
     }
 
     @Test
-    public void depositEmeralds_shouldDoNothing_whenPeopleIsNotPlayer() {
+    void depositEmeralds_shouldDoNothing_whenPeopleIsNotPlayer() {
 
 
         when(gamesInfosRepository.getDay()).thenReturn(new Day(1));

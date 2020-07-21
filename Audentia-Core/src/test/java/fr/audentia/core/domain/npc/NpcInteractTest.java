@@ -2,32 +2,40 @@ package fr.audentia.core.domain.npc;
 
 import fr.audentia.core.domain.bank.BankInventoryOpen;
 import fr.audentia.core.domain.bank.BankNpcProvider;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 
-public class NpcInteractTest {
+@ExtendWith(MockitoExtension.class)
+class NpcInteractTest {
 
     private static final UUID FAKE_UUID = UUID.randomUUID();
 
+    @Mock
     private BankNpcProvider bankNpcProvider;
+
+    @Mock
     private BankInventoryOpen bankInventoryOpen;
+
     private NpcInteract npcInteract;
 
-    @Before
-    public void setUp() {
-        bankNpcProvider = Mockito.mock(BankNpcProvider.class);
-        bankInventoryOpen = Mockito.mock(BankInventoryOpen.class);
+    @BeforeEach
+    void setUp() {
         npcInteract = new NpcInteract(bankNpcProvider, bankInventoryOpen);
     }
 
     @Test
-    public void interactWithNpc_shouldOpenBankInventory_whenNpcIsTheBankNpc() {
+    @DisplayName("interactWithNpc should open the bank inventory when the player interacts with bank npc")
+    void interactWithNpc_shouldOpenBankInventory_whenNpcIsTheBankNpc() {
 
         when(bankNpcProvider.getName()).thenReturn(Optional.of("Tony"));
 
@@ -37,7 +45,8 @@ public class NpcInteractTest {
     }
 
     @Test
-    public void interactWithNpc_shouldNotOpenBankInventory_whenNpcIsNotTheBankNpc() {
+    @DisplayName("interactWithNpc shouldn't open the bank inventory when the player doesn't interact with bank npc")
+    void interactWithNpc_shouldNotOpenBankInventory_whenNpcIsNotTheBankNpc() {
 
         when(bankNpcProvider.getName()).thenReturn(Optional.of("Tony"));
 

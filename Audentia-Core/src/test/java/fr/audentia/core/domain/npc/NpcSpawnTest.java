@@ -1,10 +1,13 @@
 package fr.audentia.core.domain.npc;
 
 import fr.audentia.core.domain.model.npc.Npc;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.parallel.Execution;
 import org.mockito.InOrder;
-import org.mockito.Mockito;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -12,24 +15,28 @@ import java.util.Optional;
 import static fr.audentia.core.domain.model.npc.NpcBuilder.aNpc;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
+// TODO : write tests display names
+@ExtendWith(MockitoExtension.class)
+class NpcSpawnTest {
 
-public class NpcSpawnTest {
-
+    @Mock
     private NpcSpawner npcSpawner;
+
+    @Mock
     private NpcRepository npcRepository;
+
+    @Mock
     private WorldNpcFinder worldNpcFinder;
+
     private NpcSpawn npcSpawn;
 
-    @Before
-    public void setUp() {
-        this.npcSpawner = Mockito.mock(NpcSpawner.class);
-        this.npcRepository = Mockito.mock(NpcRepository.class);
-        this.worldNpcFinder = Mockito.mock(WorldNpcFinder.class);
+    @BeforeEach
+    void setUp() {
         this.npcSpawn = new NpcSpawn(npcSpawner, npcRepository, worldNpcFinder);
     }
 
     @Test
-    public void spawnNpc_shouldSpawnNpc_whenNpcStored() {
+    void spawnNpc_shouldSpawnNpc_whenNpcStored() {
 
         Npc npc = buildNpc("Tony");
         when(npcRepository.getNpc("Tony")).thenReturn(Optional.of(npc));
@@ -41,7 +48,7 @@ public class NpcSpawnTest {
     }
 
     @Test
-    public void spawnNpc_shouldNotSpawnNpc_whenNpcIsNotStored() {
+    void spawnNpc_shouldNotSpawnNpc_whenNpcIsNotStored() {
 
         when(npcRepository.getNpc(anyString())).thenReturn(Optional.empty());
 
@@ -52,7 +59,7 @@ public class NpcSpawnTest {
     }
 
     @Test
-    public void deleteNpc_shouldSpawnNpc_whenNpcLivesInWorld() {
+    void deleteNpc_shouldSpawnNpc_whenNpcLivesInWorld() {
 
         Npc npc = buildNpc("Tony");
         when(worldNpcFinder.findNpc("Tony")).thenReturn(Optional.of(npc));
@@ -64,7 +71,7 @@ public class NpcSpawnTest {
     }
 
     @Test
-    public void deleteNpc_shouldNotSpawnNpc_whenNpcDoesNotLiveInWorld() {
+    void deleteNpc_shouldNotSpawnNpc_whenNpcDoesNotLiveInWorld() {
 
         when(worldNpcFinder.findNpc(anyString())).thenReturn(Optional.empty());
 
@@ -75,7 +82,7 @@ public class NpcSpawnTest {
     }
 
     @Test
-    public void spawnAllNpcs_shouldSpawn3Npcs_when3NpcsStored() {
+    void spawnAllNpcs_shouldSpawn3Npcs_when3NpcsStored() {
 
         Npc npc1 = buildNpc("Tony");
         Npc npc2 = buildNpc("Manu");
@@ -96,7 +103,7 @@ public class NpcSpawnTest {
     }
 
     @Test
-    public void deleteAllNpcs_shouldDelete2Npc_when2NpcsLiveInWorld() {
+    void deleteAllNpcs_shouldDelete2Npc_when2NpcsLiveInWorld() {
 
         Npc npc1 = buildNpc("Tony");
         Npc npc2 = buildNpc("Manu");
@@ -113,7 +120,7 @@ public class NpcSpawnTest {
     }
 
     @Test
-    public void reloadNpc_shouldDeleteThenSpawnNpc_whenNpcLivesInWorldAndStored() {
+    void reloadNpc_shouldDeleteThenSpawnNpc_whenNpcLivesInWorldAndStored() {
 
         Npc npc = buildNpc("Tony");
         when(npcRepository.getNpc("Tony")).thenReturn(Optional.of(npc));
@@ -130,9 +137,8 @@ public class NpcSpawnTest {
     }
 
     @Test
-    public void reloadNpc_shouldDoNothing_whenNpcDoesNotLiveInWorldAndStored() {
+    void reloadNpc_shouldDoNothing_whenNpcDoesNotLiveInWorldAndStored() {
 
-        when(npcRepository.getNpc(anyString())).thenReturn(Optional.empty());
         when(worldNpcFinder.findNpc(anyString())).thenReturn(Optional.empty());
 
         String result = npcSpawn.reloadNpc("Tony");
@@ -142,7 +148,7 @@ public class NpcSpawnTest {
     }
 
     @Test
-    public void reloadAllNpcs_shouldDeleteThenSpawn3Npcs_when3NpcsLiveInWorldAndStored() {
+    void reloadAllNpcs_shouldDeleteThenSpawn3Npcs_when3NpcsLiveInWorldAndStored() {
 
         Npc npc1 = buildNpc("Tony");
         Npc npc2 = buildNpc("Manu");
@@ -170,7 +176,7 @@ public class NpcSpawnTest {
     }
 
     @Test
-    public void reloadAllNpcs_shouldDelete2NpcsThenSpawn3Npcs_when2NpcsLiveInWorldAnd3Stored() {
+    void reloadAllNpcs_shouldDelete2NpcsThenSpawn3Npcs_when2NpcsLiveInWorldAnd3Stored() {
 
         Npc npc1 = buildNpc("Tony");
         Npc npc2 = buildNpc("Manu");
