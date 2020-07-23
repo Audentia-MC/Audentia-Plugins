@@ -47,7 +47,7 @@ public class BalanceManage {
 
         team = new Team(team.color, balance.add(count), new HashMap<>());
         teamsManager.saveTeam(team);
-        return "<success>Transaction effectuée avec succès. Nouveau solde d'émeraudes en banque : 1.";
+        return "<success>Dépôt effectué.";
     }
 
 }

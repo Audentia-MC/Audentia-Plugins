@@ -24,9 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class BankManagerTest {
-
-    private static final UUID FAKE_UUID = UUID.randomUUID();
+class BankManageTest {
 
     @Mock
     private GamesInfosRepository gamesInfosRepository;
@@ -40,11 +38,11 @@ class BankManagerTest {
     @Mock
     private BalanceManage balanceManage;
 
-    private BankManager bankManager;
+    private BankManage bankManage;
 
     @BeforeEach
     void setUp() {
-        bankManager = new BankManager(balanceManage, gamesInfosRepository, timeProvider, teamsRepository);
+        bankManage = new BankManage(balanceManage, gamesInfosRepository, timeProvider, teamsRepository);
     }
 
     @Test
@@ -52,16 +50,16 @@ class BankManagerTest {
     void depositEmeralds_shouldAddEmeraldsToBalance_whenBankIsOpenAndTeamCanDepositEmeralds() {
 
         Team team = new Team(Color.RED, new Balance(0), new HashMap<>());
-
-        when(gamesInfosRepository.getDay()).thenReturn(new Day(1));
-        when(gamesInfosRepository.getEmeraldsLimitation(new Day(1))).thenReturn(new EmeraldsLimitation(128));
-        when(gamesInfosRepository.getBankOpenSlots(new Day(1))).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
+        when(balanceManage.addToBalance(any(), anyInt())).thenReturn("<success>Dépôt effectué.");
+        when(gamesInfosRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
+        when(gamesInfosRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(10);
-        when(teamsRepository.getTeamOfPlayer(FAKE_UUID)).thenReturn(Optional.of(team));
+        when(teamsRepository.getTeamOfPlayer(any())).thenReturn(Optional.of(team));
 
-        bankManager.depositEmeralds(FAKE_UUID, 1);
+        String result = bankManage.depositEmeralds(UUID.randomUUID(), 1);
 
-        verify(balanceManage, times(1)).addToBalance(FAKE_UUID, 1);
+        verify(balanceManage, times(1)).addToBalance(any(), eq(1));
+        assertThat(result).isEqualTo("<success>Dépôt effectué.");
     }
 
     @Test
@@ -73,14 +71,16 @@ class BankManagerTest {
         Team team = new Team(Color.RED, new Balance(0), transfers);
 
         when(gamesInfosRepository.getDay()).thenReturn(new Day(1));
-        when(gamesInfosRepository.getEmeraldsLimitation(new Day(1))).thenReturn(new EmeraldsLimitation(128));
-        when(gamesInfosRepository.getBankOpenSlots(new Day(1))).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
+        when(balanceManage.addToBalance(any(), anyInt())).thenReturn("<success>Dépôt effectué.");
+        when(gamesInfosRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
+        when(gamesInfosRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(10);
-        when(teamsRepository.getTeamOfPlayer(FAKE_UUID)).thenReturn(Optional.of(team));
+        when(teamsRepository.getTeamOfPlayer(any())).thenReturn(Optional.of(team));
 
-        bankManager.depositEmeralds(FAKE_UUID, 20);
+        String result = bankManage.depositEmeralds(UUID.randomUUID(), 20);
 
-        verify(balanceManage, times(1)).addToBalance(FAKE_UUID, 10);
+        verify(balanceManage, times(1)).addToBalance(any(), eq(10));
+        assertThat(result).isEqualTo("<success>Dépôt effectué.");
     }
 
     @Test
@@ -89,14 +89,14 @@ class BankManagerTest {
 
         Team team = new Team(Color.RED, new Balance(0), new HashMap<>());
 
-        when(gamesInfosRepository.getDay()).thenReturn(new Day(1));
-        when(gamesInfosRepository.getBankOpenSlots(new Day(1))).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
+        when(gamesInfosRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(9);
-        when(teamsRepository.getTeamOfPlayer(FAKE_UUID)).thenReturn(Optional.of(team));
+        when(teamsRepository.getTeamOfPlayer(any())).thenReturn(Optional.of(team));
 
-        bankManager.depositEmeralds(FAKE_UUID, 1);
+        String result = bankManage.depositEmeralds(UUID.randomUUID(), 1);
 
         verifyNoInteractions(balanceManage);
+        assertThat(result).isEqualTo("<error>La banque est fermée.");
     }
 
     @Test
@@ -105,14 +105,14 @@ class BankManagerTest {
 
         Team team = new Team(Color.RED, new Balance(0), new HashMap<>());
 
-        when(gamesInfosRepository.getDay()).thenReturn(new Day(1));
-        when(gamesInfosRepository.getBankOpenSlots(new Day(1))).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
+        when(gamesInfosRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(12);
-        when(teamsRepository.getTeamOfPlayer(FAKE_UUID)).thenReturn(Optional.of(team));
+        when(teamsRepository.getTeamOfPlayer(any())).thenReturn(Optional.of(team));
 
-        bankManager.depositEmeralds(FAKE_UUID, 1);
+        String result = bankManage.depositEmeralds(UUID.randomUUID(), 1);
 
         verifyNoInteractions(balanceManage);
+        assertThat(result).isEqualTo("<error>La banque est fermée.");
     }
 
     @Test
@@ -124,25 +124,24 @@ class BankManagerTest {
         Team team = new Team(Color.RED, new Balance(0), transfers);
 
         when(gamesInfosRepository.getDay()).thenReturn(new Day(1));
-        when(gamesInfosRepository.getEmeraldsLimitation(new Day(1))).thenReturn(new EmeraldsLimitation(128));
-        when(gamesInfosRepository.getBankOpenSlots(new Day(1))).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
+        when(gamesInfosRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
+        when(gamesInfosRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(10);
-        when(teamsRepository.getTeamOfPlayer(FAKE_UUID)).thenReturn(Optional.of(team));
+        when(teamsRepository.getTeamOfPlayer(any())).thenReturn(Optional.of(team));
 
-        bankManager.depositEmeralds(FAKE_UUID, 1);
+        String result = bankManage.depositEmeralds(UUID.randomUUID(), 1);
 
         verifyNoInteractions(balanceManage);
+        assertThat(result).isEqualTo("<error>Vous avez déjà déposé le maximum d'émeraudes possible pour aujourd'hui.");
     }
 
     @Test
     @DisplayName("depositEmeralds shouldn't call balanceManage when player is not a player")
     void depositEmeralds_shouldDoNothing_whenPeopleIsNotPlayer() {
 
+        when(teamsRepository.getTeamOfPlayer(any())).thenReturn(Optional.empty());
 
-        when(gamesInfosRepository.getDay()).thenReturn(new Day(1));
-        when(teamsRepository.getTeamOfPlayer(FAKE_UUID)).thenReturn(Optional.empty());
-
-        String result = bankManager.depositEmeralds(FAKE_UUID, 1);
+        String result = bankManage.depositEmeralds(UUID.randomUUID(), 1);
 
         assertThat(result).isEqualTo("<error>Votre groupe ne peut pas accéder à la banque.");
         verifyNoInteractions(balanceManage);

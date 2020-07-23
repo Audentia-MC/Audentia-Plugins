@@ -5,11 +5,11 @@ import java.util.UUID;
 public class BankInventoryInteract {
 
     private final InventoryUtilities inventoryUtilities;
-    private final BankManager bankManager;
+    private final BankManage bankManage;
 
-    public BankInventoryInteract(InventoryUtilities inventoryUtilities, BankManager balanceManage) {
+    public BankInventoryInteract(InventoryUtilities inventoryUtilities, BankManage balanceManage) {
         this.inventoryUtilities = inventoryUtilities;
-        this.bankManager = balanceManage;
+        this.bankManage = balanceManage;
     }
 
     public String interact(UUID playerUUID, int count) {
@@ -18,9 +18,9 @@ public class BankInventoryInteract {
             return "<error>Vous ne pouvez pas déposer ce nombre d'émeraudes.";
         }
 
-        String result = bankManager.depositEmeralds(playerUUID, count);
+        String result = bankManage.depositEmeralds(playerUUID, count);
 
-        if (result.contains("<success>")) {
+        if (result.startsWith("<success>")) {
             inventoryUtilities.removeEmeralds(playerUUID, count);
         }
 

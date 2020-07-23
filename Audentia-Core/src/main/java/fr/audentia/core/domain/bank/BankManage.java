@@ -10,14 +10,14 @@ import fr.audentia.players.domain.teams.TeamsRepository;
 import java.util.Optional;
 import java.util.UUID;
 
-public class BankManager {
+public class BankManage {
 
     private final BalanceManage balanceManage;
     private final GamesInfosRepository gamesInfosRepository;
     private final TimeProvider timeProvider;
     private final TeamsRepository teamsRepository;
 
-    public BankManager(BalanceManage balanceManage, GamesInfosRepository gamesInfosRepository, TimeProvider timeProvider, TeamsRepository teamsRepository) {
+    public BankManage(BalanceManage balanceManage, GamesInfosRepository gamesInfosRepository, TimeProvider timeProvider, TeamsRepository teamsRepository) {
         this.balanceManage = balanceManage;
         this.gamesInfosRepository = gamesInfosRepository;
         this.timeProvider = timeProvider;
@@ -45,7 +45,7 @@ public class BankManager {
         int finalCount = gamesInfosRepository.getEmeraldsLimitation(day).computePossibleTransfer(count, team.transfers.get(day));
 
         if (finalCount == -1) {
-            return "<error>Vous avez déjà déposé le maximum d'émeraudes possibles pour aujourd'hui.";
+            return "<error>Vous avez déjà déposé le maximum d'émeraudes possible pour aujourd'hui.";
         }
 
         return balanceManage.addToBalance(playerUUID, finalCount);

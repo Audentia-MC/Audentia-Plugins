@@ -9,51 +9,52 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class BankInventoryInteractTest {
 
-    private static final UUID FAKE_UUID = UUID.randomUUID();
-
     @Mock
     private InventoryUtilities inventoryUtilities;
 
     @Mock
-    private BankManager bankManager;
+    private BankManage bankManage;
 
     private BankInventoryInteract bankInventoryInteract;
 
 
     @BeforeEach
     void setUp() {
-        bankInventoryInteract = new BankInventoryInteract(inventoryUtilities, bankManager);
+        bankInventoryInteract = new BankInventoryInteract(inventoryUtilities, bankManage);
     }
 
     @Test
     @DisplayName("interact should call bankManager when the player has the requested emerald count in his inventory")
     void interact_shouldAdd1EmeraldToTeam_whenInteractWith1AndPeopleHas1Emerald() {
 
-        when(inventoryUtilities.hasEmeralds(FAKE_UUID, 1)).thenReturn(true);
-        when(bankManager.depositEmeralds(FAKE_UUID, 1)).thenReturn("<success>");
+        when(inventoryUtilities.hasEmeralds(any(), anyInt())).thenReturn(true);
+        when(bankManage.depositEmeralds(any(), anyInt())).thenReturn("<success>Dépôt effectué.");
 
-        bankInventoryInteract.interact(FAKE_UUID, 1);
+        String result = bankInventoryInteract.interact(UUID.randomUUID(), 1);
 
-        verify(bankManager, times(1)).depositEmeralds(FAKE_UUID, 1);
-        verify(inventoryUtilities, times(1)).removeEmeralds(FAKE_UUID, 1);
+        verify(bankManage, times(1)).depositEmeralds(any(), eq(1));
+        verify(inventoryUtilities, times(1)).removeEmeralds(any(), eq(1));
+        assertThat(result).isEqualTo("<success>Dépôt effectué.");
     }
 
     @Test
     @DisplayName("interact shouldn't call bankManager when the player hasn't the requested emerald count in his inventory")
     void interact_shouldDoNothing_whenInteractWith64AndPeopleHasNot64Emeralds() {
 
-        when(inventoryUtilities.hasEmeralds(FAKE_UUID, 64)).thenReturn(false);
+        when(inventoryUtilities.hasEmeralds(any(), anyInt())).thenReturn(false);
 
-        bankInventoryInteract.interact(FAKE_UUID, 64);
+        String result = bankInventoryInteract.interact(UUID.randomUUID(), 64);
 
-        verify(inventoryUtilities, times(1)).hasEmeralds(FAKE_UUID, 64);
+        verify(inventoryUtilities, times(1)).hasEmeralds(any(), eq(64));
         verifyNoMoreInteractions(inventoryUtilities);
-        verifyNoInteractions(bankManager);
+        verifyNoInteractions(bankManage);
+        assertThat(result).isEqualTo("<error>Vous ne pouvez pas déposer ce nombre d'émeraudes.");
     }
 
 }

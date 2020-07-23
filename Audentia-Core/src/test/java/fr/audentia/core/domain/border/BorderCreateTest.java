@@ -46,7 +46,6 @@ class BorderCreateTest {
     void createWorldBorder_shouldDoNothing_whenInfosAreNotStored() {
 
         BorderSize size = new BorderSize(0);
-        BorderLocation location = new BorderLocation(0, 0);
         when(borderInfosRepository.getBorderSize()).thenReturn(size);
 
         borderCreate.createWorldBorder();
