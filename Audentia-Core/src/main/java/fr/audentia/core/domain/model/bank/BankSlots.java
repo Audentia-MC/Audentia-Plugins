@@ -1,6 +1,7 @@
 package fr.audentia.core.domain.model.bank;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BankSlots {
 
@@ -16,4 +17,10 @@ public class BankSlots {
                 .anyMatch(slot -> slot.start <= hour && hour < slot.end);
     }
 
+    @Override
+    public String toString() {
+        return slots.stream()
+                .map(Slot::toString)
+                .collect(Collectors.joining(", "));
+    }
 }

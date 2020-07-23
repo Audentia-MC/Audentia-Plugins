@@ -11,6 +11,7 @@ import fr.audentia.players.domain.model.teams.DayTransfers;
 import fr.audentia.players.domain.teams.Team;
 import fr.audentia.players.domain.teams.TeamsRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -21,7 +22,7 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
-// TODO : write tests display names
+
 @ExtendWith(MockitoExtension.class)
 class BankManagerTest {
 
@@ -47,6 +48,7 @@ class BankManagerTest {
     }
 
     @Test
+    @DisplayName("depositEmeralds should call balanceManage when bank is open and team hasn't reached daily limitation")
     void depositEmeralds_shouldAddEmeraldsToBalance_whenBankIsOpenAndTeamCanDepositEmeralds() {
 
         Team team = new Team(Color.RED, new Balance(0), new HashMap<>());
@@ -63,6 +65,7 @@ class BankManagerTest {
     }
 
     @Test
+    @DisplayName("depositEmeralds should call balanceManage to add only 10 emeralds when player want to add 20 but team can only deposit 10")
     void depositEmeralds_shouldAdd1Emeralds_whenTeamWantDeposit20ButCanOnly10() {
 
         Map<Day, DayTransfers> transfers = new HashMap<>();
@@ -81,24 +84,7 @@ class BankManagerTest {
     }
 
     @Test
-    void depositEmeralds_shouldAdd10Emeralds_whenTeamWantDeposit10AndCanOnly10() {
-
-        Map<Day, DayTransfers> transfers = new HashMap<>();
-        transfers.put(new Day(1), new DayTransfers(118));
-        Team team = new Team(Color.RED, new Balance(0), transfers);
-
-        when(gamesInfosRepository.getDay()).thenReturn(new Day(1));
-        when(gamesInfosRepository.getEmeraldsLimitation(new Day(1))).thenReturn(new EmeraldsLimitation(128));
-        when(gamesInfosRepository.getBankOpenSlots(new Day(1))).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
-        when(timeProvider.getHour()).thenReturn(10);
-        when(teamsRepository.getTeamOfPlayer(FAKE_UUID)).thenReturn(Optional.of(team));
-
-        bankManager.depositEmeralds(FAKE_UUID, 10);
-
-        verify(balanceManage, times(1)).addToBalance(FAKE_UUID, 10);
-    }
-
-    @Test
+    @DisplayName("depositEmeralds shouldn't call balanceManage when bank time is before a bank open slot")
     void depositEmeralds_shouldDoNothing_whenHourIsBeforeBankOpenSlot() {
 
         Team team = new Team(Color.RED, new Balance(0), new HashMap<>());
@@ -114,6 +100,7 @@ class BankManagerTest {
     }
 
     @Test
+    @DisplayName("depositEmeralds shouldn't call balanceManage when bank time is after a bank open slot")
     void depositEmeralds_shouldDoNothing_whenHourIsAfterBankOpenSlot() {
 
         Team team = new Team(Color.RED, new Balance(0), new HashMap<>());
@@ -129,6 +116,7 @@ class BankManagerTest {
     }
 
     @Test
+    @DisplayName("depositEmeralds shouldn't call balanceManage when team has reached daily limitation")
     void depositEmeralds_shouldDoNothing_whenTeamCantDepositEmerald() {
 
         Map<Day, DayTransfers> transfers = new HashMap<>();
@@ -147,6 +135,7 @@ class BankManagerTest {
     }
 
     @Test
+    @DisplayName("depositEmeralds shouldn't call balanceManage when player is not a player")
     void depositEmeralds_shouldDoNothing_whenPeopleIsNotPlayer() {
 
 

@@ -26,7 +26,9 @@ pitest {
 
 
 test {
-    useJUnitPlatform()
+    useJUnitPlatform {
+        includeEngines 'junit-jupiter', 'junit-vintage'
+    }
 }
 
 sonarqube {
@@ -56,11 +58,12 @@ sourceCompatibility = 1.8
 dependencies {
     implementation project(':Audentia-Players')
     implementation group: 'org.spigotmc', name: 'spigot-api', version: '1.16.1-R0.1-SNAPSHOT'
+    implementation group: 'org.apache.maven.plugins', name: 'maven-surefire-plugin', version: '2.22.2'
+    implementation group: 'org.jacoco', name: 'jacoco-maven-plugin', version: '0.8.5'
 
-    testImplementation group: 'org.apache.maven.plugins', name: 'maven-surefire-plugin', version: '2.22.2'
-    testImplementation group: 'org.jacoco', name: 'jacoco-maven-plugin', version: '0.8.5'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.6.2'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.6.2'
+    testImplementation group: 'org.junit.vintage', name: 'junit-vintage-engine', version: '5.6.2"'
     testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.4.4'
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.16.1'
     testImplementation group: 'org.pitest', name: 'pitest-junit5-plugin', version: '0.12'

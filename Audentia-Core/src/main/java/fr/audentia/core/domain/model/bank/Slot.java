@@ -10,4 +10,9 @@ public class Slot {
         this.end = end;
     }
 
+    @Override
+    public String toString() {
+        return start + "h-" + end + "h";
+    }
+
 }

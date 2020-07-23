@@ -19,7 +19,7 @@ public class AudentiaPlayersManagersProvider {
         TEAMS_REPOSITORY = new MariaDbTeamsRepository();
         ROLES_REPOSITORY = new MariaDbRolesRepository();
 
-        TEAMS_MANAGER = new DefaultTeamsManager(ROLES_REPOSITORY, TEAMS_REPOSITORY);
+        TEAMS_MANAGER = new DefaultTeamsManager(TEAMS_REPOSITORY);
     }
 
 }

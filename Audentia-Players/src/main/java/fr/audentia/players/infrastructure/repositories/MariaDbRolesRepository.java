@@ -9,7 +9,7 @@ public class MariaDbRolesRepository implements RolesRepository {
 
     @Override
     public Role getRole(UUID playerUUID) {
-        return new Role(false, false);
+        return new Role(false, false, 0);
     }
 
 }

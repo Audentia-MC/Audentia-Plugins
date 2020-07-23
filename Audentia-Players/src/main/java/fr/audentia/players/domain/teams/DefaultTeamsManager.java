@@ -9,11 +9,9 @@ import java.util.UUID;
 
 public class DefaultTeamsManager implements TeamsManager {
 
-    private final RolesRepository rolesRepository;
     private final TeamsRepository teamsRepository;
 
-    public DefaultTeamsManager(RolesRepository rolesRepository, TeamsRepository teamsRepository) {
-        this.rolesRepository = rolesRepository;
+    public DefaultTeamsManager(TeamsRepository teamsRepository) {
         this.teamsRepository = teamsRepository;
     }
 
@@ -24,16 +22,6 @@ public class DefaultTeamsManager implements TeamsManager {
         Optional<Team> optionalTeam = this.teamsRepository.getTeamOfPlayer(playerUUID);
 
         return optionalTeam.orElse(defaultTeam);
-    }
-
-    @Override
-    public boolean isStaff(UUID playerUUID) {
-        return rolesRepository.getRole(playerUUID).staff;
-    } // TODO : change to RoleManage
-
-    @Override
-    public boolean isPlayer(UUID playerUUID) {
-        return rolesRepository.getRole(playerUUID).player;
     }
 
     @Override
