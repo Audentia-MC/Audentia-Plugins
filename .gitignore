@@ -115,4 +115,5 @@ fabric.properties
 
 .idea
 
-Audentia-Core/build
+Audentia-Core/build/
+Audentia-Protect/build/

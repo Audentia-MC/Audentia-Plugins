@@ -20,11 +20,11 @@ public class NpcSpawn {
     public String spawnNpc(String npcName) {
 
         Optional<Npc> optionalNpc = this.npcRepository.getNpc(npcName);
-        String result = buildMessage(npcName, "<error>Le PNJ ", " n'a pas été trouvé.");
+        String result = buildMessage(npcName, false, " n'a pas été trouvé.");
 
         if (optionalNpc.isPresent()) {
             this.npcSpawner.spawnNpc(optionalNpc.get());
-            result = buildMessage(npcName, "<success>Le PNJ ", " a bien spawn.");
+            result = buildMessage(npcName, true, " a bien spawn.");
         }
 
         return result;
@@ -33,11 +33,11 @@ public class NpcSpawn {
     public String deleteNpc(String npcName) {
 
         Optional<Npc> optionalNpc = this.worldNpcFinder.findNpc(npcName);
-        String result = buildMessage(npcName, "<error>Le PNJ ", " n'a pas été trouvé.");
+        String result = buildMessage(npcName, false, " n'a pas été trouvé.");
 
         if (optionalNpc.isPresent()) {
             this.npcSpawner.deleteNpc(optionalNpc.get());
-            result = buildMessage(npcName, "<success>Le PNJ ", " a bien été supprimé.");
+            result = buildMessage(npcName, true, " a bien été supprimé.");
         }
 
         return result;
@@ -61,7 +61,7 @@ public class NpcSpawn {
 
     public String reloadNpc(String npcName) {
 
-        String result = buildMessage(npcName, "<success>Le PNJ ", " a bien été rechargé.");
+        String result = buildMessage(npcName, true, " a bien été rechargé.");
 
         if (deleteNpc(npcName).contains("<error>") || spawnNpc(npcName).contains("<error>")) {
             result = "<error>Une erreur s'est produite.";
@@ -83,8 +83,8 @@ public class NpcSpawn {
         return "<success>Les PNJ ont bien été rechargés.";
     }
 
-    private String buildMessage(String npcName, String prefix, String suffix) {
-        return prefix + npcName + suffix;
+    private String buildMessage(String npcName, boolean success, String suffix) {
+        return (success ? "<success>" : "<error>") + "Le PNJ " + npcName + suffix;
     }
 
 }

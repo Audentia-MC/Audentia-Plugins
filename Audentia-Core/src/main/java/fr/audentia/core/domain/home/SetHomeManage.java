@@ -10,10 +10,12 @@ public class SetHomeManage {
 
     private final HomeRepository homeRepository;
     private final RolesRepository rolesRepository;
+    private final WorldNameFinder worldNameFinder;
 
-    public SetHomeManage(HomeRepository homeRepository, RolesRepository rolesRepository) {
+    public SetHomeManage(HomeRepository homeRepository, RolesRepository rolesRepository, WorldNameFinder worldNameFinder) {
         this.homeRepository = homeRepository;
         this.rolesRepository = rolesRepository;
+        this.worldNameFinder = worldNameFinder;
     }
 
     public String saveHome(UUID playerUUID, HomeLocation homeLocation) {
@@ -23,14 +25,17 @@ public class SetHomeManage {
     public String saveHome(UUID playerUUID, int homeNumber, HomeLocation homeLocation) {
 
         Role role = rolesRepository.getRole(playerUUID);
-        String result = "<error>Votre role ne vous permet pas d'avoir un home n°" + homeNumber + ".";
 
-        if (homeNumber <= role.homeCount) {
-            result = "<success>Nouveau home n°" + homeNumber + " défini.";
-            homeRepository.saveHome(playerUUID, homeNumber, homeLocation);
+        if (homeNumber > role.homeCount) {
+            return "<error>Votre role ne vous permet pas d'avoir un home n°" + homeNumber + ".";
         }
 
-        return result;
+        if (!worldNameFinder.getWorldName(playerUUID).equals("world")) {
+            return "<error>Les homes ne sont disponibles que dans le monde normal.";
+        }
+
+        homeRepository.saveHome(playerUUID, homeNumber, homeLocation);
+        return "<success>Nouveau home n°" + homeNumber + " défini.";
     }
 
 }

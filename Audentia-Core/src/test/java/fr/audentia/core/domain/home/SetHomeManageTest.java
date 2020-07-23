@@ -15,12 +15,15 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-// TODO : check world
+
 @ExtendWith(MockitoExtension.class)
 class SetHomeManageTest {
 
     @Mock
     private HomeRepository homeRepository;
+
+    @Mock
+    private WorldNameFinder worldNameFinder;
 
     @Mock
     private RolesRepository rolesRepository;
@@ -29,15 +32,16 @@ class SetHomeManageTest {
 
     @BeforeEach
     void setUp() {
-        setHomeManager = new SetHomeManage(homeRepository, rolesRepository);
+        setHomeManager = new SetHomeManage(homeRepository, rolesRepository, worldNameFinder);
     }
 
     @Test
-    @DisplayName("setHome should define new home 1 when player has default player role")
-    void setHome_shouldStoreHome1_whenPlayerIsDefaultPlayer() {
+    @DisplayName("setHome should define new home 1 when player has default player role and is in default world")
+    void setHome_shouldStoreHome1_whenPlayerIsDefaultPlayerAndIsInDefaultWorld() {
 
         HomeLocation homeLocation = new HomeLocation(0, 0, 0);
         when(rolesRepository.getRole(any(UUID.class))).thenReturn(new Role(false, false, 1));
+        when(worldNameFinder.getWorldName(any(UUID.class))).thenReturn("world");
 
         String result = setHomeManager.saveHome(UUID.randomUUID(), homeLocation);
 
@@ -55,6 +59,19 @@ class SetHomeManageTest {
 
         verifyNoInteractions(homeRepository);
         assertThat(result).isEqualTo("<error>Votre role ne vous permet pas d'avoir un home n°2.");
+    }
+
+    @Test
+    @DisplayName("setHome should do nothing when player is not in default world")
+    void setHome_shouldDoNothing_whenPlayerIsNotInDefaultWorld() {
+
+        when(rolesRepository.getRole(any(UUID.class))).thenReturn(new Role(false, false, 1));
+        when(worldNameFinder.getWorldName(any(UUID.class))).thenReturn("nether");
+
+        String result = setHomeManager.saveHome(UUID.randomUUID(), 1, any(HomeLocation.class));
+
+        verifyNoInteractions(homeRepository);
+        assertThat(result).isEqualTo("<error>Les homes ne sont disponibles que dans le monde normal.");
     }
 
 }

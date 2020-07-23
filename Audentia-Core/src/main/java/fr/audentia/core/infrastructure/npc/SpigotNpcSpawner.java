@@ -34,7 +34,7 @@ public class SpigotNpcSpawner implements NpcSpawner {
     public void deleteNpc(Npc npc) {
         Location location = buildLocation(npc);
 
-        World world = Bukkit.getWorld("world");
+        World world = Bukkit.getWorld(DEFAULT_WORLD_NAME);
 
         if (world == null) {
             return;
@@ -48,7 +48,7 @@ public class SpigotNpcSpawner implements NpcSpawner {
 
     private Location buildLocation(Npc npc) {
 
-        return new Location(Bukkit.getWorld("world"),
+        return new Location(Bukkit.getWorld(DEFAULT_WORLD_NAME),
                 npc.x,
                 npc.y,
                 npc.z,
