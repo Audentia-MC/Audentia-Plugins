@@ -4,4 +4,6 @@ public interface TimeProvider {
 
     int getHour();
 
+    long getActualTimeInSeconds();
+
 }

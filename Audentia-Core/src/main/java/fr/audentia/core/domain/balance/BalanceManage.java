@@ -45,7 +45,7 @@ public class BalanceManage {
             return "<error>Votre groupe ne peut pas déposer d'émeraude dans la banque.";
         }
 
-        team = new Team(team.color, balance.add(count), new HashMap<>());
+        team = new Team(team.color, balance.add(count), new HashMap<>(), "Tony");
         teamsManager.saveTeam(team);
         return "<success>Dépôt effectué.";
     }

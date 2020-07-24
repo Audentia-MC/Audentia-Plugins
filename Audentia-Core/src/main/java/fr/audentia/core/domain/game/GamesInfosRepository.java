@@ -12,4 +12,8 @@ public interface GamesInfosRepository {
 
     BankSlots getBankOpenSlots(Day day);
 
+    long getStartTimeInSeconds();
+
+    long getGameDurationInSeconds();
+
 }

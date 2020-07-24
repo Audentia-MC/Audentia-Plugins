@@ -18,7 +18,7 @@ public class DefaultTeamsManager implements TeamsManager {
     @Override
     public Team getTeamOfPlayer(UUID playerUUID) {
 
-        Team defaultTeam = new Team(new Color(0, 0, 0), new Balance(-1), new HashMap<>());
+        Team defaultTeam = new Team(new Color(0, 0, 0), new Balance(-1), new HashMap<>(), "Tony");
         Optional<Team> optionalTeam = this.teamsRepository.getTeamOfPlayer(playerUUID);
 
         return optionalTeam.orElse(defaultTeam);

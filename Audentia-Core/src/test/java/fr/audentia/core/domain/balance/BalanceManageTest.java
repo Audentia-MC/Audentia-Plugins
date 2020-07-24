@@ -33,7 +33,7 @@ class BalanceManageTest {
     @DisplayName("getBalanceWithMessage should return a success message when the player is in a team of players")
     void getBalanceWithMessage_shouldReturnSuccessMessage_whenPlayerTeamHasBalance() {
 
-        when(teamsManager.getTeamOfPlayer(any())).thenReturn(new Team(Color.RED, new Balance(0), new HashMap<>()));
+        when(teamsManager.getTeamOfPlayer(any())).thenReturn(new Team(Color.RED, new Balance(0), new HashMap<>(), "Tony"));
 
         String balance = this.balanceManage.getBalanceWithMessage(any());
 
@@ -44,7 +44,7 @@ class BalanceManageTest {
     @DisplayName("getBalanceWithMessage should return a success message when the player isn't in a team of players")
     void getBalanceWithMessage_shouldReturnErrorMessage_whenPlayerTeamHasNotBalance() {
 
-        when(teamsManager.getTeamOfPlayer(any())).thenReturn(new Team(Color.RED, new Balance(-1), new HashMap<>()));
+        when(teamsManager.getTeamOfPlayer(any())).thenReturn(new Team(Color.RED, new Balance(-1), new HashMap<>(), "Tony"));
 
         String balance = this.balanceManage.getBalanceWithMessage(any());
 
@@ -55,7 +55,7 @@ class BalanceManageTest {
     @DisplayName("getBalance should return 10 when the player's team has 10 emeralds")
     void getBalance_shouldReturn10_whenPlayerTeamHas10Emeralds() {
 
-        when(teamsManager.getTeamOfPlayer(any())).thenReturn(new Team(Color.RED, new Balance(10), new HashMap<>()));
+        when(teamsManager.getTeamOfPlayer(any())).thenReturn(new Team(Color.RED, new Balance(10), new HashMap<>(), "Tony"));
 
         String balance = this.balanceManage.getBalance(any());
 
@@ -66,7 +66,7 @@ class BalanceManageTest {
     @DisplayName("getBalance should return -1 when the player isn't in a team of players")
     void getBalance_shouldReturnMinus1_whenPlayerTeamHasNotBalance() {
 
-        when(teamsManager.getTeamOfPlayer(any())).thenReturn(new Team(Color.RED, new Balance(-1), new HashMap<>()));
+        when(teamsManager.getTeamOfPlayer(any())).thenReturn(new Team(Color.RED, new Balance(-1), new HashMap<>(), "Tony"));
 
         String balance = this.balanceManage.getBalance(any());
 
@@ -77,8 +77,8 @@ class BalanceManageTest {
     @DisplayName("addToBalance should call teamsManager and return a success message when the player is in a team of players")
     void addToBalance_shouldSaveNewBalance_whenPeopleIsPlayer() {
 
-        Team expectedTeam = new Team(Color.RED, new Balance(1), new HashMap<>());
-        when(teamsManager.getTeamOfPlayer(any())).thenReturn(new Team(Color.RED, new Balance(0), new HashMap<>()));
+        Team expectedTeam = new Team(Color.RED, new Balance(1), new HashMap<>(), "Tony");
+        when(teamsManager.getTeamOfPlayer(any())).thenReturn(new Team(Color.RED, new Balance(0), new HashMap<>(), "Tony"));
 
         String result = balanceManage.addToBalance(any(), 1);
 
@@ -90,7 +90,7 @@ class BalanceManageTest {
     @DisplayName("addToBalance should do nothing and return an error message when the player isn't in a team of players")
     void addToBalance_shouldDoNothing_whenPeopleIsNotPlayer() {
 
-        when(teamsManager.getTeamOfPlayer(any())).thenReturn(new Team(Color.RED, new Balance(-1), new HashMap<>()));
+        when(teamsManager.getTeamOfPlayer(any())).thenReturn(new Team(Color.RED, new Balance(-1), new HashMap<>(), "Tony"));
 
         String result = balanceManage.addToBalance(any(), 1);
 

@@ -13,11 +13,13 @@ public class Team {
     public final Color color;
     public final Balance balance;
     public final Map<Day, DayTransfers> transfers;
+    public final String name;
 
-    public Team(Color color, Balance balance, Map<Day, DayTransfers> transfers) {
+    public Team(Color color, Balance balance, Map<Day, DayTransfers> transfers, String name) {
         this.color = color;
         this.balance = balance;
         this.transfers = transfers;
+        this.name = name;
     }
 
     @Override
