@@ -2,6 +2,7 @@ package fr.audentia.core.domain.scoreboard;
 
 import fr.audentia.core.domain.bank.TimeProvider;
 import fr.audentia.core.domain.game.GamesInfosRepository;
+import fr.audentia.core.domain.model.scoreboard.Event;
 import fr.audentia.core.domain.model.scoreboard.Scoreboard;
 import fr.audentia.players.domain.model.Role;
 import fr.audentia.players.domain.model.balance.Balance;
@@ -39,11 +40,14 @@ class ScoreboardProvideTest {
     @Mock
     private TimeProvider timeProvider;
 
+    @Mock
+    private EventsRepository eventsRepository;
+
     private ScoreboardProvide scoreboardProvide;
 
     @BeforeEach
     void setUp() {
-        scoreboardProvide = new ScoreboardProvide(teamsManager, rolesRepository, gamesInfosRepository, timeProvider);
+        scoreboardProvide = new ScoreboardProvide(teamsManager, rolesRepository, gamesInfosRepository, timeProvider, eventsRepository);
     }
 
     @Test
@@ -54,8 +58,9 @@ class ScoreboardProvideTest {
         when(teamsManager.getTeamOfPlayer(any())).thenReturn(tony);
         when(rolesRepository.getRole(any())).thenReturn(new Role(false, true, 0));
         when(gamesInfosRepository.getStartTimeInSeconds()).thenReturn(1_000L);
-        when(gamesInfosRepository.getGameDurationInSeconds()).thenReturn(950_400L);
+        when(gamesInfosRepository.getGameDurationInSeconds()).thenReturn(951_400L);
         when(timeProvider.getActualTimeInSeconds()).thenReturn(920_306L);
+        when(eventsRepository.getNextEvent()).thenReturn(new Event(40_182L));
 
         Scoreboard result = scoreboardProvide.buildScoreBoard(UUID.randomUUID());
 
@@ -64,6 +69,7 @@ class ScoreboardProvideTest {
                 .addContent("&#FF0000Team Tony")
                 .addContent("1 émeraude")
                 .addContent("Temps : 10:15:21:46 / 11:00:00:00")
+                .addContent("Prochain event : 00:10:53:02")
                 .withFooter("----= audentia.fr =----")
                 .build());
     }
@@ -77,7 +83,8 @@ class ScoreboardProvideTest {
         when(rolesRepository.getRole(any())).thenReturn(new Role(false, true, 0));
         when(gamesInfosRepository.getStartTimeInSeconds()).thenReturn(0L);
         when(gamesInfosRepository.getGameDurationInSeconds()).thenReturn(950_400L);
-        when(timeProvider.getActualTimeInSeconds()).thenReturn(784_809L);
+        when(timeProvider.getActualTimeInSeconds()).thenReturn(1L);
+        when(eventsRepository.getNextEvent()).thenReturn(new Event(39_182L));
 
         Scoreboard result = scoreboardProvide.buildScoreBoard(UUID.randomUUID());
 
@@ -85,7 +92,8 @@ class ScoreboardProvideTest {
                 .withHeader("----= Audentia =----")
                 .addContent("&#FF0000Team Manu")
                 .addContent("2 émeraudes")
-                .addContent("Temps : 09:02:00:09 / 11:00:00:00")
+                .addContent("Temps : 00:00:00:01 / 11:00:00:00")
+                .addContent("Prochain event : 00:10:53:02")
                 .withFooter("----= audentia.fr =----")
                 .build());
     }
@@ -100,12 +108,14 @@ class ScoreboardProvideTest {
         when(gamesInfosRepository.getStartTimeInSeconds()).thenReturn(0L);
         when(gamesInfosRepository.getGameDurationInSeconds()).thenReturn(950_400L);
         when(timeProvider.getActualTimeInSeconds()).thenReturn(784_809L);
+        when(eventsRepository.getNextEvent()).thenReturn(new Event(6_057L));
 
         Scoreboard result = scoreboardProvide.buildScoreBoard(UUID.randomUUID());
 
         assertThat(result).isEqualTo(aScoreboard()
                 .withHeader("----= Audentia =----")
                 .addContent("Temps : 09:02:00:09 / 11:00:00:00")
+                .addContent("Prochain event : 00:01:40:57")
                 .withFooter("----= audentia.fr =----")
                 .build());
     }

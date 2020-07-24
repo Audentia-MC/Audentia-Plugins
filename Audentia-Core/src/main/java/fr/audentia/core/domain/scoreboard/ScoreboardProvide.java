@@ -9,35 +9,34 @@ import fr.audentia.players.domain.teams.RolesRepository;
 import fr.audentia.players.domain.teams.Team;
 import fr.audentia.players.domain.teams.TeamsManager;
 import fr.audentia.players.utils.ColorsUtils;
+import org.apache.commons.lang.time.DurationFormatUtils;
 
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAmount;
 import java.util.UUID;
 
 import static fr.audentia.core.domain.model.scoreboard.ScoreboardBuilder.aScoreboard;
 
 public class ScoreboardProvide {
 
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd:HH:mm:ss");
+    public static final String DURATION_FORMAT = "dd:HH:mm:ss";
 
     private final TeamsManager teamsManager;
     private final RolesRepository rolesRepository;
     private final GamesInfosRepository gamesInfosRepository;
     private final TimeProvider timeProvider;
+    private final EventsRepository eventsRepository;
 
-    public ScoreboardProvide(TeamsManager teamsManager, RolesRepository rolesRepository, GamesInfosRepository gamesInfosRepository, TimeProvider timeProvider) {
+    public ScoreboardProvide(TeamsManager teamsManager, RolesRepository rolesRepository, GamesInfosRepository gamesInfosRepository, TimeProvider timeProvider, EventsRepository eventsRepository) {
         this.teamsManager = teamsManager;
         this.rolesRepository = rolesRepository;
         this.gamesInfosRepository = gamesInfosRepository;
         this.timeProvider = timeProvider;
+        this.eventsRepository = eventsRepository;
     }
 
     public Scoreboard buildScoreBoard(UUID playerUUID) {
 
         Team team = teamsManager.getTeamOfPlayer(playerUUID);
         Role role = rolesRepository.getRole(playerUUID);
-
 
         ScoreboardBuilder builder = aScoreboard()
                 .withHeader("----= Audentia =----");
@@ -49,24 +48,22 @@ public class ScoreboardProvide {
                     .addContent(balance + " émeraude" + ("0 1".contains(balance) ? "" : "s"));
         }
 
-        String gameDuration = Instant.ofEpochSecond(gamesInfosRepository.getGameDurationInSeconds())
-                .atOffset(ZoneOffset.UTC)
-                .toLocalDateTime()
-                .minus(Period.ofDays(1))
-                .format(formatter);
+        long actualTime = timeProvider.getActualTimeInSeconds();
+        long gameDuration = gamesInfosRepository.getGameDurationInSeconds();
+        long nextEventTime = eventsRepository.getNextEvent().time;
 
-        long elapsedTimeInSeconds = timeProvider.getActualTimeInSeconds() - gamesInfosRepository.getStartTimeInSeconds();
-        String elapsedTime = Instant.ofEpochSecond(elapsedTimeInSeconds)
-                .atOffset(ZoneOffset.UTC)
-                .toLocalDateTime()
-                .minus(Period.ofDays(1))
-                .format(formatter);
-
-        builder.addContent("Temps : " + elapsedTime + " / " + gameDuration);
-
-        return builder
+        String duration = getDuration(actualTime);
+        return builder.addContent("Temps : " + duration + " / " + getDuration(gameDuration))
+                .addContent("Prochain event : " + getDuration(nextEventTime))
                 .withFooter("----= audentia.fr =----")
                 .build();
+    }
+
+    private String getDuration(long time) {
+
+        long startTimeInSeconds = gamesInfosRepository.getStartTimeInSeconds();
+
+        return DurationFormatUtils.formatDuration((time - startTimeInSeconds) * 1_000L, DURATION_FORMAT, true);
     }
 
 }
