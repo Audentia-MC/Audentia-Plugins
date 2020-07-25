@@ -14,7 +14,7 @@ public class BankSlotsProvide {
         this.bankSlotsProvider = bankSlotsProvider;
     }
 
-    public String execute() {
+    public String getBankSlots() {
 
         Day day = gamesInfosRepository.getDay();
         BankSlots slots = bankSlotsProvider.getBankOpenSlots(day);

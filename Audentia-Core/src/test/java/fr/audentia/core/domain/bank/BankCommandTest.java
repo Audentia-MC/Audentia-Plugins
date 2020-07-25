@@ -41,7 +41,7 @@ class BankCommandTest {
         BankSlots bankSlots = new BankSlots(slots);
         when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(bankSlots);
 
-        String result = bankSlotsProvider.execute();
+        String result = bankSlotsProvider.getBankSlots();
 
         assertThat(result).isEqualTo("#FCB91FLes horaires d'ouverture de la banque pour aujourd'hui sont : 2h-4h, 10h-12h, 18h-20h.");
     }
