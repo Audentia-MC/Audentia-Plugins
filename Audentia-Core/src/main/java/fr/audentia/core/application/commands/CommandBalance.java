@@ -27,7 +27,7 @@ public class CommandBalance implements CommandExecutor {
         String balance = this.balanceManage.getBalanceWithMessage(player.getUniqueId());
         player.sendMessage(ChatUtils.format(balance));
 
-        return false;
+        return true;
     }
 
 }
