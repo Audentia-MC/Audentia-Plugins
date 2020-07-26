@@ -69,8 +69,6 @@ class SpigotNpcSpawnerTest {
         verify(entity, times(1)).setVelocity(new Vector(0, 0, 0));
     }
 
-
-
     @Test
     @DisplayName("spawnNpc should do nothing when the default world does not exist")
     void spawnNpc_shouldDoNothing_whenWorldDefaultDoesNotExist() {

@@ -10,6 +10,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Villager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,7 +29,7 @@ public class SpigotWorldNpcFinder implements WorldNpcFinder {
                 .stream()
                 .filter(villager -> villager.getCustomName() != null)
                 .filter(villager -> villager.getCustomName().equalsIgnoreCase(npcName))
-                .map(Entity::getLocation)
+                .map(Villager::getLocation)
                 .map(location -> NpcBuilder.aNpc()
                         .withName(npcName)
                         .withX(location.getBlockX())
@@ -48,7 +49,7 @@ public class SpigotWorldNpcFinder implements WorldNpcFinder {
         World world = Bukkit.getWorld("world");
 
         if (world == null) {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
 
         return world.getEntitiesByClass(Villager.class)
