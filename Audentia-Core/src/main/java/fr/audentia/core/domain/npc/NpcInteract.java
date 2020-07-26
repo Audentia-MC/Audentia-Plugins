@@ -15,7 +15,7 @@ public class NpcInteract {
         this.bankInventoryOpen = bankInventoryOpen;
     }
 
-    public void interactWithNpc(UUID playerUUID, String npcName) {
+    public void interactWithNpc(UUID playerUUID, String npcName) { // TODO : return message
 
         if (npcName.isEmpty() || !bankNpcProvider.getName().orElse("").equalsIgnoreCase(npcName)) {
             return;
