@@ -18,12 +18,13 @@ public class ListenerPlayerInteract implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
 
-        if(this.gamesInfosRepository.getGameState() != GameState.PENDANT) {
-            event.setUseItemInHand(Event.Result.DENY);
-            event.setUseInteractedBlock(Event.Result.DENY);
-            event.setCancelled(true);
+        if (this.gamesInfosRepository.getGameState() == GameState.PENDANT) {
+            return;
         }
 
+        event.setUseItemInHand(Event.Result.DENY);
+        event.setUseInteractedBlock(Event.Result.DENY);
+        event.setCancelled(true);
     }
 
 }

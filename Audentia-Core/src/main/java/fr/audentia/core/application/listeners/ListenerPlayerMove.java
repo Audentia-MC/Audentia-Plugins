@@ -17,10 +17,11 @@ public class ListenerPlayerMove implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
 
-        if(this.gamesInfosRepository.getGameState() != GameState.PENDANT) {
-            event.setCancelled(true);
+        if (this.gamesInfosRepository.getGameState() == GameState.PENDANT) {
+            return;
         }
 
+        event.setCancelled(true);
     }
 
 }
