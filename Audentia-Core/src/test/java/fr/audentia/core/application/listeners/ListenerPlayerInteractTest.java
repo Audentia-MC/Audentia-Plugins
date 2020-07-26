@@ -37,7 +37,7 @@ public class ListenerPlayerInteractTest {
 
     @Test
     @DisplayName("On interact interaction should be cancelled at pre")
-    void on_interact_interaction_should_be_cancelled_at_pre() {
+    void onInteract_shouldBeCancelledAtPre() {
 
         when(gamesInfosRepository.getGameState()).thenReturn(GameState.PRE);
 
@@ -50,7 +50,7 @@ public class ListenerPlayerInteractTest {
 
     @Test
     @DisplayName("On interact interaction should be cancelled at post")
-    void on_interact_interaction_should_be_cancelled_at_post() {
+    void onInteract_shouldBeCancelledAtPost() {
 
         when(this.gamesInfosRepository.getGameState()).thenReturn(GameState.POST);
 
@@ -63,7 +63,7 @@ public class ListenerPlayerInteractTest {
 
     @Test
     @DisplayName("On interact interaction should be not cancelled pendant game")
-    void on_interact_interaction_should_be_cancelled_pendant_game() {
+    void onInteract_shouldNotBeCancelledATPendant() {
 
         when(gamesInfosRepository.getGameState()).thenReturn(GameState.PENDANT);
 
