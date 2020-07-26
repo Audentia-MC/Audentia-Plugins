@@ -16,4 +16,6 @@ public interface GamesInfosRepository {
 
     long getGameDurationInSeconds();
 
+    GameState getGameState();
+
 }
