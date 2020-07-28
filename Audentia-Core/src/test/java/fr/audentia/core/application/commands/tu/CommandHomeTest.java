@@ -1,5 +1,6 @@
-package fr.audentia.core.application.commands;
+package fr.audentia.core.application.commands.tu;
 
+import fr.audentia.core.application.commands.CommandHome;
 import fr.audentia.core.domain.home.HomeManage;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;

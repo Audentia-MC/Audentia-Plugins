@@ -1,5 +1,6 @@
-package fr.audentia.core.application.commands;
+package fr.audentia.core.application.commands.tu;
 
+import fr.audentia.core.application.commands.CommandBalance;
 import fr.audentia.core.domain.balance.BalanceManage;
 import fr.audentia.players.utils.ColorsUtils;
 import org.bukkit.command.ConsoleCommandSender;

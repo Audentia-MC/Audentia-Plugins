@@ -1,5 +1,6 @@
-package fr.audentia.core.application.commands;
+package fr.audentia.core.application.commands.tu;
 
+import fr.audentia.core.application.commands.CommandBank;
 import fr.audentia.core.domain.bank.BankSlotsProvide;
 import org.bukkit.entity.Player;
 import org.junit.jupiter.api.BeforeEach;
