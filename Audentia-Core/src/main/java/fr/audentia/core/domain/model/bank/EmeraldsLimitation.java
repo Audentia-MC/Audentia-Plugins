@@ -4,7 +4,7 @@ import fr.audentia.players.domain.model.teams.DayTransfers;
 
 public class EmeraldsLimitation {
 
-    public final int limitation;
+    private final int limitation;
 
     public EmeraldsLimitation(int limitation) {
         this.limitation = limitation;
