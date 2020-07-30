@@ -1,4 +1,4 @@
-package fr.audentia.core.domain.staff;
+package fr.audentia.core.domain.staff.ban;
 
 import fr.audentia.players.domain.model.Role;
 import fr.audentia.players.domain.teams.RolesRepository;

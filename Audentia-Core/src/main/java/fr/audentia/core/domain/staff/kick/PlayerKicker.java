@@ -1,4 +1,4 @@
-package fr.audentia.core.domain.staff;
+package fr.audentia.core.domain.staff.kick;
 
 import java.util.UUID;
 

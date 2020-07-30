@@ -40,7 +40,7 @@ class SetHomeManageTest {
     void setHome_shouldStoreHome1_whenPlayerIsDefaultPlayerAndIsInDefaultWorld() {
 
         HomeLocation homeLocation = new HomeLocation(0, 0, 0);
-        when(rolesRepository.getRole(any(UUID.class))).thenReturn(new Role(false, false, 1));
+        when(rolesRepository.getRole(any(UUID.class))).thenReturn(new Role(1, false, false, 1));
         when(worldNameFinder.getWorldName(any(UUID.class))).thenReturn("world");
 
         String result = setHomeManager.saveHome(UUID.randomUUID(), homeLocation);
@@ -53,7 +53,7 @@ class SetHomeManageTest {
     @DisplayName("setHome should do nothing when player role does not allow to have 2 homes")
     void setHome_shouldDoNothing_whenPlayerCantHave2Homes() {
 
-        when(rolesRepository.getRole(any(UUID.class))).thenReturn(new Role(false, false, 1));
+        when(rolesRepository.getRole(any(UUID.class))).thenReturn(new Role(1, false, false, 1));
 
         String result = setHomeManager.saveHome(UUID.randomUUID(), 2, any(HomeLocation.class));
 
@@ -65,7 +65,7 @@ class SetHomeManageTest {
     @DisplayName("setHome should do nothing when player is not in default world")
     void setHome_shouldDoNothing_whenPlayerIsNotInDefaultWorld() {
 
-        when(rolesRepository.getRole(any(UUID.class))).thenReturn(new Role(false, false, 1));
+        when(rolesRepository.getRole(any(UUID.class))).thenReturn(new Role(1, false, false, 1));
         when(worldNameFinder.getWorldName(any(UUID.class))).thenReturn("nether");
 
         String result = setHomeManager.saveHome(UUID.randomUUID(), 1, any(HomeLocation.class));

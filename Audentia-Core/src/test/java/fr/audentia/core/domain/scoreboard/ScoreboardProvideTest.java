@@ -56,7 +56,7 @@ class ScoreboardProvideTest {
 
         Team tony = new Team(Color.RED, new Balance(1), new HashMap<>(), "Tony");
         when(teamsManager.getTeamOfPlayer(any())).thenReturn(tony);
-        when(rolesRepository.getRole(any())).thenReturn(new Role(false, true, 0));
+        when(rolesRepository.getRole(any())).thenReturn(new Role(1, false, true, 0));
         when(gamesInfosRepository.getStartTimeInSeconds()).thenReturn(1_000L);
         when(gamesInfosRepository.getGameDurationInSeconds()).thenReturn(951_400L);
         when(timeProvider.getActualTimeInSeconds()).thenReturn(920_306L);
@@ -80,7 +80,7 @@ class ScoreboardProvideTest {
 
         Team tony = new Team(Color.RED, new Balance(2), new HashMap<>(), "Manu");
         when(teamsManager.getTeamOfPlayer(any())).thenReturn(tony);
-        when(rolesRepository.getRole(any())).thenReturn(new Role(false, true, 0));
+        when(rolesRepository.getRole(any())).thenReturn(new Role(1, false, true, 0));
         when(gamesInfosRepository.getStartTimeInSeconds()).thenReturn(0L);
         when(gamesInfosRepository.getGameDurationInSeconds()).thenReturn(950_400L);
         when(timeProvider.getActualTimeInSeconds()).thenReturn(1L);
@@ -104,7 +104,7 @@ class ScoreboardProvideTest {
 
         Team tony = new Team(Color.RED, new Balance(2), new HashMap<>(), "Manu");
         when(teamsManager.getTeamOfPlayer(any())).thenReturn(tony);
-        when(rolesRepository.getRole(any())).thenReturn(new Role(false, false, 0));
+        when(rolesRepository.getRole(any())).thenReturn(new Role(1, false, false, 0));
         when(gamesInfosRepository.getStartTimeInSeconds()).thenReturn(0L);
         when(gamesInfosRepository.getGameDurationInSeconds()).thenReturn(950_400L);
         when(timeProvider.getActualTimeInSeconds()).thenReturn(784_809L);
