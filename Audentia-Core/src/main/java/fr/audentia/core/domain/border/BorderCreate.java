@@ -15,14 +15,14 @@ public class BorderCreate {
 
     public void createWorldBorder() {
 
-        BorderSize size = borderInfosRepository.getBorderSize();
+        BorderSize borderSize = borderInfosRepository.getBorderSize();
 
-        if (size.size == 0) {
+        if (borderSize.size == 0) {
             return;
         }
 
         BorderLocation location = borderInfosRepository.getBorderLocation();
-        borderSpawner.spawnBorder(location, size);
+        borderSpawner.spawnBorder(location, borderSize);
     }
 
 }

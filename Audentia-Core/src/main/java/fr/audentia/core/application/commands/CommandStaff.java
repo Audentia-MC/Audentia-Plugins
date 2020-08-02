@@ -1,4 +1,4 @@
-package fr.audentia.core.application;
+package fr.audentia.core.application.commands;
 
 import fr.audentia.core.domain.staff.StaffInventoryOpen;
 import fr.audentia.players.utils.ChatUtils;
@@ -19,14 +19,14 @@ public class CommandStaff implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage("<error>Seuls les joueurs peuvent exécuter cette commande.");
+            sender.sendMessage(ChatUtils.format("<error>Seuls les joueurs peuvent exécuter cette commande."));
             return false;
         }
 
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            player.sendMessage("<error>/staff <nom du joueur>.");
+            player.sendMessage(ChatUtils.format("<error>/staff <nom du joueur>."));
             return false;
         }
 

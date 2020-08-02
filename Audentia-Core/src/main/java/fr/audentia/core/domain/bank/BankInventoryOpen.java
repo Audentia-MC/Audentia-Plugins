@@ -9,12 +9,12 @@ import java.util.UUID;
 public class BankInventoryOpen {
 
     private final TeamsManager teamsManager;
-    private final BankInventory bankInventory;
+    private final BankInventoryOpener bankInventoryOpener;
     private final RolesRepository rolesRepository;
 
-    public BankInventoryOpen(TeamsManager teamsManager, BankInventory bankInventory, RolesRepository rolesRepository) {
+    public BankInventoryOpen(TeamsManager teamsManager, BankInventoryOpener bankInventoryOpener, RolesRepository rolesRepository) {
         this.teamsManager = teamsManager;
-        this.bankInventory = bankInventory;
+        this.bankInventoryOpener = bankInventoryOpener;
         this.rolesRepository = rolesRepository;
     }
 
@@ -25,12 +25,12 @@ public class BankInventoryOpen {
 
         if (role.player) {
             result = "<success>Bienvenue dans la banque.";
-            bankInventory.open(playerUUID, teamsManager.getTeamOfPlayer(playerUUID).color);
+            bankInventoryOpener.open(playerUUID, teamsManager.getTeamOfPlayer(playerUUID).color);
         }
 
         if (role.staff) {
             result = "<success>Bienvenue dans la banque fictive.";
-            bankInventory.open(playerUUID, teamsManager.getTeamOfPlayer(playerUUID).color);
+            bankInventoryOpener.open(playerUUID, teamsManager.getTeamOfPlayer(playerUUID).color);
         }
 
         return result;

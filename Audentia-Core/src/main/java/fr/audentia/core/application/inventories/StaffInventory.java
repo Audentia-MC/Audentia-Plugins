@@ -56,7 +56,7 @@ public class StaffInventory implements InventoryProvider {
                 .title("Menu de gestion : " + target.getName())
                 .provider(new StaffInventory(banAction, kickAction, teleportAction, lookInventoryAction, targetUUID))
                 .closeable(true)
-                .size(5, 9)
+                .size(3, 9)
                 .build()
                 .open(Bukkit.getPlayer(staffUUID));
     }

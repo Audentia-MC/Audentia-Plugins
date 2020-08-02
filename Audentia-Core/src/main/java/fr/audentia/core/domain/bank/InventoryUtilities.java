@@ -6,6 +6,6 @@ public interface InventoryUtilities {
 
     boolean hasEmeralds(UUID playerUUID, int count);
 
-    void removeEmeralds(UUID fakeUuid, int count);
+    void removeEmeralds(UUID playerUUID, int count);
 
 }

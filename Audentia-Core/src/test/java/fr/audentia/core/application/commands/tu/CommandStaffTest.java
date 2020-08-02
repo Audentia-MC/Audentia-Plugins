@@ -1,6 +1,6 @@
 package fr.audentia.core.application.commands.tu;
 
-import fr.audentia.core.application.CommandStaff;
+import fr.audentia.core.application.commands.CommandStaff;
 import fr.audentia.core.domain.staff.StaffInventoryOpen;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;

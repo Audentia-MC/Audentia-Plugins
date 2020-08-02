@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public interface WorldPlayerFinder {
 
-    boolean isInWorld(String playerUUID);
+    boolean isInWorld(String playerName);
 
     boolean isInWorld(UUID playerUUID);
 

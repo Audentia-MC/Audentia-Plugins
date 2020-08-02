@@ -1,6 +1,7 @@
 package fr.audentia.core.application.commands;
 
 import fr.audentia.core.domain.home.HomeManage;
+import fr.audentia.players.utils.ChatUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,7 +31,7 @@ public class CommandHome implements CommandExecutor {
         }
 
         String message = homeManage.teleportToHome(player.getUniqueId(), homeNumber);
-        player.sendMessage(message);
+        player.sendMessage(ChatUtils.format(message));
         return true;
     }
 

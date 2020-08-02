@@ -1,4 +1,4 @@
-package fr.audentia.core.infrastructure.inventories;
+package fr.audentia.core.infrastructure.staff;
 
 import fr.audentia.core.application.inventories.StaffInventory;
 import fr.audentia.core.domain.staff.StaffInventoryOpener;

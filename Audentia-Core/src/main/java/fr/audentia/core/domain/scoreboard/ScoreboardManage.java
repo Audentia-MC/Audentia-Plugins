@@ -2,7 +2,6 @@ package fr.audentia.core.domain.scoreboard;
 
 import fr.audentia.core.domain.bank.TimeProvider;
 import fr.audentia.core.domain.game.GamesInfosRepository;
-import fr.audentia.core.domain.model.scoreboard.Scoreboard;
 import fr.audentia.core.domain.model.scoreboard.ScoreboardBuilder;
 import fr.audentia.players.domain.model.Role;
 import fr.audentia.players.domain.teams.RolesRepository;
@@ -15,7 +14,7 @@ import java.util.UUID;
 
 import static fr.audentia.core.domain.model.scoreboard.ScoreboardBuilder.aScoreboard;
 
-public class ScoreboardProvide {
+public class ScoreboardManage {
 
     public static final String DURATION_FORMAT = "dd:HH:mm:ss";
 
@@ -24,16 +23,23 @@ public class ScoreboardProvide {
     private final GamesInfosRepository gamesInfosRepository;
     private final TimeProvider timeProvider;
     private final EventsRepository eventsRepository;
+    private final ScoreboardsRepository scoreboardsRepository;
 
-    public ScoreboardProvide(TeamsManager teamsManager, RolesRepository rolesRepository, GamesInfosRepository gamesInfosRepository, TimeProvider timeProvider, EventsRepository eventsRepository) {
+    public ScoreboardManage(TeamsManager teamsManager,
+                            RolesRepository rolesRepository,
+                            GamesInfosRepository gamesInfosRepository,
+                            TimeProvider timeProvider,
+                            EventsRepository eventsRepository,
+                            ScoreboardsRepository scoreboardsRepository) {
         this.teamsManager = teamsManager;
         this.rolesRepository = rolesRepository;
         this.gamesInfosRepository = gamesInfosRepository;
         this.timeProvider = timeProvider;
         this.eventsRepository = eventsRepository;
+        this.scoreboardsRepository = scoreboardsRepository;
     }
 
-    public Scoreboard buildScoreBoard(UUID playerUUID) {
+    public void updateScoreboard(UUID playerUUID) {
 
         Team team = teamsManager.getTeamOfPlayer(playerUUID);
         Role role = rolesRepository.getRole(playerUUID);
@@ -53,10 +59,10 @@ public class ScoreboardProvide {
         long nextEventTime = eventsRepository.getNextEvent().time;
 
         String duration = getDuration(actualTime);
-        return builder.addContent("Temps : " + duration + " / " + getDuration(gameDuration))
+        scoreboardsRepository.updateScoreboard(playerUUID, builder.addContent("Temps : " + duration + " / " + getDuration(gameDuration))
                 .addContent("Prochain event : " + getDuration(nextEventTime))
                 .withFooter("----= audentia.fr =----")
-                .build();
+                .build());
     }
 
     private String getDuration(long time) {
@@ -64,6 +70,10 @@ public class ScoreboardProvide {
         long startTimeInSeconds = gamesInfosRepository.getStartTimeInSeconds();
 
         return DurationFormatUtils.formatDuration((time - startTimeInSeconds) * 1_000L, DURATION_FORMAT, true);
+    }
+
+    public void removeScoreBoard(UUID playerUUID) {
+        scoreboardsRepository.removeScoreboard(playerUUID);
     }
 
 }

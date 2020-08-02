@@ -5,6 +5,6 @@ import fr.audentia.core.domain.model.border.BorderSize;
 
 public interface BorderSpawner {
 
-    void spawnBorder(BorderLocation location, BorderSize size);
+    void spawnBorder(BorderLocation borderLocation, BorderSize borderSize);
 
 }
