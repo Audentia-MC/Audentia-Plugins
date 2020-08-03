@@ -36,7 +36,7 @@ public class ListenerPlayerMoveTest {
     @DisplayName("On player move mouvement should be cancelled")
     void onMove_shouldBeCancelled_whenPartyHasNotStarted() {
 
-        when(this.gamesInfosRepository.getGameState()).thenReturn(GameState.PRE);
+        when(this.gamesInfosRepository.getGameState()).thenReturn(GameState.WAITING);
 
         this.listenerPlayerMove.onPlayerMove(this.event);
 
@@ -47,7 +47,7 @@ public class ListenerPlayerMoveTest {
     @DisplayName("On player move mouvement should be cancelled")
     void onMove_shouldBeCancelled_whenPartyIsOver() {
 
-        when(this.gamesInfosRepository.getGameState()).thenReturn(GameState.POST);
+        when(this.gamesInfosRepository.getGameState()).thenReturn(GameState.PAUSED);
 
         this.listenerPlayerMove.onPlayerMove(this.event);
 
@@ -58,7 +58,7 @@ public class ListenerPlayerMoveTest {
     @DisplayName("On player move mouvement should be not cancelled")
     void onMove_shouldNotBeCancelled_whenPartyIsStarted() {
 
-        when(this.gamesInfosRepository.getGameState()).thenReturn(GameState.PENDANT);
+        when(this.gamesInfosRepository.getGameState()).thenReturn(GameState.PLAYING);
 
         this.listenerPlayerMove.onPlayerMove(this.event);
 

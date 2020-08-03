@@ -1,7 +1,7 @@
 package fr.audentia.core.domain.staff.inventory;
 
 import fr.audentia.core.domain.staff.WorldPlayerFinder;
-import fr.audentia.players.domain.model.Role;
+import fr.audentia.players.domain.model.roles.Role;
 import fr.audentia.players.domain.teams.RolesRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,8 +10,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.awt.*;
 import java.util.UUID;
 
+import static fr.audentia.players.domain.model.roles.RoleBuilder.aRole;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -39,7 +41,14 @@ class LookInventoryActionTest {
     @DisplayName("look inventory should open inventory of target when player is staff and target is in world")
     void lookInventory_shouldOpenInventoryOfTarget_whenPlayerIsStaffAndTargetIsInWorld() {
 
-        when(rolesRepository.getRole(any())).thenReturn(new Role(1, true, true, 0));
+        when(rolesRepository.getRole(any())).thenReturn(aRole()
+                .withName("Admin")
+                .withColor(Color.BLACK)
+                .withNumber(0)
+                .withHomeCount(1)
+                .isPlayer(true)
+                .isStaff(true)
+                .build());
         when(worldPlayerFinder.isInWorld((UUID) any())).thenReturn(true);
 
         String result = lookInventoryAction.lookInventory(UUID.randomUUID(), UUID.randomUUID());
@@ -52,7 +61,14 @@ class LookInventoryActionTest {
     @DisplayName("look inventory should do nothing when player isn't staff")
     void lookInventory_shouldDoNothing_whenPlayerIsNotStaff() {
 
-        when(rolesRepository.getRole(any())).thenReturn(new Role(1, false, true, 0));
+        when(rolesRepository.getRole(any())).thenReturn(aRole()
+                .withName("Admin")
+                .withColor(Color.BLACK)
+                .withNumber(0)
+                .withHomeCount(1)
+                .isPlayer(true)
+                .isStaff(false)
+                .build());
 
         String result = lookInventoryAction.lookInventory(UUID.randomUUID(), UUID.randomUUID());
 
@@ -64,7 +80,14 @@ class LookInventoryActionTest {
     @DisplayName("look inventory should do nothing when target isn't in world")
     void lookInventory_shouldDoNothing_whenTargetIsNotInWorld() {
 
-        when(rolesRepository.getRole(any())).thenReturn(new Role(1, true, true, 0));
+        when(rolesRepository.getRole(any())).thenReturn(aRole()
+                .withName("Admin")
+                .withColor(Color.BLACK)
+                .withNumber(0)
+                .withHomeCount(1)
+                .isPlayer(true)
+                .isStaff(true)
+                .build());
         when(worldPlayerFinder.isInWorld((UUID) any())).thenReturn(false);
 
         String result = lookInventoryAction.lookInventory(UUID.randomUUID(), UUID.randomUUID());

@@ -1,8 +1,7 @@
-package fr.audentia.players.domain.teams;
+package fr.audentia.players.domain.model.teams;
 
 import fr.audentia.players.domain.model.Day;
 import fr.audentia.players.domain.model.balance.Balance;
-import fr.audentia.players.domain.model.teams.DayTransfers;
 
 import java.awt.*;
 import java.util.Map;

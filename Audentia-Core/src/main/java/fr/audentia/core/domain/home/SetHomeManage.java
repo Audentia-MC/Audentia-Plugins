@@ -1,7 +1,7 @@
 package fr.audentia.core.domain.home;
 
 import fr.audentia.core.domain.model.home.HomeLocation;
-import fr.audentia.players.domain.model.Role;
+import fr.audentia.players.domain.model.roles.Role;
 import fr.audentia.players.domain.teams.RolesRepository;
 
 import java.util.UUID;

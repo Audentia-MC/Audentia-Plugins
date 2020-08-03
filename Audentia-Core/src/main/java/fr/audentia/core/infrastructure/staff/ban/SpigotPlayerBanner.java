@@ -23,7 +23,7 @@ public class SpigotPlayerBanner implements PlayerBanner {
             return;
         }
 
-        Bukkit.getBanList(BanList.Type.NAME).addBan(name, "Vous avez été banni"., null, "Audentia");
+        Bukkit.getBanList(BanList.Type.NAME).addBan(name, "Vous avez été banni.", null, "Audentia");
 
     }
 

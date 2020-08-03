@@ -69,7 +69,7 @@ public class ColorsUtils {
         return "<white";
     }
 
-    public static Color hex2Rgb(String hex) {
+    public static Color fromHexadecimalToColor(String hex) {
         return new Color(
                 Integer.valueOf(hex.substring(1, 3), 16),
                 Integer.valueOf(hex.substring(3, 5), 16),

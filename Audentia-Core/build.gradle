@@ -62,7 +62,6 @@ dependencies {
     implementation group: 'org.jacoco', name: 'jacoco-maven-plugin', version: '0.8.5'
     implementation group: 'fr.minuskube.inv', name: 'smart-invs', version: '1.2.7'
     implementation group: 'com.electronwill.night-config', name: 'toml', version: '3.6.0'
-    implementation group: 'com.zaxxer', name: 'HikariCP', version: '3.4.5'
     implementation group: 'org.jooq', name: 'jooq', version: '3.13.4'
     implementation group: 'org.jooq', name: 'jooq-meta', version: '3.13.4'
     implementation group: 'org.jooq', name: 'jooq-codegen', version: '3.13.4'

@@ -1,6 +1,7 @@
 package fr.audentia.players.domain.teams;
 
 import fr.audentia.players.domain.model.balance.Balance;
+import fr.audentia.players.domain.model.teams.Team;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -18,10 +19,9 @@ public class DefaultTeamsManager implements TeamsManager {
     @Override
     public Team getTeamOfPlayer(UUID playerUUID) {
 
-        Team defaultTeam = new Team(new Color(0, 0, 0), new Balance(-1), new HashMap<>(), "Tony");
-        Optional<Team> optionalTeam = this.teamsRepository.getTeamOfPlayer(playerUUID);
+        Team defaultTeam = new Team(Color.BLACK, new Balance(-1), new HashMap<>(), "Default team");
 
-        return optionalTeam.orElse(defaultTeam);
+        return teamsRepository.getTeamOfPlayer(playerUUID).orElse(defaultTeam);
     }
 
     @Override

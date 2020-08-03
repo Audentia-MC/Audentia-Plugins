@@ -18,7 +18,7 @@ public class ListenerPlayerInteract implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
 
-        if (this.gamesInfosRepository.getGameState() == GameState.PENDANT) {
+        if (this.gamesInfosRepository.getGameState() == GameState.PLAYING) {
             return;
         }
 

@@ -10,8 +10,6 @@ public interface GamesInfosRepository {
 
     EmeraldsLimitation getEmeraldsLimitation(Day day);
 
-    BankSlots getBankOpenSlots(Day day);
-
     long getStartTimeInSeconds();
 
     long getGameDurationInSeconds();

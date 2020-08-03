@@ -8,7 +8,7 @@ import fr.audentia.core.domain.model.bank.Slot;
 import fr.audentia.players.domain.model.Day;
 import fr.audentia.players.domain.model.balance.Balance;
 import fr.audentia.players.domain.model.teams.DayTransfers;
-import fr.audentia.players.domain.teams.Team;
+import fr.audentia.players.domain.model.teams.Team;
 import fr.audentia.players.domain.teams.TeamsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -36,13 +36,16 @@ class BankManageTest {
     private TeamsRepository teamsRepository;
 
     @Mock
+    private BankSlotsRepository bankSlotsRepository;
+
+    @Mock
     private BalanceManage balanceManage;
 
     private BankManage bankManage;
 
     @BeforeEach
     void setUp() {
-        bankManage = new BankManage(balanceManage, gamesInfosRepository, timeProvider, teamsRepository);
+        bankManage = new BankManage(balanceManage, gamesInfosRepository, bankSlotsRepository, timeProvider, teamsRepository);
     }
 
     @Test
@@ -52,7 +55,7 @@ class BankManageTest {
         Team team = new Team(Color.RED, new Balance(0), new HashMap<>(), "Tony");
         when(balanceManage.addToBalance(any(), anyInt())).thenReturn("<success>Dépôt effectué.");
         when(gamesInfosRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
-        when(gamesInfosRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
+        when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(10);
         when(teamsRepository.getTeamOfPlayer(any())).thenReturn(Optional.of(team));
 
@@ -73,7 +76,7 @@ class BankManageTest {
         when(gamesInfosRepository.getDay()).thenReturn(new Day(1));
         when(balanceManage.addToBalance(any(), anyInt())).thenReturn("<success>Dépôt effectué.");
         when(gamesInfosRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
-        when(gamesInfosRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
+        when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(10);
         when(teamsRepository.getTeamOfPlayer(any())).thenReturn(Optional.of(team));
 
@@ -89,7 +92,7 @@ class BankManageTest {
 
         Team team = new Team(Color.RED, new Balance(0), new HashMap<>(), "Tony");
 
-        when(gamesInfosRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
+        when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(9);
         when(teamsRepository.getTeamOfPlayer(any())).thenReturn(Optional.of(team));
 
@@ -105,7 +108,7 @@ class BankManageTest {
 
         Team team = new Team(Color.RED, new Balance(0), new HashMap<>(), "Tony");
 
-        when(gamesInfosRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
+        when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(12);
         when(teamsRepository.getTeamOfPlayer(any())).thenReturn(Optional.of(team));
 
@@ -125,7 +128,7 @@ class BankManageTest {
 
         when(gamesInfosRepository.getDay()).thenReturn(new Day(1));
         when(gamesInfosRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
-        when(gamesInfosRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
+        when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(10);
         when(teamsRepository.getTeamOfPlayer(any())).thenReturn(Optional.of(team));
 

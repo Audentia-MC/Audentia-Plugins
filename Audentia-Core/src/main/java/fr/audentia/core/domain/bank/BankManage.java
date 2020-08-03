@@ -4,7 +4,7 @@ import fr.audentia.core.domain.balance.BalanceManage;
 import fr.audentia.core.domain.game.GamesInfosRepository;
 import fr.audentia.players.domain.model.Day;
 import fr.audentia.players.domain.model.teams.DayTransfers;
-import fr.audentia.players.domain.teams.Team;
+import fr.audentia.players.domain.model.teams.Team;
 import fr.audentia.players.domain.teams.TeamsRepository;
 
 import java.util.Optional;
@@ -14,12 +14,14 @@ public class BankManage {
 
     private final BalanceManage balanceManage;
     private final GamesInfosRepository gamesInfosRepository;
+    private final BankSlotsRepository bankSlotsRepository;
     private final TimeProvider timeProvider;
     private final TeamsRepository teamsRepository;
 
-    public BankManage(BalanceManage balanceManage, GamesInfosRepository gamesInfosRepository, TimeProvider timeProvider, TeamsRepository teamsRepository) {
+    public BankManage(BalanceManage balanceManage, GamesInfosRepository gamesInfosRepository, BankSlotsRepository bankSlotsRepository, TimeProvider timeProvider, TeamsRepository teamsRepository) {
         this.balanceManage = balanceManage;
         this.gamesInfosRepository = gamesInfosRepository;
+        this.bankSlotsRepository = bankSlotsRepository;
         this.timeProvider = timeProvider;
         this.teamsRepository = teamsRepository;
     }
@@ -33,7 +35,7 @@ public class BankManage {
             return "<error>Votre groupe ne peut pas accéder à la banque.";
         }
 
-        if (!gamesInfosRepository.getBankOpenSlots(day).isOpen(timeProvider.getHour())) {
+        if (!bankSlotsRepository.getBankOpenSlots(day).isOpen(timeProvider.getHour())) {
             return "<error>La banque est fermée.";
         }
 

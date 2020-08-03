@@ -31,7 +31,7 @@ public class CommandsManager {
         Map<PluginCommand, CommandExecutor> loadedCommands = new HashMap<>();
 
         loadedCommands.put(getCommand("about"), new CommandAbout(version));
-        loadedCommands.put(getCommand("balance"), new CommandBalance(provider.balanceManage));
+//        loadedCommands.put(getCommand("balance"), new CommandBalance(provider.balanceManage));
 
         return loadedCommands;
     }

@@ -1,4 +1,4 @@
-package fr.audentia.core.infrastructure.database;
+package fr.audentia.players.infrastructure.database;
 
 public class DatabaseConnectionBuilder {
 

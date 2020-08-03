@@ -1,6 +1,6 @@
 package fr.audentia.core.domain.bank;
 
-import fr.audentia.players.domain.model.Role;
+import fr.audentia.players.domain.model.roles.Role;
 import fr.audentia.players.domain.teams.RolesRepository;
 import fr.audentia.players.domain.teams.TeamsManager;
 
@@ -21,19 +21,18 @@ public class BankInventoryOpen {
     public String openInventory(UUID playerUUID) {
 
         Role role = rolesRepository.getRole(playerUUID);
-        String result = "<error>Votre groupe ne peut pas accéder à la banque.";
-
-        if (role.player) {
-            result = "<success>Bienvenue dans la banque.";
-            bankInventoryOpener.open(playerUUID, teamsManager.getTeamOfPlayer(playerUUID).color);
-        }
 
         if (role.staff) {
-            result = "<success>Bienvenue dans la banque fictive.";
             bankInventoryOpener.open(playerUUID, teamsManager.getTeamOfPlayer(playerUUID).color);
+            return "<success>Bienvenue dans la banque fictive.";
         }
 
-        return result;
+        if (role.player) {
+            bankInventoryOpener.open(playerUUID, teamsManager.getTeamOfPlayer(playerUUID).color);
+            return "<success>Bienvenue dans la banque.";
+        }
+
+        return "<error>Votre groupe ne peut pas accéder à la banque.";
     }
 
 }

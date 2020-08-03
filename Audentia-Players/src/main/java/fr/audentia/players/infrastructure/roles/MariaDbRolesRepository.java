@@ -1,0 +1,48 @@
+package fr.audentia.players.infrastructure.roles;
+
+import fr.audentia.players.domain.model.roles.Role;
+import fr.audentia.players.domain.teams.RolesRepository;
+import fr.audentia.players.infrastructure.database.DatabaseConnection;
+import fr.audentia.players.utils.ColorsUtils;
+import org.jooq.Record6;
+
+import java.util.UUID;
+
+import static fr.audentia.players.domain.model.roles.RoleBuilder.aRole;
+import static org.jooq.impl.DSL.*;
+
+public class MariaDbRolesRepository implements RolesRepository {
+
+    private final DatabaseConnection databaseConnection;
+
+    public MariaDbRolesRepository(DatabaseConnection databaseConnection) {
+        this.databaseConnection = databaseConnection;
+    }
+
+    @Override
+    public Role getRole(UUID playerUUID) {
+
+        Record6<Object, Object, Object, Object, Object, Object> record = databaseConnection.getDatabaseContext()
+                .select(field(name("name")),
+                        field(name("color")),
+                        field(name("number")),
+                        field(name("home_count")),
+                        field(name("staff")),
+                        field(name("player")))
+                .from(table(name("player"))
+                        .join(table(name("role")))
+                        .on(field(name("role_id")).eq(field(name("id")))))
+                .where(field(name("uuid")).eq(playerUUID.toString()))
+                .fetchOne();
+
+        return aRole()
+                .withName(record.get(field(name("name")), String.class))
+                .withColor(ColorsUtils.fromHexadecimalToColor(record.get(field(name("color")), String.class)))
+                .withNumber(record.get(field(name("number")), Integer.class))
+                .withHomeCount(record.get(field(name("home_count")), Integer.class))
+                .isPlayer(record.get(field(name("player")), Boolean.class))
+                .isStaff(record.get(field(name("staff")), Boolean.class))
+                .build();
+    }
+
+}

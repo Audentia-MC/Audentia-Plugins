@@ -1,11 +1,11 @@
+fr/audentia/players/infrastructure/database/DatabaseConnection.java
+ fr.audentia.players.infrastructure.database.DatabaseConnection
 fr/audentia/players/utils/ChatUtils.java
  fr.audentia.players.utils.ChatUtils
-fr/audentia/players/infrastructure/repositories/teams/MariaDbTeamsRepository.java
- fr.audentia.players.infrastructure.repositories.teams.MariaDbTeamsRepository
+fr/audentia/players/domain/model/roles/Role.java
+ fr.audentia.players.domain.model.roles.Role
 fr/audentia/players/domain/teams/DefaultTeamsManager.java
  fr.audentia.players.domain.teams.DefaultTeamsManager
-fr/audentia/players/domain/model/Role.java
- fr.audentia.players.domain.model.Role
 fr/audentia/players/main/AudentiaPlayersManagersProvider.java
  fr.audentia.players.main.AudentiaPlayersManagersProvider
 fr/audentia/players/main/AudentiaPlayers.java
@@ -20,19 +20,25 @@ fr/audentia/players/main/CommandsManager.java
  fr.audentia.players.main.CommandsManager
 fr/audentia/players/utils/ItemStackBuilder.java
  fr.audentia.players.utils.ItemStackBuilder
+fr/audentia/players/domain/model/roles/RoleBuilder.java
+ fr.audentia.players.domain.model.roles.RoleBuilder
 fr/audentia/players/domain/teams/RolesRepository.java
  fr.audentia.players.domain.teams.RolesRepository
 fr/audentia/players/domain/teams/TeamsRepository.java
  fr.audentia.players.domain.teams.TeamsRepository
-fr/audentia/players/domain/teams/Team.java
- fr.audentia.players.domain.teams.Team
-fr/audentia/players/infrastructure/repositories/MariaDbRolesRepository.java
- fr.audentia.players.infrastructure.repositories.MariaDbRolesRepository
+fr/audentia/players/infrastructure/roles/MariaDbRolesRepository.java
+ fr.audentia.players.infrastructure.roles.MariaDbRolesRepository
 fr/audentia/players/domain/model/balance/Balance.java
  fr.audentia.players.domain.model.balance.Balance
 fr/audentia/players/main/ListenersManager.java
  fr.audentia.players.main.ListenersManager
+fr/audentia/players/infrastructure/database/DatabaseConnectionBuilder.java
+ fr.audentia.players.infrastructure.database.DatabaseConnectionBuilder
 fr/audentia/players/domain/model/Day.java
  fr.audentia.players.domain.model.Day
+fr/audentia/players/domain/model/teams/Team.java
+ fr.audentia.players.domain.model.teams.Team
 fr/audentia/players/main/TasksManager.java
  fr.audentia.players.main.TasksManager
+fr/audentia/players/infrastructure/teams/MariaDbTeamsRepository.java
+ fr.audentia.players.infrastructure.teams.MariaDbTeamsRepository

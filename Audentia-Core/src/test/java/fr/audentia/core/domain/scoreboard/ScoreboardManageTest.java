@@ -3,10 +3,10 @@ package fr.audentia.core.domain.scoreboard;
 import fr.audentia.core.domain.bank.TimeProvider;
 import fr.audentia.core.domain.game.GamesInfosRepository;
 import fr.audentia.core.domain.model.scoreboard.Event;
-import fr.audentia.players.domain.model.Role;
+import fr.audentia.players.domain.model.roles.Role;
 import fr.audentia.players.domain.model.balance.Balance;
 import fr.audentia.players.domain.teams.RolesRepository;
-import fr.audentia.players.domain.teams.Team;
+import fr.audentia.players.domain.model.teams.Team;
 import fr.audentia.players.domain.teams.TeamsManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import static fr.audentia.core.domain.model.scoreboard.ScoreboardBuilder.aScoreboard;
+import static fr.audentia.players.domain.model.roles.RoleBuilder.aRole;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -57,7 +58,14 @@ class ScoreboardManageTest {
 
         Team tony = new Team(Color.RED, new Balance(1), new HashMap<>(), "Tony");
         when(teamsManager.getTeamOfPlayer(any())).thenReturn(tony);
-        when(rolesRepository.getRole(any())).thenReturn(new Role(1, false, true, 0));
+        when(rolesRepository.getRole(any())).thenReturn(aRole()
+                .withName("Admin")
+                .withColor(Color.BLACK)
+                .withNumber(0)
+                .withHomeCount(1)
+                .isPlayer(true)
+                .isStaff(false)
+                .build());
         when(gamesInfosRepository.getStartTimeInSeconds()).thenReturn(1_000L);
         when(gamesInfosRepository.getGameDurationInSeconds()).thenReturn(951_400L);
         when(timeProvider.getActualTimeInSeconds()).thenReturn(920_306L);
@@ -81,7 +89,14 @@ class ScoreboardManageTest {
 
         Team tony = new Team(Color.RED, new Balance(2), new HashMap<>(), "Manu");
         when(teamsManager.getTeamOfPlayer(any())).thenReturn(tony);
-        when(rolesRepository.getRole(any())).thenReturn(new Role(1, false, true, 0));
+        when(rolesRepository.getRole(any())).thenReturn(aRole()
+                .withName("Admin")
+                .withColor(Color.BLACK)
+                .withNumber(0)
+                .withHomeCount(1)
+                .isPlayer(true)
+                .isStaff(false)
+                .build());
         when(gamesInfosRepository.getStartTimeInSeconds()).thenReturn(0L);
         when(gamesInfosRepository.getGameDurationInSeconds()).thenReturn(950_400L);
         when(timeProvider.getActualTimeInSeconds()).thenReturn(1L);
@@ -105,7 +120,14 @@ class ScoreboardManageTest {
 
         Team tony = new Team(Color.RED, new Balance(2), new HashMap<>(), "Manu");
         when(teamsManager.getTeamOfPlayer(any())).thenReturn(tony);
-        when(rolesRepository.getRole(any())).thenReturn(new Role(1, false, false, 0));
+        when(rolesRepository.getRole(any())).thenReturn(aRole()
+                .withName("Admin")
+                .withColor(Color.BLACK)
+                .withNumber(0)
+                .withHomeCount(1)
+                .isPlayer(false)
+                .isStaff(false)
+                .build());
         when(gamesInfosRepository.getStartTimeInSeconds()).thenReturn(0L);
         when(gamesInfosRepository.getGameDurationInSeconds()).thenReturn(950_400L);
         when(timeProvider.getActualTimeInSeconds()).thenReturn(784_809L);

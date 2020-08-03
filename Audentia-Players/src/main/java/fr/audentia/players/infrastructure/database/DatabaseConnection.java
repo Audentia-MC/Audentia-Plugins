@@ -1,4 +1,4 @@
-package fr.audentia.core.infrastructure.database;
+package fr.audentia.players.infrastructure.database;
 
 
 import com.zaxxer.hikari.HikariDataSource;
@@ -6,6 +6,7 @@ import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
@@ -30,8 +31,19 @@ public class DatabaseConnection {
         dataSource.setMinimumIdle(0);
     }
 
-    public DSLContext getDatabaseContext() throws SQLException {
-        return DSL.using(dataSource.getConnection(), SQLDialect.MARIADB);
+    public DSLContext getDatabaseContext() {
+
+        try (Connection connection = dataSource.getConnection()) {
+
+            return DSL.using(dataSource.getConnection(), SQLDialect.MARIADB);
+
+        } catch (SQLException exception) {
+
+            exception.printStackTrace();
+            return null;
+
+        }
+
     }
 
 }

@@ -1,6 +1,6 @@
 package fr.audentia.core.domain.staff.ban;
 
-import fr.audentia.players.domain.model.Role;
+import fr.audentia.players.domain.model.roles.Role;
 import fr.audentia.players.domain.teams.RolesRepository;
 
 import java.util.UUID;

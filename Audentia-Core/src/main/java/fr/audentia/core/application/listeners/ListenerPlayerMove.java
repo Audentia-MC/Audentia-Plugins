@@ -17,7 +17,7 @@ public class ListenerPlayerMove implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
 
-        if (this.gamesInfosRepository.getGameState() == GameState.PENDANT) {
+        if (this.gamesInfosRepository.getGameState() == GameState.PLAYING) {
             return;
         }
 

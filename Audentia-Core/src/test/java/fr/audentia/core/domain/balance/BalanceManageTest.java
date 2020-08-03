@@ -1,7 +1,7 @@
 package fr.audentia.core.domain.balance;
 
 import fr.audentia.players.domain.model.balance.Balance;
-import fr.audentia.players.domain.teams.Team;
+import fr.audentia.players.domain.model.teams.Team;
 import fr.audentia.players.domain.teams.TeamsManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
