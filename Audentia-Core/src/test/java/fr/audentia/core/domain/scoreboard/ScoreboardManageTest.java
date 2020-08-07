@@ -115,6 +115,36 @@ class ScoreboardManageTest {
     }
 
     @Test
+    @DisplayName("updateScoreboard shouldn't have an event line when there is 0 futur event")
+    void updateScoreboard_shouldNotHaveEventLine_whenThereIsFuturEvent() {
+
+        Team tony = new Team(Color.RED, new Balance(2), new HashMap<>(), "Manu");
+        when(teamsManager.getTeamOfPlayer(any())).thenReturn(tony);
+        when(rolesRepository.getRole(any())).thenReturn(aRole()
+                .withName("Admin")
+                .withColor(Color.BLACK)
+                .withNumber(0)
+                .withHomeCount(1)
+                .isPlayer(true)
+                .isStaff(false)
+                .build());
+        when(gamesInfosRepository.getStartTimeInSeconds()).thenReturn(0L);
+        when(gamesInfosRepository.getGameDurationInSeconds()).thenReturn(950_400L);
+        when(timeProvider.getActualTimeInSeconds()).thenReturn(1L);
+        when(eventsRepository.getNextEvent()).thenReturn(new Event(0));
+
+        scoreboardManage.updateScoreboard(UUID.randomUUID());
+
+        verify(scoreboardsRepository, times(1)).updateScoreboard(any(), eq(aScoreboard()
+                .withHeader("----= Audentia =----")
+                .addContent("&#FF0000Team Manu")
+                .addContent("2 émeraudes")
+                .addContent("Temps : 00:00:00:01 / 11:00:00:00")
+                .withFooter("----= audentia.fr =----")
+                .build()));
+    }
+
+    @Test
     @DisplayName("updateScoreboard should return empty scoreboard when player is not a player")
     void updateScoreboard_shouldReturnEmptyScoreboard_whenPlayerIsNotAPlayer() {
 

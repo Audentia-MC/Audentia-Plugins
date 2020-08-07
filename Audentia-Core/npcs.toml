@@ -1,0 +1,20 @@
+names = [
+    "Tony",
+    "Manu"
+]
+
+[npcs]
+
+    [Tony]
+    x = 0
+    y = 0
+    z = 0
+    yaw = 0
+    pitch = 0
+
+    [Manu]
+    x = 0
+    y = 0
+    z = 0
+    yaw = 0
+    pitch = 0

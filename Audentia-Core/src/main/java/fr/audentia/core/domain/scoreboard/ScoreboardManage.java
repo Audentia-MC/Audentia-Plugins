@@ -56,13 +56,16 @@ public class ScoreboardManage {
 
         long actualTime = timeProvider.getActualTimeInSeconds();
         long gameDuration = gamesInfosRepository.getGameDurationInSeconds();
+        String duration = getDuration(actualTime);
+        builder.addContent("Temps : " + duration + " / " + getDuration(gameDuration));
+
         long nextEventTime = eventsRepository.getNextEvent().time;
 
-        String duration = getDuration(actualTime);
-        scoreboardsRepository.updateScoreboard(playerUUID, builder.addContent("Temps : " + duration + " / " + getDuration(gameDuration))
-                .addContent("Prochain event : " + getDuration(nextEventTime))
-                .withFooter("----= audentia.fr =----")
-                .build());
+        if (nextEventTime != 0) {
+            builder.addContent("Prochain event : " + getDuration(nextEventTime));
+        }
+
+        scoreboardsRepository.updateScoreboard(playerUUID, builder.withFooter("----= audentia.fr =----").build());
     }
 
     private String getDuration(long time) {
