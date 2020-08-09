@@ -1,0 +1,5 @@
+[database]
+user = "Tony"
+password = "12345"
+host = "100.100.100.100"
+database = "magic_world"

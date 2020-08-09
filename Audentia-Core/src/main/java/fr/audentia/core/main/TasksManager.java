@@ -1,8 +1,11 @@
 package fr.audentia.core.main;
 
+import fr.audentia.core.application.tasks.ScoreboardTask;
 import org.bukkit.plugin.Plugin;
 
 public class TasksManager {
+
+    public static final int SCOREBOARD_PERIOD = 10;
 
     private final Plugin plugin;
     private final AudentiaCoreManagersProvider provider;
@@ -14,7 +17,7 @@ public class TasksManager {
 
     public void startTasks() {
 
-//        Bukkit.getScheduler().runTaskTimerAsynchronously(this.plugin, , 0, 20);
+        new ScoreboardTask(provider.scoreboardManage).runTaskTimerAsynchronously(this.plugin, 0, SCOREBOARD_PERIOD);
 
     }
 

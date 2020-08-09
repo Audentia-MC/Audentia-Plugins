@@ -26,8 +26,8 @@ fr/audentia/players/domain/teams/RolesRepository.java
  fr.audentia.players.domain.teams.RolesRepository
 fr/audentia/players/domain/teams/TeamsRepository.java
  fr.audentia.players.domain.teams.TeamsRepository
-fr/audentia/players/infrastructure/roles/MariaDbRolesRepository.java
- fr.audentia.players.infrastructure.roles.MariaDbRolesRepository
+fr/audentia/players/infrastructure/teams/MariaDbTeamsRepository.java
+ fr.audentia.players.infrastructure.teams.MariaDbTeamsRepository
 fr/audentia/players/domain/model/balance/Balance.java
  fr.audentia.players.domain.model.balance.Balance
 fr/audentia/players/main/ListenersManager.java
@@ -40,5 +40,7 @@ fr/audentia/players/domain/model/teams/Team.java
  fr.audentia.players.domain.model.teams.Team
 fr/audentia/players/main/TasksManager.java
  fr.audentia.players.main.TasksManager
-fr/audentia/players/infrastructure/teams/MariaDbTeamsRepository.java
- fr.audentia.players.infrastructure.teams.MariaDbTeamsRepository
+fr/audentia/players/infrastructure/roles/MariaDbRolesRepository.java
+ fr.audentia.players.infrastructure.roles.MariaDbRolesRepository
+fr/audentia/players/utils/DataBaseConfigurationLoader.java
+ fr.audentia.players.utils.DataBaseConfigurationLoader

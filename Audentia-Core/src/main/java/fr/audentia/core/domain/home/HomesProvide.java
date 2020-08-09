@@ -24,7 +24,7 @@ public class HomesProvide {
         return "<success>Liste de vos homes :" + buildHomesMessage(homeLocations);
     }
 
-    private StringBuilder buildHomesMessage(List<HomeLocation> homeLocations) {
+    private StringBuilder buildHomesMessage(List<HomeLocation> homeLocations) { // TODO: test \n
         StringBuilder homes = new StringBuilder();
 
         for (int i = 0; i < homeLocations.size(); i++) {

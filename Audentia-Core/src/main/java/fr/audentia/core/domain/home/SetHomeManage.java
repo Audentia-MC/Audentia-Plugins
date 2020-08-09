@@ -26,6 +26,10 @@ public class SetHomeManage {
 
         Role role = rolesRepository.getRole(playerUUID);
 
+        if (homeNumber < 1) {
+            return "<error>Ce numéro est indisponible.";
+        }
+
         if (homeNumber > role.homeCount) {
             return "<error>Votre role ne vous permet pas d'avoir un home n°" + homeNumber + ".";
         }

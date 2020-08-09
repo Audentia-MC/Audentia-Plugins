@@ -1,7 +1,6 @@
 package fr.audentia.core.main;
 
-import fr.audentia.core.application.commands.CommandAbout;
-import fr.audentia.core.application.commands.CommandBalance;
+import fr.audentia.core.application.commands.*;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
@@ -31,7 +30,12 @@ public class CommandsManager {
         Map<PluginCommand, CommandExecutor> loadedCommands = new HashMap<>();
 
         loadedCommands.put(getCommand("about"), new CommandAbout(version));
-//        loadedCommands.put(getCommand("balance"), new CommandBalance(provider.balanceManage));
+        loadedCommands.put(getCommand("balance"), new CommandBalance(provider.balanceManage));
+        loadedCommands.put(getCommand("home"), new CommandHome(provider.homeManage));
+        loadedCommands.put(getCommand("homes"), new CommandHomes(provider.homesProvide));
+        loadedCommands.put(getCommand("sethome"), new CommandSetHome(provider.setHomeManage));
+        loadedCommands.put(getCommand("bank"), new CommandBank(provider.bankSlotsProvide));
+        loadedCommands.put(getCommand("staff"), new CommandStaff(provider.staffInventoryOpen));
 
         return loadedCommands;
     }

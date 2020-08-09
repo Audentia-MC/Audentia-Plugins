@@ -2,6 +2,8 @@ package fr.audentia.players.main;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+
 public class AudentiaPlayers extends JavaPlugin {
 
     public static final String VERSION = "0.1.0";
@@ -13,7 +15,12 @@ public class AudentiaPlayers extends JavaPlugin {
     private TasksManager tasksManager;
 
     private void loadPlugin() {
-        MANAGERS_PROVIDER = new AudentiaPlayersManagersProvider();
+
+        if (!this.getDataFolder().exists()) {
+            this.getDataFolder().mkdirs();
+        }
+
+        MANAGERS_PROVIDER = new AudentiaPlayersManagersProvider(this.getDataFolder().getPath() + File.separator + "configuration.toml");
         this.commandsManager = new CommandsManager(this, VERSION, MANAGERS_PROVIDER);
         this.listenersManager = new ListenersManager(this, MANAGERS_PROVIDER);
         this.tasksManager = new TasksManager(this, MANAGERS_PROVIDER);
@@ -25,10 +32,6 @@ public class AudentiaPlayers extends JavaPlugin {
         System.out.println("Le plugin Audentia s'allume.");
 
         loadPlugin();
-
-        if (!this.getDataFolder().exists()) {
-            this.getDataFolder().mkdirs();
-        }
 
         this.commandsManager.registerCommands();
         this.listenersManager.registerListeners();

@@ -4,6 +4,7 @@ import fr.audentia.players.main.AudentiaPlayers;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.logging.Logger;
 
 public class AudentiaCore extends JavaPlugin {
@@ -17,8 +18,13 @@ public class AudentiaCore extends JavaPlugin {
     private TasksManager tasksManager;
 
     private void loadPlugin() {
+
+        if (!this.getDataFolder().exists()) {
+            this.getDataFolder().mkdirs();
+        }
+
         AudentiaPlayers audentiaPlayers = (AudentiaPlayers) Bukkit.getServer().getPluginManager().getPlugin("Audentia-Players");
-        managersProvider = new AudentiaCoreManagersProvider(audentiaPlayers.getManagersProvider());
+        managersProvider = new AudentiaCoreManagersProvider(audentiaPlayers.getManagersProvider(), this.getDataFolder().getPath() + File.separator + "configuration.toml");
 
         this.commandsManager = new CommandsManager(this, VERSION, managersProvider);
         this.listenersManager = new ListenersManager(this, managersProvider);
@@ -31,10 +37,6 @@ public class AudentiaCore extends JavaPlugin {
         Logger.getLogger("Minecraft").info("Le plugin Audentia s'allume.");
 
         loadPlugin();
-
-        if (!this.getDataFolder().exists()) {
-            this.getDataFolder().mkdirs();
-        }
 
         this.commandsManager.registerCommands();
         this.listenersManager.registerListeners();

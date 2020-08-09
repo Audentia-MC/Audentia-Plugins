@@ -4,22 +4,25 @@ import fr.audentia.players.domain.teams.DefaultTeamsManager;
 import fr.audentia.players.domain.teams.RolesRepository;
 import fr.audentia.players.domain.teams.TeamsManager;
 import fr.audentia.players.domain.teams.TeamsRepository;
+import fr.audentia.players.infrastructure.database.DatabaseConnection;
 import fr.audentia.players.infrastructure.roles.MariaDbRolesRepository;
 import fr.audentia.players.infrastructure.teams.MariaDbTeamsRepository;
+import fr.audentia.players.utils.DataBaseConfigurationLoader;
 
 public class AudentiaPlayersManagersProvider {
 
-//    private final TeamsRepository TEAMS_REPOSITORY;
-//    private final RolesRepository ROLES_REPOSITORY;
+    public final RolesRepository ROLES_REPOSITORY;
 
-//    public final TeamsManager TEAMS_MANAGER;
+    public final TeamsManager TEAMS_MANAGER;
 
-    public AudentiaPlayersManagersProvider() {
+    public AudentiaPlayersManagersProvider(String path) {
 
-//        TEAMS_REPOSITORY = new MariaDbTeamsRepository();
-//        ROLES_REPOSITORY = new MariaDbRolesRepository(databaseConnection);
+        DatabaseConnection databaseConnection = DataBaseConfigurationLoader.loadConnection(path);
 
-//        TEAMS_MANAGER = new DefaultTeamsManager(TEAMS_REPOSITORY);
+        TeamsRepository TEAMS_REPOSITORY = new MariaDbTeamsRepository(databaseConnection);
+        ROLES_REPOSITORY = new MariaDbRolesRepository(databaseConnection);
+
+        TEAMS_MANAGER = new DefaultTeamsManager(TEAMS_REPOSITORY);
     }
 
 }
