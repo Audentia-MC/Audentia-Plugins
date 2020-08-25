@@ -1,10 +1,14 @@
 package fr.audentia.core.main;
 
+import fr.audentia.core.application.listeners.ListenerNpcInteract;
+import fr.audentia.core.application.listeners.ListenerPlayerConnect;
+import fr.audentia.core.application.listeners.ListenerPlayerInteract;
+import fr.audentia.core.application.listeners.ListenerPlayerMove;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListenersManager {
@@ -22,10 +26,14 @@ public class ListenersManager {
 
     private List<Listener> loadListeners() {
 
-        return Arrays.asList(
+        List<Listener> listeners = new ArrayList<>();
 
-        );
+        listeners.add(new ListenerPlayerConnect(provider.scoreboardManage));
+        listeners.add(new ListenerPlayerMove(provider.gameStateManage));
+        listeners.add(new ListenerPlayerInteract(provider.gameStateManage));
+        listeners.add(new ListenerNpcInteract(provider.npcInteract));
 
+        return listeners;
     }
 
     public void registerListeners() {

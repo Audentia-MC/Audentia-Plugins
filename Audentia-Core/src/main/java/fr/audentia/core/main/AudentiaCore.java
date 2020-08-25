@@ -49,6 +49,8 @@ public class AudentiaCore extends JavaPlugin {
 
         Logger.getLogger("Minecraft").info("Le plugin Audentia s'éteint.");
 
+        this.tasksManager.stopTasks();
+
     }
 
 

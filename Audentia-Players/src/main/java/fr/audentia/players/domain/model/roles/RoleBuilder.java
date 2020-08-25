@@ -10,6 +10,7 @@ public class RoleBuilder {
     private int homeCount;
     private Color color;
     private String name;
+    private String symbol;
 
     private RoleBuilder() {
     }
@@ -48,6 +49,11 @@ public class RoleBuilder {
         return this;
     }
 
+    public RoleBuilder withSymbol(String symbol) {
+        this.symbol = symbol;
+        return this;
+    }
+
     public Role build() {
         return new Role(this);
     }
@@ -74,6 +80,10 @@ public class RoleBuilder {
 
     public String getName() {
         return name;
+    }
+
+    public String getSymbol() {
+        return symbol;
     }
 
 }

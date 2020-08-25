@@ -5,9 +5,9 @@ import fr.audentia.core.domain.game.GamesInfosRepository;
 import fr.audentia.players.domain.model.Day;
 import fr.audentia.players.domain.model.teams.DayTransfers;
 import fr.audentia.players.domain.model.teams.Team;
-import fr.audentia.players.domain.teams.TeamsRepository;
+import fr.audentia.players.domain.teams.TeamsManager;
 
-import java.util.Optional;
+import java.awt.*;
 import java.util.UUID;
 
 public class BankManage {
@@ -16,22 +16,22 @@ public class BankManage {
     private final GamesInfosRepository gamesInfosRepository;
     private final BankSlotsRepository bankSlotsRepository;
     private final TimeProvider timeProvider;
-    private final TeamsRepository teamsRepository;
+    private final TeamsManager teamsManager;
 
-    public BankManage(BalanceManage balanceManage, GamesInfosRepository gamesInfosRepository, BankSlotsRepository bankSlotsRepository, TimeProvider timeProvider, TeamsRepository teamsRepository) {
+    public BankManage(BalanceManage balanceManage, GamesInfosRepository gamesInfosRepository, BankSlotsRepository bankSlotsRepository, TimeProvider timeProvider, TeamsManager teamsManager) {
         this.balanceManage = balanceManage;
         this.gamesInfosRepository = gamesInfosRepository;
         this.bankSlotsRepository = bankSlotsRepository;
         this.timeProvider = timeProvider;
-        this.teamsRepository = teamsRepository;
+        this.teamsManager = teamsManager;
     }
 
     public String depositEmeralds(UUID playerUUID, int count) {
 
         Day day = gamesInfosRepository.getDay();
-        Optional<Team> optionalTeam = teamsRepository.getTeamOfPlayer(playerUUID);
+        Team team = teamsManager.getTeamOfPlayer(playerUUID);
 
-        if (!optionalTeam.isPresent()) {
+        if (team.color == Color.BLACK) {
             return "<error>Votre groupe ne peut pas accéder à la banque.";
         }
 
@@ -39,7 +39,6 @@ public class BankManage {
             return "<error>La banque est fermée.";
         }
 
-        Team team = optionalTeam.get();
         if (!team.transfers.containsKey(day)) {
             team.transfers.put(day, new DayTransfers(0));
         }

@@ -9,7 +9,7 @@ import fr.audentia.players.domain.model.Day;
 import fr.audentia.players.domain.model.balance.Balance;
 import fr.audentia.players.domain.model.teams.DayTransfers;
 import fr.audentia.players.domain.model.teams.Team;
-import fr.audentia.players.domain.teams.TeamsRepository;
+import fr.audentia.players.domain.teams.TeamsManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ class BankManageTest {
     private TimeProvider timeProvider;
 
     @Mock
-    private TeamsRepository teamsRepository;
+    private TeamsManager teamsManager;
 
     @Mock
     private BankSlotsRepository bankSlotsRepository;
@@ -45,7 +45,7 @@ class BankManageTest {
 
     @BeforeEach
     void setUp() {
-        bankManage = new BankManage(balanceManage, gamesInfosRepository, bankSlotsRepository, timeProvider, teamsRepository);
+        bankManage = new BankManage(balanceManage, gamesInfosRepository, bankSlotsRepository, timeProvider, teamsManager);
     }
 
     @Test
@@ -57,7 +57,7 @@ class BankManageTest {
         when(gamesInfosRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
         when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(10);
-        when(teamsRepository.getTeamOfPlayer(any())).thenReturn(Optional.of(team));
+        when(teamsManager.getTeamOfPlayer(any())).thenReturn(team);
 
         String result = bankManage.depositEmeralds(UUID.randomUUID(), 1);
 
@@ -78,7 +78,7 @@ class BankManageTest {
         when(gamesInfosRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
         when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(10);
-        when(teamsRepository.getTeamOfPlayer(any())).thenReturn(Optional.of(team));
+        when(teamsManager.getTeamOfPlayer(any())).thenReturn(team);
 
         String result = bankManage.depositEmeralds(UUID.randomUUID(), 20);
 
@@ -94,7 +94,7 @@ class BankManageTest {
 
         when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(9);
-        when(teamsRepository.getTeamOfPlayer(any())).thenReturn(Optional.of(team));
+        when(teamsManager.getTeamOfPlayer(any())).thenReturn(team);
 
         String result = bankManage.depositEmeralds(UUID.randomUUID(), 1);
 
@@ -110,7 +110,7 @@ class BankManageTest {
 
         when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(12);
-        when(teamsRepository.getTeamOfPlayer(any())).thenReturn(Optional.of(team));
+        when(teamsManager.getTeamOfPlayer(any())).thenReturn(team);
 
         String result = bankManage.depositEmeralds(UUID.randomUUID(), 1);
 
@@ -130,7 +130,7 @@ class BankManageTest {
         when(gamesInfosRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
         when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(10);
-        when(teamsRepository.getTeamOfPlayer(any())).thenReturn(Optional.of(team));
+        when(teamsManager.getTeamOfPlayer(any())).thenReturn(team);
 
         String result = bankManage.depositEmeralds(UUID.randomUUID(), 1);
 
@@ -142,7 +142,9 @@ class BankManageTest {
     @DisplayName("depositEmeralds shouldn't call balanceManage when player is not a player")
     void depositEmeralds_shouldDoNothing_whenPeopleIsNotPlayer() {
 
-        when(teamsRepository.getTeamOfPlayer(any())).thenReturn(Optional.empty());
+        Team team = new Team(Color.BLACK, new Balance(0), new HashMap<>(), "Tony");
+
+        when(teamsManager.getTeamOfPlayer(any())).thenReturn(team);
 
         String result = bankManage.depositEmeralds(UUID.randomUUID(), 1);
 

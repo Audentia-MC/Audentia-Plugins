@@ -1,7 +1,7 @@
 package fr.audentia.core.application.listeners;
 
 import fr.audentia.core.domain.game.GameState;
-import fr.audentia.core.domain.game.GamesInfosRepository;
+import fr.audentia.core.domain.game.GameStateManage;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,13 +22,13 @@ public class ListenerPlayerInteractTest {
     private PlayerInteractEvent event;
 
     @Mock
-    private GamesInfosRepository gamesInfosRepository;
+    private GameStateManage gameStateManage;
 
     private ListenerPlayerInteract listenerPlayerInteract;
 
     @BeforeEach
     void setUp() {
-        listenerPlayerInteract = new ListenerPlayerInteract(gamesInfosRepository);
+        listenerPlayerInteract = new ListenerPlayerInteract(gameStateManage);
         doCallRealMethod().when(event).useInteractedBlock();
         doCallRealMethod().when(event).useItemInHand();
         lenient().doCallRealMethod().when(event).setUseInteractedBlock(any());
@@ -39,7 +39,7 @@ public class ListenerPlayerInteractTest {
     @DisplayName("On interact interaction should be cancelled at pre")
     void onInteract_shouldBeCancelledAtPre() {
 
-        when(gamesInfosRepository.getGameState()).thenReturn(GameState.WAITING);
+        when(gameStateManage.isPlaying()).thenReturn(false);
 
         listenerPlayerInteract.onPlayerInteract(event);
 
@@ -52,7 +52,7 @@ public class ListenerPlayerInteractTest {
     @DisplayName("On interact interaction should be cancelled at post")
     void onInteract_shouldBeCancelledAtPost() {
 
-        when(this.gamesInfosRepository.getGameState()).thenReturn(GameState.PAUSED);
+        when(this.gameStateManage.isPlaying()).thenReturn(false);
 
         listenerPlayerInteract.onPlayerInteract(event);
 
@@ -65,7 +65,7 @@ public class ListenerPlayerInteractTest {
     @DisplayName("On interact interaction should be not cancelled pendant game")
     void onInteract_shouldNotBeCancelledATPendant() {
 
-        when(gamesInfosRepository.getGameState()).thenReturn(GameState.PLAYING);
+        when(gameStateManage.isPlaying()).thenReturn(true);
 
         listenerPlayerInteract.onPlayerInteract(event);
 

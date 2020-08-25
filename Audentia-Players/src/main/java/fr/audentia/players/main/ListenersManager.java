@@ -1,5 +1,6 @@
 package fr.audentia.players.main;
 
+import fr.audentia.players.application.ListenerChat;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -22,10 +23,9 @@ public class ListenersManager {
 
     private List<Listener> loadListeners() {
 
-        return Arrays.asList(
+        listeners.add(new ListenerChat(provider.messageFormat));
 
-        );
-
+        return listeners;
     }
 
     public void registerListeners() {

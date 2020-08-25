@@ -8,10 +8,10 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 
 public class ListenerNpcInteract implements Listener {
 
-    private NpcInteract bankInventoryOpen;
+    private NpcInteract npcInteract;
 
-    public ListenerNpcInteract(NpcInteract bankInventoryOpen) {
-        this.bankInventoryOpen = bankInventoryOpen;
+    public ListenerNpcInteract(NpcInteract npcInteract) {
+        this.npcInteract = npcInteract;
     }
 
     @EventHandler
@@ -21,7 +21,7 @@ public class ListenerNpcInteract implements Listener {
             return;
         }
 
-        bankInventoryOpen.interactWithNpc(event.getPlayer().getUniqueId(), event.getRightClicked().getName());
+        npcInteract.interactWithNpc(event.getPlayer().getUniqueId(), event.getRightClicked().getName());
     }
 
 }

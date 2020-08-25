@@ -1,12 +1,15 @@
 package fr.audentia.core.main;
 
 import fr.audentia.core.domain.balance.BalanceManage;
-import fr.audentia.core.domain.bank.BankSlotsProvide;
-import fr.audentia.core.domain.bank.BankSlotsRepository;
-import fr.audentia.core.domain.bank.TimeProvider;
+import fr.audentia.core.domain.bank.*;
+import fr.audentia.core.domain.border.BorderCreate;
+import fr.audentia.core.domain.border.BorderInfosRepository;
+import fr.audentia.core.domain.border.BorderSpawner;
 import fr.audentia.core.domain.event.EventProvider;
+import fr.audentia.core.domain.game.GameStateManage;
 import fr.audentia.core.domain.game.GamesInfosRepository;
 import fr.audentia.core.domain.home.*;
+import fr.audentia.core.domain.npc.*;
 import fr.audentia.core.domain.scoreboard.EventsRepository;
 import fr.audentia.core.domain.scoreboard.ScoreboardManage;
 import fr.audentia.core.domain.scoreboard.ScoreboardsRepository;
@@ -22,12 +25,16 @@ import fr.audentia.core.domain.staff.kick.KickAction;
 import fr.audentia.core.domain.staff.kick.PlayerKicker;
 import fr.audentia.core.domain.staff.teleport.PlayerTeleporter;
 import fr.audentia.core.domain.staff.teleport.TeleportAction;
-import fr.audentia.core.infrastructure.bank.DefaultTimeProvider;
-import fr.audentia.core.infrastructure.bank.MariaDbBankSlotsRepository;
+import fr.audentia.core.infrastructure.bank.*;
+import fr.audentia.core.infrastructure.border.SpigotBorderSpawner;
+import fr.audentia.core.infrastructure.border.TOMLBorderInfosRepository;
 import fr.audentia.core.infrastructure.game.MariaDbGamesInfosRepository;
 import fr.audentia.core.infrastructure.home.MariaDbHomeRepository;
 import fr.audentia.core.infrastructure.home.SpigotPlayerTeleport;
 import fr.audentia.core.infrastructure.home.SpigotWorldNameFinder;
+import fr.audentia.core.infrastructure.npc.SpigotNpcSpawner;
+import fr.audentia.core.infrastructure.npc.SpigotWorldNpcFinder;
+import fr.audentia.core.infrastructure.npc.TOMLNpcRepository;
 import fr.audentia.core.infrastructure.scoreboard.MariaDbEventsRepository;
 import fr.audentia.core.infrastructure.scoreboard.FastBoardScoreboardsRepository;
 import fr.audentia.core.infrastructure.staff.DefaultStaffInventoryOpener;
@@ -55,6 +62,12 @@ public class AudentiaCoreManagersProvider {
     public final LookInventoryAction lookInventoryAction;
     public final ScoreboardManage scoreboardManage;
     public final EventProvider eventProvider;
+    public final GameStateManage gameStateManage;
+    public final NpcInteract npcInteract;
+    public final BankInventoryInteract bankInventoryInteract;
+    public final BankManage bankManage;
+    public final NpcSpawn npcSpawn;
+    public final BorderCreate borderCreate;
 
     public AudentiaCoreManagersProvider(AudentiaPlayersManagersProvider audentiaPlayersManagersProvider, String path) {
 
@@ -74,22 +87,37 @@ public class AudentiaCoreManagersProvider {
         TimeProvider timeProvider = new DefaultTimeProvider();
         EventsRepository eventsRepository = new MariaDbEventsRepository(gamesInfosRepository, databaseConnection);
         ScoreboardsRepository scoreboardsRepository = new FastBoardScoreboardsRepository();
+        BankNpcProvider bankNpcProvider = new TOMLBankNpcProvider(path);
+        InventoryUtilities inventoryUtilities = new SpigotInventoryUtilities();
+        NpcSpawner npcSpawner = new SpigotNpcSpawner();
+        NpcRepository npcRepository = new TOMLNpcRepository(path);
+        WorldNpcFinder worldNpcFinder = new SpigotWorldNpcFinder();
+        BorderInfosRepository borderInfosRepository = new TOMLBorderInfosRepository(path);
+        BorderSpawner borderSpawner = new SpigotBorderSpawner();
 
-        this.banAction = new BanAction(playerBanner, banRepository, audentiaPlayersManagersProvider.ROLES_REPOSITORY);
-        this.kickAction = new KickAction(playerKicker, audentiaPlayersManagersProvider.ROLES_REPOSITORY);
-        this.teleportAction = new TeleportAction(playerTeleporterToOther, audentiaPlayersManagersProvider.ROLES_REPOSITORY, worldPlayerFinder);
-        this.lookInventoryAction = new LookInventoryAction(playerInventoryOpener, audentiaPlayersManagersProvider.ROLES_REPOSITORY, worldPlayerFinder);
+        this.banAction = new BanAction(playerBanner, banRepository, audentiaPlayersManagersProvider.rolesRepository);
+        this.kickAction = new KickAction(playerKicker, audentiaPlayersManagersProvider.rolesRepository);
+        this.teleportAction = new TeleportAction(playerTeleporterToOther, audentiaPlayersManagersProvider.rolesRepository, worldPlayerFinder);
+        this.lookInventoryAction = new LookInventoryAction(playerInventoryOpener, audentiaPlayersManagersProvider.rolesRepository, worldPlayerFinder);
+        this.balanceManage = new BalanceManage(audentiaPlayersManagersProvider.teamsManager);
+        this.bankManage = new BankManage(balanceManage, gamesInfosRepository, bankSlotsRepository, timeProvider, audentiaPlayersManagersProvider.teamsManager);
+        this.bankInventoryInteract = new BankInventoryInteract(inventoryUtilities, bankManage);
 
         StaffInventoryOpener staffInventoryOpener= new DefaultStaffInventoryOpener(banAction, kickAction, teleportAction, lookInventoryAction);
+        BankInventoryOpener bankInventoryOpener = new DefaultBankInventoryOpener(bankInventoryInteract);
+        BankInventoryOpen bankInventoryOpen = new BankInventoryOpen(audentiaPlayersManagersProvider.teamsManager, bankInventoryOpener, audentiaPlayersManagersProvider.rolesRepository);
 
-        this.balanceManage = new BalanceManage(audentiaPlayersManagersProvider.TEAMS_MANAGER);
         this.homeManage = new HomeManage(homeRepository, playerTeleporter);
-        this.setHomeManage = new SetHomeManage(homeRepository, audentiaPlayersManagersProvider.ROLES_REPOSITORY, worldNameFinder);
+        this.setHomeManage = new SetHomeManage(homeRepository, audentiaPlayersManagersProvider.rolesRepository, worldNameFinder);
         this.homesProvide = new HomesProvide(homeRepository);
         this.bankSlotsProvide = new BankSlotsProvide(gamesInfosRepository, bankSlotsRepository);
-        this.staffInventoryOpen = new StaffInventoryOpen(audentiaPlayersManagersProvider.ROLES_REPOSITORY, staffInventoryOpener, worldPlayerFinder);
-        this.scoreboardManage = new ScoreboardManage(audentiaPlayersManagersProvider.TEAMS_MANAGER, audentiaPlayersManagersProvider.ROLES_REPOSITORY, gamesInfosRepository, timeProvider, eventsRepository, scoreboardsRepository);
+        this.staffInventoryOpen = new StaffInventoryOpen(audentiaPlayersManagersProvider.rolesRepository, staffInventoryOpener, worldPlayerFinder);
+        this.scoreboardManage = new ScoreboardManage(audentiaPlayersManagersProvider.teamsManager, audentiaPlayersManagersProvider.rolesRepository, gamesInfosRepository, timeProvider, eventsRepository, scoreboardsRepository);
         this.eventProvider = new EventProvider(eventsRepository, gamesInfosRepository);
+        this.gameStateManage = new GameStateManage(gamesInfosRepository);
+        this.npcInteract = new NpcInteract(bankNpcProvider, bankInventoryOpen);
+        this.npcSpawn = new NpcSpawn(npcSpawner, npcRepository, worldNpcFinder);
+        this.borderCreate = new BorderCreate(borderInfosRepository, borderSpawner);
     }
 
 }

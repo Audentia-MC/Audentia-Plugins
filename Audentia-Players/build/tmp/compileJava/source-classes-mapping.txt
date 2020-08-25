@@ -6,10 +6,10 @@ fr/audentia/players/domain/model/roles/Role.java
  fr.audentia.players.domain.model.roles.Role
 fr/audentia/players/domain/teams/DefaultTeamsManager.java
  fr.audentia.players.domain.teams.DefaultTeamsManager
-fr/audentia/players/main/AudentiaPlayersManagersProvider.java
- fr.audentia.players.main.AudentiaPlayersManagersProvider
 fr/audentia/players/main/AudentiaPlayers.java
  fr.audentia.players.main.AudentiaPlayers
+fr/audentia/players/main/AudentiaPlayersManagersProvider.java
+ fr.audentia.players.main.AudentiaPlayersManagersProvider
 fr/audentia/players/domain/model/teams/DayTransfers.java
  fr.audentia.players.domain.model.teams.DayTransfers
 fr/audentia/players/utils/ColorsUtils.java
@@ -38,9 +38,9 @@ fr/audentia/players/domain/model/Day.java
  fr.audentia.players.domain.model.Day
 fr/audentia/players/domain/model/teams/Team.java
  fr.audentia.players.domain.model.teams.Team
-fr/audentia/players/main/TasksManager.java
- fr.audentia.players.main.TasksManager
 fr/audentia/players/infrastructure/roles/MariaDbRolesRepository.java
  fr.audentia.players.infrastructure.roles.MariaDbRolesRepository
+fr/audentia/players/main/TasksManager.java
+ fr.audentia.players.main.TasksManager
 fr/audentia/players/utils/DataBaseConfigurationLoader.java
  fr.audentia.players.utils.DataBaseConfigurationLoader
