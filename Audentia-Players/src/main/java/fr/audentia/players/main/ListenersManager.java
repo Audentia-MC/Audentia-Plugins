@@ -5,6 +5,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,6 +23,8 @@ public class ListenersManager {
     }
 
     private List<Listener> loadListeners() {
+
+        List<Listener> listeners = new ArrayList<>();
 
         listeners.add(new ListenerChat(provider.messageFormat));
 
