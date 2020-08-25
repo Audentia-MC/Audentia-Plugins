@@ -36,6 +36,7 @@ public class CommandsManager {
         loadedCommands.put(getCommand("sethome"), new CommandSetHome(provider.setHomeManage));
         loadedCommands.put(getCommand("bank"), new CommandBank(provider.bankSlotsProvide));
         loadedCommands.put(getCommand("staff"), new CommandStaff(provider.staffInventoryOpen));
+        loadedCommands.put(getCommand("event"), new CommandEvent(provider.eventProvider));
 
         return loadedCommands;
     }

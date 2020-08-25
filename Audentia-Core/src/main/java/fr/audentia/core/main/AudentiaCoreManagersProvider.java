@@ -4,6 +4,7 @@ import fr.audentia.core.domain.balance.BalanceManage;
 import fr.audentia.core.domain.bank.BankSlotsProvide;
 import fr.audentia.core.domain.bank.BankSlotsRepository;
 import fr.audentia.core.domain.bank.TimeProvider;
+import fr.audentia.core.domain.event.EventProvider;
 import fr.audentia.core.domain.game.GamesInfosRepository;
 import fr.audentia.core.domain.home.*;
 import fr.audentia.core.domain.scoreboard.EventsRepository;
@@ -53,6 +54,7 @@ public class AudentiaCoreManagersProvider {
     public final TeleportAction teleportAction;
     public final LookInventoryAction lookInventoryAction;
     public final ScoreboardManage scoreboardManage;
+    public final EventProvider eventProvider;
 
     public AudentiaCoreManagersProvider(AudentiaPlayersManagersProvider audentiaPlayersManagersProvider, String path) {
 
@@ -87,6 +89,7 @@ public class AudentiaCoreManagersProvider {
         this.bankSlotsProvide = new BankSlotsProvide(gamesInfosRepository, bankSlotsRepository);
         this.staffInventoryOpen = new StaffInventoryOpen(audentiaPlayersManagersProvider.ROLES_REPOSITORY, staffInventoryOpener, worldPlayerFinder);
         this.scoreboardManage = new ScoreboardManage(audentiaPlayersManagersProvider.TEAMS_MANAGER, audentiaPlayersManagersProvider.ROLES_REPOSITORY, gamesInfosRepository, timeProvider, eventsRepository, scoreboardsRepository);
+        this.eventProvider = new EventProvider(eventsRepository, gamesInfosRepository);
     }
 
 }
