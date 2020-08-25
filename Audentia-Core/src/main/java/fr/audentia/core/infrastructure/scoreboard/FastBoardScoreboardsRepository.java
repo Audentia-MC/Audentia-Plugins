@@ -1,4 +1,4 @@
-package fr.audentia.core.infrastructure.scoreboards;
+package fr.audentia.core.infrastructure.scoreboard;
 
 import fr.audentia.core.domain.model.scoreboard.Scoreboard;
 import fr.audentia.core.domain.scoreboard.ScoreboardsRepository;

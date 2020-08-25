@@ -20,7 +20,7 @@ public class MariaDbBanRepository implements BanRepository {
 
         databaseConnection.getDatabaseContext()
                 .insertInto(table(name("ban")))
-                .columns(field(name("banned_uuid")), field(name("staff_uuid")))
+                .columns(field(name("player_uuid")), field(name("staff_uuid")))
                 .values(bannedUUID.toString(), staffUUID.toString())
                 .execute();
     }

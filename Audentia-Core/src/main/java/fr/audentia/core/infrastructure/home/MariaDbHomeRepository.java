@@ -29,7 +29,7 @@ public class MariaDbHomeRepository implements HomeRepository {
         databaseConnection.getDatabaseContext()
                 .insertInto(table(name("home")))
                 .columns(field(name("player_uuid")),
-                        field(name("home_id")),
+                        field(name("home_number")),
                         field(name("x")),
                         field(name("y")),
                         field(name("z")))
@@ -51,7 +51,7 @@ public class MariaDbHomeRepository implements HomeRepository {
         Result<Record> result = databaseConnection.getDatabaseContext()
                 .selectFrom(table(name("home")))
                 .where(field(name("player_uuid")).eq(playerUUID.toString()))
-                .and(field(name("home_id")).eq(homeNumber))
+                .and(field(name("home_number")).eq(homeNumber))
                 .fetch();
 
         for (Record record : result) {
@@ -74,7 +74,7 @@ public class MariaDbHomeRepository implements HomeRepository {
         return databaseConnection.getDatabaseContext()
                 .selectFrom(table(name("home")))
                 .where(field(name("player_uuid")).eq(playerUUID.toString()))
-                .orderBy(field(name("home_id")))
+                .orderBy(field(name("home_number")))
                 .fetch()
                 .stream()
                 .map(record -> new HomeLocation(

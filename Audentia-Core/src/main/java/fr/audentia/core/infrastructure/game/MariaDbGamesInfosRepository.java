@@ -33,9 +33,9 @@ public class MariaDbGamesInfosRepository implements GamesInfosRepository {
 
         Record1<Object> record = databaseConnection.getDatabaseContext()
                 .select(field(name("limitation")))
-                .from(table(name("game_infos"))
-                        .join(table("emeralds_limitations"))
-                        .on(field(name("day")).eq(field(name("day_number")))))
+                .from(table(name("emeralds_limitation"))
+                        .join(table("game_infos"))
+                        .on(field(name("day_number")).eq(field(name("day")))))
                 .fetchOne();
 
         return new EmeraldsLimitation(record.get(field(name("limitation")), Integer.class));

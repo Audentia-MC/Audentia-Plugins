@@ -28,7 +28,7 @@ public class MariaDbEventsRepository implements EventsRepository {
 
         Result<Record1<Object>> result = databaseConnection.getDatabaseContext()
                 .select(field(name("time")))
-                .from(table(name("events")))
+                .from(table(name("event")))
                 .fetch();
 
         long nextEventTime = 0;

@@ -26,7 +26,7 @@ public class MariaDbBankSlotsRepository implements BankSlotsRepository {
 
         Result<Record2<Object, Object>> result = databaseConnection.getDatabaseContext()
                 .select(field(name("start")), field(name("end")))
-                .from(table(name("bank_slots")))
+                .from(table(name("bank_slot")))
                 .where(field(name("day")).eq(day.day))
                 .fetch();
 

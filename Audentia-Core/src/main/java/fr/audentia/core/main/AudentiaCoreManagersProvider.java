@@ -28,7 +28,7 @@ import fr.audentia.core.infrastructure.home.MariaDbHomeRepository;
 import fr.audentia.core.infrastructure.home.SpigotPlayerTeleport;
 import fr.audentia.core.infrastructure.home.SpigotWorldNameFinder;
 import fr.audentia.core.infrastructure.scoreboard.MariaDbEventsRepository;
-import fr.audentia.core.infrastructure.scoreboards.FastBoardScoreboardsRepository;
+import fr.audentia.core.infrastructure.scoreboard.FastBoardScoreboardsRepository;
 import fr.audentia.core.infrastructure.staff.DefaultStaffInventoryOpener;
 import fr.audentia.core.infrastructure.staff.SpigotWorldPlayerFinder;
 import fr.audentia.core.infrastructure.staff.ban.MariaDbBanRepository;
