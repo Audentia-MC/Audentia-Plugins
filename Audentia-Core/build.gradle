@@ -24,7 +24,6 @@ pitest {
     targetClasses = ['fr.audentia.core.*']
 }
 
-
 test {
     useJUnitPlatform {
         includeEngines 'junit-jupiter', 'junit-vintage'

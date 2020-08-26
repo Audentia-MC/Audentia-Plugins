@@ -37,6 +37,10 @@ public class CommandsManager {
         loadedCommands.put(getCommand("bank"), new CommandBank(provider.bankSlotsProvide));
         loadedCommands.put(getCommand("staff"), new CommandStaff(provider.staffInventoryOpen));
         loadedCommands.put(getCommand("event"), new CommandEvent(provider.eventProvider));
+        loadedCommands.put(getCommand("reloadAllPNJ"), new CommandReloadAllPNJ(provider.rolesRepository, provider.npcSpawn));
+        loadedCommands.put(getCommand("reloadPNJ"), new CommandReloadPNJ(provider.rolesRepository, provider.npcSpawn));
+
+        loadedCommands.put(getCommand("help"), new CommandHelp(loadedCommands));
 
         return loadedCommands;
     }

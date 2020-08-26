@@ -44,6 +44,7 @@ import fr.audentia.core.infrastructure.staff.ban.SpigotPlayerBanner;
 import fr.audentia.core.infrastructure.staff.inventory.SpigotPlayerInventoryOpener;
 import fr.audentia.core.infrastructure.staff.kick.SpigotPlayerKicker;
 import fr.audentia.core.infrastructure.staff.teleport.SpigotPlayerTeleporter;
+import fr.audentia.players.domain.teams.RolesRepository;
 import fr.audentia.players.infrastructure.database.DatabaseConnection;
 import fr.audentia.players.main.AudentiaPlayersManagersProvider;
 import fr.audentia.players.utils.DataBaseConfigurationLoader;
@@ -68,6 +69,7 @@ public class AudentiaCoreManagersProvider {
     public final BankManage bankManage;
     public final NpcSpawn npcSpawn;
     public final BorderCreate borderCreate;
+    public final RolesRepository rolesRepository;
 
     public AudentiaCoreManagersProvider(AudentiaPlayersManagersProvider audentiaPlayersManagersProvider, String path) {
 
@@ -118,6 +120,7 @@ public class AudentiaCoreManagersProvider {
         this.npcInteract = new NpcInteract(bankNpcProvider, bankInventoryOpen);
         this.npcSpawn = new NpcSpawn(npcSpawner, npcRepository, worldNpcFinder);
         this.borderCreate = new BorderCreate(borderInfosRepository, borderSpawner);
+        rolesRepository = audentiaPlayersManagersProvider.rolesRepository;
     }
 
 }
