@@ -7,6 +7,8 @@ import fr.audentia.players.infrastructure.database.DatabaseConnection;
 import org.jooq.Record1;
 import org.jooq.Result;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.Instant;
 
 import static org.jooq.impl.DSL.*;
@@ -26,7 +28,8 @@ public class MariaDbEventsRepository implements EventsRepository {
 
         long actualTime = Instant.now().getEpochSecond() - gamesInfosRepository.getStartTimeInSeconds();
 
-        Result<Record1<Object>> result = databaseConnection.getDatabaseContext()
+        Connection connection = databaseConnection.getConnection();
+        Result<Record1<Object>> result = databaseConnection.getDatabaseContext(connection)
                 .select(field(name("time")))
                 .from(table(name("event")))
                 .fetch();
@@ -40,6 +43,12 @@ public class MariaDbEventsRepository implements EventsRepository {
                 nextEventTime = time;
             }
 
+        }
+
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
 
         return new Event(nextEventTime);

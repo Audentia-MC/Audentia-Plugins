@@ -50,26 +50,31 @@ public class ColorsUtils {
 
     public static String fromColorToString(Color color) {
 
-        if (Color.BLUE == color) return "<blue";
+        if (Color.BLUE == color) return "<blue>";
 
-        if (Color.BLACK == color) return "<black";
+        if (Color.BLACK == color) return "<black>";
 
-        if (Color.RED == color) return "<red";
+        if (Color.RED == color) return "<red>";
 
-        if (Color.GREEN == color) return "<green";
+        if (Color.GREEN == color) return "<green>";
 
-        if (Color.GRAY == color) return "<gray";
+        if (Color.GRAY == color) return "<gray>";
 
-        if (Color.YELLOW == color) return "<yellow";
+        if (Color.YELLOW == color) return "<yellow>";
 
-        if (Color.PINK == color) return "<pink";
+        if (Color.PINK == color) return "<pink>";
 
-        if (Color.CYAN == color) return "<cyan";
+        if (Color.CYAN == color) return "<cyan>";
 
-        return "<white";
+        return "<white>";
     }
 
     public static Color fromHexadecimalToColor(String hex) {
+
+        if (hex == null || hex.length() < 7) {
+            return Color.WHITE;
+        }
+
         return new Color(
                 Integer.valueOf(hex.substring(1, 3), 16),
                 Integer.valueOf(hex.substring(3, 5), 16),

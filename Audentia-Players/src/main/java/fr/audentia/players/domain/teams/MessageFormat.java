@@ -10,22 +10,21 @@ import java.util.UUID;
 public class MessageFormat {
 
     private final RolesRepository rolesRepository;
-    private final DefaultTeamsManager teamsManager;
+    private final TeamsManager teamsManager;
 
-    public MessageFormat(RolesRepository rolesRepository, DefaultTeamsManager teamsManager) {
+    public MessageFormat(RolesRepository rolesRepository, TeamsManager teamsManager) {
         this.rolesRepository = rolesRepository;
         this.teamsManager = teamsManager;
     }
 
-    public String formatMessage(UUID playerUUID, String playerName, String content) {
+    public String formatMessage(UUID playerUUID) {
 
         Role role = rolesRepository.getRole(playerUUID);
         Team team = teamsManager.getTeamOfPlayer(playerUUID);
 
-        Color color = role.color != null ? role.color : team.color;
-        String symbol = role.symbol != null ? role.symbol : "";
+        Color color = role.color != Color.white ? role.color : team.color;
 
-        return ColorsUtils.fromColorToString(color) + symbol + "<white><" + ColorsUtils.fromColorToString(color) + playerName + "<white>> : " + content;
+        return "&" + ColorsUtils.fromColorToHexadecimal(color) + "[" + role.name + "] %s <white>: %s";
     }
 
 }

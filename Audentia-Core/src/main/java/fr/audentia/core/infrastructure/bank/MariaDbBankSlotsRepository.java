@@ -8,6 +8,8 @@ import fr.audentia.players.infrastructure.database.DatabaseConnection;
 import org.jooq.Record2;
 import org.jooq.Result;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +26,8 @@ public class MariaDbBankSlotsRepository implements BankSlotsRepository {
     @Override
     public BankSlots getBankOpenSlots(Day day) {
 
-        Result<Record2<Object, Object>> result = databaseConnection.getDatabaseContext()
+        Connection connection = databaseConnection.getConnection();
+        Result<Record2<Object, Object>> result = databaseConnection.getDatabaseContext(connection)
                 .select(field(name("start")), field(name("end")))
                 .from(table(name("bank_slot")))
                 .where(field(name("day")).eq(day.day))
@@ -33,6 +36,12 @@ public class MariaDbBankSlotsRepository implements BankSlotsRepository {
         List<Slot> slots = result.stream()
                 .map(this::buildSlot)
                 .collect(Collectors.toList());
+
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
         return new BankSlots(slots);
     }

@@ -4,8 +4,10 @@ import fr.audentia.players.domain.model.roles.Role;
 import fr.audentia.players.domain.teams.RolesRepository;
 import fr.audentia.players.infrastructure.database.DatabaseConnection;
 import fr.audentia.players.utils.ColorsUtils;
-import org.jooq.Record7;
+import org.jooq.Record6;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.UUID;
 
 import static fr.audentia.players.domain.model.roles.RoleBuilder.aRole;
@@ -22,13 +24,13 @@ public class MariaDbRolesRepository implements RolesRepository {
     @Override
     public Role getRole(UUID playerUUID) {
 
-        Record7<Object, Object, Object, Object, Object, Object, Object> record = databaseConnection.getDatabaseContext()
+        Connection connection = databaseConnection.getConnection();
+        Record6<Object, Object, Object, Object, Object, Object> record = databaseConnection.getDatabaseContext(connection)
                 .select(field(name("name")),
                         field(name("color")),
                         field(name("number")),
                         field(name("home_count")),
                         field(name("staff")),
-                        field(name("symbol")),
                         field(name("player")))
                 .from(table(name("player"))
                         .join(table(name("role")))
@@ -36,12 +38,17 @@ public class MariaDbRolesRepository implements RolesRepository {
                 .where(field(name("uuid")).eq(playerUUID.toString()))
                 .fetchOne();
 
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
         return aRole()
                 .withName(record.get(field(name("name")), String.class))
                 .withColor(ColorsUtils.fromHexadecimalToColor(record.get(field(name("color")), String.class)))
                 .withNumber(record.get(field(name("number")), Integer.class))
                 .withHomeCount(record.get(field(name("home_count")), Integer.class))
-                .withSymbol(record.get(field(name("symbol")), String.class))
                 .isPlayer(record.get(field(name("player")), Boolean.class))
                 .isStaff(record.get(field(name("staff")), Boolean.class))
                 .build();

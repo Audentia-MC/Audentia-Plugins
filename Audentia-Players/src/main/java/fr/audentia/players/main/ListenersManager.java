@@ -1,12 +1,11 @@
 package fr.audentia.players.main;
 
-import fr.audentia.players.application.ListenerChat;
+import fr.audentia.players.application.listeners.ListenerChat;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ListenersManager {

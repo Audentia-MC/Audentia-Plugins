@@ -10,7 +10,6 @@ public class Role {
     public final int homeCount;
     public final Color color;
     public final String name;
-    public final String symbol;
 
     public Role(RoleBuilder builder) {
         this.number = builder.getNumber();
@@ -19,7 +18,6 @@ public class Role {
         this.homeCount = builder.getHomeCount();
         this.color = builder.getColor();
         this.name = builder.getName();
-        this.symbol = builder.getSymbol();
     }
 
 }

@@ -19,7 +19,7 @@ public class DatabaseConnection {
     }
 
     private void setUpDataSource(DatabaseConnectionBuilder builder) {
-        dataSource.setJdbcUrl("jdbc:mysql://" + builder.getHost() + ":3306/" + builder.getDatabase());
+        dataSource.setJdbcUrl("jdbc:mysql://" + builder.getHost() + ":3360/" + builder.getDatabase());
         dataSource.setUsername(builder.getUser());
         dataSource.setPassword(builder.getPassword());
         dataSource.addDataSourceProperty("autoReconnect", true);
@@ -31,19 +31,20 @@ public class DatabaseConnection {
         dataSource.setMinimumIdle(0);
     }
 
-    public DSLContext getDatabaseContext() {
+    public Connection getConnection() {
 
-        try (Connection connection = dataSource.getConnection()) {
-
-            return DSL.using(dataSource.getConnection(), SQLDialect.MARIADB);
-
-        } catch (SQLException exception) {
-
-            exception.printStackTrace();
+        try {
+            return dataSource.getConnection();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
             return null;
-
         }
 
+    }
+
+    public DSLContext getDatabaseContext(Connection connection) {
+
+        return DSL.using(connection, SQLDialect.MARIADB);
     }
 
 }

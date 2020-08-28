@@ -1,4 +1,4 @@
-package fr.audentia.players.application;
+package fr.audentia.players.application.listeners;
 
 import fr.audentia.players.domain.teams.MessageFormat;
 import fr.audentia.players.utils.ChatUtils;
@@ -20,8 +20,8 @@ public class ListenerChat implements Listener {
 
         Player player = event.getPlayer();
 
-        String message = messageFormat.formatMessage(player.getUniqueId(), player.getName(), event.getMessage());
-        event.setMessage(ChatUtils.format(message));
+        String message = messageFormat.formatMessage(player.getUniqueId());
+        event.setFormat(ChatUtils.format(message));
     }
 
 }

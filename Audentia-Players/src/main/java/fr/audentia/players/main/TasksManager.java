@@ -1,5 +1,6 @@
 package fr.audentia.players.main;
 
+import fr.audentia.players.application.tasks.TabListTask;
 import org.bukkit.plugin.Plugin;
 
 public class TasksManager {
@@ -14,7 +15,7 @@ public class TasksManager {
 
     public void startTasks() {
 
-//        Bukkit.getScheduler().runTaskTimerAsynchronously(this.plugin, , 0, 20);
+        new TabListTask(provider.tabListProvider).runTaskTimerAsynchronously(this.plugin, 0, 20);
 
     }
 

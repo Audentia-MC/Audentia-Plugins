@@ -1,5 +1,6 @@
 package fr.audentia.players.main;
 
+import fr.audentia.players.domain.tablist.TabListProvider;
 import fr.audentia.players.domain.teams.*;
 import fr.audentia.players.infrastructure.database.DatabaseConnection;
 import fr.audentia.players.infrastructure.roles.MariaDbRolesRepository;
@@ -12,6 +13,7 @@ public class AudentiaPlayersManagersProvider {
     public final TeamsManager teamsManager;
 
     public final MessageFormat messageFormat;
+    public TabListProvider tabListProvider;
 
     public AudentiaPlayersManagersProvider(String path) {
 
@@ -21,7 +23,8 @@ public class AudentiaPlayersManagersProvider {
 
         this.rolesRepository = new MariaDbRolesRepository(databaseConnection);
         this.teamsManager = new DefaultTeamsManager(TEAMS_REPOSITORY);
-        this.messageFormat = new MessageFormat(rolesRepository, (DefaultTeamsManager) teamsManager);
+        this.messageFormat = new MessageFormat(rolesRepository, teamsManager);
+        this.tabListProvider = new TabListProvider(rolesRepository, teamsManager);
     }
 
 }

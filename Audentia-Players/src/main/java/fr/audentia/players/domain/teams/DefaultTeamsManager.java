@@ -5,7 +5,6 @@ import fr.audentia.players.domain.model.teams.Team;
 
 import java.awt.*;
 import java.util.HashMap;
-import java.util.Optional;
 import java.util.UUID;
 
 public class DefaultTeamsManager implements TeamsManager {
