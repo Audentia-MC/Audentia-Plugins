@@ -29,7 +29,7 @@ public class AudentiaPlayers extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        System.out.println("Le plugin Audentia s'allume.");
+        System.out.println("Le plugin Audentia Players s'allume.");
 
         loadPlugin();
 
@@ -42,7 +42,7 @@ public class AudentiaPlayers extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        System.out.println("Le plugin Audentia s'éteint.");
+        System.out.println("Le plugin Audentia Players s'éteint.");
 
     }
 

@@ -1,5 +1,6 @@
 package fr.audentia.protect.main;
 
+import fr.audentia.protect.application.listeners.SignBreakListener;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -10,10 +11,10 @@ import java.util.List;
 public class ListenersManager {
 
     private final Plugin plugin;
-    private final ManagersProvider provider;
+    private final AudentiaProtectManagersProvider provider;
     private final List<Listener> listeners;
 
-    public ListenersManager(Plugin plugin, ManagersProvider provider) {
+    public ListenersManager(Plugin plugin, AudentiaProtectManagersProvider provider) {
         this.plugin = plugin;
         this.provider = provider;
 
@@ -23,7 +24,7 @@ public class ListenersManager {
     private List<Listener> loadListeners() {
 
         return Arrays.asList(
-
+                new SignBreakListener(provider.houseAction)
         );
 
     }

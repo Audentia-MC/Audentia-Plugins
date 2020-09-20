@@ -12,6 +12,11 @@ dependencies {
     testImplementation group: 'junit', name: 'junit', version: '4.12'
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.16.1'
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.4.0'
+
     implementation group: 'org.spigotmc', name: 'spigot-api', version: '1.16.1-R0.1-SNAPSHOT'
+    implementation group: 'org.jooq', name: 'jooq', version: '3.13.4'
+    implementation group: 'org.jooq', name: 'jooq-meta', version: '3.13.4'
+    implementation group: 'org.jooq', name: 'jooq-codegen', version: '3.13.4'
+
     implementation project(':Audentia-Players')
 }

@@ -34,7 +34,7 @@ public class AudentiaCore extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        Logger.getLogger("Minecraft").info("Le plugin Audentia s'allume.");
+        Logger.getLogger("Minecraft").info("Le plugin Audentia Core s'allume.");
 
         loadPlugin();
 
@@ -47,7 +47,7 @@ public class AudentiaCore extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        Logger.getLogger("Minecraft").info("Le plugin Audentia s'éteint.");
+        Logger.getLogger("Minecraft").info("Le plugin Audentia Core s'éteint.");
 
         this.tasksManager.stopTasks();
 
