@@ -17,7 +17,7 @@ public class AudentiaProtectManagersProvider {
 
         HouseRepository houseRepository = new MariaDbHouseRepository(databaseConnection);
 
-        houseAction = new HouseAction(houseRepository);
+        houseAction = new HouseAction(houseRepository, audentiaPlayersManagersProvider.rolesRepository, audentiaPlayersManagersProvider.teamsManager);
     }
 
 }

@@ -18,13 +18,15 @@ public class DefaultTeamsManager implements TeamsManager {
     @Override
     public Team getTeamOfPlayer(UUID playerUUID) {
 
-        Team defaultTeam = new Team(Color.BLACK, new Balance(-1), new HashMap<>(), "Default team");
+        Team defaultTeam = new Team(Color.BLACK, new Balance(-1), new HashMap<>(), "Default team", -1);
 
         return teamsRepository.getTeamOfPlayer(playerUUID).orElse(defaultTeam);
     }
 
     @Override
     public void saveTeam(Team team) {
+
+        // TODO: save team
 
     }
 

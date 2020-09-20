@@ -52,7 +52,7 @@ class BankManageTest {
     @DisplayName("depositEmeralds should call balanceManage when bank is open and team hasn't reached daily limitation")
     void depositEmeralds_shouldAddEmeraldsToBalance_whenBankIsOpenAndTeamCanDepositEmeralds() {
 
-        Team team = new Team(Color.RED, new Balance(0), new HashMap<>(), "Tony");
+        Team team = new Team(Color.RED, new Balance(0), new HashMap<>(), "Tony", 0);
         when(balanceManage.addToBalance(any(), anyInt())).thenReturn("<success>Dépôt effectué.");
         when(gamesInfosRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
         when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
@@ -71,7 +71,7 @@ class BankManageTest {
 
         Map<Day, DayTransfers> transfers = new HashMap<>();
         transfers.put(new Day(1), new DayTransfers(118));
-        Team team = new Team(Color.RED, new Balance(0), transfers, "Tony");
+        Team team = new Team(Color.RED, new Balance(0), transfers, "Tony", 0);
 
         when(gamesInfosRepository.getDay()).thenReturn(new Day(1));
         when(balanceManage.addToBalance(any(), anyInt())).thenReturn("<success>Dépôt effectué.");
@@ -90,7 +90,7 @@ class BankManageTest {
     @DisplayName("depositEmeralds shouldn't call balanceManage when bank time is before a bank open slot")
     void depositEmeralds_shouldDoNothing_whenHourIsBeforeBankOpenSlot() {
 
-        Team team = new Team(Color.RED, new Balance(0), new HashMap<>(), "Tony");
+        Team team = new Team(Color.RED, new Balance(0), new HashMap<>(), "Tony", 0);
 
         when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(9);
@@ -106,7 +106,7 @@ class BankManageTest {
     @DisplayName("depositEmeralds shouldn't call balanceManage when bank time is after a bank open slot")
     void depositEmeralds_shouldDoNothing_whenHourIsAfterBankOpenSlot() {
 
-        Team team = new Team(Color.RED, new Balance(0), new HashMap<>(), "Tony");
+        Team team = new Team(Color.RED, new Balance(0), new HashMap<>(), "Tony", 0);
 
         when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(12);
@@ -124,7 +124,7 @@ class BankManageTest {
 
         Map<Day, DayTransfers> transfers = new HashMap<>();
         transfers.put(new Day(1), new DayTransfers(128));
-        Team team = new Team(Color.RED, new Balance(0), transfers, "Tony");
+        Team team = new Team(Color.RED, new Balance(0), transfers, "Tony", 0);
 
         when(gamesInfosRepository.getDay()).thenReturn(new Day(1));
         when(gamesInfosRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
@@ -142,7 +142,7 @@ class BankManageTest {
     @DisplayName("depositEmeralds shouldn't call balanceManage when player is not a player")
     void depositEmeralds_shouldDoNothing_whenPeopleIsNotPlayer() {
 
-        Team team = new Team(Color.BLACK, new Balance(0), new HashMap<>(), "Tony");
+        Team team = new Team(Color.BLACK, new Balance(0), new HashMap<>(), "Tony", 0);
 
         when(teamsManager.getTeamOfPlayer(any())).thenReturn(team);
 

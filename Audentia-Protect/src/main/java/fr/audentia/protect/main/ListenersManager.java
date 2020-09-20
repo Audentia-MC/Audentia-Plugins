@@ -1,5 +1,6 @@
 package fr.audentia.protect.main;
 
+import fr.audentia.protect.application.listeners.HouseBlockInteractListener;
 import fr.audentia.protect.application.listeners.SignBreakListener;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -24,7 +25,8 @@ public class ListenersManager {
     private List<Listener> loadListeners() {
 
         return Arrays.asList(
-                new SignBreakListener(provider.houseAction)
+                new SignBreakListener(provider.houseAction),
+                new HouseBlockInteractListener(provider.houseAction)
         );
 
     }

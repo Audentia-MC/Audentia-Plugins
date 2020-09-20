@@ -17,7 +17,7 @@ public class KickAction {
 
     public String kick(UUID staffUUID, UUID kickedUUID) {
 
-        Role role = rolesRepository.getRole(staffUUID); // TODO: review import
+        Role role = rolesRepository.getRole(staffUUID);
 
         if (!role.staff) {
             return "<error>Vous ne pouvez pas kick de joueur.";
