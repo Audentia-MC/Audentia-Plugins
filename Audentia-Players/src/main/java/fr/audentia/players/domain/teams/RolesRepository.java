@@ -8,4 +8,6 @@ public interface RolesRepository {
 
     Role getRole(UUID playerUUID);
 
+    void changeRole(UUID playerUUID, int roleNumber);
+
 }

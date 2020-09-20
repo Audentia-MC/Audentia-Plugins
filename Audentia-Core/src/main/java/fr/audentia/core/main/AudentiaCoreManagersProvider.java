@@ -19,6 +19,9 @@ import fr.audentia.core.domain.staff.WorldPlayerFinder;
 import fr.audentia.core.domain.staff.ban.BanAction;
 import fr.audentia.core.domain.staff.ban.BanRepository;
 import fr.audentia.core.domain.staff.ban.PlayerBanner;
+import fr.audentia.core.domain.staff.grade.GradeChangeAction;
+import fr.audentia.core.domain.staff.grade.GradeInventoryAction;
+import fr.audentia.core.domain.staff.grade.GradeInventoryOpener;
 import fr.audentia.core.domain.staff.inventory.LookInventoryAction;
 import fr.audentia.core.domain.staff.inventory.PlayerInventoryOpener;
 import fr.audentia.core.domain.staff.kick.KickAction;
@@ -35,12 +38,13 @@ import fr.audentia.core.infrastructure.home.SpigotWorldNameFinder;
 import fr.audentia.core.infrastructure.npc.SpigotNpcSpawner;
 import fr.audentia.core.infrastructure.npc.SpigotWorldNpcFinder;
 import fr.audentia.core.infrastructure.npc.TOMLNpcRepository;
-import fr.audentia.core.infrastructure.scoreboard.MariaDbEventsRepository;
 import fr.audentia.core.infrastructure.scoreboard.FastBoardScoreboardsRepository;
+import fr.audentia.core.infrastructure.scoreboard.MariaDbEventsRepository;
 import fr.audentia.core.infrastructure.staff.DefaultStaffInventoryOpener;
 import fr.audentia.core.infrastructure.staff.SpigotWorldPlayerFinder;
 import fr.audentia.core.infrastructure.staff.ban.MariaDbBanRepository;
 import fr.audentia.core.infrastructure.staff.ban.SpigotPlayerBanner;
+import fr.audentia.core.infrastructure.staff.grade.DefaultGradeInventoryOpener;
 import fr.audentia.core.infrastructure.staff.inventory.SpigotPlayerInventoryOpener;
 import fr.audentia.core.infrastructure.staff.kick.SpigotPlayerKicker;
 import fr.audentia.core.infrastructure.staff.teleport.SpigotPlayerTeleporter;
@@ -70,6 +74,8 @@ public class AudentiaCoreManagersProvider {
     public final NpcSpawn npcSpawn;
     public final BorderCreate borderCreate;
     public final RolesRepository rolesRepository;
+    public final GradeInventoryAction gradeInventoryAction;
+    public final GradeChangeAction gradeChangeAction;
 
     public AudentiaCoreManagersProvider(AudentiaPlayersManagersProvider audentiaPlayersManagersProvider, String path) {
 
@@ -104,10 +110,15 @@ public class AudentiaCoreManagersProvider {
         this.balanceManage = new BalanceManage(audentiaPlayersManagersProvider.teamsManager);
         this.bankManage = new BankManage(balanceManage, gamesInfosRepository, bankSlotsRepository, timeProvider, audentiaPlayersManagersProvider.teamsManager);
         this.bankInventoryInteract = new BankInventoryInteract(inventoryUtilities, bankManage);
+        this.gradeChangeAction = new GradeChangeAction(audentiaPlayersManagersProvider.rolesRepository);
 
-        StaffInventoryOpener staffInventoryOpener= new DefaultStaffInventoryOpener(banAction, kickAction, teleportAction, lookInventoryAction);
         BankInventoryOpener bankInventoryOpener = new DefaultBankInventoryOpener(bankInventoryInteract);
         BankInventoryOpen bankInventoryOpen = new BankInventoryOpen(audentiaPlayersManagersProvider.teamsManager, bankInventoryOpener, audentiaPlayersManagersProvider.rolesRepository);
+        GradeInventoryOpener gradeInventoryOpener = new DefaultGradeInventoryOpener(gradeChangeAction, audentiaPlayersManagersProvider.rolesRepository);
+
+        this.gradeInventoryAction = new GradeInventoryAction(audentiaPlayersManagersProvider.rolesRepository, gradeInventoryOpener);
+
+        StaffInventoryOpener staffInventoryOpener = new DefaultStaffInventoryOpener(banAction, kickAction, teleportAction, lookInventoryAction, gradeInventoryAction);
 
         this.homeManage = new HomeManage(homeRepository, playerTeleporter);
         this.setHomeManage = new SetHomeManage(homeRepository, audentiaPlayersManagersProvider.rolesRepository, worldNameFinder);

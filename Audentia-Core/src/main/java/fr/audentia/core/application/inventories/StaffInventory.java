@@ -1,6 +1,7 @@
 package fr.audentia.core.application.inventories;
 
 import fr.audentia.core.domain.staff.ban.BanAction;
+import fr.audentia.core.domain.staff.grade.GradeInventoryAction;
 import fr.audentia.core.domain.staff.inventory.LookInventoryAction;
 import fr.audentia.core.domain.staff.kick.KickAction;
 import fr.audentia.core.domain.staff.teleport.TeleportAction;
@@ -24,18 +25,20 @@ public class StaffInventory implements InventoryProvider {
     private final KickAction kickAction;
     private final TeleportAction teleportAction;
     private final LookInventoryAction lookInventoryAction;
+    private final GradeInventoryAction gradeInventoryAction;
     private final UUID targetUUID;
 
     public StaffInventory(BanAction banAction,
                           KickAction kickAction,
                           TeleportAction teleportAction,
                           LookInventoryAction lookInventoryAction,
-                          UUID targetUUID) {
+                          GradeInventoryAction gradeInventoryAction, UUID targetUUID) {
 
         this.banAction = banAction;
         this.kickAction = kickAction;
         this.teleportAction = teleportAction;
         this.lookInventoryAction = lookInventoryAction;
+        this.gradeInventoryAction = gradeInventoryAction;
         this.targetUUID = targetUUID;
     }
 
@@ -44,7 +47,8 @@ public class StaffInventory implements InventoryProvider {
                                      BanAction banAction,
                                      KickAction kickAction,
                                      TeleportAction teleportAction,
-                                     LookInventoryAction lookInventoryAction) {
+                                     LookInventoryAction lookInventoryAction,
+                                     GradeInventoryAction gradeInventoryAction) {
 
         Player target = Bukkit.getPlayer(targetUUID);
         if (target == null) {
@@ -54,7 +58,7 @@ public class StaffInventory implements InventoryProvider {
         SmartInventory.builder()
                 .id("staff")
                 .title("Menu de gestion : " + target.getName())
-                .provider(new StaffInventory(banAction, kickAction, teleportAction, lookInventoryAction, targetUUID))
+                .provider(new StaffInventory(banAction, kickAction, teleportAction, lookInventoryAction, gradeInventoryAction, targetUUID))
                 .closeable(true)
                 .size(3, 9)
                 .build()
@@ -101,9 +105,8 @@ public class StaffInventory implements InventoryProvider {
                         .addLore("Gérer le grade du joueur")
                         .build(),
                 event -> {
-                    String result = banAction.ban(player.getUniqueId(), targetUUID); // TODO : implement grade action
+                    String result = gradeInventoryAction.openGradeInventory(player.getUniqueId(), targetUUID);
                     player.sendMessage(ChatUtils.format(result));
-                    if (result.startsWith("<success>")) player.closeInventory();
                 }
         ));
 

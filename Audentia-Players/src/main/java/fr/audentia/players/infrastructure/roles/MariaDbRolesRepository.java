@@ -28,7 +28,7 @@ public class MariaDbRolesRepository implements RolesRepository {
         Record6<Object, Object, Object, Object, Object, Object> record = databaseConnection.getDatabaseContext(connection)
                 .select(field(name("name")),
                         field(name("color")),
-                        field(name("number")),
+                        field(name("id")),
                         field(name("home_count")),
                         field(name("staff")),
                         field(name("player")))
@@ -47,11 +47,32 @@ public class MariaDbRolesRepository implements RolesRepository {
         return aRole()
                 .withName(record.get(field(name("name")), String.class))
                 .withColor(ColorsUtils.fromHexadecimalToColor(record.get(field(name("color")), String.class)))
-                .withNumber(record.get(field(name("number")), Integer.class))
+                .withNumber(record.get(field(name("id")), Integer.class))
                 .withHomeCount(record.get(field(name("home_count")), Integer.class))
                 .isPlayer(record.get(field(name("player")), Boolean.class))
                 .isStaff(record.get(field(name("staff")), Boolean.class))
                 .build();
+    }
+
+    @Override
+    public void changeRole(UUID playerUUID, int roleNumber) {
+
+        Connection connection = databaseConnection.getConnection();
+        databaseConnection.getDatabaseContext(connection)
+                .insertInto(table(name("player")))
+                .columns(field(name("uuid")), field(name("team_id")), field(name("role_id")))
+                .values(playerUUID.toString(), null, roleNumber)
+                .onDuplicateKeyUpdate()
+                .set(field(name("role_id")), roleNumber)
+                .where(field(name("uuid")).eq(playerUUID.toString()))
+                .execute();
+
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
     }
 
 }
