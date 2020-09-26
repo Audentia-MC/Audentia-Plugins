@@ -10,4 +10,6 @@ public interface TeamsManager {
 
     void saveTeam(Team team);
 
+    void setHouse(UUID playerUUID, int id);
+
 }

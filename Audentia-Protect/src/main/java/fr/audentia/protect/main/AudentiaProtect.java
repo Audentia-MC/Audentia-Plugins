@@ -1,5 +1,6 @@
 package fr.audentia.protect.main;
 
+import fr.audentia.core.main.AudentiaCore;
 import fr.audentia.players.main.AudentiaPlayers;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,7 +24,8 @@ public class AudentiaProtect extends JavaPlugin {
         }
 
         AudentiaPlayers audentiaPlayers = (AudentiaPlayers) Bukkit.getServer().getPluginManager().getPlugin("Audentia-Players");
-        managerProvider = new AudentiaProtectManagersProvider(audentiaPlayers.getManagersProvider(), this.getDataFolder().getPath() + File.separator + "configuration.toml");
+        AudentiaCore audentiaCore = (AudentiaCore) Bukkit.getServer().getPluginManager().getPlugin("Audentia-Core");
+        managerProvider = new AudentiaProtectManagersProvider(audentiaPlayers.getManagersProvider(), audentiaCore.getManagersProvider(), this.getDataFolder().getPath() + File.separator + "configuration.toml");
 
         this.commandsManager = new CommandsManager(this, VERSION, managerProvider);
         this.listenersManager = new ListenersManager(this, managerProvider);

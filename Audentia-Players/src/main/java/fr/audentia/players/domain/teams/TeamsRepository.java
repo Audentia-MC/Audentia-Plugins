@@ -9,4 +9,6 @@ public interface TeamsRepository {
 
     Optional<Team> getTeamOfPlayer(UUID playerUUID);
 
+    void saveTeam(Team team);
+
 }

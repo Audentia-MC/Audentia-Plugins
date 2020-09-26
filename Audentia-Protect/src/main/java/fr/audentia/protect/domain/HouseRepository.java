@@ -9,4 +9,8 @@ public interface HouseRepository {
 
     House getHouse(int houseId);
 
+    boolean isBoughtBySign(Location location);
+
+    House getHouse(Location location);
+
 }

@@ -49,4 +49,17 @@ public class BalanceManage {
         return "<success>Dépôt effectué.";
     }
 
+    public void removeFromBalance(UUID playerUUID, int count) {
+
+        Team team = teamsManager.getTeamOfPlayer(playerUUID);
+        Balance balance = team.balance;
+
+        if (!balance.hasBalance()) {
+            return;
+        }
+
+        team = new Team(team.color, balance.remove(count), team.transfers, team.name, team.houseId);
+        teamsManager.saveTeam(team);
+    }
+
 }

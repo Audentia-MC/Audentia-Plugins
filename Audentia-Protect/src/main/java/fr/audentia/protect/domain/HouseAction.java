@@ -1,5 +1,6 @@
 package fr.audentia.protect.domain;
 
+import fr.audentia.core.domain.balance.BalanceManage;
 import fr.audentia.players.domain.model.roles.Role;
 import fr.audentia.players.domain.model.teams.Team;
 import fr.audentia.players.domain.teams.RolesRepository;
@@ -13,12 +14,14 @@ public class HouseAction {
 
     private final HouseRepository houseRepository;
     private final RolesRepository rolesRepository;
-    public final TeamsManager teamsManager;
+    private final TeamsManager teamsManager;
+    private final BalanceManage balanceManage;
 
-    public HouseAction(HouseRepository houseRepository, RolesRepository rolesRepository, TeamsManager teamsManager) {
+    public HouseAction(HouseRepository houseRepository, RolesRepository rolesRepository, TeamsManager teamsManager, BalanceManage balanceManage) {
         this.houseRepository = houseRepository;
         this.rolesRepository = rolesRepository;
         this.teamsManager = teamsManager;
+        this.balanceManage = balanceManage;
     }
 
     public boolean breakSign(Location location) {
@@ -46,6 +49,37 @@ public class HouseAction {
         boolean betweenZ = Math.min(house.block1Location.z, house.block2Location.z) <= location.z && location.z <= Math.max(house.block1Location.z, house.block2Location.z);
 
         return betweenX && betweenY && betweenZ;
+    }
+
+    public String buyHouse(Location location, UUID playerUUID) {
+
+        if (!houseRepository.isRegisteredSign(location)) {
+            return "";
+        }
+
+        if (houseRepository.isBoughtBySign(location)) {
+            return "";
+        }
+
+        int balance = Integer.parseInt(balanceManage.getBalance(playerUUID));
+        House house = houseRepository.getHouse(location);
+        Role role = rolesRepository.getRole(playerUUID);
+
+        if (role.staff) {
+            return "<error>Vous ne pouvez pas acheter une maison.";
+        }
+
+        if (house.level < role.number) {
+            return "<error>Cette maison est réservée à un grade plus grand que le votre.";
+        }
+
+        if (house.price > balance) {
+            return "<error>Vous n'avez pas assez d'argent pour acheter cette maison.";
+        }
+
+        teamsManager.setHouse(playerUUID, house.id);
+        balanceManage.removeFromBalance(playerUUID, house.price);
+        return "<success>Maison achetée.";
     }
 
 }

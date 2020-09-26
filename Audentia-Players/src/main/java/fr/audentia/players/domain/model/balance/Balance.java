@@ -16,6 +16,10 @@ public class Balance {
         return new Balance(balance + count);
     }
 
+    public Balance remove(int count) {
+        return new Balance(Math.max(0, balance - count));
+    }
+
     @Override
     public String toString() {
         return String.valueOf(balance);

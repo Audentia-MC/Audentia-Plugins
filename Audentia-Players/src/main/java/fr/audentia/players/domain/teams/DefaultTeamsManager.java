@@ -26,8 +26,17 @@ public class DefaultTeamsManager implements TeamsManager {
     @Override
     public void saveTeam(Team team) {
 
-        // TODO: save team
+        teamsRepository.saveTeam(team);
 
+    }
+
+    @Override
+    public void setHouse(UUID playerUUID, int id) {
+
+        Team team = getTeamOfPlayer(playerUUID);
+        Team newTeam = new Team(team.color, team.balance, team.transfers, team.name, id);
+
+        saveTeam(newTeam);
     }
 
 }

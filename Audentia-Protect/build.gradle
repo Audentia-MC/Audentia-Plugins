@@ -19,4 +19,5 @@ dependencies {
     implementation group: 'org.jooq', name: 'jooq-codegen', version: '3.13.4'
 
     implementation project(':Audentia-Players')
+    implementation project(':Audentia-Core')
 }

@@ -2,22 +2,22 @@ fr/audentia/players/infrastructure/database/DatabaseConnection.java
  fr.audentia.players.infrastructure.database.DatabaseConnection
 fr/audentia/players/domain/model/roles/Role.java
  fr.audentia.players.domain.model.roles.Role
-fr/audentia/players/utils/DataBaseConfigurationLoader.java
- fr.audentia.players.utils.DataBaseConfigurationLoader
-fr/audentia/players/infrastructure/roles/MariaDbRolesRepository.java
- fr.audentia.players.infrastructure.roles.MariaDbRolesRepository
+fr/audentia/players/domain/teams/DefaultTeamsManager.java
+ fr.audentia.players.domain.teams.DefaultTeamsManager
 fr/audentia/players/main/AudentiaPlayers.java
  fr.audentia.players.main.AudentiaPlayers
+fr/audentia/players/main/AudentiaPlayersManagersProvider.java
+ fr.audentia.players.main.AudentiaPlayersManagersProvider
 fr/audentia/players/domain/teams/TeamsManager.java
  fr.audentia.players.domain.teams.TeamsManager
 fr/audentia/players/main/CommandsManager.java
  fr.audentia.players.main.CommandsManager
 fr/audentia/players/infrastructure/database/DatabaseConnectionBuilder.java
  fr.audentia.players.infrastructure.database.DatabaseConnectionBuilder
-fr/audentia/players/domain/teams/MessageFormat.java
- fr.audentia.players.domain.teams.MessageFormat
 fr/audentia/players/application/listeners/ListenerChat.java
  fr.audentia.players.application.listeners.ListenerChat
+fr/audentia/players/domain/teams/MessageFormat.java
+ fr.audentia.players.domain.teams.MessageFormat
 fr/audentia/players/utils/ChatUtils.java
  fr.audentia.players.utils.ChatUtils
 fr/audentia/players/application/tasks/TabListTask.java
@@ -32,10 +32,10 @@ fr/audentia/players/utils/ItemStackBuilder.java
  fr.audentia.players.utils.ItemStackBuilder
 fr/audentia/players/domain/model/tablist/PlayerTabList.java
  fr.audentia.players.domain.model.tablist.PlayerTabList
-fr/audentia/players/domain/model/roles/RoleBuilder.java
- fr.audentia.players.domain.model.roles.RoleBuilder
 fr/audentia/players/domain/teams/RolesRepository.java
  fr.audentia.players.domain.teams.RolesRepository
+fr/audentia/players/domain/model/roles/RoleBuilder.java
+ fr.audentia.players.domain.model.roles.RoleBuilder
 fr/audentia/players/domain/teams/TeamsRepository.java
  fr.audentia.players.domain.teams.TeamsRepository
 fr/audentia/players/infrastructure/teams/MariaDbTeamsRepository.java
@@ -48,9 +48,9 @@ fr/audentia/players/domain/model/Day.java
  fr.audentia.players.domain.model.Day
 fr/audentia/players/domain/model/teams/Team.java
  fr.audentia.players.domain.model.teams.Team
+fr/audentia/players/infrastructure/roles/MariaDbRolesRepository.java
+ fr.audentia.players.infrastructure.roles.MariaDbRolesRepository
 fr/audentia/players/main/TasksManager.java
  fr.audentia.players.main.TasksManager
-fr/audentia/players/domain/teams/DefaultTeamsManager.java
- fr.audentia.players.domain.teams.DefaultTeamsManager
-fr/audentia/players/main/AudentiaPlayersManagersProvider.java
- fr.audentia.players.main.AudentiaPlayersManagersProvider
+fr/audentia/players/utils/DataBaseConfigurationLoader.java
+ fr.audentia.players.utils.DataBaseConfigurationLoader

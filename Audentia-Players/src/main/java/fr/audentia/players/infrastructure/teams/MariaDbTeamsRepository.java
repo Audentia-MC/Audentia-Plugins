@@ -81,4 +81,11 @@ public class MariaDbTeamsRepository implements TeamsRepository {
         return color == null ? Optional.empty() : Optional.of(new Team(color, balance, transfers, name, houseId));
     }
 
+    @Override
+    public void saveTeam(Team team) {
+
+        // TODO: save team
+
+    }
+
 }

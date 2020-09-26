@@ -1,6 +1,7 @@
 package fr.audentia.core.main;
 
 import fr.audentia.players.main.AudentiaPlayers;
+import fr.audentia.players.main.AudentiaPlayersManagersProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -53,6 +54,8 @@ public class AudentiaCore extends JavaPlugin {
 
     }
 
-
+    public AudentiaCoreManagersProvider getManagersProvider() {
+        return managersProvider;
+    }
 
 }
