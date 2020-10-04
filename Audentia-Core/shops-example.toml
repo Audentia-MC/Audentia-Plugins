@@ -1,0 +1,9 @@
+[shops]
+
+	[Tony]
+	items = [
+		"EMERALD",
+		"DIAMOND_SWORD"
+	]
+	EMERALD = 10
+	DIAMOND_SWORD = 20
