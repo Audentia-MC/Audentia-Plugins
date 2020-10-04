@@ -1,7 +1,5 @@
 package fr.audentia.core.domain.shop;
 
-import fr.audentia.core.domain.balance.BalanceManage;
-import fr.audentia.core.domain.bank.BankManage;
 import fr.audentia.core.domain.bank.InventoryUtilities;
 import fr.audentia.core.domain.model.shop.ShopItem;
 
@@ -10,28 +8,20 @@ import java.util.UUID;
 public class ShopItemBuyAction {
 
     private final InventoryUtilities inventoryUtilities;
-    private final BankManage bankManage;
-    private final BalanceManage balanceManage;
 
-    public ShopItemBuyAction(InventoryUtilities inventoryUtilities, BankManage bankManage, BalanceManage balanceManage) {
+    public ShopItemBuyAction(InventoryUtilities inventoryUtilities) {
         this.inventoryUtilities = inventoryUtilities;
-        this.bankManage = bankManage;
-        this.balanceManage = balanceManage;
     }
 
     public String buy(UUID playerUUID, ShopItem item, int count) {
 
         int price = (int) Math.max(item.price * count + 1, Math.round(item.price * count * 1.1));
 
-        if (Integer.parseInt(balanceManage.getBalance(playerUUID)) < price) { // TODO: maybe look in inventory rather than in bank ?
+        if (inventoryUtilities.hasEmeralds(playerUUID, price)) {
             return "<error>Vous n'avez pas assez d'émeraudes.";
         }
 
-        String result = bankManage.removeEmeralds(playerUUID, price);
-
-        if (result.startsWith("<error>")) {
-            return result;
-        }
+        inventoryUtilities.removeEmeralds(playerUUID, price);
 
         inventoryUtilities.addItem(playerUUID, item.material, count);
         return "<success>Achat réalisé avec succès.";
