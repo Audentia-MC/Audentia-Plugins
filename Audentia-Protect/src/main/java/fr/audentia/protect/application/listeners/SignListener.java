@@ -1,6 +1,7 @@
 package fr.audentia.protect.application.listeners;
 
 import fr.audentia.players.utils.ChatUtils;
+import fr.audentia.protect.domain.BuyHouseAction;
 import fr.audentia.protect.domain.HouseAction;
 import fr.audentia.protect.domain.model.Location;
 import org.bukkit.Material;
@@ -14,9 +15,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class SignListener implements Listener {
 
     private final HouseAction houseAction;
+    private final BuyHouseAction buyHouseAction;
 
-    public SignListener(HouseAction houseAction) {
+    public SignListener(HouseAction houseAction, BuyHouseAction buyHouseAction) {
         this.houseAction = houseAction;
+        this.buyHouseAction = buyHouseAction;
     }
 
     @EventHandler
@@ -44,16 +47,26 @@ public class SignListener implements Listener {
             return;
         }
 
+        if (!block.getWorld().getName().equals("world")) {
+            return;
+        }
+
         Material type = block.getState().getType();
 
         if (!type.name().toLowerCase().contains("sign")) {
             return;
         }
 
-        org.bukkit.Location location = block.getLocation();
         Player player = event.getPlayer();
+        org.bukkit.Location location = block.getLocation();
+        Location modelLocation = new Location(location.getBlockX(), location.getBlockY(), location.getBlockZ());
 
-        String result = houseAction.buyHouse(new Location(location.getBlockX(), location.getBlockY(), location.getBlockZ()), player.getUniqueId());
+        if (!this.buyHouseAction.isSecondClick(player.getUniqueId(), modelLocation)) {
+            player.sendMessage(ChatUtils.format("<success>Cliquez une deuxième fois pour confirmer l'achat."));
+            return;
+        }
+
+        String result = houseAction.buyHouse(modelLocation, player.getUniqueId());
 
         if (result.isEmpty()) {
             return;

@@ -25,7 +25,7 @@ public class ListenersManager {
     private List<Listener> loadListeners() {
 
         return Arrays.asList(
-                new SignListener(provider.houseAction),
+                new SignListener(provider.houseAction, provider.buyHouseAction),
                 new HouseBlockInteractListener(provider.houseAction)
         );
 

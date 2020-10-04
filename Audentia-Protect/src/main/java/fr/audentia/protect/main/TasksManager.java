@@ -1,5 +1,6 @@
 package fr.audentia.protect.main;
 
+import fr.audentia.protect.application.tasks.BuyHouseClicksTasks;
 import org.bukkit.plugin.Plugin;
 
 public class TasksManager {
@@ -14,7 +15,7 @@ public class TasksManager {
 
     public void startTasks() {
 
-//        Bukkit.getScheduler().runTaskTimerAsynchronously(this.plugin, , 0, 20);
+        new BuyHouseClicksTasks(provider.buyHouseAction).runTaskTimerAsynchronously(plugin, 0, 20);
 
     }
 
