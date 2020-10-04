@@ -49,17 +49,18 @@ public class BalanceManage {
         return "<success>Dépôt effectué.";
     }
 
-    public void removeFromBalance(UUID playerUUID, int count) {
+    public String removeFromBalance(UUID playerUUID, int count) {
 
         Team team = teamsManager.getTeamOfPlayer(playerUUID);
         Balance balance = team.balance;
 
         if (!balance.hasBalance()) {
-            return;
+            return "<error>Votre groupe ne peut pas déposer d'émeraude dans la banque.";
         }
 
         team = new Team(team.color, balance.remove(count), team.transfers, team.name, team.houseId);
         teamsManager.saveTeam(team);
+        return "<success>Retrait effectué.";
     }
 
 }

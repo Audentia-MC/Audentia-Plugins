@@ -52,4 +52,15 @@ public class BankManage {
         return balanceManage.addToBalance(playerUUID, finalCount);
     }
 
+    public String removeEmeralds(UUID playerUUID, int count) {
+
+        Team team = teamsManager.getTeamOfPlayer(playerUUID);
+
+        if (team.color == Color.BLACK) {
+            return "<error>Votre groupe ne peut pas accéder à la banque.";
+        }
+
+        return balanceManage.removeFromBalance(playerUUID, count);
+    }
+
 }

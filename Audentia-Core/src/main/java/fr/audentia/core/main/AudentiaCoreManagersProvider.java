@@ -13,6 +13,10 @@ import fr.audentia.core.domain.npc.*;
 import fr.audentia.core.domain.scoreboard.EventsRepository;
 import fr.audentia.core.domain.scoreboard.ScoreboardManage;
 import fr.audentia.core.domain.scoreboard.ScoreboardsRepository;
+import fr.audentia.core.domain.shop.ShopInventoryOpen;
+import fr.audentia.core.domain.shop.ShopInventoryOpener;
+import fr.audentia.core.domain.shop.ShopItemBuyAction;
+import fr.audentia.core.domain.shop.ShopRepository;
 import fr.audentia.core.domain.staff.StaffInventoryOpen;
 import fr.audentia.core.domain.staff.StaffInventoryOpener;
 import fr.audentia.core.domain.staff.WorldPlayerFinder;
@@ -40,6 +44,8 @@ import fr.audentia.core.infrastructure.npc.SpigotWorldNpcFinder;
 import fr.audentia.core.infrastructure.npc.TOMLNpcRepository;
 import fr.audentia.core.infrastructure.scoreboard.FastBoardScoreboardsRepository;
 import fr.audentia.core.infrastructure.scoreboard.MariaDbEventsRepository;
+import fr.audentia.core.infrastructure.shop.SpigotShopInventoryOpener;
+import fr.audentia.core.infrastructure.shop.TOMLShopRepository;
 import fr.audentia.core.infrastructure.staff.DefaultStaffInventoryOpener;
 import fr.audentia.core.infrastructure.staff.SpigotWorldPlayerFinder;
 import fr.audentia.core.infrastructure.staff.ban.MariaDbBanRepository;
@@ -102,6 +108,7 @@ public class AudentiaCoreManagersProvider {
         WorldNpcFinder worldNpcFinder = new SpigotWorldNpcFinder();
         BorderInfosRepository borderInfosRepository = new TOMLBorderInfosRepository(path);
         BorderSpawner borderSpawner = new SpigotBorderSpawner();
+        ShopRepository shopRepository = new TOMLShopRepository(path);
 
         this.banAction = new BanAction(playerBanner, banRepository, audentiaPlayersManagersProvider.rolesRepository);
         this.kickAction = new KickAction(playerKicker, audentiaPlayersManagersProvider.rolesRepository);
@@ -111,11 +118,14 @@ public class AudentiaCoreManagersProvider {
         this.bankManage = new BankManage(balanceManage, gamesInfosRepository, bankSlotsRepository, timeProvider, audentiaPlayersManagersProvider.teamsManager);
         this.bankInventoryInteract = new BankInventoryInteract(inventoryUtilities, bankManage);
         this.gradeChangeAction = new GradeChangeAction(audentiaPlayersManagersProvider.rolesRepository);
+        ShopItemBuyAction shopItemBuyAction = new ShopItemBuyAction(inventoryUtilities, bankManage, balanceManage);
 
+        ShopInventoryOpener shopInventoryOpener = new SpigotShopInventoryOpener(shopItemBuyAction, balanceManage);
         BankInventoryOpener bankInventoryOpener = new DefaultBankInventoryOpener(bankInventoryInteract);
-        BankInventoryOpen bankInventoryOpen = new BankInventoryOpen(audentiaPlayersManagersProvider.teamsManager, bankInventoryOpener, audentiaPlayersManagersProvider.rolesRepository);
         GradeInventoryOpener gradeInventoryOpener = new DefaultGradeInventoryOpener(gradeChangeAction, audentiaPlayersManagersProvider.rolesRepository);
 
+        BankInventoryOpen bankInventoryOpen = new BankInventoryOpen(audentiaPlayersManagersProvider.teamsManager, bankInventoryOpener, audentiaPlayersManagersProvider.rolesRepository);
+        ShopInventoryOpen shopInventoryOpen = new ShopInventoryOpen(shopRepository, shopInventoryOpener);
         this.gradeInventoryAction = new GradeInventoryAction(audentiaPlayersManagersProvider.rolesRepository, gradeInventoryOpener);
 
         StaffInventoryOpener staffInventoryOpener = new DefaultStaffInventoryOpener(banAction, kickAction, teleportAction, lookInventoryAction, gradeInventoryAction);
@@ -128,7 +138,7 @@ public class AudentiaCoreManagersProvider {
         this.scoreboardManage = new ScoreboardManage(audentiaPlayersManagersProvider.teamsManager, audentiaPlayersManagersProvider.rolesRepository, gamesInfosRepository, timeProvider, eventsRepository, scoreboardsRepository);
         this.eventProvider = new EventProvider(eventsRepository, gamesInfosRepository);
         this.gameStateManage = new GameStateManage(gamesInfosRepository);
-        this.npcInteract = new NpcInteract(bankNpcProvider, bankInventoryOpen);
+        this.npcInteract = new NpcInteract(bankNpcProvider, bankInventoryOpen, shopInventoryOpen);
         this.npcSpawn = new NpcSpawn(npcSpawner, npcRepository, worldNpcFinder);
         this.borderCreate = new BorderCreate(borderInfosRepository, borderSpawner);
         rolesRepository = audentiaPlayersManagersProvider.rolesRepository;

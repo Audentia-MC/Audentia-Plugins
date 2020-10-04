@@ -2,12 +2,12 @@ package fr.audentia.core.domain.npc;
 
 import fr.audentia.core.domain.bank.BankInventoryOpen;
 import fr.audentia.core.domain.bank.BankNpcProvider;
+import fr.audentia.core.domain.shop.ShopInventoryOpen;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
@@ -26,11 +26,14 @@ class NpcInteractTest {
     @Mock
     private BankInventoryOpen bankInventoryOpen;
 
+    @Mock
+    private ShopInventoryOpen shopInventoryOpen;
+
     private NpcInteract npcInteract;
 
     @BeforeEach
     void setUp() {
-        npcInteract = new NpcInteract(bankNpcProvider, bankInventoryOpen);
+        npcInteract = new NpcInteract(bankNpcProvider, bankInventoryOpen, shopInventoryOpen);
     }
 
     @Test
