@@ -58,6 +58,4 @@ class NpcInteractTest {
         verifyNoInteractions(bankInventoryOpen);
     }
 
-    // TODO : add tests for interactions with an other npc
-
 }

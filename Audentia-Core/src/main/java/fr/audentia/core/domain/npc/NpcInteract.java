@@ -19,7 +19,7 @@ public class NpcInteract {
         this.shopInventoryOpen = shopInventoryOpen;
     }
 
-    public void interactWithNpc(UUID playerUUID, String npcName) { // TODO : return message
+    public void interactWithNpc(UUID playerUUID, String npcName) {
 
         if (npcName.isEmpty()) {
             return;

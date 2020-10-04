@@ -25,7 +25,7 @@ public class TOMLNpcRepository implements NpcRepository {
 
         FileConfig fileConfig = loadFile();
 
-        if (fileConfig.isNull(npcName)) {
+        if (fileConfig.isNull("npcs." + npcName)) {
             return Optional.empty();
         }
 
