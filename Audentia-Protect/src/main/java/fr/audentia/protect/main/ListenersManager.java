@@ -1,7 +1,8 @@
 package fr.audentia.protect.main;
 
-import fr.audentia.protect.application.listeners.HouseBlockInteractListener;
-import fr.audentia.protect.application.listeners.SignListener;
+import fr.audentia.protect.application.listeners.ListenerHouseBlockInteract;
+import fr.audentia.protect.application.listeners.ListenerNetherPortailCreated;
+import fr.audentia.protect.application.listeners.ListenerSign;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -25,8 +26,9 @@ public class ListenersManager {
     private List<Listener> loadListeners() {
 
         return Arrays.asList(
-                new SignListener(provider.houseAction, provider.buyHouseAction),
-                new HouseBlockInteractListener(provider.houseAction)
+                new ListenerSign(provider.houseAction, provider.buyHouseAction),
+                new ListenerHouseBlockInteract(provider.houseAction),
+                new ListenerNetherPortailCreated(provider.portalCreateCheck)
         );
 
     }

@@ -11,11 +11,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.UUID;
 
-public class HouseBlockInteractListener implements Listener {
+public class ListenerHouseBlockInteract implements Listener {
 
     private final HouseAction houseAction;
 
-    public HouseBlockInteractListener(HouseAction houseAction) {
+    public ListenerHouseBlockInteract(HouseAction houseAction) {
         this.houseAction = houseAction;
     }
 

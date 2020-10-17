@@ -56,7 +56,7 @@ sourceCompatibility = 1.8
 
 dependencies {
     implementation project(':Audentia-Players')
-    implementation group: 'org.spigotmc', name: 'spigot-api', version: '1.16.1-R0.1-SNAPSHOT'
+    implementation group: 'org.spigotmc', name: 'spigot-api', version: '1.16.1-R0.3-SNAPSHOT'
     implementation group: 'org.apache.maven.plugins', name: 'maven-surefire-plugin', version: '2.22.2'
     implementation group: 'org.jacoco', name: 'jacoco-maven-plugin', version: '0.8.5'
     implementation group: 'fr.minuskube.inv', name: 'smart-invs', version: '1.2.7'

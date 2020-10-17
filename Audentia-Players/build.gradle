@@ -16,7 +16,7 @@ compileJava.options.encoding = 'UTF-8'
 sourceCompatibility = 1.8
 
 dependencies {
-    implementation group: 'org.spigotmc', name: 'spigot-api', version: '1.16.1-R0.1-SNAPSHOT'
+    implementation group: 'org.spigotmc', name: 'spigot-api', version: '1.16.3-R0.1-SNAPSHOT'
     implementation group: 'com.electronwill.night-config', name: 'toml', version: '3.6.0'
     implementation group: 'com.zaxxer', name: 'HikariCP', version: '3.4.5'
     implementation group: 'org.jooq', name: 'jooq', version: '3.13.4'

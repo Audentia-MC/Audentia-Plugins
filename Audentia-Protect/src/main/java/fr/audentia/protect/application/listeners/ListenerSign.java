@@ -12,12 +12,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class SignListener implements Listener {
+public class ListenerSign implements Listener {
 
     private final HouseAction houseAction;
     private final BuyHouseAction buyHouseAction;
 
-    public SignListener(HouseAction houseAction, BuyHouseAction buyHouseAction) {
+    public ListenerSign(HouseAction houseAction, BuyHouseAction buyHouseAction) {
         this.houseAction = houseAction;
         this.buyHouseAction = buyHouseAction;
     }

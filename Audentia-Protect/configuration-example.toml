@@ -1,5 +1,4 @@
-[database]
-user = "Tony"
-password = "12345"
-host = "100.100.100.100"
-database = "magic_world"
+[nether]
+x = 0
+y = 60
+z = 0
