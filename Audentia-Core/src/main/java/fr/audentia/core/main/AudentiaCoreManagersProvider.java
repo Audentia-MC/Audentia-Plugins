@@ -5,6 +5,8 @@ import fr.audentia.core.domain.bank.*;
 import fr.audentia.core.domain.border.BorderCreate;
 import fr.audentia.core.domain.border.BorderInfosRepository;
 import fr.audentia.core.domain.border.BorderSpawner;
+import fr.audentia.core.domain.damage.ColiseumLocationRepository;
+import fr.audentia.core.domain.damage.PlayerDamage;
 import fr.audentia.core.domain.event.EventProvider;
 import fr.audentia.core.domain.game.GameStateManage;
 import fr.audentia.core.domain.game.GamesInfosRepository;
@@ -35,6 +37,7 @@ import fr.audentia.core.domain.staff.teleport.TeleportAction;
 import fr.audentia.core.infrastructure.bank.*;
 import fr.audentia.core.infrastructure.border.SpigotBorderSpawner;
 import fr.audentia.core.infrastructure.border.TOMLBorderInfosRepository;
+import fr.audentia.core.infrastructure.damage.TOMLColiseumLocationRepository;
 import fr.audentia.core.infrastructure.game.MariaDbGamesInfosRepository;
 import fr.audentia.core.infrastructure.home.MariaDbHomeRepository;
 import fr.audentia.core.infrastructure.home.SpigotPlayerTeleport;
@@ -82,6 +85,7 @@ public class AudentiaCoreManagersProvider {
     public final RolesRepository rolesRepository;
     public final GradeInventoryAction gradeInventoryAction;
     public final GradeChangeAction gradeChangeAction;
+    public final PlayerDamage playerDamage;
 
     public AudentiaCoreManagersProvider(AudentiaPlayersManagersProvider audentiaPlayersManagersProvider, String path) {
 
@@ -109,6 +113,7 @@ public class AudentiaCoreManagersProvider {
         BorderInfosRepository borderInfosRepository = new TOMLBorderInfosRepository(path);
         BorderSpawner borderSpawner = new SpigotBorderSpawner();
         ShopRepository shopRepository = new TOMLShopRepository(path);
+        ColiseumLocationRepository coliseumLocationRepository = new TOMLColiseumLocationRepository(path);
 
         this.banAction = new BanAction(playerBanner, banRepository, audentiaPlayersManagersProvider.rolesRepository);
         this.kickAction = new KickAction(playerKicker, audentiaPlayersManagersProvider.rolesRepository);
@@ -118,6 +123,7 @@ public class AudentiaCoreManagersProvider {
         this.bankManage = new BankManage(balanceManage, gamesInfosRepository, bankSlotsRepository, timeProvider, audentiaPlayersManagersProvider.teamsManager);
         this.bankInventoryInteract = new BankInventoryInteract(inventoryUtilities, bankManage);
         this.gradeChangeAction = new GradeChangeAction(audentiaPlayersManagersProvider.rolesRepository);
+        this.playerDamage = new PlayerDamage(audentiaPlayersManagersProvider.rolesRepository, balanceManage, coliseumLocationRepository);
         ShopItemBuyAction shopItemBuyAction = new ShopItemBuyAction(inventoryUtilities);
 
         ShopInventoryOpener shopInventoryOpener = new SpigotShopInventoryOpener(shopItemBuyAction, balanceManage);

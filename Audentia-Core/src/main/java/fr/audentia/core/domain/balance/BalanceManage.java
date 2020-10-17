@@ -63,4 +63,30 @@ public class BalanceManage {
         return "<success>Retrait effectué.";
     }
 
+    public void forceAddToBalance(UUID playerUUID, int count) {
+
+        Team team = teamsManager.getTeamOfPlayer(playerUUID);
+        Balance balance = team.balance;
+
+        if (!balance.hasBalance()) {
+            return;
+        }
+
+        team = new Team(team.color, balance.add(count), team.transfers, team.name, team.houseId);
+        teamsManager.saveTeam(team);
+    }
+
+    public void forceRemoveFromBalance(UUID playerUUID, int count) {
+
+        Team team = teamsManager.getTeamOfPlayer(playerUUID);
+        Balance balance = team.balance;
+
+        if (!balance.hasBalance()) {
+            return;
+        }
+
+        team = new Team(team.color, balance.remove(count), team.transfers, team.name, team.houseId);
+        teamsManager.saveTeam(team);
+    }
+
 }
