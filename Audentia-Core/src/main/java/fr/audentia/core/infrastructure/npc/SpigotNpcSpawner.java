@@ -15,9 +15,14 @@ public class SpigotNpcSpawner implements NpcSpawner {
 
     @Override
     public void spawnNpc(Npc npc) {
+        spawnNpc(npc, DEFAULT_WORLD_NAME);
+    }
+
+    @Override
+    public void spawnNpc(Npc npc, String worldName) {
         Location location = buildLocation(npc);
 
-        World world = Bukkit.getWorld(DEFAULT_WORLD_NAME);
+        World world = Bukkit.getWorld(worldName);
 
         if (world == null) {
             return;
@@ -32,9 +37,14 @@ public class SpigotNpcSpawner implements NpcSpawner {
 
     @Override
     public void deleteNpc(Npc npc) {
+        deleteNpc(npc, DEFAULT_WORLD_NAME);
+    }
+
+    @Override
+    public void deleteNpc(Npc npc, String worldName) {
         Location location = buildLocation(npc);
 
-        World world = Bukkit.getWorld(DEFAULT_WORLD_NAME);
+        World world = Bukkit.getWorld(worldName);
 
         if (world == null) {
             return;

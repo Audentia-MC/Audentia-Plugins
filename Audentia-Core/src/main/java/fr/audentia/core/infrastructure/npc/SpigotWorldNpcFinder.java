@@ -6,10 +6,8 @@ import fr.audentia.core.domain.npc.WorldNpcFinder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Villager;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +17,13 @@ public class SpigotWorldNpcFinder implements WorldNpcFinder {
 
     @Override
     public Optional<Npc> findNpc(String npcName) {
-        World world = Bukkit.getWorld("world");
+        return findNpc(npcName, "world");
+    }
+
+    @Override
+    public Optional<Npc> findNpc(String npcName, String worldName) {
+
+        World world = Bukkit.getWorld(worldName);
 
         if (world == null) {
             return Optional.empty();

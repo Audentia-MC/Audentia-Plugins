@@ -44,6 +44,7 @@ import fr.audentia.core.infrastructure.home.SpigotPlayerTeleport;
 import fr.audentia.core.infrastructure.home.SpigotWorldNameFinder;
 import fr.audentia.core.infrastructure.npc.SpigotNpcSpawner;
 import fr.audentia.core.infrastructure.npc.SpigotWorldNpcFinder;
+import fr.audentia.core.infrastructure.npc.TOMLNetherNpcRepository;
 import fr.audentia.core.infrastructure.npc.TOMLNpcRepository;
 import fr.audentia.core.infrastructure.scoreboard.FastBoardScoreboardsRepository;
 import fr.audentia.core.infrastructure.scoreboard.MariaDbEventsRepository;
@@ -86,6 +87,7 @@ public class AudentiaCoreManagersProvider {
     public final GradeInventoryAction gradeInventoryAction;
     public final GradeChangeAction gradeChangeAction;
     public final PlayerDamage playerDamage;
+    public final NetherNcpSpawn netherNpcSpawn;
 
     public AudentiaCoreManagersProvider(AudentiaPlayersManagersProvider audentiaPlayersManagersProvider, String path) {
 
@@ -114,6 +116,7 @@ public class AudentiaCoreManagersProvider {
         BorderSpawner borderSpawner = new SpigotBorderSpawner();
         ShopRepository shopRepository = new TOMLShopRepository(path);
         ColiseumLocationRepository coliseumLocationRepository = new TOMLColiseumLocationRepository(path);
+        NetherNpcRepository netherNpcRepository = new TOMLNetherNpcRepository(path);
 
         this.banAction = new BanAction(playerBanner, banRepository, audentiaPlayersManagersProvider.rolesRepository);
         this.kickAction = new KickAction(playerKicker, audentiaPlayersManagersProvider.rolesRepository);
@@ -124,6 +127,7 @@ public class AudentiaCoreManagersProvider {
         this.bankInventoryInteract = new BankInventoryInteract(inventoryUtilities, bankManage);
         this.gradeChangeAction = new GradeChangeAction(audentiaPlayersManagersProvider.rolesRepository);
         this.playerDamage = new PlayerDamage(audentiaPlayersManagersProvider.rolesRepository, balanceManage, coliseumLocationRepository);
+        this.netherNpcSpawn = new NetherNcpSpawn(npcSpawner, netherNpcRepository, worldNpcFinder);
         ShopItemBuyAction shopItemBuyAction = new ShopItemBuyAction(inventoryUtilities);
 
         ShopInventoryOpener shopInventoryOpener = new SpigotShopInventoryOpener(shopItemBuyAction, balanceManage);

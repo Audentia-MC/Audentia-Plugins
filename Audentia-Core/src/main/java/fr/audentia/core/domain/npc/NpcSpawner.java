@@ -6,6 +6,10 @@ public interface NpcSpawner {
 
     void spawnNpc(Npc npc);
 
+    void spawnNpc(Npc npc, String worldName);
+
     void deleteNpc(Npc npc);
+
+    void deleteNpc(Npc npc, String worldName);
 
 }

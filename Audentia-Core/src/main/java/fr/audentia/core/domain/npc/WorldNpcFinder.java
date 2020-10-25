@@ -9,6 +9,8 @@ public interface WorldNpcFinder {
 
     Optional<Npc> findNpc(String npcName);
 
+    Optional<Npc> findNpc(String npcName, String worldName);
+
     List<Npc> findAllNpc();
 
 }
