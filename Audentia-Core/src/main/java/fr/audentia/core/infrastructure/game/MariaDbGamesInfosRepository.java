@@ -137,7 +137,38 @@ public class MariaDbGamesInfosRepository implements GamesInfosRepository {
     }
 
     @Override
-    public void setStart(long startInSeconds) {
+    public void addEntry(long startInSeconds, long durationInSeconds) {
+
+        Connection connection = databaseConnection.getConnection();
+        databaseConnection.getDatabaseContext(connection)
+                .insertInto(table(name("game_infos")))
+                .columns(field(name("day")), field(name("start")), field(name("duration")), field(name("state")))
+                .values(1, startInSeconds, durationInSeconds, "playing")
+                .execute();
+
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void setState(GameState gameState) {
+
+        Connection connection = databaseConnection.getConnection();
+        databaseConnection.getDatabaseContext(connection)
+                .update(table(name("game_infos")))
+                .set(field(name("state")), gameState.toString())
+                .where(field(name("day")).eq(getDay().day))
+                .execute();
+
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
 

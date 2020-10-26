@@ -28,13 +28,18 @@ public class GameStarter {
         this.playerMessageSender = playerMessageSender;
     }
 
-    public String startGame(UUID playerUUID) {
+    public String startGame(UUID playerUUID, String days) {
 
         Role role = rolesRepository.getRole(playerUUID);
 
         if (role.number > 1) {
             return "<error>Vous n'avez pas le pouvoir de lancer une partie.";
         }
+
+        if (!days.matches("[0-9]+")) {
+            return "<error>/start <nombre de jour de la partie>";
+        }
+
 
         List<UUID> players = playerFinder.getAllPlayers();
 
@@ -52,8 +57,9 @@ public class GameStarter {
             inventoryUtilities.clearInventory(player);
         }
 
-        gamesInfosRepository.setDay(1);
-        gamesInfosRepository.setStart(System.currentTimeMillis() / 1000);
+        long startInSeconds = System.currentTimeMillis() / 1000;
+        int durationInSeconds = Integer.parseInt(days) * 24 * 60 * 60;
+        gamesInfosRepository.addEntry(startInSeconds, durationInSeconds);
         return "<success>Partie lancée.";
     }
 
