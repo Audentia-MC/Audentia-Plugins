@@ -23,6 +23,9 @@ public class CommandAbout implements CommandExecutor {
         sender.sendMessage(ChatColor.GREEN + "Crédits : ");
         sender.sendMessage(ChatColor.GREEN + "   - " + ChatColor.BLUE + "MinusKube" + ChatColor.GREEN + " (inventaires - SmartInvs)");
         sender.sendMessage(ChatColor.GREEN + "   - " + ChatColor.BLUE + "MrMicky" + ChatColor.GREEN + " (scoreboards - FastBoards)");
+        sender.sendMessage(ChatColor.GREEN + "   - " + ChatColor.BLUE + "ElectronWill" + ChatColor.GREEN + " (lecture des configurations - Night-Config)");
+        sender.sendMessage(ChatColor.GREEN + "   - " + ChatColor.BLUE + "Jooq" + ChatColor.GREEN + " (gestion des requêtes SQL - Jooq)");
+        sender.sendMessage(ChatColor.GREEN + "   - " + ChatColor.BLUE + "brettwooldridge" + ChatColor.GREEN + " (accès à la base de donnée - HikariCP)");
         sender.sendMessage(ChatColor.DARK_GREEN + "------------------");
 
         return true;

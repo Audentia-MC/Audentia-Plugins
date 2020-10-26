@@ -9,3 +9,27 @@ softdepend:
 commands:
   balance:
     description: display emeraude count
+  about:
+    description: display description of the plugin
+  home:
+    description: teleport to home
+  homes:
+    description: display list of homes
+  sethome:
+    description: set a home
+  bank:
+    description: display open solts of bank
+  staff:
+    description: open staff inventory of player
+  event:
+    description: display time of next event
+  reloadAllPNJ:
+    description: reload all game npc
+  reloadPNJ:
+    description: reload one game npc
+  start:
+    description: start the game
+  pause:
+    description: pause the game
+  resume:
+    description: resume the game
