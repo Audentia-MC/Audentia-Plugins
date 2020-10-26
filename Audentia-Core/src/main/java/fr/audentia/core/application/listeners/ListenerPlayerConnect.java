@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class ListenerPlayerConnect implements Listener { // TODO : disconnect non player ?
+public class ListenerPlayerConnect implements Listener {
 
     private final ScoreboardManage scoreboardManage;
     private final JoinGameModeManage joinGameModeManage;

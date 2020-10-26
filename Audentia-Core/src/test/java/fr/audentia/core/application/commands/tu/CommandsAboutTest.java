@@ -32,7 +32,7 @@ class CommandsAboutTest {
 
         boolean result = commandAbout.onCommand(player, null, null, null);
 
-        verify(player, times(8)).sendMessage(anyString());
+        verify(player, times(11)).sendMessage(anyString());
         assertThat(result).isEqualTo(true);
     }
 

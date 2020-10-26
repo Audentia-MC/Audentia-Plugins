@@ -84,7 +84,25 @@ public class MariaDbTeamsRepository implements TeamsRepository {
     @Override
     public void saveTeam(Team team) {
 
-        // TODO: save team
+        Connection connection = databaseConnection.getConnection();
+        databaseConnection.getDatabaseContext(connection)
+                .insertInto(table(name("team")))
+                .columns(field(name("color")),
+                        field(name("balance")),
+                        field(name("name")),
+                        field(name("house_id")))
+                .values(ColorsUtils.fromColorToHexadecimal(team.color), team.balance, team.name, team.houseId)
+                .onConflict(field(name("color")))
+                .doUpdate()
+                .set(field(name("balance")), team.balance)
+                .set(field(name("house_id")), team.houseId)
+                .execute();
+
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
 

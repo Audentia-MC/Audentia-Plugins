@@ -19,4 +19,6 @@ public interface GamesInfosRepository {
 
     void addEntry(long startInSeconds, long durationInSeconds);
 
+    void setState(GameState gameState);
+
 }
