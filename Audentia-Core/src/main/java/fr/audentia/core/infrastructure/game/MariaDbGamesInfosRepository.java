@@ -136,4 +136,9 @@ public class MariaDbGamesInfosRepository implements GamesInfosRepository {
 
     }
 
+    @Override
+    public void setStart(long startInSeconds) {
+
+    }
+
 }

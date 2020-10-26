@@ -5,6 +5,7 @@ import fr.audentia.players.domain.model.teams.Team;
 import fr.audentia.players.domain.teams.TeamsManager;
 import fr.audentia.players.utils.ColorsUtils;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 public class BalanceManage {

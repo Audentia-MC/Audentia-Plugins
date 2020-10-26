@@ -15,7 +15,6 @@ public class DayTask extends BukkitRunnable {
     public void run() {
 
         gameDayModifier.addDay();
-
     }
 
 }

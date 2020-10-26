@@ -24,7 +24,7 @@ public class ListenersManager {
     private List<Listener> loadListeners() {
 
         return Arrays.asList(
-                new ListenerPlayerConnect(provider.scoreboardManage),
+                new ListenerPlayerConnect(provider.scoreboardManage, provider.joinGameModeManage),
                 new ListenerPlayerInteract(provider.gameStateManage),
                 new ListenerNpcInteract(provider.npcInteract),
                 new ListenerPlayerDamage(provider.playerDamage)

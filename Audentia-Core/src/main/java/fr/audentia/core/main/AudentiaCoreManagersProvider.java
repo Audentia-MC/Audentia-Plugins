@@ -8,11 +8,10 @@ import fr.audentia.core.domain.border.BorderSpawner;
 import fr.audentia.core.domain.damage.ColiseumLocationRepository;
 import fr.audentia.core.domain.damage.PlayerDamage;
 import fr.audentia.core.domain.event.EventProvider;
-import fr.audentia.core.domain.game.GameDayModifier;
-import fr.audentia.core.domain.game.GameStateManage;
-import fr.audentia.core.domain.game.GamesInfosRepository;
+import fr.audentia.core.domain.game.*;
 import fr.audentia.core.domain.home.*;
 import fr.audentia.core.domain.npc.*;
+import fr.audentia.core.domain.players.JoinGameModeManage;
 import fr.audentia.core.domain.players.MoveManage;
 import fr.audentia.core.domain.scoreboard.EventsRepository;
 import fr.audentia.core.domain.scoreboard.ScoreboardManage;
@@ -41,6 +40,8 @@ import fr.audentia.core.infrastructure.border.SpigotBorderSpawner;
 import fr.audentia.core.infrastructure.border.TOMLBorderInfosRepository;
 import fr.audentia.core.infrastructure.damage.TOMLColiseumLocationRepository;
 import fr.audentia.core.infrastructure.game.MariaDbGamesInfosRepository;
+import fr.audentia.core.infrastructure.game.SpigotPlayerGameModeManage;
+import fr.audentia.core.infrastructure.game.SpigotPlayerMessageSender;
 import fr.audentia.core.infrastructure.home.MariaDbHomeRepository;
 import fr.audentia.core.infrastructure.home.SpigotPlayerTeleport;
 import fr.audentia.core.infrastructure.home.SpigotWorldNameFinder;
@@ -93,6 +94,8 @@ public class AudentiaCoreManagersProvider {
     public final NetherNcpSpawn netherNpcSpawn;
     public final MoveManage moveManage;
     public final GameDayModifier gameDayModifier;
+    public final JoinGameModeManage joinGameModeManage;
+    public final GameStarter gameStarter;
 
     public AudentiaCoreManagersProvider(AudentiaPlayersManagersProvider audentiaPlayersManagersProvider, String path) {
 
@@ -123,6 +126,9 @@ public class AudentiaCoreManagersProvider {
         ShopRepository netherShopRepository = new TOMLNetherShopRepository(path);
         ColiseumLocationRepository coliseumLocationRepository = new TOMLColiseumLocationRepository(path);
         NetherNpcRepository netherNpcRepository = new TOMLNetherNpcRepository(path);
+        PlayerGameModeManage playerGameModeManage = new SpigotPlayerGameModeManage();
+        PlayerFinder playerFinder = new SpigotPlayerFinder();
+        PlayerMessageSender playerMessageSender = new SpigotPlayerMessageSender();
 
         this.banAction = new BanAction(playerBanner, banRepository, audentiaPlayersManagersProvider.rolesRepository);
         this.kickAction = new KickAction(playerKicker, audentiaPlayersManagersProvider.rolesRepository);
@@ -135,8 +141,10 @@ public class AudentiaCoreManagersProvider {
         this.playerDamage = new PlayerDamage(audentiaPlayersManagersProvider.teamsManager, audentiaPlayersManagersProvider.rolesRepository, balanceManage, coliseumLocationRepository);
         this.netherNpcSpawn = new NetherNcpSpawn(npcSpawner, netherNpcRepository, worldNpcFinder);
         this.gameStateManage = new GameStateManage(gamesInfosRepository);
-        this.moveManage = new MoveManage(audentiaPlayersManagersProvider.rolesRepository, gameStateManage, gamesInfosRepository);
+        this.moveManage = new MoveManage(audentiaPlayersManagersProvider.rolesRepository, audentiaPlayersManagersProvider.teamsManager, gameStateManage, gamesInfosRepository);
         this.gameDayModifier = new GameDayModifier(gamesInfosRepository);
+        this.joinGameModeManage = new JoinGameModeManage(audentiaPlayersManagersProvider.rolesRepository, playerGameModeManage);
+        this.gameStarter = new GameStarter(audentiaPlayersManagersProvider.rolesRepository, playerGameModeManage, playerFinder, audentiaPlayersManagersProvider.teamsManager, inventoryUtilities, gamesInfosRepository, playerMessageSender);
         ShopItemBuyAction shopItemBuyAction = new ShopItemBuyAction(inventoryUtilities);
 
         ShopInventoryOpener shopInventoryOpener = new SpigotShopInventoryOpener(shopItemBuyAction, balanceManage);

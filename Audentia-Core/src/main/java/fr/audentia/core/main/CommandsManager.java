@@ -39,6 +39,7 @@ public class CommandsManager {
         loadedCommands.put(getCommand("event"), new CommandEvent(provider.eventProvider));
         loadedCommands.put(getCommand("reloadAllPNJ"), new CommandReloadAllPNJ(provider.rolesRepository, provider.npcSpawn));
         loadedCommands.put(getCommand("reloadPNJ"), new CommandReloadPNJ(provider.rolesRepository, provider.npcSpawn));
+        loadedCommands.put(getCommand("start"), new CommandStart(provider.gameStarter));
 
         loadedCommands.put(getCommand("help"), new CommandHelp(loadedCommands));
 

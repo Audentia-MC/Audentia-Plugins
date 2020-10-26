@@ -39,4 +39,13 @@ public class DefaultTeamsManager implements TeamsManager {
         saveTeam(newTeam);
     }
 
+    @Override
+    public void resetTeam(UUID playerUUID) {
+
+        Team team = getTeamOfPlayer(playerUUID);
+        team = new Team(team.color, new Balance(0), new HashMap<>(), team.name, -1);
+
+        saveTeam(team);
+    }
+
 }

@@ -12,4 +12,6 @@ public interface TeamsManager {
 
     void setHouse(UUID playerUUID, int id);
 
+    void resetTeam(UUID playerUUID);
+
 }

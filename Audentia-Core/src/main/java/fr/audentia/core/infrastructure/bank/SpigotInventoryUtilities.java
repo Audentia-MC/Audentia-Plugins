@@ -136,4 +136,16 @@ public class SpigotInventoryUtilities implements InventoryUtilities {
 
     }
 
+    @Override
+    public void clearInventory(UUID playerUUID) {
+
+        Player player = Bukkit.getPlayer(playerUUID);
+
+        if (player == null) {
+            return;
+        }
+
+        player.getInventory().clear();
+    }
+
 }

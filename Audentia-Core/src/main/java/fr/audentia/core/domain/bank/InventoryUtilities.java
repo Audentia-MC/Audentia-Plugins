@@ -14,4 +14,6 @@ public interface InventoryUtilities {
 
     void removeItems(UUID playerUUID, String materialName, int count);
 
+    void clearInventory(UUID playerUUID);
+
 }

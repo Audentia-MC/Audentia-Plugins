@@ -17,4 +17,6 @@ public interface GamesInfosRepository {
 
     void setDay(long day);
 
+    void setStart(long startInSeconds);
+
 }
