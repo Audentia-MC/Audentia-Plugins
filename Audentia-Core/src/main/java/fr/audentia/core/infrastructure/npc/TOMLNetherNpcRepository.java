@@ -24,7 +24,7 @@ public class TOMLNetherNpcRepository implements NetherNpcRepository {
         FileConfig fileConfig = loadFile();
 
         String name = fileConfig.get("name");
-        int locationsCount = fileConfig.get("count");
+        int locationsCount = fileConfig.get("locations_count");
         int start = new Random().nextInt(locationsCount);
 
         for (int i = start + 1; i != start; i++) {

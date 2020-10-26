@@ -17,8 +17,9 @@ public class TasksManager {
 
     public void startTasks() {
 
+        new PlayerMoveTask(provider.moveManage).runTaskTimerAsynchronously(this.plugin, 0, 15);
         new ScoreboardTask(provider.scoreboardManage).runTaskTimerAsynchronously(this.plugin, 0, SCOREBOARD_PERIOD);
-        new NetherNpcSpawnTask(provider.netherNpcSpawn).runTaskTimerAsynchronously(this.plugin, 20 * 30, SCOREBOARD_PERIOD);
+        new NetherNpcSpawnTask(provider.netherNpcSpawn).runTaskTimerAsynchronously(this.plugin, 0, 20 * 30);
         new NpcSpawnerTask(provider.npcSpawn).runTaskAsynchronously(this.plugin);
         new WorldBorderTask(provider.borderCreate).runTaskAsynchronously(this.plugin);
 

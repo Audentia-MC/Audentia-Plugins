@@ -29,11 +29,17 @@ class NpcInteractTest {
     @Mock
     private ShopInventoryOpen shopInventoryOpen;
 
+    @Mock
+    private ShopInventoryOpen netherShopInventoryOpen;
+
+    @Mock
+    private NetherNpcRepository netherNpcRepository;
+
     private NpcInteract npcInteract;
 
     @BeforeEach
     void setUp() {
-        npcInteract = new NpcInteract(bankNpcProvider, bankInventoryOpen, shopInventoryOpen);
+        npcInteract = new NpcInteract(bankNpcProvider, bankInventoryOpen, shopInventoryOpen, netherShopInventoryOpen, netherNpcRepository);
     }
 
     @Test

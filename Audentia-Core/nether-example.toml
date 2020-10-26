@@ -1,5 +1,14 @@
 name = "Tom"
-count = 3
+locations_count = 3
+
+[shop]
+
+    items = [
+        "EMERALD",
+        "DIAMOND_SWORD"
+    ]
+    EMERALD = 10
+    DIAMOND_SWORD = 20
 
 [locations]
 

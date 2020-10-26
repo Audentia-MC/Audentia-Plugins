@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 
 public class ListenerNpcInteract implements Listener {
 
-    private NpcInteract npcInteract;
+    private final NpcInteract npcInteract;
 
     public ListenerNpcInteract(NpcInteract npcInteract) {
         this.npcInteract = npcInteract;

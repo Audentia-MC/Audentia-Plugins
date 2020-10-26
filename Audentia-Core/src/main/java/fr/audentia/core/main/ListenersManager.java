@@ -25,7 +25,6 @@ public class ListenersManager {
 
         return Arrays.asList(
                 new ListenerPlayerConnect(provider.scoreboardManage),
-                new ListenerPlayerMove(provider.gameStateManage),
                 new ListenerPlayerInteract(provider.gameStateManage),
                 new ListenerNpcInteract(provider.npcInteract),
                 new ListenerPlayerDamage(provider.playerDamage)

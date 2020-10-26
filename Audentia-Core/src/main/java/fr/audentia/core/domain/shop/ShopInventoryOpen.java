@@ -23,7 +23,6 @@ public class ShopInventoryOpen {
         }
 
         shopInventoryOpener.openInventory(playerUUID, shop);
-
     }
 
 }

@@ -12,6 +12,7 @@ import fr.audentia.core.domain.game.GameStateManage;
 import fr.audentia.core.domain.game.GamesInfosRepository;
 import fr.audentia.core.domain.home.*;
 import fr.audentia.core.domain.npc.*;
+import fr.audentia.core.domain.players.MoveManage;
 import fr.audentia.core.domain.scoreboard.EventsRepository;
 import fr.audentia.core.domain.scoreboard.ScoreboardManage;
 import fr.audentia.core.domain.scoreboard.ScoreboardsRepository;
@@ -49,6 +50,7 @@ import fr.audentia.core.infrastructure.npc.TOMLNpcRepository;
 import fr.audentia.core.infrastructure.scoreboard.FastBoardScoreboardsRepository;
 import fr.audentia.core.infrastructure.scoreboard.MariaDbEventsRepository;
 import fr.audentia.core.infrastructure.shop.SpigotShopInventoryOpener;
+import fr.audentia.core.infrastructure.shop.TOMLNetherShopRepository;
 import fr.audentia.core.infrastructure.shop.TOMLShopRepository;
 import fr.audentia.core.infrastructure.staff.DefaultStaffInventoryOpener;
 import fr.audentia.core.infrastructure.staff.SpigotWorldPlayerFinder;
@@ -88,6 +90,7 @@ public class AudentiaCoreManagersProvider {
     public final GradeChangeAction gradeChangeAction;
     public final PlayerDamage playerDamage;
     public final NetherNcpSpawn netherNpcSpawn;
+    public final MoveManage moveManage;
 
     public AudentiaCoreManagersProvider(AudentiaPlayersManagersProvider audentiaPlayersManagersProvider, String path) {
 
@@ -115,6 +118,7 @@ public class AudentiaCoreManagersProvider {
         BorderInfosRepository borderInfosRepository = new TOMLBorderInfosRepository(path);
         BorderSpawner borderSpawner = new SpigotBorderSpawner();
         ShopRepository shopRepository = new TOMLShopRepository(path);
+        ShopRepository netherShopRepository = new TOMLNetherShopRepository(path);
         ColiseumLocationRepository coliseumLocationRepository = new TOMLColiseumLocationRepository(path);
         NetherNpcRepository netherNpcRepository = new TOMLNetherNpcRepository(path);
 
@@ -128,6 +132,8 @@ public class AudentiaCoreManagersProvider {
         this.gradeChangeAction = new GradeChangeAction(audentiaPlayersManagersProvider.rolesRepository);
         this.playerDamage = new PlayerDamage(audentiaPlayersManagersProvider.teamsManager, audentiaPlayersManagersProvider.rolesRepository, balanceManage, coliseumLocationRepository);
         this.netherNpcSpawn = new NetherNcpSpawn(npcSpawner, netherNpcRepository, worldNpcFinder);
+        this.gameStateManage = new GameStateManage(gamesInfosRepository);
+        this.moveManage = new MoveManage(audentiaPlayersManagersProvider.rolesRepository, gameStateManage, gamesInfosRepository);
         ShopItemBuyAction shopItemBuyAction = new ShopItemBuyAction(inventoryUtilities);
 
         ShopInventoryOpener shopInventoryOpener = new SpigotShopInventoryOpener(shopItemBuyAction, balanceManage);
@@ -136,6 +142,7 @@ public class AudentiaCoreManagersProvider {
 
         BankInventoryOpen bankInventoryOpen = new BankInventoryOpen(audentiaPlayersManagersProvider.teamsManager, bankInventoryOpener, audentiaPlayersManagersProvider.rolesRepository);
         ShopInventoryOpen shopInventoryOpen = new ShopInventoryOpen(shopRepository, shopInventoryOpener);
+        ShopInventoryOpen netherShopInventoryOpen = new ShopInventoryOpen(netherShopRepository, shopInventoryOpener);
         this.gradeInventoryAction = new GradeInventoryAction(audentiaPlayersManagersProvider.rolesRepository, gradeInventoryOpener);
 
         StaffInventoryOpener staffInventoryOpener = new DefaultStaffInventoryOpener(banAction, kickAction, teleportAction, lookInventoryAction, gradeInventoryAction);
@@ -147,8 +154,7 @@ public class AudentiaCoreManagersProvider {
         this.staffInventoryOpen = new StaffInventoryOpen(audentiaPlayersManagersProvider.rolesRepository, staffInventoryOpener, worldPlayerFinder);
         this.scoreboardManage = new ScoreboardManage(audentiaPlayersManagersProvider.teamsManager, audentiaPlayersManagersProvider.rolesRepository, gamesInfosRepository, timeProvider, eventsRepository, scoreboardsRepository);
         this.eventProvider = new EventProvider(eventsRepository, gamesInfosRepository);
-        this.gameStateManage = new GameStateManage(gamesInfosRepository);
-        this.npcInteract = new NpcInteract(bankNpcProvider, bankInventoryOpen, shopInventoryOpen);
+        this.npcInteract = new NpcInteract(bankNpcProvider, bankInventoryOpen, shopInventoryOpen, netherShopInventoryOpen, netherNpcRepository);
         this.npcSpawn = new NpcSpawn(npcSpawner, npcRepository, worldNpcFinder);
         this.borderCreate = new BorderCreate(borderInfosRepository, borderSpawner);
         rolesRepository = audentiaPlayersManagersProvider.rolesRepository;

@@ -12,11 +12,15 @@ public class NpcInteract {
     private final BankNpcProvider bankNpcProvider;
     private final BankInventoryOpen bankInventoryOpen;
     private final ShopInventoryOpen shopInventoryOpen;
+    private final ShopInventoryOpen netherShopInventoryOpen;
+    private final NetherNpcRepository netherNpcRepository;
 
-    public NpcInteract(BankNpcProvider bankNpcProvider, BankInventoryOpen bankInventoryOpen, ShopInventoryOpen shopInventoryOpen) {
+    public NpcInteract(BankNpcProvider bankNpcProvider, BankInventoryOpen bankInventoryOpen, ShopInventoryOpen shopInventoryOpen, ShopInventoryOpen netherShopInventoryOpen, NetherNpcRepository netherNpcRepository) {
         this.bankNpcProvider = bankNpcProvider;
         this.bankInventoryOpen = bankInventoryOpen;
         this.shopInventoryOpen = shopInventoryOpen;
+        this.netherShopInventoryOpen = netherShopInventoryOpen;
+        this.netherNpcRepository = netherNpcRepository;
     }
 
     public void interactWithNpc(UUID playerUUID, String npcName) {
@@ -27,6 +31,12 @@ public class NpcInteract {
 
         if (Optional.of(npcName).equals(bankNpcProvider.getName())) {
             bankInventoryOpen.openInventory(playerUUID);
+            return;
+        }
+
+        String netherNpcName = netherNpcRepository.getNetherNpcName();
+        if (netherNpcName != null && netherNpcName.equals(npcName)) {
+            netherShopInventoryOpen.openShop(playerUUID, npcName);
             return;
         }
 

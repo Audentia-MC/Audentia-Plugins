@@ -9,11 +9,11 @@ import fr.audentia.core.domain.shop.ShopRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TOMLShopRepository implements ShopRepository {
+public class TOMLNetherShopRepository implements ShopRepository {
 
     private final String filePath;
 
-    public TOMLShopRepository(String filePath) {
+    public TOMLNetherShopRepository(String filePath) {
         this.filePath = filePath;
     }
 
@@ -22,11 +22,11 @@ public class TOMLShopRepository implements ShopRepository {
 
         FileConfig fileConfig = loadFile();
 
-        if (fileConfig.isNull("shops." + npcName)) {
+        if (fileConfig.isNull("shop")) {
             return null;
         }
 
-        String[] itemsMaterial = fileConfig.getOrElse("shops." + npcName + ".items", new String[]{});
+        String[] itemsMaterial = fileConfig.getOrElse("shop.items", new String[]{});
 
         List<ShopItem> items = new ArrayList<>();
 
@@ -34,7 +34,7 @@ public class TOMLShopRepository implements ShopRepository {
 
             items.add(new ShopItem(
                     material,
-                    fileConfig.get("shops." + npcName + "." + material)
+                    fileConfig.get("shop." + material)
             ));
         }
 
@@ -47,7 +47,7 @@ public class TOMLShopRepository implements ShopRepository {
     private FileConfig loadFile() {
 
         FileConfig fileConfig = CommentedFileConfig.builder(filePath)
-                .defaultResource("shops.toml")
+                .defaultResource("nether.toml")
                 .autosave()
                 .build();
 
