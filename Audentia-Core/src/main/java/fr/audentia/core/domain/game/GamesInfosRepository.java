@@ -15,4 +15,6 @@ public interface GamesInfosRepository {
 
     GameState getGameState();
 
+    void setDay(long day);
+
 }

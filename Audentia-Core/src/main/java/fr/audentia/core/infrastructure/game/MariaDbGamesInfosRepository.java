@@ -112,4 +112,28 @@ public class MariaDbGamesInfosRepository implements GamesInfosRepository {
         return GameState.fromText(record.get(field(name("state")), String.class));
     }
 
+    @Override
+    public void setDay(long day) {
+
+        Day storedDay = getDay();
+
+        if (storedDay.day == day) {
+            return;
+        }
+
+        Connection connection = databaseConnection.getConnection();
+        databaseConnection.getDatabaseContext(connection)
+                .update(table(name("game_infos")))
+                .set(field(name("day")), day)
+                .where(field(name("day")).eq(storedDay.day))
+                .execute();
+
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
 }

@@ -8,6 +8,7 @@ import fr.audentia.core.domain.border.BorderSpawner;
 import fr.audentia.core.domain.damage.ColiseumLocationRepository;
 import fr.audentia.core.domain.damage.PlayerDamage;
 import fr.audentia.core.domain.event.EventProvider;
+import fr.audentia.core.domain.game.GameDayModifier;
 import fr.audentia.core.domain.game.GameStateManage;
 import fr.audentia.core.domain.game.GamesInfosRepository;
 import fr.audentia.core.domain.home.*;
@@ -91,6 +92,7 @@ public class AudentiaCoreManagersProvider {
     public final PlayerDamage playerDamage;
     public final NetherNcpSpawn netherNpcSpawn;
     public final MoveManage moveManage;
+    public final GameDayModifier gameDayModifier;
 
     public AudentiaCoreManagersProvider(AudentiaPlayersManagersProvider audentiaPlayersManagersProvider, String path) {
 
@@ -134,6 +136,7 @@ public class AudentiaCoreManagersProvider {
         this.netherNpcSpawn = new NetherNcpSpawn(npcSpawner, netherNpcRepository, worldNpcFinder);
         this.gameStateManage = new GameStateManage(gamesInfosRepository);
         this.moveManage = new MoveManage(audentiaPlayersManagersProvider.rolesRepository, gameStateManage, gamesInfosRepository);
+        this.gameDayModifier = new GameDayModifier(gamesInfosRepository);
         ShopItemBuyAction shopItemBuyAction = new ShopItemBuyAction(inventoryUtilities);
 
         ShopInventoryOpener shopInventoryOpener = new SpigotShopInventoryOpener(shopItemBuyAction, balanceManage);
