@@ -24,7 +24,7 @@ public class TOMLNetherNpcRepository implements NetherNpcRepository, NetherTimes
 
         FileConfig fileConfig = loadFile();
 
-        String name = fileConfig.get("name");
+        String name = fileConfig.get("npc_name");
         int locationsCount = fileConfig.get("locations_count");
         int start = new Random().nextInt(locationsCount);
 

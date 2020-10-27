@@ -19,7 +19,6 @@ public class SpigotBorderSpawner implements BorderSpawner {
 
         world.getWorldBorder().setCenter(borderLocation.x, borderLocation.z);
         world.getWorldBorder().setSize(borderSize.size);
-
     }
 
 }

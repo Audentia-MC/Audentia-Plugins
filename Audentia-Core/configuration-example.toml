@@ -2,12 +2,12 @@
 npcName = "Tony"
 
 [border]
-size = 3.14
+size = 314    # Longueur d'un côté du carré formé par la bordure
 x = 0
 z = 0
 
 [coliseum]
-size = 10
+size = 10    # Longueur du rayon du colisée
 x = 0
 y = 60
 z = 0

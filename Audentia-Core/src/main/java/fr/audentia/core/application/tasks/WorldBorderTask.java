@@ -15,7 +15,6 @@ public class WorldBorderTask extends BukkitRunnable {
     public void run() {
 
         borderCreate.createWorldBorder();
-
     }
 
 }

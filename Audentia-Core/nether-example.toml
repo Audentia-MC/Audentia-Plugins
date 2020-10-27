@@ -1,21 +1,19 @@
-name = "Tom"
+npc_name = "Tom"
 locations_count = 3
 
 [hours]
-
-    start_hour = 17
-    start_minutes = 30
-    end_hour = 19
-    end_minutes = 30
+start_hour = 17
+start_minutes = 30
+end_hour = 19
+end_minutes = 30
 
 [shop]
-
-    items = [
-        "EMERALD",
-        "DIAMOND_SWORD"
-    ]
-    EMERALD = 10
-    DIAMOND_SWORD = 20
+items = [
+    "EMERALD",
+    "DIAMOND_SWORD"
+]
+EMERALD = 10
+DIAMOND_SWORD = 20
 
 [locations]
 
