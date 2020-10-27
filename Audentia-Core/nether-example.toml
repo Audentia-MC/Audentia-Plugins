@@ -1,6 +1,13 @@
 name = "Tom"
 locations_count = 3
 
+[hours]
+
+    start_hour = 17
+    start_minutes = 30
+    end_hour = 19
+    end_minutes = 30
+
 [shop]
 
     items = [

@@ -139,7 +139,7 @@ public class AudentiaCoreManagersProvider {
         this.bankInventoryInteract = new BankInventoryInteract(inventoryUtilities, bankManage);
         this.gradeChangeAction = new GradeChangeAction(audentiaPlayersManagersProvider.rolesRepository);
         this.playerDamage = new PlayerDamage(audentiaPlayersManagersProvider.teamsManager, audentiaPlayersManagersProvider.rolesRepository, balanceManage, coliseumLocationRepository);
-        this.netherNpcSpawn = new NetherNcpSpawn(npcSpawner, netherNpcRepository, worldNpcFinder);
+        this.netherNpcSpawn = new NetherNcpSpawn(npcSpawner, netherNpcRepository, worldNpcFinder, (NetherTimesRepository) netherNpcRepository);
         this.gameStateManage = new GameStateManage(gamesInfosRepository, audentiaPlayersManagersProvider.rolesRepository);
         this.moveManage = new MoveManage(audentiaPlayersManagersProvider.rolesRepository, audentiaPlayersManagersProvider.teamsManager, gameStateManage, gamesInfosRepository);
         this.gameDayModifier = new GameDayModifier(gamesInfosRepository);

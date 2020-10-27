@@ -4,13 +4,14 @@ import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.file.FileConfig;
 import fr.audentia.core.domain.model.npc.Npc;
 import fr.audentia.core.domain.npc.NetherNpcRepository;
+import fr.audentia.core.domain.npc.NetherTimesRepository;
 
 import java.util.Optional;
 import java.util.Random;
 
 import static fr.audentia.core.domain.model.npc.NpcBuilder.aNpc;
 
-public class TOMLNetherNpcRepository implements NetherNpcRepository {
+public class TOMLNetherNpcRepository implements NetherNpcRepository, NetherTimesRepository {
 
     private final String filePath;
 
@@ -62,6 +63,46 @@ public class TOMLNetherNpcRepository implements NetherNpcRepository {
         String name = fileConfig.get("name");
         fileConfig.close();
         return name;
+    }
+
+    @Override
+    public int getStartHour() {
+
+        FileConfig fileConfig = loadFile();
+
+        int startHour = fileConfig.get("hours.start_hour");
+        fileConfig.close();
+        return startHour;
+    }
+
+    @Override
+    public int getStartMinute() {
+
+        FileConfig fileConfig = loadFile();
+
+        int startMinute = fileConfig.get("hours.start_minute");
+        fileConfig.close();
+        return startMinute;
+    }
+
+    @Override
+    public int getEndHour() {
+
+        FileConfig fileConfig = loadFile();
+
+        int endHour = fileConfig.get("hours.end_hour");
+        fileConfig.close();
+        return endHour;
+    }
+
+    @Override
+    public int getEndMinute() {
+
+        FileConfig fileConfig = loadFile();
+
+        int endMinute = fileConfig.get("hours.end_minute");
+        fileConfig.close();
+        return endMinute;
     }
 
     private FileConfig loadFile() {
