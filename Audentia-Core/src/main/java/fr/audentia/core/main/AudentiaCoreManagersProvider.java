@@ -42,6 +42,7 @@ import fr.audentia.core.infrastructure.damage.TOMLColiseumLocationRepository;
 import fr.audentia.core.infrastructure.game.MariaDbGamesInfosRepository;
 import fr.audentia.core.infrastructure.game.SpigotPlayerGameModeManage;
 import fr.audentia.core.infrastructure.game.SpigotPlayerMessageSender;
+import fr.audentia.core.infrastructure.home.DefaultTeleportRepository;
 import fr.audentia.core.infrastructure.home.MariaDbHomeRepository;
 import fr.audentia.core.infrastructure.home.SpigotPlayerTeleport;
 import fr.audentia.core.infrastructure.home.SpigotWorldNameFinder;
@@ -96,6 +97,7 @@ public class AudentiaCoreManagersProvider {
     public final GameDayModifier gameDayModifier;
     public final JoinGameModeManage joinGameModeManage;
     public final GameStarter gameStarter;
+    public final TeleportationsManage teleportationsManage;
 
     public AudentiaCoreManagersProvider(AudentiaPlayersManagersProvider audentiaPlayersManagersProvider, String path) {
 
@@ -129,6 +131,7 @@ public class AudentiaCoreManagersProvider {
         PlayerGameModeManage playerGameModeManage = new SpigotPlayerGameModeManage();
         PlayerFinder playerFinder = new SpigotPlayerFinder();
         PlayerMessageSender playerMessageSender = new SpigotPlayerMessageSender();
+        TeleportRepository teleportRepository = new DefaultTeleportRepository();
 
         this.banAction = new BanAction(playerBanner, banRepository, audentiaPlayersManagersProvider.rolesRepository);
         this.kickAction = new KickAction(playerKicker, audentiaPlayersManagersProvider.rolesRepository);
@@ -145,6 +148,7 @@ public class AudentiaCoreManagersProvider {
         this.gameDayModifier = new GameDayModifier(gamesInfosRepository);
         this.joinGameModeManage = new JoinGameModeManage(audentiaPlayersManagersProvider.rolesRepository, playerGameModeManage);
         this.gameStarter = new GameStarter(audentiaPlayersManagersProvider.rolesRepository, playerGameModeManage, playerFinder, audentiaPlayersManagersProvider.teamsManager, inventoryUtilities, gamesInfosRepository, playerMessageSender);
+
         ShopItemBuyAction shopItemBuyAction = new ShopItemBuyAction(inventoryUtilities);
 
         ShopInventoryOpener shopInventoryOpener = new SpigotShopInventoryOpener(shopItemBuyAction, balanceManage);
@@ -158,7 +162,8 @@ public class AudentiaCoreManagersProvider {
 
         StaffInventoryOpener staffInventoryOpener = new DefaultStaffInventoryOpener(banAction, kickAction, teleportAction, lookInventoryAction, gradeInventoryAction);
 
-        this.homeManage = new HomeManage(homeRepository, playerTeleporter);
+        this.homeManage = new HomeManage(homeRepository, teleportRepository, playerTeleporter);
+        this.teleportationsManage = new TeleportationsManage(homeManage, teleportRepository, playerMessageSender);
         this.setHomeManage = new SetHomeManage(homeRepository, audentiaPlayersManagersProvider.rolesRepository, worldNameFinder);
         this.homesProvide = new HomesProvide(homeRepository);
         this.bankSlotsProvide = new BankSlotsProvide(gamesInfosRepository, bankSlotsRepository);

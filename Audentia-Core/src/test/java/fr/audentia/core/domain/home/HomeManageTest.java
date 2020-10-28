@@ -23,13 +23,16 @@ class HomeManageTest {
     private PlayerTeleport playerTeleporter;
 
     @Mock
+    private TeleportRepository teleportRepository;
+
+    @Mock
     private HomeRepository homeRepository;
 
     private HomeManage homeManage;
 
     @BeforeEach
     void setUp() {
-        homeManage = new HomeManage(homeRepository, playerTeleporter);
+        homeManage = new HomeManage(homeRepository, teleportRepository, playerTeleporter);
     }
 
     @Test
@@ -39,10 +42,9 @@ class HomeManageTest {
         HomeLocation homeLocation = new HomeLocation(0, 0, 0);
         when(homeRepository.getHome(any(), anyInt())).thenReturn(Optional.of(homeLocation));
 
-        String result = homeManage.teleportToHome(UUID.randomUUID());
+        String result = homeManage.registerTeleport(UUID.randomUUID());
 
-        verify(playerTeleporter, times(1)).teleport(any(), eq(homeLocation));
-        assertThat(result).isEqualTo("<success>Téléportation réussie.");
+        assertThat(result).isEqualTo("<success>Téléportation dans :");
     }
 
     @Test
@@ -51,9 +53,8 @@ class HomeManageTest {
 
         when(homeRepository.getHome(any(), anyInt())).thenReturn(Optional.empty());
 
-        String result = homeManage.teleportToHome(UUID.randomUUID());
+        String result = homeManage.registerTeleport(UUID.randomUUID());
 
-        verifyNoInteractions(playerTeleporter);
         assertThat(result).isEqualTo("<error>Votre home n°1 n'est pas défini.");
     }
 

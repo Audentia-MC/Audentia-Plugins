@@ -30,7 +30,7 @@ public class CommandHome implements CommandExecutor {
             homeNumber = Integer.parseInt(args[0]);
         }
 
-        String message = homeManage.teleportToHome(player.getUniqueId(), homeNumber);
+        String message = homeManage.registerTeleport(player.getUniqueId(), homeNumber);
         player.sendMessage(ChatUtils.format(message));
         return true;
     }
