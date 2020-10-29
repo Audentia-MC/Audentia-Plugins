@@ -25,8 +25,12 @@ public class SignsManage {
             return "<error>Vous ne pouvez pas exécuter cette commande.";
         }
 
-        houseRepository.getAllHouses().forEach(signUtils::reloadSign);
+        forceReloadAllSigns();
         return "<success>Tous les panneaux ont bien été rechargés.";
+    }
+
+    public void forceReloadAllSigns() {
+        houseRepository.getAllHouses().forEach(signUtils::reloadSign);
     }
 
 }
