@@ -1,4 +1,4 @@
-package fr.audentia.protect.domain;
+package fr.audentia.protect.domain.house;
 
 import fr.audentia.core.domain.balance.BalanceManage;
 import fr.audentia.players.domain.model.roles.Role;
@@ -8,6 +8,7 @@ import fr.audentia.players.domain.teams.TeamsManager;
 import fr.audentia.protect.domain.model.House;
 import fr.audentia.protect.domain.model.Location;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class HouseAction {
@@ -80,6 +81,17 @@ public class HouseAction {
         teamsManager.setHouse(playerUUID, house.id);
         balanceManage.removeFromBalance(playerUUID, house.price);
         return "<success>Maison achetée.";
+    }
+
+    public Optional<Team> getTeamOwner(Location signLocation) {
+
+        if (!houseRepository.isRegisteredSign(signLocation) || !houseRepository.isBoughtBySign(signLocation)) {
+            return Optional.empty();
+        }
+
+        int houseId = houseRepository.getHouseId(signLocation);
+
+        return teamsManager.getTeamByHouseId(houseId);
     }
 
 }

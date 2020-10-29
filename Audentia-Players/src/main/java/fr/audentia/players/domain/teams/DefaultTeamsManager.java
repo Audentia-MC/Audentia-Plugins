@@ -5,6 +5,7 @@ import fr.audentia.players.domain.model.teams.Team;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.UUID;
 
 public class DefaultTeamsManager implements TeamsManager {
@@ -46,6 +47,12 @@ public class DefaultTeamsManager implements TeamsManager {
         team = new Team(team.color, new Balance(0), new HashMap<>(), team.name, -1);
 
         saveTeam(team);
+    }
+
+    @Override
+    public Optional<Team> getTeamByHouseId(int houseId) {
+
+        return teamsRepository.getTeamByHouseId(houseId);
     }
 
 }

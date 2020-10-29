@@ -1,6 +1,6 @@
 package fr.audentia.protect.infrastructure.repositories;
 
-import fr.audentia.protect.domain.BuyHouseClicksRepository;
+import fr.audentia.protect.domain.house.BuyHouseClicksRepository;
 import fr.audentia.protect.domain.model.HouseClick;
 import fr.audentia.protect.domain.model.Location;
 

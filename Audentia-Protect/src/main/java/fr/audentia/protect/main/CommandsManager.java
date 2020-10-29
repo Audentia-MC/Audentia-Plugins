@@ -1,5 +1,6 @@
 package fr.audentia.protect.main;
 
+import fr.audentia.protect.application.commands.CommandReloadSigns;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
@@ -27,6 +28,8 @@ public class CommandsManager {
     private Map<PluginCommand, CommandExecutor> loadCommands() {
 
         Map<PluginCommand, CommandExecutor> commands = new HashMap<>();
+
+        commands.put(this.plugin.getCommand("reloadsigns"), new CommandReloadSigns(provider.signsManage));
 
         return commands;
     }

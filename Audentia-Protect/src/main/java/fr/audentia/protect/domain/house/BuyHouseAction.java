@@ -1,4 +1,4 @@
-package fr.audentia.protect.domain;
+package fr.audentia.protect.domain.house;
 
 import fr.audentia.protect.domain.model.Location;
 

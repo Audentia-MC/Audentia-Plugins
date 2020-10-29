@@ -1,8 +1,8 @@
 package fr.audentia.protect.application.listeners;
 
 import fr.audentia.players.utils.ChatUtils;
-import fr.audentia.protect.domain.BuyHouseAction;
-import fr.audentia.protect.domain.HouseAction;
+import fr.audentia.protect.domain.house.BuyHouseAction;
+import fr.audentia.protect.domain.house.HouseAction;
 import fr.audentia.protect.domain.model.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

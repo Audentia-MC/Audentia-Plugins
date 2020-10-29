@@ -106,4 +106,45 @@ public class MariaDbTeamsRepository implements TeamsRepository {
 
     }
 
+    @Override
+    public Optional<Team> getTeamByHouseId(int houseId) {
+
+        Connection connection = databaseConnection.getConnection();
+        Result<Record6<Object, Object, Object, Object, Object, Object>> result = databaseConnection.getDatabaseContext(connection)
+                .select(field(name("color")),
+                        field(name("balance")),
+                        field(name("name")),
+                        field(name("day")),
+                        field(name("house_id")),
+                        field(name("amount")))
+                .where(field(name("house_id")).eq(houseId))
+                .fetch();
+
+        Color color = null;
+        String name = null;
+        Balance balance = null;
+        Map<Day, DayTransfers> transfers = new HashMap<>();
+
+        for (Record6<Object, Object, Object, Object, Object, Object> record : result) {
+
+            color = ColorsUtils.fromHexadecimalToColor(record.get(field(name("color")), String.class));
+            name = record.get(field(name("name")), String.class);
+            balance = new Balance(record.get(field(name("balance")), Integer.class));
+
+            Integer day = record.get(field(name("day")), Integer.class);
+            if (day != null) {
+                transfers.put(new Day(day), new DayTransfers(record.get(field(name("amount")), Integer.class)));
+            }
+
+        }
+
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return color == null ? Optional.empty() : Optional.of(new Team(color, balance, transfers, name, houseId));
+    }
+
 }

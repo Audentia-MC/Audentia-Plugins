@@ -1,6 +1,6 @@
 package fr.audentia.protect.application.listeners;
 
-import fr.audentia.protect.domain.HouseAction;
+import fr.audentia.protect.domain.house.HouseAction;
 import fr.audentia.protect.domain.model.Location;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;

@@ -1,6 +1,6 @@
 package fr.audentia.protect.application.tasks;
 
-import fr.audentia.protect.domain.BuyHouseAction;
+import fr.audentia.protect.domain.house.BuyHouseAction;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class BuyHouseClicksTasks extends BukkitRunnable {

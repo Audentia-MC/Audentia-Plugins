@@ -11,4 +11,6 @@ public interface TeamsRepository {
 
     void saveTeam(Team team);
 
+    Optional<Team> getTeamByHouseId(int houseId);
+
 }
