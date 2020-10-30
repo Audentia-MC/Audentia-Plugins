@@ -19,4 +19,6 @@ public interface HouseRepository {
 
     int getHouseId(Location location);
 
+    void registerNewHouse(House house);
+
 }

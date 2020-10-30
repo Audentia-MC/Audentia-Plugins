@@ -1,5 +1,6 @@
 package fr.audentia.protect.main;
 
+import fr.audentia.protect.application.commands.CommandNewHouse;
 import fr.audentia.protect.application.commands.CommandReloadSigns;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
@@ -29,7 +30,8 @@ public class CommandsManager {
 
         Map<PluginCommand, CommandExecutor> commands = new HashMap<>();
 
-        commands.put(this.plugin.getCommand("reloadsigns"), new CommandReloadSigns(provider.signsManage));
+        commands.put(getCommand("reloadsigns"), new CommandReloadSigns(provider.signsManage));
+        commands.put(getCommand("newhouse"), new CommandNewHouse(provider.houseCreation));
 
         return commands;
     }

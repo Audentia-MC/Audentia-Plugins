@@ -123,6 +123,34 @@ public class MariaDbHouseRepository implements HouseRepository {
         return record.get(field(name("id")), Integer.class);
     }
 
+    @Override
+    public void registerNewHouse(House house) {
+
+        Connection connection = databaseConnection.getConnection();
+        databaseConnection.getDatabaseContext(connection)
+                .insertInto(table(name("house")))
+                .set(field(name("price")), house.price)
+                .set(field(name("level")), house.level)
+                .set(field(name("sign_face")), house.signFace)
+                .set(field(name("x0")), house.block1Location.x)
+                .set(field(name("y0")), house.block1Location.y)
+                .set(field(name("z0")), house.block1Location.z)
+                .set(field(name("x1")), house.block2Location.x)
+                .set(field(name("y1")), house.block2Location.y)
+                .set(field(name("z1")), house.block2Location.z)
+                .set(field(name("sign_x")), house.signLocation.x)
+                .set(field(name("sign_y")), house.signLocation.y)
+                .set(field(name("sign_z")), house.signLocation.z)
+                .execute();
+
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
     private House getHouse(Record record) {
 
         if (record == null) {

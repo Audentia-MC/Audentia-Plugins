@@ -24,8 +24,7 @@ public class ListenerHouseBlockInteract implements Listener {
 
         UUID uuid = event.getPlayer().getUniqueId();
 
-        boolean cancel = isCancel(uuid, event.getBlockPlaced());
-        event.setCancelled(cancel);
+        event.setCancelled(isCancel(uuid, event.getBlockPlaced()));
     }
 
     @EventHandler
@@ -52,9 +51,10 @@ public class ListenerHouseBlockInteract implements Listener {
 
     private boolean isCancel(UUID uuid, Block block) {
 
-        org.bukkit.Location location = block.getLocation();
+        org.bukkit.Location spigotLocation = block.getLocation();
 
-        return !houseAction.canInteract(uuid, new Location(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
+        Location location = new Location(spigotLocation.getBlockX(), spigotLocation.getBlockY(), spigotLocation.getBlockZ());
+        return !houseAction.canInteract(uuid, location);
     }
 
 }

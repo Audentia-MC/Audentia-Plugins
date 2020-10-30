@@ -38,7 +38,7 @@ public class SpigotSignUtils implements SignUtils {
         Location signLocation = house.signLocation;
         org.bukkit.Location spigotLocation = new org.bukkit.Location(world, signLocation.x, signLocation.y, signLocation.z);
 
-        Block block = world.getBlockAt(spigotLocation).getRelative(getBlockFace(house.blockFace));
+        Block block = world.getBlockAt(spigotLocation).getRelative(getBlockFace(house.signFace));
 
         world.getNearbyEntities(block.getLocation(), 3, 3, 3)
                 .stream()
@@ -65,7 +65,7 @@ public class SpigotSignUtils implements SignUtils {
     private void placeSign(House house, Block block) {
         block.setType(Material.OAK_WALL_SIGN);
         WallSign signData = (WallSign) block.getBlockData();
-        signData.setFacing(getBlockFace(house.blockFace));
+        signData.setFacing(getBlockFace(house.signFace));
 
         Sign sign = (Sign) block.getState();
         sign.setLine(0, "A vendre");

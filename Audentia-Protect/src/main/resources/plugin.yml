@@ -9,3 +9,5 @@ softdepend:
 commands:
   reloadsigns:
     description: reload all house signs
+  newhouse:
+    description: start new house creation
