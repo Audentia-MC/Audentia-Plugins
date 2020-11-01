@@ -12,7 +12,7 @@ import fr.audentia.core.domain.event.EventProvider;
 import fr.audentia.core.domain.game.*;
 import fr.audentia.core.domain.home.*;
 import fr.audentia.core.domain.npc.*;
-import fr.audentia.core.domain.players.JoinGameModeManage;
+import fr.audentia.core.domain.players.JoinActions;
 import fr.audentia.core.domain.players.MoveManage;
 import fr.audentia.core.domain.protect.CityInfosRepository;
 import fr.audentia.core.domain.protect.CityProtect;
@@ -98,7 +98,7 @@ public class AudentiaCoreManagersProvider {
     public final NetherNpcSpawn netherNpcSpawn;
     public final MoveManage moveManage;
     public final GameDayModifier gameDayModifier;
-    public final JoinGameModeManage joinGameModeManage;
+    public final JoinActions joinActions;
     public final GameStarter gameStarter;
     public final TeleportationsManage teleportationsManage;
     public final BankNpcSpawn bankNpcSpawn;
@@ -146,12 +146,12 @@ public class AudentiaCoreManagersProvider {
         this.bankManage = new BankManage(balanceManage, gamesInfosRepository, bankSlotsRepository, timeProvider, audentiaPlayersManagersProvider.teamsManager);
         this.bankInventoryInteract = new BankInventoryInteract(inventoryUtilities, bankManage);
         this.gradeChangeAction = new GradeChangeAction(audentiaPlayersManagersProvider.rolesRepository);
-        this.playerDamage = new PlayerDamage(audentiaPlayersManagersProvider.teamsManager, audentiaPlayersManagersProvider.rolesRepository, balanceManage, coliseumLocationRepository, gamesInfosRepository, timeProvider, timeProtectionAtStartProvider);
+        this.playerDamage = new PlayerDamage(audentiaPlayersManagersProvider.teamsManager, audentiaPlayersManagersProvider.rolesRepository, balanceManage, coliseumLocationRepository, gamesInfosRepository, timeProvider, timeProtectionAtStartProvider, cityInfosRepository);
         this.netherNpcSpawn = new NetherNpcSpawn(npcSpawner, netherNpcRepository, worldNpcFinder, (NetherTimesRepository) netherNpcRepository);
         this.gameStateManage = new GameStateManage(gamesInfosRepository, audentiaPlayersManagersProvider.rolesRepository);
         this.moveManage = new MoveManage(audentiaPlayersManagersProvider.rolesRepository, audentiaPlayersManagersProvider.teamsManager, gameStateManage, gamesInfosRepository);
         this.gameDayModifier = new GameDayModifier(gamesInfosRepository);
-        this.joinGameModeManage = new JoinGameModeManage(audentiaPlayersManagersProvider.rolesRepository, playerGameModeManage);
+        this.joinActions = new JoinActions(audentiaPlayersManagersProvider.rolesRepository, playerGameModeManage, audentiaPlayersManagersProvider.playersRepository);
         this.gameStarter = new GameStarter(audentiaPlayersManagersProvider.rolesRepository, playerGameModeManage, playerFinder, audentiaPlayersManagersProvider.teamsManager, inventoryUtilities, gamesInfosRepository, playerMessageSender);
         this.cityProtect = new CityProtect(audentiaPlayersManagersProvider.rolesRepository, cityInfosRepository);
 

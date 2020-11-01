@@ -1,10 +1,8 @@
 package fr.audentia.core.infrastructure.home;
 
 import fr.audentia.core.domain.home.HomeRepository;
-import fr.audentia.core.domain.model.home.HomeLocation;
+import fr.audentia.core.domain.model.home.Home;
 import fr.audentia.players.infrastructure.database.DatabaseConnection;
-import org.jooq.Record;
-import org.jooq.Result;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -24,7 +22,7 @@ public class MariaDbHomeRepository implements HomeRepository {
     }
 
     @Override
-    public void saveHome(UUID playerUUID, int homeNumber, HomeLocation homeLocation) {
+    public void saveHome(UUID playerUUID, Home home) {
 
         Connection connection = databaseConnection.getConnection();
         databaseConnection.getDatabaseContext(connection)
@@ -33,16 +31,19 @@ public class MariaDbHomeRepository implements HomeRepository {
                         field(name("home_number")),
                         field(name("x")),
                         field(name("y")),
-                        field(name("z")))
+                        field(name("z")),
+                        field(name("name")))
                 .values(playerUUID.toString(),
-                        homeNumber,
-                        homeLocation.x,
-                        homeLocation.y,
-                        homeLocation.z)
+                        home.number,
+                        home.x,
+                        home.y,
+                        home.z,
+                        home.name)
                 .onDuplicateKeyUpdate()
-                .set(field(name("x")), homeLocation.x)
-                .set(field(name("y")), homeLocation.y)
-                .set(field(name("z")), homeLocation.z)
+                .set(field(name("x")), home.x)
+                .set(field(name("y")), home.y)
+                .set(field(name("z")), home.z)
+                .set(field(name("name")), home.name)
                 .execute();
 
         try {
@@ -54,25 +55,22 @@ public class MariaDbHomeRepository implements HomeRepository {
     }
 
     @Override
-    public Optional<HomeLocation> getHome(UUID playerUUID, int homeNumber) {
+    public Optional<Home> getHome(UUID playerUUID, int homeNumber) {
 
         Connection connection = databaseConnection.getConnection();
-        Result<Record> result = databaseConnection.getDatabaseContext(connection)
+        Optional<Home> home = databaseConnection.getDatabaseContext(connection)
                 .selectFrom(table(name("home")))
                 .where(field(name("player_uuid")).eq(playerUUID.toString()))
                 .and(field(name("home_number")).eq(homeNumber))
-                .fetch();
-
-        for (Record record : result) {
-
-            HomeLocation homeLocation = new HomeLocation(
-                    record.get(field(name("x")), Integer.class),
-                    record.get(field(name("y")), Integer.class),
-                    record.get(field(name("z")), Integer.class));
-
-            return Optional.of(homeLocation);
-
-        }
+                .fetch()
+                .map(record -> new Home(
+                        record.get(field(name("home_number")), Integer.class),
+                        record.get(field(name("name")), String.class),
+                        record.get(field(name("x")), Integer.class),
+                        record.get(field(name("y")), Integer.class),
+                        record.get(field(name("z")), Integer.class)))
+                .stream()
+                .findFirst();
 
         try {
             connection.close();
@@ -80,20 +78,49 @@ public class MariaDbHomeRepository implements HomeRepository {
             throwables.printStackTrace();
         }
 
-        return Optional.empty();
+        return home;
     }
 
     @Override
-    public List<HomeLocation> getHomes(UUID playerUUID) {
+    public Optional<Home> getHome(UUID playerUUID, String name) {
 
         Connection connection = databaseConnection.getConnection();
-        List<HomeLocation> collect = databaseConnection.getDatabaseContext(connection)
+        Optional<Home> home = databaseConnection.getDatabaseContext(connection)
+                .selectFrom(table(name("home")))
+                .where(field(name("player_uuid")).eq(playerUUID.toString()))
+                .and(field(name("name")).eq(name))
+                .fetch()
+                .map(record -> new Home(
+                        record.get(field(name("home_number")), Integer.class),
+                        record.get(field(name("name")), String.class),
+                        record.get(field(name("x")), Integer.class),
+                        record.get(field(name("y")), Integer.class),
+                        record.get(field(name("z")), Integer.class)))
+                .stream()
+                .findFirst();
+
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return home;
+    }
+
+    @Override
+    public List<Home> getHomes(UUID playerUUID) {
+
+        Connection connection = databaseConnection.getConnection();
+        List<Home> homes = databaseConnection.getDatabaseContext(connection)
                 .selectFrom(table(name("home")))
                 .where(field(name("player_uuid")).eq(playerUUID.toString()))
                 .orderBy(field(name("home_number")))
                 .fetch()
                 .stream()
-                .map(record -> new HomeLocation(
+                .map(record -> new Home(
+                        record.get(field(name("home_number")), Integer.class),
+                        record.get(field(name("name")), String.class),
                         record.get(field(name("x")), Integer.class),
                         record.get(field(name("y")), Integer.class),
                         record.get(field(name("z")), Integer.class)))
@@ -105,7 +132,7 @@ public class MariaDbHomeRepository implements HomeRepository {
             throwables.printStackTrace();
         }
 
-        return collect;
+        return homes;
     }
 
 }

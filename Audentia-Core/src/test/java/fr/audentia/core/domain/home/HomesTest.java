@@ -1,6 +1,6 @@
 package fr.audentia.core.domain.home;
 
-import fr.audentia.core.domain.model.home.HomeLocation;
+import fr.audentia.core.domain.model.home.Home;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,12 +34,12 @@ class HomesTest {
     @DisplayName("homes should return list of homes")
     void homes_shouldReturnListOfHomes_whenPlayerHasHomesStored() {
 
-        List<HomeLocation> homeLocations = Arrays.asList(
-                new HomeLocation(0, 0, 0),
-                new HomeLocation(1, 2, 3),
-                new HomeLocation(4, 1, 2)
+        List<Home> homes = Arrays.asList(
+                new Home(0, "", 0, 0, 0),
+                new Home(0, "", 1, 2, 3),
+                new Home(0, "", 4, 1, 2)
         );
-        when(homeRepository.getHomes(any())).thenReturn(homeLocations);
+        when(homeRepository.getHomes(any())).thenReturn(homes);
 
         String result = homesProvide.getHomes(UUID.randomUUID());
 

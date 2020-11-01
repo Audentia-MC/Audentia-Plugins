@@ -1,7 +1,7 @@
 package fr.audentia.core.application.commands;
 
 import fr.audentia.core.domain.home.SetHomeManage;
-import fr.audentia.core.domain.model.home.HomeLocation;
+import fr.audentia.core.domain.model.home.Home;
 import fr.audentia.players.utils.ChatUtils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -26,16 +26,22 @@ public class CommandSetHome implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        int homeNumber = 1;
-
-        if (args.length != 0 && args[0].matches("[0-9]+")) {
-            homeNumber = Integer.parseInt(args[0]);
+        if (args.length < 2) {
+            player.sendMessage(ChatUtils.format("<error>/sethome <numéro> <nom>"));
+            return true;
         }
 
-        Location location = player.getLocation();
-        HomeLocation homeLocation = new HomeLocation(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+        if (!args[0].matches("[0-9]+")) {
+            player.sendMessage(ChatUtils.format("<error>/sethome <numéro> <nom>"));
+            return true;
+        }
 
-        String message = setHomeManage.saveHome(player.getUniqueId(), homeNumber, homeLocation);
+        int homeNumber = Integer.parseInt(args[0]);
+
+        Location location = player.getLocation();
+        Home home = new Home(homeNumber, args[1], location.getBlockX(), location.getBlockY(), location.getBlockZ());
+
+        String message = setHomeManage.saveHome(player.getUniqueId(), home);
         player.sendMessage(ChatUtils.format(message));
         return true;
     }

@@ -1,6 +1,6 @@
 package fr.audentia.core.domain.home;
 
-import fr.audentia.core.domain.model.home.HomeLocation;
+import fr.audentia.core.domain.model.home.Home;
 import fr.audentia.players.domain.teams.RolesRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -40,7 +40,7 @@ class SetHomeManageTest {
     @DisplayName("setHome should define new home 1 when player has default player role and is in default world")
     void setHome_shouldStoreHome1_whenPlayerIsDefaultPlayerAndIsInDefaultWorld() {
 
-        HomeLocation homeLocation = new HomeLocation(0, 0, 0);
+        Home home = new Home(0, "", 0, 0, 0);
         when(rolesRepository.getRole(any(UUID.class))).thenReturn(aRole()
                 .withName("Admin")
                 .withColor(Color.BLACK)
@@ -51,9 +51,9 @@ class SetHomeManageTest {
                 .build());
         when(worldNameFinder.getWorldName(any(UUID.class))).thenReturn("world");
 
-        String result = setHomeManager.saveHome(UUID.randomUUID(), homeLocation);
+        String result = setHomeManager.saveHome(UUID.randomUUID(), home);
 
-        verify(homeRepository, times(1)).saveHome(any(UUID.class), eq(1), eq(homeLocation));
+        verify(homeRepository, times(1)).saveHome(any(UUID.class), eq(home));
         assertThat(result).isEqualTo("<success>Nouveau home n°1 défini.");
     }
 
@@ -70,7 +70,7 @@ class SetHomeManageTest {
                 .isStaff(false)
                 .build());
 
-        String result = setHomeManager.saveHome(UUID.randomUUID(), 2, any(HomeLocation.class));
+        String result = setHomeManager.saveHome(UUID.randomUUID(), any(Home.class));
 
         verifyNoInteractions(homeRepository);
         assertThat(result).isEqualTo("<error>Votre role ne vous permet pas d'avoir un home n°2.");
@@ -90,7 +90,7 @@ class SetHomeManageTest {
                 .build());
         when(worldNameFinder.getWorldName(any(UUID.class))).thenReturn("nether");
 
-        String result = setHomeManager.saveHome(UUID.randomUUID(), 1, any(HomeLocation.class));
+        String result = setHomeManager.saveHome(UUID.randomUUID(), any(Home.class));
 
         verifyNoInteractions(homeRepository);
         assertThat(result).isEqualTo("<error>Les homes ne sont disponibles que dans le monde normal.");

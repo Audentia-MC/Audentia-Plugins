@@ -32,6 +32,10 @@ public class MoveManage {
             return true;
         }
 
+        if (!role.player) {
+            return false;
+        }
+
         Team team = teamsManager.getTeamOfPlayer(playerUUID);
 
         if (!gameStateManage.isPlaying() || team.color == Color.BLACK) {

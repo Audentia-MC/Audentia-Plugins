@@ -8,29 +8,29 @@ import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class HomeLocationTest {
+public class HomeTest {
 
-    private HomeLocation homeLocation;
+    private Home home;
 
     @BeforeEach
     void setUp() {
-        homeLocation = new HomeLocation(0, 0, 0);
+        home = new Home(0, "", 0, 0, 0);
     }
 
     @Test
     @DisplayName("equals should be true when compare same instance")
     void equals_shouldReturnTrue_whenCompareSameInstance() {
 
-        assertThat(homeLocation.equals(homeLocation)).isTrue();
+        assertThat(home.equals(home)).isTrue();
     }
 
     @Test
     @DisplayName("equals should be true when compare to equals instance")
     void equals_shouldReturnTrue_whenCompareToEqualsInstance() {
 
-        HomeLocation otherHomeLocation = new HomeLocation(0, 0, 0);
+        Home otherHome = new Home(0, "", 0, 0, 0);
 
-        assertThat(homeLocation.equals(otherHomeLocation)).isTrue();
+        assertThat(home.equals(otherHome)).isTrue();
     }
 
     @Test
@@ -38,9 +38,9 @@ public class HomeLocationTest {
     void equals_shouldReturnFalse_whenCompareToAnOtherScoreboard() {
 
 
-        HomeLocation otherHomeLocation = new HomeLocation(1, 0, 0);
+        Home otherHome = new Home(0, "", 1, 0, 0);
 
-        assertThat(homeLocation.equals(otherHomeLocation)).isFalse();
+        assertThat(home.equals(otherHome)).isFalse();
     }
 
     @Test
@@ -48,9 +48,9 @@ public class HomeLocationTest {
     void equals_shouldReturnFalse_whenCompareToAnOtherScoreboard2() {
 
 
-        HomeLocation otherHomeLocation = new HomeLocation(0, 1, 0);
+        Home otherHome = new Home(0, "", 0, 1, 0);
 
-        assertThat(homeLocation.equals(otherHomeLocation)).isFalse();
+        assertThat(home.equals(otherHome)).isFalse();
     }
 
     @Test
@@ -58,16 +58,16 @@ public class HomeLocationTest {
     void equals_shouldReturnFalse_whenCompareToAnOtherScoreboard3() {
 
 
-        HomeLocation otherHomeLocation = new HomeLocation(0, 0, 1);
+        Home otherHome = new Home(0, "", 0, 0, 1);
 
-        assertThat(homeLocation.equals(otherHomeLocation)).isFalse();
+        assertThat(home.equals(otherHome)).isFalse();
     }
 
     @Test
     @DisplayName("equals should be false when compare to null")
     void equals_shouldReturnFalse_whenCompareToNull() {
 
-        assertThat(homeLocation.equals(null)).isFalse();
+        assertThat(home.equals(null)).isFalse();
     }
 
 
@@ -75,7 +75,7 @@ public class HomeLocationTest {
     @DisplayName("hashCode should return hash")
     void hash_shouldReturnHash() {
 
-        assertThat(homeLocation.hashCode()).isEqualTo(Objects.hash(0, 0, 0));
+        assertThat(home.hashCode()).isEqualTo(Objects.hash(0, 0, 0));
     }
 
 }

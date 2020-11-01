@@ -1,6 +1,6 @@
 package fr.audentia.core.domain.home;
 
-import fr.audentia.core.domain.model.home.HomeLocation;
+import fr.audentia.core.domain.model.home.Home;
 import fr.audentia.core.domain.model.home.Teleport;
 
 import java.util.Optional;
@@ -24,12 +24,25 @@ public class HomeManage {
 
     public String registerTeleport(UUID playerUUID, int homeNumber) {
 
-        Optional<HomeLocation> optionalHomeLocation = homeRepository.getHome(playerUUID, homeNumber);
+        Optional<Home> optionalHomeLocation = homeRepository.getHome(playerUUID, homeNumber);
         String result = "<error>Votre home n°" + homeNumber + " n'est pas défini.";
 
         if (optionalHomeLocation.isPresent()) {
             result = "<success>Téléportation dans :";
             teleportRepository.addPlayer(playerUUID, homeNumber);
+        }
+
+        return result;
+    }
+
+    public String registerTeleport(UUID playerUUID, String name) {
+
+        Optional<Home> optionalHomeLocation = homeRepository.getHome(playerUUID, name);
+        String result = "<error>Votre home n°" + name + " n'est pas défini.";
+
+        if (optionalHomeLocation.isPresent()) {
+            result = "<success>Téléportation dans :";
+            teleportRepository.addPlayer(playerUUID, optionalHomeLocation.get().number);
         }
 
         return result;
@@ -44,7 +57,7 @@ public class HomeManage {
         }
 
         int homeNumber = teleport.home;
-        Optional<HomeLocation> optionalHomeLocation = homeRepository.getHome(playerUUID, homeNumber);
+        Optional<Home> optionalHomeLocation = homeRepository.getHome(playerUUID, homeNumber);
         String result = "<error>Votre home n°" + homeNumber + " n'est pas défini.";
 
         if (optionalHomeLocation.isPresent()) {

@@ -2,13 +2,17 @@ package fr.audentia.core.domain.model.home;
 
 import java.util.Objects;
 
-public class HomeLocation {
+public class Home {
 
+    public final int number;
+    public final String name;
     public final int x;
     public final int y;
     public final int z;
 
-    public HomeLocation(int x, int y, int z) {
+    public Home(int number, String name, int x, int y, int z) {
+        this.number = number;
+        this.name = name;
         this.x = x;
         this.y = y;
         this.z = z;
@@ -18,7 +22,7 @@ public class HomeLocation {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        HomeLocation that = (HomeLocation) o;
+        Home that = (Home) o;
         return x == that.x &&
                 y == that.y &&
                 z == that.z;

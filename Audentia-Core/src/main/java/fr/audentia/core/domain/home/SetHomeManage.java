@@ -1,6 +1,6 @@
 package fr.audentia.core.domain.home;
 
-import fr.audentia.core.domain.model.home.HomeLocation;
+import fr.audentia.core.domain.model.home.Home;
 import fr.audentia.players.domain.model.roles.Role;
 import fr.audentia.players.domain.teams.RolesRepository;
 
@@ -18,28 +18,24 @@ public class SetHomeManage {
         this.worldNameFinder = worldNameFinder;
     }
 
-    public String saveHome(UUID playerUUID, HomeLocation homeLocation) {
-        return saveHome(playerUUID, 1, homeLocation);
-    }
-
-    public String saveHome(UUID playerUUID, int homeNumber, HomeLocation homeLocation) {
+    public String saveHome(UUID playerUUID, Home home) {
 
         Role role = rolesRepository.getRole(playerUUID);
 
-        if (homeNumber < 1) {
+        if (home.number < 1) {
             return "<error>Ce numéro est indisponible.";
         }
 
-        if (homeNumber > role.homeCount) {
-            return "<error>Votre role ne vous permet pas d'avoir un home n°" + homeNumber + ".";
+        if (home.number > role.homeCount) {
+            return "<error>Votre role ne vous permet pas d'avoir un home n°" + home.number + ".";
         }
 
         if (!worldNameFinder.getWorldName(playerUUID).equals("world")) {
             return "<error>Les homes ne sont disponibles que dans le monde normal.";
         }
 
-        homeRepository.saveHome(playerUUID, homeNumber, homeLocation);
-        return "<success>Nouveau home n°" + homeNumber + " défini.";
+        homeRepository.saveHome(playerUUID, home);
+        return "<success>Nouveau home n°" + home.number + " défini : " + home.name + ".";
     }
 
 }

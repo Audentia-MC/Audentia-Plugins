@@ -1,7 +1,9 @@
 package fr.audentia.players.main;
 
+import fr.audentia.players.domain.PlayersRepository;
 import fr.audentia.players.domain.tablist.TabListProvider;
 import fr.audentia.players.domain.teams.*;
+import fr.audentia.players.infrastructure.MariaDbPlayersRepository;
 import fr.audentia.players.infrastructure.database.DatabaseConnection;
 import fr.audentia.players.infrastructure.roles.MariaDbRolesRepository;
 import fr.audentia.players.infrastructure.teams.MariaDbTeamsRepository;
@@ -11,6 +13,7 @@ public class AudentiaPlayersManagersProvider {
 
     public final RolesRepository rolesRepository;
     public final TeamsManager teamsManager;
+    public final PlayersRepository playersRepository;
 
     public final MessageFormat messageFormat;
     public final TabListProvider tabListProvider;
@@ -20,12 +23,13 @@ public class AudentiaPlayersManagersProvider {
 
         this.databaseConnection = DataBaseConfigurationLoader.loadConnection(path);
 
-        TeamsRepository TEAMS_REPOSITORY = new MariaDbTeamsRepository(databaseConnection);
+        TeamsRepository teamsRepository = new MariaDbTeamsRepository(databaseConnection);
 
         this.rolesRepository = new MariaDbRolesRepository(databaseConnection);
-        this.teamsManager = new DefaultTeamsManager(TEAMS_REPOSITORY);
+        this.teamsManager = new DefaultTeamsManager(teamsRepository);
         this.messageFormat = new MessageFormat(rolesRepository, teamsManager);
         this.tabListProvider = new TabListProvider(rolesRepository, teamsManager);
+        this.playersRepository = new MariaDbPlayersRepository(databaseConnection);
     }
 
 }

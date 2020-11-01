@@ -4,6 +4,7 @@ import fr.audentia.core.domain.balance.BalanceManage;
 import fr.audentia.core.domain.bank.TimeProvider;
 import fr.audentia.core.domain.game.GamesInfosRepository;
 import fr.audentia.core.domain.model.location.Location;
+import fr.audentia.core.domain.protect.CityInfosRepository;
 import fr.audentia.players.domain.model.roles.Role;
 import fr.audentia.players.domain.model.teams.Team;
 import fr.audentia.players.domain.teams.RolesRepository;
@@ -21,8 +22,9 @@ public class PlayerDamage {
     private final GamesInfosRepository gamesInfosRepository;
     private final TimeProvider timeProvider;
     private final TimeProtectionAtStartProvider timeProtectionAtStartProvider;
+    private final CityInfosRepository cityInfosRepository;
 
-    public PlayerDamage(TeamsManager teamsManager, RolesRepository rolesRepository, BalanceManage balanceManage, ColiseumLocationRepository coliseumLocationRepository, GamesInfosRepository gamesInfosRepository, TimeProvider timeProvider, TimeProtectionAtStartProvider timeProtectionAtStartProvider) {
+    public PlayerDamage(TeamsManager teamsManager, RolesRepository rolesRepository, BalanceManage balanceManage, ColiseumLocationRepository coliseumLocationRepository, GamesInfosRepository gamesInfosRepository, TimeProvider timeProvider, TimeProtectionAtStartProvider timeProtectionAtStartProvider, CityInfosRepository cityInfosRepository) {
         this.teamsManager = teamsManager;
         this.rolesRepository = rolesRepository;
         this.balanceManage = balanceManage;
@@ -30,6 +32,7 @@ public class PlayerDamage {
         this.gamesInfosRepository = gamesInfosRepository;
         this.timeProvider = timeProvider;
         this.timeProtectionAtStartProvider = timeProtectionAtStartProvider;
+        this.cityInfosRepository = cityInfosRepository;
     }
 
     public boolean canBeDamaged(UUID playerUUID) {
@@ -57,7 +60,7 @@ public class PlayerDamage {
         balanceManage.forceRemoveFromBalance(damagedUUID, (int) toMove);
     }
 
-    public boolean canBeDamaged(UUID damagedUUID, UUID damagerUUID) {
+    public boolean canBeDamaged(UUID damagedUUID, UUID damagerUUID, Location location) {
 
         if (gamesInfosRepository.getStartTimeInSeconds() == -1) {
             return false;
@@ -67,6 +70,27 @@ public class PlayerDamage {
         int minutesOfProtection = timeProtectionAtStartProvider.getMinutesOfProtection();
 
         if (actualTimeInGame / 60 < minutesOfProtection) {
+            return false;
+        }
+
+        Location cityLocation = cityInfosRepository.getCityLocation();
+        double radiusSquared = Math.pow(cityInfosRepository.getCityRadius(), 2);
+        double distanceSquared = location.distanceSquared2D(cityLocation);
+
+        boolean temp = distanceSquared <= radiusSquared;
+
+        if (temp) {
+
+            Location coliseumLocation = coliseumLocationRepository.getColiseumLocation();
+            double coliseumSizeSquared = Math.pow(coliseumLocationRepository.getColiseumSize(), 2);
+
+            if (location.distanceSquared2D(coliseumLocation) > coliseumSizeSquared) {
+                temp = false;
+            }
+
+        }
+
+        if (temp) {
             return false;
         }
 

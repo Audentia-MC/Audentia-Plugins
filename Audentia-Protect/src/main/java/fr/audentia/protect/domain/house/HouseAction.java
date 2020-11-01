@@ -60,6 +60,12 @@ public class HouseAction {
             return "<error>Ce panneau n'est relié à aucune maison.";
         }
 
+        Team team = teamsManager.getTeamOfPlayer(playerUUID);
+
+        if (team.houseId != -1) {
+            return "<error>Votre équipe possède déjà une maison.";
+        }
+
         if (houseRepository.isBoughtBySign(location)) {
             return "<error>Cette maison est déjà achetée.";
         }

@@ -54,10 +54,10 @@ public class ListenerPlayerDamage implements Listener {
 
         teleportationsManage.cancelIfRegistered(player.getUniqueId());
 
-        org.bukkit.Location location = playerDamager.getLocation();
+        org.bukkit.Location location = player.getLocation();
         Location domainLocation = new Location(location.getBlockX(), location.getBlockY(), location.getBlockZ());
 
-        boolean receivedDamage = playerDamage.canBeDamaged(player.getUniqueId(), damager.getUniqueId());
+        boolean receivedDamage = playerDamage.canBeDamaged(player.getUniqueId(), damager.getUniqueId(), domainLocation);
 
         if (!receivedDamage) {
             event.setCancelled(true);

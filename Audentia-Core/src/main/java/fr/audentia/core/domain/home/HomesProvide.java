@@ -1,6 +1,6 @@
 package fr.audentia.core.domain.home;
 
-import fr.audentia.core.domain.model.home.HomeLocation;
+import fr.audentia.core.domain.model.home.Home;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,34 +15,35 @@ public class HomesProvide {
 
     public String getHomes(UUID playerUUID) {
 
-        List<HomeLocation> homeLocations = homeRepository.getHomes(playerUUID);
+        List<Home> homes = homeRepository.getHomes(playerUUID);
 
-        if (homeLocations.isEmpty()) {
+        if (homes.isEmpty()) {
             return "<error>Vous n'avez aucun home défini.";
         }
 
-        return "<success>Liste de vos homes :" + buildHomesMessage(homeLocations);
+        return "<success>Liste de vos homes :" + buildHomesMessage(homes);
     }
 
-    private StringBuilder buildHomesMessage(List<HomeLocation> homeLocations) { // TODO: test \n
-        StringBuilder homes = new StringBuilder();
+    private StringBuilder buildHomesMessage(List<Home> homes) {
+        StringBuilder message = new StringBuilder();
 
-        for (int i = 0; i < homeLocations.size(); i++) {
+        for (Home home : homes) {
 
-            HomeLocation homeLocation = homeLocations.get(i);
-
-            homes.append("\n")
-                    .append(i + 1)
-                    .append(" - x: ")
-                    .append(homeLocation.x)
+            message.append("\n")
+                    .append(home.number)
+                    .append(", ")
+                    .append(home.name)
+                    .append(", ")
+                    .append("- x: ")
+                    .append(home.x)
                     .append(", y: ")
-                    .append(homeLocation.y)
+                    .append(home.y)
                     .append(", z: ")
-                    .append(homeLocation.z);
+                    .append(home.z);
 
         }
 
-        return homes;
+        return message;
     }
 
 }
