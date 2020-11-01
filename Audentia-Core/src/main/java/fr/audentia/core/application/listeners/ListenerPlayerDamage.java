@@ -5,6 +5,7 @@ import fr.audentia.core.domain.home.TeleportationsManage;
 import fr.audentia.core.domain.model.location.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -19,6 +20,7 @@ public class ListenerPlayerDamage implements Listener {
         this.teleportationsManage = teleportationsManage;
     }
 
+    @EventHandler
     public void onPlayerDamage(EntityDamageEvent event) {
 
         Entity entity = event.getEntity();
@@ -37,6 +39,7 @@ public class ListenerPlayerDamage implements Listener {
 
     }
 
+    @EventHandler
     public void onPlayerDeathByOtherPlayer(EntityDamageByEntityEvent event) {
 
         Entity entity = event.getEntity();

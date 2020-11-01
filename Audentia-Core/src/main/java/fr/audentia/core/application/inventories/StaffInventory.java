@@ -74,12 +74,8 @@ public class StaffInventory implements InventoryProvider {
                         .withMaterial(Material.BEDROCK)
                         .withAmount(1)
                         .addLore("Bannir le joueur")
-                        .addLore("(Pas de confirmation)")
                         .build(),
-                event -> {
-                    String result = banAction.ban(player.getUniqueId(), targetUUID);
-                    player.sendMessage(ChatUtils.format(result));
-                }
+                event -> BanInventory.open(banAction, targetUUID, player)
         ));
 
         contents.set(new SlotPos(1, 3), ClickableItem.of(
@@ -88,13 +84,8 @@ public class StaffInventory implements InventoryProvider {
                         .withMaterial(Material.DARK_OAK_DOOR)
                         .withAmount(1)
                         .addLore("Kick le joueur")
-                        .addLore("(Pas de confirmation)")
                         .build(),
-                event -> {
-                    String result = kickAction.kick(player.getUniqueId(), targetUUID);
-                    player.sendMessage(ChatUtils.format(result));
-                    if (result.startsWith("<success>")) player.closeInventory();
-                }
+                event -> KickInventory.open(kickAction, targetUUID, player)
         ));
 
         contents.set(new SlotPos(1, 4), ClickableItem.of(

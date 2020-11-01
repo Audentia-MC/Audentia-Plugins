@@ -1,6 +1,9 @@
 [bank]
 npcName = "Tony"
 
+[game]
+time_protection = 60   # In minutes, don't forget 15 first minutes only for legats
+
 [border]
 size = 314    # Longueur d'un côté du carré formé par la bordure
 x = 0

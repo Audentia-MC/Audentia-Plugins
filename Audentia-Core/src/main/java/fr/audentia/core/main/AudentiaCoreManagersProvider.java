@@ -7,6 +7,7 @@ import fr.audentia.core.domain.border.BorderInfosRepository;
 import fr.audentia.core.domain.border.BorderSpawner;
 import fr.audentia.core.domain.damage.ColiseumLocationRepository;
 import fr.audentia.core.domain.damage.PlayerDamage;
+import fr.audentia.core.domain.damage.TimeProtectionAtStartProvider;
 import fr.audentia.core.domain.event.EventProvider;
 import fr.audentia.core.domain.game.*;
 import fr.audentia.core.domain.home.*;
@@ -39,6 +40,7 @@ import fr.audentia.core.infrastructure.bank.*;
 import fr.audentia.core.infrastructure.border.SpigotBorderSpawner;
 import fr.audentia.core.infrastructure.border.TOMLBorderInfosRepository;
 import fr.audentia.core.infrastructure.damage.TOMLColiseumLocationRepository;
+import fr.audentia.core.infrastructure.damage.TOMLTimeProtectionAtStartProvider;
 import fr.audentia.core.infrastructure.game.MariaDbGamesInfosRepository;
 import fr.audentia.core.infrastructure.game.SpigotPlayerGameModeManage;
 import fr.audentia.core.infrastructure.game.SpigotPlayerMessageSender;
@@ -129,6 +131,7 @@ public class AudentiaCoreManagersProvider {
         PlayerFinder playerFinder = new SpigotPlayerFinder();
         PlayerMessageSender playerMessageSender = new SpigotPlayerMessageSender();
         TeleportRepository teleportRepository = new DefaultTeleportRepository();
+        TimeProtectionAtStartProvider timeProtectionAtStartProvider = new TOMLTimeProtectionAtStartProvider(path);
 
         this.banAction = new BanAction(playerBanner, banRepository, audentiaPlayersManagersProvider.rolesRepository);
         this.kickAction = new KickAction(playerKicker, audentiaPlayersManagersProvider.rolesRepository);
@@ -138,7 +141,7 @@ public class AudentiaCoreManagersProvider {
         this.bankManage = new BankManage(balanceManage, gamesInfosRepository, bankSlotsRepository, timeProvider, audentiaPlayersManagersProvider.teamsManager);
         this.bankInventoryInteract = new BankInventoryInteract(inventoryUtilities, bankManage);
         this.gradeChangeAction = new GradeChangeAction(audentiaPlayersManagersProvider.rolesRepository);
-        this.playerDamage = new PlayerDamage(audentiaPlayersManagersProvider.teamsManager, audentiaPlayersManagersProvider.rolesRepository, balanceManage, coliseumLocationRepository);
+        this.playerDamage = new PlayerDamage(audentiaPlayersManagersProvider.teamsManager, audentiaPlayersManagersProvider.rolesRepository, balanceManage, coliseumLocationRepository, gamesInfosRepository, timeProvider, timeProtectionAtStartProvider);
         this.netherNpcSpawn = new NetherNpcSpawn(npcSpawner, netherNpcRepository, worldNpcFinder, (NetherTimesRepository) netherNpcRepository);
         this.gameStateManage = new GameStateManage(gamesInfosRepository, audentiaPlayersManagersProvider.rolesRepository);
         this.moveManage = new MoveManage(audentiaPlayersManagersProvider.rolesRepository, audentiaPlayersManagersProvider.teamsManager, gameStateManage, gamesInfosRepository);

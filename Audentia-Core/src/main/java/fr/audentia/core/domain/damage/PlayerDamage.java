@@ -1,6 +1,8 @@
 package fr.audentia.core.domain.damage;
 
 import fr.audentia.core.domain.balance.BalanceManage;
+import fr.audentia.core.domain.bank.TimeProvider;
+import fr.audentia.core.domain.game.GamesInfosRepository;
 import fr.audentia.core.domain.model.location.Location;
 import fr.audentia.players.domain.model.roles.Role;
 import fr.audentia.players.domain.model.teams.Team;
@@ -16,12 +18,18 @@ public class PlayerDamage {
     private final RolesRepository rolesRepository;
     private final BalanceManage balanceManage;
     private final ColiseumLocationRepository coliseumLocationRepository;
+    private final GamesInfosRepository gamesInfosRepository;
+    private final TimeProvider timeProvider;
+    private final TimeProtectionAtStartProvider timeProtectionAtStartProvider;
 
-    public PlayerDamage(TeamsManager teamsManager, RolesRepository rolesRepository, BalanceManage balanceManage, ColiseumLocationRepository coliseumLocationRepository) {
+    public PlayerDamage(TeamsManager teamsManager, RolesRepository rolesRepository, BalanceManage balanceManage, ColiseumLocationRepository coliseumLocationRepository, GamesInfosRepository gamesInfosRepository, TimeProvider timeProvider, TimeProtectionAtStartProvider timeProtectionAtStartProvider) {
         this.teamsManager = teamsManager;
         this.rolesRepository = rolesRepository;
         this.balanceManage = balanceManage;
         this.coliseumLocationRepository = coliseumLocationRepository;
+        this.gamesInfosRepository = gamesInfosRepository;
+        this.timeProvider = timeProvider;
+        this.timeProtectionAtStartProvider = timeProtectionAtStartProvider;
     }
 
     public boolean canBeDamaged(UUID playerUUID) {
@@ -50,6 +58,17 @@ public class PlayerDamage {
     }
 
     public boolean canBeDamaged(UUID damagedUUID, UUID damagerUUID) {
+
+        if (gamesInfosRepository.getStartTimeInSeconds() == -1) {
+            return false;
+        }
+
+        long actualTimeInGame = timeProvider.getActualTimeInSeconds() - gamesInfosRepository.getStartTimeInSeconds();
+        int minutesOfProtection = timeProtectionAtStartProvider.getMinutesOfProtection();
+
+        if (actualTimeInGame / 60 < minutesOfProtection) {
+            return false;
+        }
 
         Team teamOfPlayer = teamsManager.getTeamOfPlayer(damagerUUID);
 
