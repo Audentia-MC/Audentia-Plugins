@@ -4,6 +4,7 @@ import fr.audentia.protect.domain.house.HouseAction;
 import fr.audentia.protect.domain.model.Location;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -27,7 +28,7 @@ public class ListenerHouseBlockInteract implements Listener {
         event.setCancelled(isCancel(uuid, event.getBlockPlaced()));
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onBlockBreak(BlockBreakEvent event) {
 
         UUID uuid = event.getPlayer().getUniqueId();

@@ -24,7 +24,7 @@ public class ListenerSign implements Listener {
         this.buyHouseAction = buyHouseAction;
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onSignBreak(BlockBreakEvent event) {
 
         Block block = event.getBlock();
