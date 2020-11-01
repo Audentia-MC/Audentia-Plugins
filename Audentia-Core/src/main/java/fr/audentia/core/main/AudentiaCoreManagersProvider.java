@@ -92,6 +92,7 @@ public class AudentiaCoreManagersProvider {
     public final NpcSpawn npcSpawn;
     public final BorderCreate borderCreate;
     public final RolesRepository rolesRepository;
+    public final CityInfosRepository cityInfosRepository;
     public final GradeInventoryAction gradeInventoryAction;
     public final GradeChangeAction gradeChangeAction;
     public final PlayerDamage playerDamage;
@@ -136,7 +137,7 @@ public class AudentiaCoreManagersProvider {
         PlayerMessageSender playerMessageSender = new SpigotPlayerMessageSender();
         TeleportRepository teleportRepository = new DefaultTeleportRepository();
         TimeProtectionAtStartProvider timeProtectionAtStartProvider = new TOMLTimeProtectionAtStartProvider(path);
-        CityInfosRepository cityInfosRepository = new TOMLCityInfosRepository(path);
+        cityInfosRepository = new TOMLCityInfosRepository(path);
 
         this.banAction = new BanAction(playerBanner, banRepository, audentiaPlayersManagersProvider.rolesRepository);
         this.kickAction = new KickAction(playerKicker, audentiaPlayersManagersProvider.rolesRepository);

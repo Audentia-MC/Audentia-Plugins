@@ -26,11 +26,11 @@ public class AudentiaProtectManagersProvider {
         NetherLocationRepository netherLocationRepository = new TOMLNetherLocationRepository(path);
         HouseCreationRepository houseCreationRepository = new DefaultHouseCreationRepository();
 
-        HouseAction houseAction1 = new HouseAction(houseRepository, audentiaPlayersManagersProvider.rolesRepository, audentiaPlayersManagersProvider.teamsManager, audentiaCoreManagersProvider.balanceManage, null);
+        HouseAction houseAction1 = new HouseAction(houseRepository, audentiaPlayersManagersProvider.rolesRepository, audentiaPlayersManagersProvider.teamsManager, audentiaCoreManagersProvider.balanceManage, null, audentiaCoreManagersProvider.cityInfosRepository);
 
         SignUtils signUtils = new SpigotSignUtils(houseAction1);
 
-        houseAction = new HouseAction(houseRepository, audentiaPlayersManagersProvider.rolesRepository, audentiaPlayersManagersProvider.teamsManager, audentiaCoreManagersProvider.balanceManage, signUtils);
+        houseAction = new HouseAction(houseRepository, audentiaPlayersManagersProvider.rolesRepository, audentiaPlayersManagersProvider.teamsManager, audentiaCoreManagersProvider.balanceManage, signUtils, audentiaCoreManagersProvider.cityInfosRepository);
         buyHouseAction = new BuyHouseAction(clicksRepository);
         portalCreateCheck = new PortalCreateCheck(audentiaPlayersManagersProvider.rolesRepository, netherLocationRepository);
         signsManage = new SignsManage(audentiaPlayersManagersProvider.rolesRepository, houseRepository, signUtils);

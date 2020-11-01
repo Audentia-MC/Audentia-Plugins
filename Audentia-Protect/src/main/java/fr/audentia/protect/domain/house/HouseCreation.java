@@ -28,7 +28,7 @@ public class HouseCreation {
         }
 
         houseCreationRepository.startCreation(playerUUID);
-        return "<success>Création d'une nouvelle maison lancée, cliquez sur le premier bloc.";
+        return "<success>Création d'une nouvelle maison lancée, cliquez sur le bloc où apparaitra le panneau.";
     }
 
     public String onInteract(UUID playerUUID, Location location, char blockFace) {
@@ -39,26 +39,25 @@ public class HouseCreation {
 
         HouseCreationModel creation = houseCreationRepository.getCreation(playerUUID);
 
-        if (!creation.location1.isPresent()) {
-            creation = creation.withLocation1(location);
-            houseCreationRepository.saveCreation(playerUUID, creation);
-            return "<success>Position 1 enregistrée, cliquez sur le 2e bloc.";
-        }
-
-        if (!creation.location2.isPresent()) {
-            creation = creation.withLocation2(location);
-            houseCreationRepository.saveCreation(playerUUID, creation);
-            return "<success>Position 2 enregistrée, cliquez sur l'emplacement du panneau en étant face au côté où il apparaitra.";
-        }
-
-        if (!creation.signLocation.isPresent()) {
+        if (creation.signLocation == null) {
             creation = creation.withSignLocation(location);
             creation = creation.withSignFace(blockFace);
             houseCreationRepository.saveCreation(playerUUID, creation);
             return "<success>Position du panneau enregistrée, entrez le niveau de la maison (entre 1 compris et 3 compris).";
         }
 
-        return "";
+        if (creation.level == -1 || creation.price == -1) {
+            return "";
+        }
+
+        creation = creation.addBloc(location);
+        houseCreationRepository.saveCreation(playerUUID, creation);
+
+        if (creation.tempLocation == null) {
+            return "<success>Espace enregistré, cliquez sur le premier bloc du prochain espace ou entrez n'importe quoi dans le chat pour finir la création de la maison.";
+        }
+
+        return "<success>Position 1 enregistrée, cliquez sur le 2e bloc.";
     }
 
     public String onChat(UUID playerUUID, String entry) { // TODO: add price
@@ -68,6 +67,10 @@ public class HouseCreation {
         }
 
         HouseCreationModel creation = houseCreationRepository.getCreation(playerUUID);
+
+        if (creation.signLocation == null) {
+            return "<error>Cliquez sur le bloc où apparaitra le panneau";
+        }
 
         if (creation.level == -1) {
             if (!entry.matches("[1-3]")) {
@@ -80,17 +83,26 @@ public class HouseCreation {
             return "<success>Niveau enregistré, entrez le prix de la maison.";
         }
 
-        if (!entry.matches("[0-9]+")) {
-            return "<error>Entrez le prix de la maison.";
+        if (creation.price == -1) {
+            if (!entry.matches("[0-9]+")) {
+                return "<error>Entrez le prix de la maison.";
+            }
+
+            int price = Integer.parseInt(entry);
+            creation = creation.withPrice(price);
+            houseCreationRepository.saveCreation(playerUUID, creation);
+            return "<success>Prix enregistré, cliquez sur le premier bloc d'un espace de la maison.";
         }
 
-        int price = Integer.parseInt(entry);
-        creation = creation.withPrice(price);
+        if (creation.blocs.isEmpty()) {
+            return "<error>Il faut au moins un espace pour la maison.";
+        }
 
         House house = new House(creation);
         houseRepository.registerNewHouse(house);
         houseCreationRepository.stopCreation(playerUUID);
 //        signsManage.forceReloadAllSigns();
+
         return "<success>Création d'une nouvelle maison effectuée avec succès. /reloadsigns pour charger le panneau.";
     }
 

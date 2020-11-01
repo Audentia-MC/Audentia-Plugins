@@ -1,11 +1,13 @@
 package fr.audentia.protect.domain.house;
 
 import fr.audentia.core.domain.balance.BalanceManage;
+import fr.audentia.core.domain.protect.CityInfosRepository;
 import fr.audentia.players.domain.model.roles.Role;
 import fr.audentia.players.domain.model.teams.Team;
 import fr.audentia.players.domain.teams.RolesRepository;
 import fr.audentia.players.domain.teams.TeamsManager;
 import fr.audentia.protect.domain.model.House;
+import fr.audentia.protect.domain.model.HouseBloc;
 import fr.audentia.protect.domain.model.Location;
 
 import java.util.Optional;
@@ -18,13 +20,15 @@ public class HouseAction {
     private final TeamsManager teamsManager;
     private final BalanceManage balanceManage;
     private final SignUtils signUtils;
+    private final CityInfosRepository cityInfosRepository;
 
-    public HouseAction(HouseRepository houseRepository, RolesRepository rolesRepository, TeamsManager teamsManager, BalanceManage balanceManage, SignUtils signUtils) {
+    public HouseAction(HouseRepository houseRepository, RolesRepository rolesRepository, TeamsManager teamsManager, BalanceManage balanceManage, SignUtils signUtils, CityInfosRepository cityInfosRepository) {
         this.houseRepository = houseRepository;
         this.rolesRepository = rolesRepository;
         this.teamsManager = teamsManager;
         this.balanceManage = balanceManage;
         this.signUtils = signUtils;
+        this.cityInfosRepository = cityInfosRepository;
     }
 
     public boolean isRegisteredSign(Location location) {
@@ -36,7 +40,16 @@ public class HouseAction {
 
         Role role = rolesRepository.getRole(playerUUIO);
 
-        if (role.number < 4) {
+        if (role.number < 5) {
+            return true;
+        }
+
+        fr.audentia.core.domain.model.location.Location cityLocation = cityInfosRepository.getCityLocation();
+        Location protectLocation = new Location(cityLocation.x, cityLocation.y, cityLocation.z);
+        double radiusSquared = Math.pow(cityInfosRepository.getCityRadius(), 2);
+        double distanceSquared = location.distanceSquared2D(protectLocation);
+
+        if (distanceSquared > radiusSquared) {
             return true;
         }
 
@@ -47,11 +60,17 @@ public class HouseAction {
             return false;
         }
 
-        boolean betweenX = Math.min(house.block1Location.x, house.block2Location.x) <= location.x && location.x <= Math.max(house.block1Location.x, house.block2Location.x);
-        boolean betweenY = Math.min(house.block1Location.y, house.block2Location.y) <= location.y && location.y <= Math.max(house.block1Location.y, house.block2Location.y);
-        boolean betweenZ = Math.min(house.block1Location.z, house.block2Location.z) <= location.z && location.z <= Math.max(house.block1Location.z, house.block2Location.z);
+        for (HouseBloc bloc : house.blocs) {
+            boolean betweenX = Math.min(bloc.location1.x, bloc.location2.x) <= location.x && location.x <= Math.max(bloc.location1.x, bloc.location2.x);
+            boolean betweenY = Math.min(bloc.location1.y, bloc.location2.y) <= location.y && location.y <= Math.max(bloc.location1.y, bloc.location2.y);
+            boolean betweenZ = Math.min(bloc.location1.z, bloc.location2.z) <= location.z && location.z <= Math.max(bloc.location1.z, bloc.location2.z);
 
-        return betweenX && betweenY && betweenZ;
+            if (betweenX && betweenY && betweenZ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public String buyHouse(Location location, UUID playerUUID) {
