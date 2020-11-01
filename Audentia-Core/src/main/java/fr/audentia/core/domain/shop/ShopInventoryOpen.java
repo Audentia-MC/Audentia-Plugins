@@ -14,15 +14,16 @@ public class ShopInventoryOpen {
         this.shopInventoryOpener = shopInventoryOpener;
     }
 
-    public void openShop(UUID playerUUID, String npcName) {
+    public String openShop(UUID playerUUID, String npcName) {
 
         Shop shop = shopRepository.getByNpcName(npcName);
 
         if (shop == null) {
-            return;
+            return "";
         }
 
         shopInventoryOpener.openInventory(playerUUID, shop);
+        return "<success>Bienvenue dans la boutique de " + npcName + ".";
     }
 
 }

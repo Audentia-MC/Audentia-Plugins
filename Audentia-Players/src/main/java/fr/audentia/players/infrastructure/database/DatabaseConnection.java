@@ -19,7 +19,7 @@ public class DatabaseConnection {
     }
 
     private void setUpDataSource(DatabaseConnectionBuilder builder) {
-        dataSource.setJdbcUrl("jdbc:mysql://" + builder.getHost() + ":3360/" + builder.getDatabase());
+        dataSource.setJdbcUrl("jdbc:mysql://" + builder.getHost() + ":" + builder.getPort() + "/" + builder.getDatabase());
         dataSource.setUsername(builder.getUser());
         dataSource.setPassword(builder.getPassword());
         dataSource.addDataSourceProperty("autoReconnect", true);
@@ -32,7 +32,6 @@ public class DatabaseConnection {
     }
 
     public Connection getConnection() {
-
         try {
             return dataSource.getConnection();
         } catch (SQLException throwables) {

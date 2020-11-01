@@ -1,9 +1,10 @@
 package fr.audentia.protect.infrastructure.repositories.portal;
 
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.file.FileConfig;
 import fr.audentia.protect.domain.model.Location;
 import fr.audentia.protect.domain.portals.NetherLocationRepository;
+
+import java.io.File;
 
 public class TOMLNetherLocationRepository implements NetherLocationRepository {
 
@@ -35,10 +36,7 @@ public class TOMLNetherLocationRepository implements NetherLocationRepository {
 
     private FileConfig loadFile() {
 
-        FileConfig fileConfig = CommentedFileConfig.builder(filePath)
-                .defaultResource("configuration.toml")
-                .autosave()
-                .build();
+        FileConfig fileConfig = FileConfig.of(filePath + File.separator + "configuration.toml");
 
         fileConfig.load();
         return fileConfig;

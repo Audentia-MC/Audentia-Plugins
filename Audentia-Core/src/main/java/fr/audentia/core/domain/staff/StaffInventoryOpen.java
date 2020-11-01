@@ -19,13 +19,13 @@ public class StaffInventoryOpen {
 
     public String openInventory(UUID playerUUID, String targetName) {
 
-        Role playerRole = rolesRepository.getRole(playerUUID);
+        Role role = rolesRepository.getRole(playerUUID);
 
         if (!worldPlayerFinder.isInWorld(targetName)) {
             return "<error>Ce joueur n'existe pas.";
         }
 
-        if (!playerRole.staff) {
+        if (role.number > 2) {
             return "<error>Vous ne pouvez pas utiliser cette commande.";
         }
 

@@ -21,7 +21,7 @@ public class BanAction {
 
         Role role = rolesRepository.getRole(staffUUID);
 
-        if (!role.staff) {
+        if (role.number > 2) {
             return "<error>Vous ne pouvez pas bannir de joueur.";
         }
 

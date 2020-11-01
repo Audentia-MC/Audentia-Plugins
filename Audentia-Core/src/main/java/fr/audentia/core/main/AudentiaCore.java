@@ -25,7 +25,7 @@ public class AudentiaCore extends JavaPlugin {
         }
 
         AudentiaPlayers audentiaPlayers = (AudentiaPlayers) Bukkit.getServer().getPluginManager().getPlugin("Audentia-Players");
-        managersProvider = new AudentiaCoreManagersProvider(audentiaPlayers.getManagersProvider(), this.getDataFolder().getPath() + File.separator + "configuration.toml");
+        managersProvider = new AudentiaCoreManagersProvider(audentiaPlayers.getManagersProvider(), this.getDataFolder().getPath());
 
         this.commandsManager = new CommandsManager(this, VERSION, managersProvider);
         this.listenersManager = new ListenersManager(this, managersProvider);

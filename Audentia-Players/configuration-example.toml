@@ -2,4 +2,5 @@
 user = "Tony"
 password = "12345"
 host = "100.100.100.100"
+port = 3306
 database = "magic_world"

@@ -36,6 +36,50 @@ public class MariaDbHouseRepository implements HouseRepository {
                 .findAny()
                 .isPresent();
 
+        if (!present) {
+            present = databaseConnection.getDatabaseContext(connection)
+                    .selectFrom(table(name("house")))
+                    .where(field(name("sign_x")).eq(location.x - 1))
+                    .and(field(name("sign_y")).eq(location.y))
+                    .and(field(name("sign_z")).eq(location.z))
+                    .stream()
+                    .findAny()
+                    .isPresent();
+        }
+
+        if (!present) {
+            present = databaseConnection.getDatabaseContext(connection)
+                    .selectFrom(table(name("house")))
+                    .where(field(name("sign_x")).eq(location.x + 1))
+                    .and(field(name("sign_y")).eq(location.y))
+                    .and(field(name("sign_z")).eq(location.z))
+                    .stream()
+                    .findAny()
+                    .isPresent();
+        }
+
+        if (!present) {
+            present = databaseConnection.getDatabaseContext(connection)
+                    .selectFrom(table(name("house")))
+                    .where(field(name("sign_x")).eq(location.x))
+                    .and(field(name("sign_y")).eq(location.y))
+                    .and(field(name("sign_z")).eq(location.z - 1))
+                    .stream()
+                    .findAny()
+                    .isPresent();
+        }
+
+        if (!present) {
+            present = databaseConnection.getDatabaseContext(connection)
+                    .selectFrom(table(name("house")))
+                    .where(field(name("sign_x")).eq(location.x))
+                    .and(field(name("sign_y")).eq(location.y))
+                    .and(field(name("sign_z")).eq(location.z + 1))
+                    .stream()
+                    .findAny()
+                    .isPresent();
+        }
+
         try {
             connection.close();
         } catch (SQLException throwables) {
@@ -51,7 +95,7 @@ public class MariaDbHouseRepository implements HouseRepository {
         Connection connection = databaseConnection.getConnection();
         Record record = databaseConnection.getDatabaseContext(connection)
                 .selectFrom(table(name("house")))
-                .where(field(name("id")).eq(houseId))
+                .where(field(name("house_id")).eq(houseId))
                 .fetchOne();
 
         try {
@@ -69,10 +113,37 @@ public class MariaDbHouseRepository implements HouseRepository {
         Connection connection = databaseConnection.getConnection();
         Record record = databaseConnection.getDatabaseContext(connection)
                 .selectFrom(table(name("house")))
-                .where(field(name("sign_x")).eq(location.x))
+                .where(field(name("sign_x")).eq(location.x - 1))
                 .and(field(name("sign_y")).eq(location.y))
                 .and(field(name("sign_z")).eq(location.z))
                 .fetchOne();
+
+        if (record == null) {
+            record = databaseConnection.getDatabaseContext(connection)
+                    .selectFrom(table(name("house")))
+                    .where(field(name("sign_x")).eq(location.x + 1))
+                    .and(field(name("sign_y")).eq(location.y))
+                    .and(field(name("sign_z")).eq(location.z))
+                    .fetchOne();
+        }
+
+        if (record == null) {
+            record = databaseConnection.getDatabaseContext(connection)
+                    .selectFrom(table(name("house")))
+                    .where(field(name("sign_x")).eq(location.x))
+                    .and(field(name("sign_y")).eq(location.y))
+                    .and(field(name("sign_z")).eq(location.z - 1))
+                    .fetchOne();
+        }
+
+        if (record == null) {
+            record = databaseConnection.getDatabaseContext(connection)
+                    .selectFrom(table(name("house")))
+                    .where(field(name("sign_x")).eq(location.x))
+                    .and(field(name("sign_y")).eq(location.y))
+                    .and(field(name("sign_z")).eq(location.z + 1))
+                    .fetchOne();
+        }
 
         try {
             connection.close();
@@ -107,12 +178,52 @@ public class MariaDbHouseRepository implements HouseRepository {
 
         Connection connection = databaseConnection.getConnection();
         Record1<Object> record = databaseConnection.getDatabaseContext(connection)
-                .select(field(name("id")))
+                .select(field(name("house_id")))
                 .from(table(name("house")))
                 .where(field(name("sign_x")).eq(location.x))
                 .and(field(name("sign_y")).eq(location.y))
                 .and(field(name("sign_z")).eq(location.z))
                 .fetchOne();
+
+        if (record == null) {
+            record = databaseConnection.getDatabaseContext(connection)
+                    .select(field(name("house_id")))
+                    .from(table(name("house")))
+                    .where(field(name("sign_x")).eq(location.x - 1))
+                    .and(field(name("sign_y")).eq(location.y))
+                    .and(field(name("sign_z")).eq(location.z))
+                    .fetchOne();
+        }
+
+        if (record == null) {
+            record = databaseConnection.getDatabaseContext(connection)
+                    .select(field(name("house_id")))
+                    .from(table(name("house")))
+                    .where(field(name("sign_x")).eq(location.x + 1))
+                    .and(field(name("sign_y")).eq(location.y))
+                    .and(field(name("sign_z")).eq(location.z))
+                    .fetchOne();
+        }
+
+        if (record == null) {
+            record = databaseConnection.getDatabaseContext(connection)
+                    .select(field(name("house_id")))
+                    .from(table(name("house")))
+                    .where(field(name("sign_x")).eq(location.x))
+                    .and(field(name("sign_y")).eq(location.y))
+                    .and(field(name("sign_z")).eq(location.z - 1))
+                    .fetchOne();
+        }
+
+        if (record == null) {
+            record = databaseConnection.getDatabaseContext(connection)
+                    .select(field(name("house_id")))
+                    .from(table(name("house")))
+                    .where(field(name("sign_x")).eq(location.x))
+                    .and(field(name("sign_y")).eq(location.y))
+                    .and(field(name("sign_z")).eq(location.z + 1))
+                    .fetchOne();
+        }
 
         try {
             connection.close();
@@ -120,7 +231,7 @@ public class MariaDbHouseRepository implements HouseRepository {
             throwables.printStackTrace();
         }
 
-        return record.get(field(name("id")), Integer.class);
+        return record.get(field(name("house_id")), Integer.class);
     }
 
     @Override
@@ -131,7 +242,7 @@ public class MariaDbHouseRepository implements HouseRepository {
                 .insertInto(table(name("house")))
                 .set(field(name("price")), house.price)
                 .set(field(name("level")), house.level)
-                .set(field(name("sign_face")), house.signFace)
+                .set(field(name("sign_face")), house.signFace + "")
                 .set(field(name("x0")), house.block1Location.x)
                 .set(field(name("y0")), house.block1Location.y)
                 .set(field(name("z0")), house.block1Location.z)
@@ -157,7 +268,7 @@ public class MariaDbHouseRepository implements HouseRepository {
             return null;
         }
 
-        int id = record.get(field(name("id")), Integer.class);
+        int id = record.get(field(name("house_id")), Integer.class);
         int price = record.get(field(name("price")), Integer.class);
         int level = record.get(field(name("level")), Integer.class);
 
@@ -185,13 +296,65 @@ public class MariaDbHouseRepository implements HouseRepository {
         boolean present = databaseConnection.getDatabaseContext(connection)
                 .selectFrom(table(name("house"))
                         .join(table(name("team")))
-                        .on(field(name("id")).eq(field(name("house_id")))))
+                        .on(field(name("house_id")).eq(field(name("team_house_id")))))
                 .where(field(name("sign_x")).eq(location.x))
                 .and(field(name("sign_y")).eq(location.y))
                 .and(field(name("sign_z")).eq(location.z))
                 .stream()
                 .findAny()
                 .isPresent();
+
+        if (!present) {
+            present = databaseConnection.getDatabaseContext(connection)
+                    .selectFrom(table(name("house"))
+                            .join(table(name("team")))
+                            .on(field(name("house_id")).eq(field(name("team_house_id")))))
+                    .where(field(name("sign_x")).eq(location.x - 1))
+                    .and(field(name("sign_y")).eq(location.y))
+                    .and(field(name("sign_z")).eq(location.z))
+                    .stream()
+                    .findAny()
+                    .isPresent();
+        }
+
+        if (!present) {
+            present = databaseConnection.getDatabaseContext(connection)
+                    .selectFrom(table(name("house"))
+                            .join(table(name("team")))
+                            .on(field(name("house_id")).eq(field(name("team_house_id")))))
+                    .where(field(name("sign_x")).eq(location.x + 1))
+                    .and(field(name("sign_y")).eq(location.y))
+                    .and(field(name("sign_z")).eq(location.z))
+                    .stream()
+                    .findAny()
+                    .isPresent();
+        }
+
+        if (!present) {
+            present = databaseConnection.getDatabaseContext(connection)
+                    .selectFrom(table(name("house"))
+                            .join(table(name("team")))
+                            .on(field(name("house_id")).eq(field(name("team_house_id")))))
+                    .where(field(name("sign_x")).eq(location.x))
+                    .and(field(name("sign_y")).eq(location.y))
+                    .and(field(name("sign_z")).eq(location.z - 1))
+                    .stream()
+                    .findAny()
+                    .isPresent();
+        }
+
+        if (!present) {
+            present = databaseConnection.getDatabaseContext(connection)
+                    .selectFrom(table(name("house"))
+                            .join(table(name("team")))
+                            .on(field(name("house_id")).eq(field(name("team_house_id")))))
+                    .where(field(name("sign_x")).eq(location.x))
+                    .and(field(name("sign_y")).eq(location.y))
+                    .and(field(name("sign_z")).eq(location.z + 1))
+                    .stream()
+                    .findAny()
+                    .isPresent();
+        }
 
         try {
             connection.close();

@@ -29,6 +29,7 @@ public class ListenerPlayerChatHouseCreation implements Listener {
 
         if (!result.isEmpty()) {
             player.sendMessage(ChatUtils.format(result));
+            event.setCancelled(true);
         }
 
     }

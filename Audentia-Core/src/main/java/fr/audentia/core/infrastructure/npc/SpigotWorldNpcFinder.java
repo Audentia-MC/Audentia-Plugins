@@ -6,6 +6,7 @@ import fr.audentia.core.domain.npc.WorldNpcFinder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Villager;
 
 import java.util.Collections;
@@ -32,13 +33,13 @@ public class SpigotWorldNpcFinder implements WorldNpcFinder {
         Npc npc = world.getEntitiesByClass(Villager.class)
                 .stream()
                 .filter(villager -> villager.getCustomName() != null)
-                .filter(villager -> villager.getCustomName().equalsIgnoreCase(npcName))
-                .map(Villager::getLocation)
+                .filter(villager -> villager.getCustomName().equals(npcName))
+                .map(Entity::getLocation)
                 .map(location -> NpcBuilder.aNpc()
                         .withName(npcName)
                         .withX(location.getBlockX())
-                        .withX(location.getBlockY())
-                        .withX(location.getBlockZ())
+                        .withY(location.getBlockY())
+                        .withZ(location.getBlockZ())
                         .withYaw(location.getYaw())
                         .withPitch(location.getPitch())
                         .build())
@@ -64,8 +65,8 @@ public class SpigotWorldNpcFinder implements WorldNpcFinder {
                     return NpcBuilder.aNpc()
                             .withName(villager.getCustomName())
                             .withX(location.getBlockX())
-                            .withX(location.getBlockY())
-                            .withX(location.getBlockZ())
+                            .withY(location.getBlockY())
+                            .withZ(location.getBlockZ())
                             .withYaw(location.getYaw())
                             .withPitch(location.getPitch())
                             .build();

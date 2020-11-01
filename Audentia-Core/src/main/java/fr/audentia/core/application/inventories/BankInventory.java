@@ -1,6 +1,7 @@
 package fr.audentia.core.application.inventories;
 
 import fr.audentia.core.domain.bank.BankInventoryInteract;
+import fr.audentia.players.utils.ChatUtils;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
@@ -42,7 +43,10 @@ public class BankInventory implements InventoryProvider {
                         .withMaterial(Material.EMERALD)
                         .withAmount(1)
                         .build(),
-                event -> bankInventoryInteract.interact(player.getUniqueId(), 1)
+                event -> {
+                    String result = bankInventoryInteract.interact(player.getUniqueId(), 1);
+                    player.sendMessage(ChatUtils.format(result));
+                }
         ));
 
         contents.set(new SlotPos(1, 3), ClickableItem.of(
@@ -50,7 +54,10 @@ public class BankInventory implements InventoryProvider {
                         .withMaterial(Material.EMERALD)
                         .withAmount(10)
                         .build(),
-                event -> bankInventoryInteract.interact(player.getUniqueId(), 10)
+                event -> {
+                    String result = bankInventoryInteract.interact(player.getUniqueId(), 10);
+                    player.sendMessage(ChatUtils.format(result));
+                }
         ));
 
         contents.set(new SlotPos(1, 5), ClickableItem.of(
@@ -58,7 +65,10 @@ public class BankInventory implements InventoryProvider {
                         .withMaterial(Material.EMERALD)
                         .withAmount(32)
                         .build(),
-                event -> bankInventoryInteract.interact(player.getUniqueId(), 32)
+                event -> {
+                    String result = bankInventoryInteract.interact(player.getUniqueId(), 32);
+                    player.sendMessage(ChatUtils.format(result));
+                }
         ));
 
         contents.set(new SlotPos(1, 7), ClickableItem.of(
@@ -66,7 +76,10 @@ public class BankInventory implements InventoryProvider {
                         .withMaterial(Material.EMERALD)
                         .withAmount(64)
                         .build(),
-                event -> bankInventoryInteract.interact(player.getUniqueId(), 64)
+                event -> {
+                    String result = bankInventoryInteract.interact(player.getUniqueId(), 64);
+                    player.sendMessage(ChatUtils.format(result));
+                }
         ));
 
     }

@@ -44,35 +44,41 @@ public class ScoreboardManage {
         Team team = teamsManager.getTeamOfPlayer(playerUUID);
         Role role = rolesRepository.getRole(playerUUID);
 
-        ScoreboardBuilder builder = aScoreboard()
-                .withHeader("----= Audentia =----");
+        ScoreboardBuilder builder = aScoreboard().withHeader("----=  Audentia  =----");
 
-        if (role.player) {
+        builder.addContent("&" + ColorsUtils.fromColorToHexadecimal(team.color) + team.name);
 
+        if (role.player && !role.staff) {
             String balance = team.balance.toString();
-            builder.addContent("&" + ColorsUtils.fromColorToHexadecimal(team.color) + "Team " + team.name)
-                    .addContent(balance + " émeraude" + ("0 1".contains(balance) ? "" : "s"));
+            builder.addContent(balance + " émeraude" + ("0 1".contains(balance) ? "" : "s"));
         }
 
-        long actualTime = timeProvider.getActualTimeInSeconds();
-        long gameDuration = gamesInfosRepository.getGameDurationInSeconds();
-        String duration = getDuration(actualTime);
-        builder.addContent("Temps : " + duration + " / " + getDuration(gameDuration));
-
-        long nextEventTime = eventsRepository.getNextEvent().time;
-
-        if (nextEventTime != 0) {
-            builder.addContent("Prochain event : " + getDuration(nextEventTime));
-        }
+        addTimedInfos(builder);
 
         scoreboardsRepository.updateScoreboard(playerUUID, builder.withFooter("----= audentia.fr =----").build());
     }
 
-    private String getDuration(long time) {
-
+    private void addTimedInfos(ScoreboardBuilder builder) {
         long startTimeInSeconds = gamesInfosRepository.getStartTimeInSeconds();
 
-        return DurationFormatUtils.formatDuration((time - startTimeInSeconds) * 1_000L, DURATION_FORMAT, true);
+        if (startTimeInSeconds == -1) {
+            return;
+        }
+
+        long actualTime = timeProvider.getActualTimeInSeconds();
+        long actualTimeInGame = actualTime - startTimeInSeconds;
+        long gameDuration = gamesInfosRepository.getGameDurationInSeconds();
+        builder.addContent("Temps : " + getDuration(actualTimeInGame) + " / " + getDuration(gameDuration));
+
+        long nextEventTime = eventsRepository.getNextEvent().time;
+
+        if (nextEventTime != 0) {
+            builder.addContent("Prochain event : " + getDuration(nextEventTime - actualTime));
+        }
+    }
+
+    private String getDuration(long time) {
+        return DurationFormatUtils.formatDuration(time * 1_000L, DURATION_FORMAT, true);
     }
 
     public void removeScoreBoard(UUID playerUUID) {

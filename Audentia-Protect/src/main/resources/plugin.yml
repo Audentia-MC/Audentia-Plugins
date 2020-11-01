@@ -6,8 +6,11 @@ authors:
 api-version: "1.16"
 softdepend:
   - "Audentia-Players"
+  - "Audentia-Core"
 commands:
   reloadsigns:
     description: reload all house signs
   newhouse:
     description: start new house creation
+  aphelp:
+    description: help command of protect audentia plugin

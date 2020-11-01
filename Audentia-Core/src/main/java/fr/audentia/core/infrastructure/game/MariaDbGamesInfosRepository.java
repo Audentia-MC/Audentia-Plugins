@@ -73,6 +73,10 @@ public class MariaDbGamesInfosRepository implements GamesInfosRepository {
             throwables.printStackTrace();
         }
 
+        if (record == null) {
+            return -1;
+        }
+
         return record.get(field(name("start")), Long.class);
     }
 

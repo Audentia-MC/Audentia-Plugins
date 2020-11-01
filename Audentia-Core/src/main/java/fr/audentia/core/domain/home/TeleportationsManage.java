@@ -21,15 +21,17 @@ public class TeleportationsManage {
 
     public void computeTeleportations() {
 
-        teleportRepository.getTeleportedPlayers().forEach(this::computePlayerTeleportation);
+        for (UUID uuid : teleportRepository.getTeleportedPlayers()) {
+            computePlayerTeleportation(uuid);
+        }
     }
 
     private void computePlayerTeleportation(UUID playerUUID) {
 
-        LocalTime actualTime = LocalTime.now();
+        ZonedDateTime actualTime = ZonedDateTime.now();
 
         Teleport teleport = teleportRepository.getTeleport(playerUUID);
-        LocalTime startTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(teleport.time), ZoneOffset.UTC).toLocalTime();
+        ZonedDateTime startTime = ZonedDateTime.ofInstant(Instant.ofEpochSecond(teleport.time), ZoneId.of("Europe/Paris"));
 
         long timeBeforeTeleport = 5 - ChronoUnit.SECONDS.between(startTime, actualTime);
 

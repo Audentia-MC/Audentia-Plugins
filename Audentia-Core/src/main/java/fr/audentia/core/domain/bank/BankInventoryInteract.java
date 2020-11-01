@@ -15,7 +15,7 @@ public class BankInventoryInteract {
     public String interact(UUID playerUUID, int count) {
 
         if (!inventoryUtilities.hasEmeralds(playerUUID, count)) {
-            return "<error>Vous ne pouvez pas déposer ce nombre d'émeraudes.";
+            return "<error>Vous n'avez pas assez d'émeraudes dans votre inventaire.";
         }
 
         String result = bankManage.depositEmeralds(playerUUID, count);

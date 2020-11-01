@@ -19,7 +19,7 @@ public class BankSlotsProvide {
         Day day = gamesInfosRepository.getDay();
         BankSlots slots = bankSlotsProvider.getBankOpenSlots(day);
 
-        return "#FCB91FLes horaires d'ouverture de la banque pour aujourd'hui sont : " + slots.toString() + ".";
+        return "&#FCB91FHoraires d'ouverture de la banque : " + slots.toString() + ".";
     }
 
 }

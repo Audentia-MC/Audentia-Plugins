@@ -1,6 +1,7 @@
 package fr.audentia.core.application.listeners;
 
 import fr.audentia.core.domain.npc.NpcInteract;
+import fr.audentia.players.utils.ChatUtils;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,7 +22,11 @@ public class ListenerNpcInteract implements Listener {
             return;
         }
 
-        npcInteract.interactWithNpc(event.getPlayer().getUniqueId(), event.getRightClicked().getName());
+        String result = npcInteract.interactWithNpc(event.getPlayer().getUniqueId(), event.getRightClicked().getName());
+
+        if (!result.isEmpty()) {
+            event.getPlayer().sendMessage(ChatUtils.format(result));
+        }
     }
 
 }

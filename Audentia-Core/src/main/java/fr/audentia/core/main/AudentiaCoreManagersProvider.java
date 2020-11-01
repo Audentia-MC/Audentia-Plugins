@@ -64,9 +64,7 @@ import fr.audentia.core.infrastructure.staff.inventory.SpigotPlayerInventoryOpen
 import fr.audentia.core.infrastructure.staff.kick.SpigotPlayerKicker;
 import fr.audentia.core.infrastructure.staff.teleport.SpigotPlayerTeleporter;
 import fr.audentia.players.domain.teams.RolesRepository;
-import fr.audentia.players.infrastructure.database.DatabaseConnection;
 import fr.audentia.players.main.AudentiaPlayersManagersProvider;
-import fr.audentia.players.utils.DataBaseConfigurationLoader;
 
 public class AudentiaCoreManagersProvider {
 
@@ -92,30 +90,29 @@ public class AudentiaCoreManagersProvider {
     public final GradeInventoryAction gradeInventoryAction;
     public final GradeChangeAction gradeChangeAction;
     public final PlayerDamage playerDamage;
-    public final NetherNcpSpawn netherNpcSpawn;
+    public final NetherNpcSpawn netherNpcSpawn;
     public final MoveManage moveManage;
     public final GameDayModifier gameDayModifier;
     public final JoinGameModeManage joinGameModeManage;
     public final GameStarter gameStarter;
     public final TeleportationsManage teleportationsManage;
+    public final BankNpcSpawn bankNpcSpawn;
 
     public AudentiaCoreManagersProvider(AudentiaPlayersManagersProvider audentiaPlayersManagersProvider, String path) {
 
-        DatabaseConnection databaseConnection = DataBaseConfigurationLoader.loadConnection(path);
-
-        HomeRepository homeRepository = new MariaDbHomeRepository(databaseConnection);
+        HomeRepository homeRepository = new MariaDbHomeRepository(audentiaPlayersManagersProvider.databaseConnection);
         PlayerTeleport playerTeleporter = new SpigotPlayerTeleport();
         WorldNameFinder worldNameFinder = new SpigotWorldNameFinder();
-        GamesInfosRepository gamesInfosRepository = new MariaDbGamesInfosRepository(databaseConnection);
-        BankSlotsRepository bankSlotsRepository = new MariaDbBankSlotsRepository(databaseConnection);
+        GamesInfosRepository gamesInfosRepository = new MariaDbGamesInfosRepository(audentiaPlayersManagersProvider.databaseConnection);
+        BankSlotsRepository bankSlotsRepository = new MariaDbBankSlotsRepository(audentiaPlayersManagersProvider.databaseConnection);
         PlayerBanner playerBanner = new SpigotPlayerBanner();
-        BanRepository banRepository = new MariaDbBanRepository(databaseConnection);
+        BanRepository banRepository = new MariaDbBanRepository(audentiaPlayersManagersProvider.databaseConnection);
         PlayerKicker playerKicker = new SpigotPlayerKicker();
         PlayerTeleporter playerTeleporterToOther = new SpigotPlayerTeleporter();
         WorldPlayerFinder worldPlayerFinder = new SpigotWorldPlayerFinder();
         PlayerInventoryOpener playerInventoryOpener = new SpigotPlayerInventoryOpener();
         TimeProvider timeProvider = new DefaultTimeProvider();
-        EventsRepository eventsRepository = new MariaDbEventsRepository(gamesInfosRepository, databaseConnection);
+        EventsRepository eventsRepository = new MariaDbEventsRepository(gamesInfosRepository, audentiaPlayersManagersProvider.databaseConnection);
         ScoreboardsRepository scoreboardsRepository = new FastBoardScoreboardsRepository();
         BankNpcProvider bankNpcProvider = new TOMLBankNpcProvider(path);
         InventoryUtilities inventoryUtilities = new SpigotInventoryUtilities();
@@ -142,7 +139,7 @@ public class AudentiaCoreManagersProvider {
         this.bankInventoryInteract = new BankInventoryInteract(inventoryUtilities, bankManage);
         this.gradeChangeAction = new GradeChangeAction(audentiaPlayersManagersProvider.rolesRepository);
         this.playerDamage = new PlayerDamage(audentiaPlayersManagersProvider.teamsManager, audentiaPlayersManagersProvider.rolesRepository, balanceManage, coliseumLocationRepository);
-        this.netherNpcSpawn = new NetherNcpSpawn(npcSpawner, netherNpcRepository, worldNpcFinder, (NetherTimesRepository) netherNpcRepository);
+        this.netherNpcSpawn = new NetherNpcSpawn(npcSpawner, netherNpcRepository, worldNpcFinder, (NetherTimesRepository) netherNpcRepository);
         this.gameStateManage = new GameStateManage(gamesInfosRepository, audentiaPlayersManagersProvider.rolesRepository);
         this.moveManage = new MoveManage(audentiaPlayersManagersProvider.rolesRepository, audentiaPlayersManagersProvider.teamsManager, gameStateManage, gamesInfosRepository);
         this.gameDayModifier = new GameDayModifier(gamesInfosRepository);
@@ -171,7 +168,8 @@ public class AudentiaCoreManagersProvider {
         this.scoreboardManage = new ScoreboardManage(audentiaPlayersManagersProvider.teamsManager, audentiaPlayersManagersProvider.rolesRepository, gamesInfosRepository, timeProvider, eventsRepository, scoreboardsRepository);
         this.eventProvider = new EventProvider(eventsRepository, gamesInfosRepository);
         this.npcInteract = new NpcInteract(bankNpcProvider, bankInventoryOpen, shopInventoryOpen, netherShopInventoryOpen, netherNpcRepository);
-        this.npcSpawn = new NpcSpawn(npcSpawner, npcRepository, worldNpcFinder);
+        this.npcSpawn = new NpcSpawn(npcSpawner, npcRepository, worldNpcFinder, audentiaPlayersManagersProvider.rolesRepository);
+        this.bankNpcSpawn = new BankNpcSpawn(bankNpcProvider, npcSpawn);
         this.borderCreate = new BorderCreate(borderInfosRepository, borderSpawner);
         rolesRepository = audentiaPlayersManagersProvider.rolesRepository;
     }

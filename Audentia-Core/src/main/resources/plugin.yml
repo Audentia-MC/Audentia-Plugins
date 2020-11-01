@@ -6,6 +6,7 @@ authors:
 api-version: "1.16"
 softdepend:
   - "Audentia-Players"
+  - "SmartInvs"
 commands:
   balance:
     description: display emeraude count
@@ -27,9 +28,13 @@ commands:
     description: reload all game npc
   reloadPNJ:
     description: reload one game npc
+  reloadBankPNJ:
+    description: reload bank npc
   start:
     description: start the game
   pause:
     description: pause the game
   resume:
     description: resume the game
+  ahelp:
+    description: help command of core audentia plugin

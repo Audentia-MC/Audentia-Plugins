@@ -1,12 +1,14 @@
 package fr.audentia.core.domain.npc;
 
 import fr.audentia.core.domain.model.npc.Npc;
+import fr.audentia.players.domain.teams.RolesRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
@@ -28,11 +30,14 @@ class NpcSpawnTest {
     @Mock
     private WorldNpcFinder worldNpcFinder;
 
+    @Mock
+    private RolesRepository rolesRepository;
+
     private NpcSpawn npcSpawn;
 
     @BeforeEach
     void setUp() {
-        this.npcSpawn = new NpcSpawn(npcSpawner, npcRepository, worldNpcFinder);
+        this.npcSpawn = new NpcSpawn(npcSpawner, npcRepository, worldNpcFinder, rolesRepository);
     }
 
     @Test
@@ -133,7 +138,7 @@ class NpcSpawnTest {
         when(npcRepository.getNpc("Tony")).thenReturn(Optional.of(npc));
         when(worldNpcFinder.findNpc("Tony")).thenReturn(Optional.of(npc));
 
-        String result = npcSpawn.reloadNpc("Tony");
+        String result = npcSpawn.reloadNpc(Mockito.any(), "Tony");
 
         InOrder order = inOrder(npcSpawner, npcSpawner);
         order.verify(npcSpawner).deleteNpc(npc);
@@ -149,7 +154,7 @@ class NpcSpawnTest {
 
         when(worldNpcFinder.findNpc(anyString())).thenReturn(Optional.empty());
 
-        String result = npcSpawn.reloadNpc("Tony");
+        String result = npcSpawn.reloadNpc(Mockito.any(), "Tony");
 
         verifyNoInteractions(npcSpawner);
         assertThat(result).isEqualTo("<error>Une erreur s'est produite.");

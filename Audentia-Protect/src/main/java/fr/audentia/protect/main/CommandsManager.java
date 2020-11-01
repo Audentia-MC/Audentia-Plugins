@@ -1,5 +1,6 @@
 package fr.audentia.protect.main;
 
+import fr.audentia.core.application.commands.CommandHelp;
 import fr.audentia.protect.application.commands.CommandNewHouse;
 import fr.audentia.protect.application.commands.CommandReloadSigns;
 import org.bukkit.command.CommandExecutor;
@@ -32,6 +33,8 @@ public class CommandsManager {
 
         commands.put(getCommand("reloadsigns"), new CommandReloadSigns(provider.signsManage));
         commands.put(getCommand("newhouse"), new CommandNewHouse(provider.houseCreation));
+
+        commands.put(getCommand("aphelp"), new CommandHelp(commands));
 
         return commands;
     }

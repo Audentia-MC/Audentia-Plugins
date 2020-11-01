@@ -20,7 +20,7 @@ public class AudentiaPlayers extends JavaPlugin {
             this.getDataFolder().mkdirs();
         }
 
-        MANAGERS_PROVIDER = new AudentiaPlayersManagersProvider(this.getDataFolder().getPath() + File.separator + "configuration.toml");
+        MANAGERS_PROVIDER = new AudentiaPlayersManagersProvider(this.getDataFolder().getPath());
         this.commandsManager = new CommandsManager(this, VERSION, MANAGERS_PROVIDER);
         this.listenersManager = new ListenersManager(this, MANAGERS_PROVIDER);
         this.tasksManager = new TasksManager(this, MANAGERS_PROVIDER);

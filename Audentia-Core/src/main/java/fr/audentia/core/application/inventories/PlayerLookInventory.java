@@ -8,6 +8,7 @@ import fr.minuskube.inv.content.SlotPos;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
@@ -30,7 +31,7 @@ public class PlayerLookInventory implements InventoryProvider {
                 .title("Inventaire de " + target.getName())
                 .provider(new PlayerLookInventory(targetUUID))
                 .closeable(true)
-                .size(6, 9)
+                .size(5, 9)
                 .build()
                 .open(Bukkit.getPlayer(staffUUID));
     }
@@ -45,21 +46,20 @@ public class PlayerLookInventory implements InventoryProvider {
 
         Inventory targetInventory = target.getInventory();
 
-        for (int i = 0; i < 27; i++) {
-            contents.set(new SlotPos(i / 9, i % 9), ClickableItem.empty(targetInventory.getItem(i + 9)));
-        }
-
         for (int i = 0; i < 9; i++) {
-            contents.set(new SlotPos(3, i), ClickableItem.empty(targetInventory.getItem(i + 36)));
+            contents.set(new SlotPos(3, i), ClickableItem.empty(targetInventory.getItem(i)));
         }
 
-        contents.set(new SlotPos(5, 1), ClickableItem.empty(targetInventory.getItem(5)));
-        contents.set(new SlotPos(5, 2), ClickableItem.empty(targetInventory.getItem(6)));
-        contents.set(new SlotPos(5, 3), ClickableItem.empty(targetInventory.getItem(7)));
-        contents.set(new SlotPos(5, 4), ClickableItem.empty(targetInventory.getItem(8)));
+        for (int i = 9; i < 36; i++) {
+            contents.set(new SlotPos((i - 9) / 9, i % 9), ClickableItem.empty(targetInventory.getItem(i)));
+        }
 
-        contents.set(new SlotPos(5, 6), ClickableItem.empty(targetInventory.getItem(45)));
+        contents.set(new SlotPos(4, 2), ClickableItem.empty(targetInventory.getItem(36)));
+        contents.set(new SlotPos(4, 3), ClickableItem.empty(targetInventory.getItem(37)));
+        contents.set(new SlotPos(4, 4), ClickableItem.empty(targetInventory.getItem(38)));
+        contents.set(new SlotPos(4, 5), ClickableItem.empty(targetInventory.getItem(39)));
 
+        contents.set(new SlotPos(4, 6), ClickableItem.empty(targetInventory.getItem(40)));
     }
 
     @Override

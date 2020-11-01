@@ -92,16 +92,21 @@ public class ShopInventory implements InventoryProvider {
             }
 
             ShopItem item = items.get(i);
+            Material material = Material.getMaterial(item.material);
+
+            if (material == null) {
+                continue;
+            }
 
             contents.set(getSlotPos(i - page * 45), ClickableItem.of(ItemStackBuilder.anItemStack()
                     .withName(ChatColor.WHITE + item.material)
-                    .withMaterial(Material.getMaterial(item.material))
+                    .withMaterial(material)
                     .addLore(ChatColor.AQUA + "Prix unitaire : " + ChatColor.YELLOW + item.price + " émeraudes")
                     .addLore(ChatColor.AQUA + "Prix dizaine : " + ChatColor.YELLOW + (10 * item.price) + " émeraudes")
                     .addLore(ChatColor.AQUA + "Prix demi-stack : " + ChatColor.YELLOW + (32 * item.price) + " émeraudes")
                     .addLore(ChatColor.AQUA + "Prix stack : " + ChatColor.YELLOW + (64 * item.price) + " émeraudes")
                     .build(),
-                    event -> ItemShopInventory.open(player.getUniqueId(), shop, item, balanceManage, page, shopItemBuyAction)));
+                    event -> ItemShopInventory.open(player.getUniqueId(), shop, item, balanceManage, page + 1, shopItemBuyAction)));
 
         }
 

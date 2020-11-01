@@ -20,8 +20,31 @@ public class BankNpcSpawn {
         String result = "<error>Le PNJ de la banque n'a pas été trouvé.";
 
         if (name.isPresent()) {
-            npcSpawn.spawnNpc(name.get());
-            result = "<success>Le PNJ de la banque a bien spawn.";
+            result = npcSpawn.spawnNpc(name.get());
+        }
+
+        return result;
+    }
+
+    public String deleteBankNpc() {
+
+        Optional<String> name = bankNpcProvider.getName();
+        String result = "<error>Le PNJ de la banque n'a pas été trouvé.";
+
+        if (name.isPresent()) {
+            result = npcSpawn.deleteNpc(name.get());
+        }
+
+        return result;
+    }
+
+    public String reloadBankNpc() {
+
+        Optional<String> name = bankNpcProvider.getName();
+        String result = "<error>Le PNJ de la banque n'a pas été trouvé.";
+
+        if (name.isPresent()) {
+            result = npcSpawn.forceReloadNpc(name.get());
         }
 
         return result;

@@ -39,7 +39,7 @@ public class PlayerMoveTask extends BukkitRunnable {
 
         Location oldLocation = locations.get(uuid);
 
-        if (location.distanceSquared(oldLocation) != 0) {
+        if (location.getWorld() != oldLocation.getWorld() || location.distanceSquared(oldLocation) != 0) {
 
             teleportationsManage.cancelIfRegistered(player.getUniqueId());
 

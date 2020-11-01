@@ -8,7 +8,7 @@ public class DefaultTimeProvider implements TimeProvider {
 
     @Override
     public int getHour() {
-        return LocalTime.now().getHour();
+        return ZonedDateTime.now().getHour();
     }
 
     @Override

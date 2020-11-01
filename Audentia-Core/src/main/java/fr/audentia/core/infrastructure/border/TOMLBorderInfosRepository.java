@@ -1,12 +1,11 @@
 package fr.audentia.core.infrastructure.border;
 
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.file.FileConfig;
 import fr.audentia.core.domain.border.BorderInfosRepository;
 import fr.audentia.core.domain.model.border.BorderLocation;
 import fr.audentia.core.domain.model.border.BorderSize;
 
-import java.util.Optional;
+import java.io.File;
 
 public class TOMLBorderInfosRepository implements BorderInfosRepository {
 
@@ -19,12 +18,7 @@ public class TOMLBorderInfosRepository implements BorderInfosRepository {
     @Override
     public BorderSize getBorderSize() {
 
-        FileConfig fileConfig = CommentedFileConfig.builder(filePath)
-                .defaultResource("configuration.toml")
-                .autosave()
-                .build();
-
-        fileConfig.load();
+        FileConfig fileConfig = loadFileConfig();
 
         int borderSize = fileConfig.getOptionalInt("border.size").orElse(0);
 
@@ -36,12 +30,7 @@ public class TOMLBorderInfosRepository implements BorderInfosRepository {
     @Override
     public BorderLocation getBorderLocation() {
 
-        FileConfig fileConfig = CommentedFileConfig.builder(filePath)
-                .defaultResource("configuration.toml")
-                .autosave()
-                .build();
-
-        fileConfig.load();
+        FileConfig fileConfig = loadFileConfig();
 
         int x = fileConfig.getOptionalInt("border.x").orElse(0);
         int z = fileConfig.getOptionalInt("border.z").orElse(0);
@@ -49,6 +38,14 @@ public class TOMLBorderInfosRepository implements BorderInfosRepository {
         fileConfig.close();
 
         return new BorderLocation(x, z);
+    }
+
+    private FileConfig loadFileConfig() {
+
+        FileConfig fileConfig = FileConfig.of(filePath + File.separator + "configuration.toml");
+
+        fileConfig.load();
+        return fileConfig;
     }
 
 }

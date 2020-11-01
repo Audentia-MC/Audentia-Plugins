@@ -1,11 +1,10 @@
 names = [
-    "Tony",
     "Manu"
 ]
 
 [npcs]
 
-    [Tony]
+    [Tony]  # PNJ de la banque à ne pas oublier
     x = 0
     y = 0
     z = 0

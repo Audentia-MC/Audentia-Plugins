@@ -1,20 +1,20 @@
 package fr.audentia.core.application.tasks;
 
-import fr.audentia.core.domain.npc.NetherNcpSpawn;
+import fr.audentia.core.domain.npc.NetherNpcSpawn;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class NetherNpcSpawnTask extends BukkitRunnable {
 
-    private final NetherNcpSpawn netherNcpSpawn;
+    private final NetherNpcSpawn netherNpcSpawn;
 
-    public NetherNpcSpawnTask(NetherNcpSpawn netherNcpSpawn) {
-        this.netherNcpSpawn = netherNcpSpawn;
+    public NetherNpcSpawnTask(NetherNpcSpawn netherNpcSpawn) {
+        this.netherNpcSpawn = netherNpcSpawn;
     }
 
     @Override
     public void run() {
 
-        netherNcpSpawn.doNpcAction();
+        netherNpcSpawn.doNpcAction();
     }
 
 }

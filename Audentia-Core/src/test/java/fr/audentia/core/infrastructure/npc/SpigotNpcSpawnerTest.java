@@ -1,6 +1,5 @@
 package fr.audentia.core.infrastructure.npc;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 import fr.audentia.core.domain.model.npc.Npc;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

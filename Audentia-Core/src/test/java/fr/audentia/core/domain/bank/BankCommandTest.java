@@ -43,7 +43,7 @@ class BankCommandTest {
 
         String result = bankSlotsProvider.getBankSlots();
 
-        assertThat(result).isEqualTo("#FCB91FLes horaires d'ouverture de la banque pour aujourd'hui sont : 2h-4h, 10h-12h, 18h-20h.");
+        assertThat(result).isEqualTo("&#FCB91FLes horaires d'ouverture de la banque pour aujourd'hui sont : 2h-4h, 10h-12h, 18h-20h.");
     }
 
 }

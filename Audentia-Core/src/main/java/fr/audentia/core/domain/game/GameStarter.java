@@ -40,7 +40,6 @@ public class GameStarter {
             return "<error>/start <nombre de jour de la partie>";
         }
 
-
         List<UUID> players = playerFinder.getAllPlayers();
 
         for (UUID player : players) {

@@ -14,8 +14,13 @@ public class GameDayModifier {
     public void addDay() {
 
         long startTimeInSeconds = gamesInfosRepository.getStartTimeInSeconds();
-        LocalDateTime actualDate = LocalDateTime.now();
-        LocalDateTime startDate = LocalDateTime.ofEpochSecond(startTimeInSeconds, 0, ZoneOffset.UTC);
+
+        if (startTimeInSeconds == -1) {
+            return;
+        }
+
+        ZonedDateTime actualDate = ZonedDateTime.now();
+        ZonedDateTime startDate = ZonedDateTime.ofInstant(Instant.ofEpochSecond(startTimeInSeconds), ZoneId.of("Europe/Paris"));
 
         long period = ChronoUnit.DAYS.between(startDate, actualDate) + 1;
 

@@ -30,7 +30,7 @@ public class CommandReloadAllPNJ implements CommandExecutor {
 
         Role role = rolesRepository.getRole(player.getUniqueId());
 
-        if (!role.staff) {
+        if (role.number > 2) {
             player.sendMessage(ChatUtils.format("<error>Vous ne pouvez pas effectuer cette action."));
             return true;
         }

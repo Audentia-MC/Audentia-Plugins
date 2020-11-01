@@ -1,8 +1,6 @@
 package fr.audentia.core.application.commands;
 
 import fr.audentia.core.domain.npc.NpcSpawn;
-import fr.audentia.players.domain.model.roles.Role;
-import fr.audentia.players.domain.teams.RolesRepository;
 import fr.audentia.players.utils.ChatUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,11 +9,9 @@ import org.bukkit.entity.Player;
 
 public class CommandReloadPNJ implements CommandExecutor {
 
-    private final RolesRepository rolesRepository;
     private final NpcSpawn npcSpawn;
 
-    public CommandReloadPNJ(RolesRepository rolesRepository, NpcSpawn npcSpawn) {
-        this.rolesRepository = rolesRepository;
+    public CommandReloadPNJ(NpcSpawn npcSpawn) {
         this.npcSpawn = npcSpawn;
     }
 
@@ -28,19 +24,12 @@ public class CommandReloadPNJ implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        Role role = rolesRepository.getRole(player.getUniqueId());
-
-        if (!role.staff) {
-            player.sendMessage(ChatUtils.format("<error>Vous ne pouvez pas effectuer cette action."));
-            return true;
-        }
-
         if (args.length == 0) {
             player.sendMessage(ChatUtils.format("<error>/reloadNpc <name>"));
             return false;
         }
 
-        String result = npcSpawn.reloadNpc(role.name);
+        String result = npcSpawn.reloadNpc(player.getUniqueId(), args[0]);
         player.sendMessage(ChatUtils.format(result));
         return true;
     }

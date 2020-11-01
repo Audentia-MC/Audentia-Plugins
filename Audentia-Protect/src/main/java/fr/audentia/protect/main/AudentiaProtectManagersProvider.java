@@ -1,9 +1,7 @@
 package fr.audentia.protect.main;
 
 import fr.audentia.core.main.AudentiaCoreManagersProvider;
-import fr.audentia.players.infrastructure.database.DatabaseConnection;
 import fr.audentia.players.main.AudentiaPlayersManagersProvider;
-import fr.audentia.players.utils.DataBaseConfigurationLoader;
 import fr.audentia.protect.domain.house.*;
 import fr.audentia.protect.domain.portals.NetherLocationRepository;
 import fr.audentia.protect.domain.portals.PortalCreateCheck;
@@ -23,17 +21,16 @@ public class AudentiaProtectManagersProvider {
 
     public AudentiaProtectManagersProvider(AudentiaPlayersManagersProvider audentiaPlayersManagersProvider, AudentiaCoreManagersProvider audentiaCoreManagersProvider, String path) {
 
-        DatabaseConnection databaseConnection = DataBaseConfigurationLoader.loadConnection(path);
-
-        HouseRepository houseRepository = new MariaDbHouseRepository(databaseConnection);
+        HouseRepository houseRepository = new MariaDbHouseRepository(audentiaPlayersManagersProvider.databaseConnection);
         BuyHouseClicksRepository clicksRepository = new DefaultBuyHouseClicksRepository();
         NetherLocationRepository netherLocationRepository = new TOMLNetherLocationRepository(path);
         HouseCreationRepository houseCreationRepository = new DefaultHouseCreationRepository();
 
-        houseAction = new HouseAction(houseRepository, audentiaPlayersManagersProvider.rolesRepository, audentiaPlayersManagersProvider.teamsManager, audentiaCoreManagersProvider.balanceManage);
+        HouseAction houseAction1 = new HouseAction(houseRepository, audentiaPlayersManagersProvider.rolesRepository, audentiaPlayersManagersProvider.teamsManager, audentiaCoreManagersProvider.balanceManage, null);
 
-        SignUtils signUtils = new SpigotSignUtils(houseAction);
+        SignUtils signUtils = new SpigotSignUtils(houseAction1);
 
+        houseAction = new HouseAction(houseRepository, audentiaPlayersManagersProvider.rolesRepository, audentiaPlayersManagersProvider.teamsManager, audentiaCoreManagersProvider.balanceManage, signUtils);
         buyHouseAction = new BuyHouseAction(clicksRepository);
         portalCreateCheck = new PortalCreateCheck(audentiaPlayersManagersProvider.rolesRepository, netherLocationRepository);
         signsManage = new SignsManage(audentiaPlayersManagersProvider.rolesRepository, houseRepository, signUtils);

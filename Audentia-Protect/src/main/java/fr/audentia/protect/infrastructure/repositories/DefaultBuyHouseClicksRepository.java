@@ -4,8 +4,7 @@ import fr.audentia.protect.domain.house.BuyHouseClicksRepository;
 import fr.audentia.protect.domain.model.HouseClick;
 import fr.audentia.protect.domain.model.Location;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -26,7 +25,7 @@ public class DefaultBuyHouseClicksRepository implements BuyHouseClicksRepository
 
     @Override
     public void register(UUID playerUUID, Location location) {
-        this.clicks.put(playerUUID, new HouseClick(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC), location));
+        this.clicks.put(playerUUID, new HouseClick(ZonedDateTime.now().toEpochSecond(), location));
     }
 
     @Override
@@ -37,10 +36,13 @@ public class DefaultBuyHouseClicksRepository implements BuyHouseClicksRepository
     @Override
     public void clearOld() {
 
-        this.clicks.entrySet().stream()
-                .filter(entry -> LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) - entry.getValue().time > 8)
-                .map(Map.Entry::getKey)
-                .forEach(this::remove);
+        for (Map.Entry<UUID, HouseClick> entry : this.clicks.entrySet()) {
+            if (ZonedDateTime.now().toEpochSecond() - entry.getValue().time > 8) {
+                UUID key = entry.getKey();
+                remove(key);
+            }
+        }
+
     }
 
 }

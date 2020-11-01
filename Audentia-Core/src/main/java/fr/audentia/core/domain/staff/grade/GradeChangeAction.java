@@ -21,8 +21,8 @@ public class GradeChangeAction {
             return "<error>Vous ne pouvez pas gérer le rôle d'une joueur.";
         }
 
-        if (gradeNumber < 4 && role.number != 0) {
-            return "<error>Vous ne pouvez pas changer le rôle de quelqu'un pour un rôle staff.";
+        if (gradeNumber < 6 && role.number > 1) {
+            return "<error>Vous ne pouvez pas changer le rôle d'un membre du staff'.";
         }
 
         rolesRepository.changeRole(targetUUID, gradeNumber);

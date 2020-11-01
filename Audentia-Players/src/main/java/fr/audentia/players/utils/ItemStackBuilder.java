@@ -77,4 +77,10 @@ public class ItemStackBuilder {
         return itemStack;
     }
 
+    public ItemStack buildSimple() {
+        ItemStack itemStack = new ItemStack(material, amount);
+        itemStack.setData(new MaterialData(material, data));
+        return itemStack;
+    }
+
 }

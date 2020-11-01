@@ -38,7 +38,7 @@ public class MariaDbTeamsRepository implements TeamsRepository {
                         field(name("balance")),
                         field(name("name")),
                         field(name("day")),
-                        field(name("house_id")),
+                        field(name("team_house_id")),
                         field(name("amount")))
                 .from(table(name("player"))
                         .join(table(name("team")))
@@ -59,7 +59,7 @@ public class MariaDbTeamsRepository implements TeamsRepository {
             color = ColorsUtils.fromHexadecimalToColor(record.get(field(name("color")), String.class));
             name = record.get(field(name("name")), String.class);
             balance = new Balance(record.get(field(name("balance")), Integer.class));
-            Integer recordHouseId = record.get(field(name("recordHouseId")), Integer.class);
+            Integer recordHouseId = record.get(field(name("team_house_id")), Integer.class);
 
             if (recordHouseId != null) {
                 houseId = recordHouseId;
@@ -90,12 +90,12 @@ public class MariaDbTeamsRepository implements TeamsRepository {
                 .columns(field(name("color")),
                         field(name("balance")),
                         field(name("name")),
-                        field(name("house_id")))
-                .values(ColorsUtils.fromColorToHexadecimal(team.color), team.balance, team.name, team.houseId)
+                        field(name("team_house_id")))
+                .values(ColorsUtils.fromColorToHexadecimal(team.color), Integer.parseInt(team.balance.toString()), team.name, team.houseId)
                 .onConflict(field(name("color")))
                 .doUpdate()
-                .set(field(name("balance")), team.balance)
-                .set(field(name("house_id")), team.houseId)
+                .set(field(name("balance")), Integer.parseInt(team.balance.toString()))
+                .set(field(name("team_house_id")), team.houseId)
                 .execute();
 
         try {
@@ -115,9 +115,12 @@ public class MariaDbTeamsRepository implements TeamsRepository {
                         field(name("balance")),
                         field(name("name")),
                         field(name("day")),
-                        field(name("house_id")),
-                        field(name("amount")))
-                .where(field(name("house_id")).eq(houseId))
+                        field(name("amount")),
+                        field(name("team_house_id")))
+                .from(table(name("team")))
+                    .leftJoin(table(name("transferts")))
+                    .on(field(name("id")).eq(field(name("transferts_team_id"))))
+                .where(field(name("team_house_id")).eq(houseId))
                 .fetch();
 
         Color color = null;

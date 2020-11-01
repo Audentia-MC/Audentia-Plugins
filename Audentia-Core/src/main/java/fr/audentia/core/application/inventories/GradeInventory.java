@@ -43,7 +43,7 @@ public class GradeInventory implements InventoryProvider {
                 .title("Gestion du role : " + target.getName())
                 .provider(new GradeInventory(targetUUID, gradeChangeAction, rolesRepository))
                 .closeable(true)
-                .size(6, 9)
+                .size(5, 9)
                 .build()
                 .open(Bukkit.getPlayer(staffUUID));
     }
@@ -51,7 +51,7 @@ public class GradeInventory implements InventoryProvider {
     @Override
     public void init(Player player, InventoryContents contents) {
 
-        contents.set(new SlotPos(3, 2), ClickableItem.of(
+        contents.set(new SlotPos(2, 1), ClickableItem.of(
                 anItemStack()
                         .withName("Empereur")
                         .withMaterial(getMaterial(0))
@@ -63,7 +63,7 @@ public class GradeInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(3, 3), ClickableItem.of(
+        contents.set(new SlotPos(2, 2), ClickableItem.of(
                 anItemStack()
                         .withName("Ingénieur")
                         .withMaterial(getMaterial(1))
@@ -75,9 +75,9 @@ public class GradeInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(3, 5), ClickableItem.of(
+        contents.set(new SlotPos(2, 3), ClickableItem.of(
                 anItemStack()
-                        .withName("Modérateur")
+                        .withName("Préfet")
                         .withMaterial(getMaterial(2))
                         .withAmount(1)
                         .build(),
@@ -87,7 +87,7 @@ public class GradeInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(3, 6), ClickableItem.of(
+        contents.set(new SlotPos(3, 1), ClickableItem.of(
                 anItemStack()
                         .withName("Architecte")
                         .withMaterial(getMaterial(3))
@@ -99,9 +99,9 @@ public class GradeInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(4, 2), ClickableItem.of(
+        contents.set(new SlotPos(3, 2), ClickableItem.of(
                 anItemStack()
-                        .withName("Consul")
+                        .withName("Artiste")
                         .withMaterial(getMaterial(4))
                         .withAmount(1)
                         .build(),
@@ -111,9 +111,9 @@ public class GradeInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(4, 3), ClickableItem.of(
+        contents.set(new SlotPos(3, 3), ClickableItem.of(
                 anItemStack()
-                        .withName("Préfet")
+                        .withName("Mécène")
                         .withMaterial(getMaterial(5))
                         .withAmount(1)
                         .build(),
@@ -123,10 +123,10 @@ public class GradeInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(4, 4), ClickableItem.of(
+        contents.set(new SlotPos(2, 5), ClickableItem.of(
                 anItemStack()
-                        .withName("Légat")
-                        .withMaterial(getMaterial(5))
+                        .withName("Consul")
+                        .withMaterial(getMaterial(6))
                         .withAmount(1)
                         .build(),
                 event -> {
@@ -135,10 +135,10 @@ public class GradeInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(4, 5), ClickableItem.of(
+        contents.set(new SlotPos(2, 6), ClickableItem.of(
                 anItemStack()
-                        .withName("Tribun")
-                        .withMaterial(getMaterial(5))
+                        .withName("Légat")
+                        .withMaterial(getMaterial(7))
                         .withAmount(1)
                         .build(),
                 event -> {
@@ -147,14 +147,26 @@ public class GradeInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(4, 6), ClickableItem.of(
+        contents.set(new SlotPos(2, 7), ClickableItem.of(
                 anItemStack()
-                        .withName("Centurion")
-                        .withMaterial(getMaterial(5))
+                        .withName("Tribun")
+                        .withMaterial(getMaterial(8))
                         .withAmount(1)
                         .build(),
                 event -> {
                     String result = gradeChangeAction.changeGrade(player.getUniqueId(), targetUUID, 8);
+                    player.sendMessage(ChatUtils.format(result));
+                }
+        ));
+
+        contents.set(new SlotPos(3, 6), ClickableItem.of(
+                anItemStack()
+                        .withName("Centurion")
+                        .withMaterial(getMaterial(9))
+                        .withAmount(1)
+                        .build(),
+                event -> {
+                    String result = gradeChangeAction.changeGrade(player.getUniqueId(), targetUUID, 9);
                     player.sendMessage(ChatUtils.format(result));
                 }
         ));
@@ -183,10 +195,9 @@ public class GradeInventory implements InventoryProvider {
     private Material getCurrentRoleMaterial() {
 
         return getMaterial(rolesRepository.getRole(targetUUID).number);
-
     }
 
-    private Material getMaterial(int number) {
+    private Material getMaterial(int number) { // TODO: review new roles
 
         switch (number) {
 
@@ -194,7 +205,7 @@ public class GradeInventory implements InventoryProvider {
                 return Material.TRIDENT;
 
             case 1:
-                return Material.REDSTONE_WIRE;
+                return Material.REDSTONE;
 
             case 2:
                 return Material.DIAMOND_SWORD;
@@ -203,16 +214,19 @@ public class GradeInventory implements InventoryProvider {
                 return Material.DIAMOND_PICKAXE;
 
             case 4:
-                return Material.DIAMOND_CHESTPLATE;
+                return Material.PAINTING;
 
             case 5:
-                return Material.GOLDEN_CHESTPLATE;
+                return Material.GOLD_NUGGET;
 
             case 6:
-                return Material.IRON_CHESTPLATE;
+                return Material.DIAMOND_CHESTPLATE;
 
             case 7:
-                return Material.CHAINMAIL_CHESTPLATE;
+                return Material.GOLDEN_CHESTPLATE;
+
+            case 8:
+                return Material.IRON_CHESTPLATE;
 
             default:
                 return Material.LEATHER_CHESTPLATE;

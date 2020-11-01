@@ -38,12 +38,13 @@ public class CommandsManager {
         loadedCommands.put(getCommand("staff"), new CommandStaff(provider.staffInventoryOpen));
         loadedCommands.put(getCommand("event"), new CommandEvent(provider.eventProvider));
         loadedCommands.put(getCommand("reloadAllPNJ"), new CommandReloadAllPNJ(provider.rolesRepository, provider.npcSpawn));
-        loadedCommands.put(getCommand("reloadPNJ"), new CommandReloadPNJ(provider.rolesRepository, provider.npcSpawn));
+        loadedCommands.put(getCommand("reloadPNJ"), new CommandReloadPNJ(provider.npcSpawn));
+        loadedCommands.put(getCommand("reloadBankPNJ"), new CommandReloadBankNPC(provider.bankNpcSpawn));
         loadedCommands.put(getCommand("start"), new CommandStart(provider.gameStarter));
         loadedCommands.put(getCommand("pause"), new CommandPause(provider.gameStateManage));
         loadedCommands.put(getCommand("resume"), new CommandResume(provider.gameStateManage));
 
-        loadedCommands.put(getCommand("help"), new CommandHelp(loadedCommands));
+        loadedCommands.put(getCommand("ahelp"), new CommandHelp(loadedCommands));
 
         return loadedCommands;
     }

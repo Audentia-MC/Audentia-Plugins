@@ -30,7 +30,7 @@ public class CommandHelp implements CommandExecutor {
 
         loadedCommands.keySet().stream()
                 .map(Command::getName)
-                .map(name -> "<success" + name)
+                .map(name -> "<success>" + name)
                 .map(ChatUtils::format)
                 .forEach(player::sendMessage);
 

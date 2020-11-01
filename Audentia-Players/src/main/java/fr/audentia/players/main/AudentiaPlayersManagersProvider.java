@@ -13,11 +13,12 @@ public class AudentiaPlayersManagersProvider {
     public final TeamsManager teamsManager;
 
     public final MessageFormat messageFormat;
-    public TabListProvider tabListProvider;
+    public final TabListProvider tabListProvider;
+    public final DatabaseConnection databaseConnection;
 
     public AudentiaPlayersManagersProvider(String path) {
 
-        DatabaseConnection databaseConnection = DataBaseConfigurationLoader.loadConnection(path);
+        this.databaseConnection = DataBaseConfigurationLoader.loadConnection(path);
 
         TeamsRepository TEAMS_REPOSITORY = new MariaDbTeamsRepository(databaseConnection);
 

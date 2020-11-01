@@ -1,9 +1,10 @@
 package fr.audentia.core.infrastructure.damage;
 
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.file.FileConfig;
 import fr.audentia.core.domain.damage.ColiseumLocationRepository;
 import fr.audentia.core.domain.model.location.Location;
+
+import java.io.File;
 
 public class TOMLColiseumLocationRepository implements ColiseumLocationRepository {
 
@@ -47,10 +48,7 @@ public class TOMLColiseumLocationRepository implements ColiseumLocationRepositor
 
     private FileConfig loadFile() {
 
-        FileConfig fileConfig = CommentedFileConfig.builder(filePath)
-                .defaultResource("configuration.toml")
-                .autosave()
-                .build();
+        FileConfig fileConfig = FileConfig.of(filePath + File.separator + "configuration.toml");
 
         fileConfig.load();
         return fileConfig;

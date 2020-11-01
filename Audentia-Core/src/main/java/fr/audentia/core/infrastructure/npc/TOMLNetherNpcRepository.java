@@ -1,11 +1,11 @@
 package fr.audentia.core.infrastructure.npc;
 
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.file.FileConfig;
 import fr.audentia.core.domain.model.npc.Npc;
 import fr.audentia.core.domain.npc.NetherNpcRepository;
 import fr.audentia.core.domain.npc.NetherTimesRepository;
 
+import java.io.File;
 import java.util.Optional;
 import java.util.Random;
 
@@ -40,11 +40,11 @@ public class TOMLNetherNpcRepository implements NetherNpcRepository, NetherTimes
 
             Optional<Npc> build = Optional.of(aNpc()
                     .withName(name)
-                    .withX(fileConfig.get("locations." + i + ".x"))
-                    .withY(fileConfig.get("locations." + i + ".y"))
-                    .withZ(fileConfig.get("locations." + i + ".z"))
-                    .withYaw(fileConfig.get("locations." + i + ".yaw"))
-                    .withPitch(fileConfig.get("locations." + i + ".pitch"))
+                    .withX(fileConfig.get(i + ".x"))
+                    .withY(fileConfig.get(i + ".y"))
+                    .withZ(fileConfig.get(i + ".z"))
+                    .withYaw(Float.parseFloat(String.valueOf(fileConfig.getOrElse(i + ".yaw", 0.0d))))
+                    .withPitch(Float.parseFloat(String.valueOf(fileConfig.getOrElse(i + ".pitch", 0.0d))))
                     .build());
 
             fileConfig.close();
@@ -60,7 +60,7 @@ public class TOMLNetherNpcRepository implements NetherNpcRepository, NetherTimes
     public String getNetherNpcName() {
         FileConfig fileConfig = loadFile();
 
-        String name = fileConfig.get("name");
+        String name = fileConfig.get("npc_name");
         fileConfig.close();
         return name;
     }
@@ -107,10 +107,7 @@ public class TOMLNetherNpcRepository implements NetherNpcRepository, NetherTimes
 
     private FileConfig loadFile() {
 
-        FileConfig fileConfig = CommentedFileConfig.builder(filePath)
-                .defaultResource("nether.toml")
-                .autosave()
-                .build();
+        FileConfig fileConfig = FileConfig.of(filePath + File.separator + "nether.toml");
 
         fileConfig.load();
         return fileConfig;

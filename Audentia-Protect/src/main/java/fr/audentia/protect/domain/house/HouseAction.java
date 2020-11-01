@@ -17,15 +17,17 @@ public class HouseAction {
     private final RolesRepository rolesRepository;
     private final TeamsManager teamsManager;
     private final BalanceManage balanceManage;
+    private final SignUtils signUtils;
 
-    public HouseAction(HouseRepository houseRepository, RolesRepository rolesRepository, TeamsManager teamsManager, BalanceManage balanceManage) {
+    public HouseAction(HouseRepository houseRepository, RolesRepository rolesRepository, TeamsManager teamsManager, BalanceManage balanceManage, SignUtils signUtils) {
         this.houseRepository = houseRepository;
         this.rolesRepository = rolesRepository;
         this.teamsManager = teamsManager;
         this.balanceManage = balanceManage;
+        this.signUtils = signUtils;
     }
 
-    public boolean breakSign(Location location) {
+    public boolean isRegisteredSign(Location location) {
 
         return houseRepository.isRegisteredSign(location);
     }
@@ -55,11 +57,11 @@ public class HouseAction {
     public String buyHouse(Location location, UUID playerUUID) {
 
         if (!houseRepository.isRegisteredSign(location)) {
-            return "";
+            return "<error>Ce panneau n'est relié à aucune maison.";
         }
 
         if (houseRepository.isBoughtBySign(location)) {
-            return "";
+            return "<error>Cette maison est déjà achetée.";
         }
 
         int balance = Integer.parseInt(balanceManage.getBalance(playerUUID));
@@ -70,7 +72,7 @@ public class HouseAction {
             return "<error>Vous ne pouvez pas acheter une maison.";
         }
 
-        if (house.level < role.number) {
+        if (house.level > 10 - role.number) {
             return "<error>Cette maison est réservée à un grade plus grand que le votre.";
         }
 
@@ -80,6 +82,7 @@ public class HouseAction {
 
         teamsManager.setHouse(playerUUID, house.id);
         balanceManage.removeFromBalance(playerUUID, house.price);
+        signUtils.reloadSign(house);
         return "<success>Maison achetée.";
     }
 
@@ -90,7 +93,6 @@ public class HouseAction {
         }
 
         int houseId = houseRepository.getHouseId(signLocation);
-
         return teamsManager.getTeamByHouseId(houseId);
     }
 

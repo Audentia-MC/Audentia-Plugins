@@ -30,7 +30,7 @@ public class MariaDbBankSlotsRepository implements BankSlotsRepository {
         Result<Record2<Object, Object>> result = databaseConnection.getDatabaseContext(connection)
                 .select(field(name("start")), field(name("end")))
                 .from(table(name("bank_slot")))
-                .where(field(name("day")).eq(day.day))
+                .where(field(name("day_number")).eq(day.day))
                 .fetch();
 
         List<Slot> slots = result.stream()

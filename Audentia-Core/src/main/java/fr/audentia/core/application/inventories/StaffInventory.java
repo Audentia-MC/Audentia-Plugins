@@ -68,7 +68,7 @@ public class StaffInventory implements InventoryProvider {
     @Override
     public void init(Player player, InventoryContents contents) {
 
-        contents.set(new SlotPos(1, 3), ClickableItem.of(
+        contents.set(new SlotPos(1, 2), ClickableItem.of(
                 anItemStack()
                         .withName("Ban")
                         .withMaterial(Material.BEDROCK)
@@ -82,7 +82,7 @@ public class StaffInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(1, 4), ClickableItem.of(
+        contents.set(new SlotPos(1, 3), ClickableItem.of(
                 anItemStack()
                         .withName("Kick")
                         .withMaterial(Material.DARK_OAK_DOOR)
@@ -97,7 +97,7 @@ public class StaffInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(1, 5), ClickableItem.of(
+        contents.set(new SlotPos(1, 4), ClickableItem.of(
                 anItemStack()
                         .withName("Grade")
                         .withMaterial(Material.LEATHER_CHESTPLATE)
@@ -110,12 +110,12 @@ public class StaffInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(1, 6), ClickableItem.of(
+        contents.set(new SlotPos(1, 5), ClickableItem.of(
                 anItemStack()
                         .withName("Teleport")
                         .withMaterial(Material.ENDER_EYE)
                         .withAmount(1)
-                        .addLore("Ser téléporter au joueur")
+                        .addLore("Se téléporter au joueur")
                         .build(),
                 event -> {
                     String result = teleportAction.teleport(player.getUniqueId(), targetUUID);
@@ -124,7 +124,7 @@ public class StaffInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(1, 7), ClickableItem.of(
+        contents.set(new SlotPos(1, 6), ClickableItem.of(
                 anItemStack()
                         .withName("Look inventory")
                         .withMaterial(Material.BOOK)

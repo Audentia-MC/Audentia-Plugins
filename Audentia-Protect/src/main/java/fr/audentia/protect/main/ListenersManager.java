@@ -26,8 +26,8 @@ public class ListenersManager {
         return Arrays.asList(
                 new ListenerSign(provider.houseAction, provider.buyHouseAction),
                 new ListenerHouseBlockInteract(provider.houseAction),
-                new ListenerNetherPortailCreated(provider.portalCreateCheck),
-                new ListenerHouseCreationInterract(provider.houseCreation),
+                new ListenerNetherPortailCreated(plugin, provider.portalCreateCheck),
+                new ListenerHouseCreationInteract(provider.houseCreation),
                 new ListenerPlayerChatHouseCreation(provider.houseCreation)
         );
 

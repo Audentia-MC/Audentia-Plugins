@@ -51,17 +51,6 @@ public class SpigotSignUtils implements SignUtils {
                 .ifPresent(team -> placeArmorStand(block, team));
     }
 
-    private void placeArmorStand(Block block, Team team) {
-        block.setType(Material.AIR);
-
-        ArmorStand armorstand = (ArmorStand) block.getWorld().spawnEntity(block.getLocation(), EntityType.ARMOR_STAND);
-        armorstand.setHealth(20);
-        armorstand.setGravity(true);
-        armorstand.setCustomName("Team " + ColorsUtils.fromColorToHexadecimal(team.color) + team.name);
-        armorstand.setCustomNameVisible(true);
-        armorstand.setVisible(false);
-    }
-
     private void placeSign(House house, Block block) {
         block.setType(Material.OAK_WALL_SIGN);
         WallSign signData = (WallSign) block.getBlockData();
@@ -69,11 +58,23 @@ public class SpigotSignUtils implements SignUtils {
 
         Sign sign = (Sign) block.getState();
         sign.setLine(0, "A vendre");
-        sign.setLine(1, ChatUtils.format("#ECADd11Prix : <green>" + house.price));
-        sign.setLine(2, "#ECADd11Niveau : <green>" + house.level);
+        sign.setLine(1, ChatUtils.format("&#E9BA20Prix : <green>" + house.price));
+        sign.setLine(2, ChatUtils.format("&#E9BA20Niveau : <green>" + house.level));
         sign.setLine(3, "");
         sign.setBlockData(signData);
         sign.update();
+    }
+
+    private void placeArmorStand(Block block, Team team) {
+
+        block.setType(Material.AIR);
+
+        ArmorStand armorstand = (ArmorStand) block.getWorld().spawnEntity(block.getLocation().add(0.5, 0.5, 0), EntityType.ARMOR_STAND);
+        armorstand.setHealth(20);
+        armorstand.setGravity(true);
+        armorstand.setCustomName(ChatUtils.format("&" + ColorsUtils.fromColorToHexadecimal(team.color) + team.name));
+        armorstand.setCustomNameVisible(true);
+        armorstand.setVisible(false);
     }
 
     private BlockFace getBlockFace(char blockFace) {

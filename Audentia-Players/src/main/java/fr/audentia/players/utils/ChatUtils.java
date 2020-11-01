@@ -20,8 +20,8 @@ public class ChatUtils {
 
     public static String format(String message) {
         String newMessage = message
-                .replace("<success> ", ChatColor.GREEN.toString())
-                .replace("<error> ", ChatColor.RED.toString())
+                .replace("<success>", ChatColor.GREEN.toString())
+                .replace("<error>", ChatColor.RED.toString())
                 .replace("<blue>", ChatColor.BLUE.toString())
                 .replace("<black>", ChatColor.BLACK.toString())
                 .replace("<red>", ChatColor.RED.toString())

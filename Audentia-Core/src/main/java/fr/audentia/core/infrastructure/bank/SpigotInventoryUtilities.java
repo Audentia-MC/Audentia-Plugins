@@ -17,15 +17,28 @@ public class SpigotInventoryUtilities implements InventoryUtilities {
     @Override
     public boolean hasEmeralds(UUID playerUUID, int count) {
 
+        return hasItem(playerUUID, "EMERALD", count);
+    }
+
+    @Override
+    public boolean hasItem(UUID playerUUID, String materialName, int count) {
+
         Player player = Bukkit.getPlayer(playerUUID);
 
         if (player == null) {
             return false;
         }
 
+        Material material = Material.getMaterial(materialName);
+
+        if (material == null) {
+            return false;
+        }
+
         return Arrays.stream(player.getInventory().getContents())
                 .filter(Objects::nonNull)
-                .filter(item -> item.getType() == Material.EMERALD)
+                .filter(item -> item.getType() == material)
+                .filter(itemStack -> !itemStack.hasItemMeta() || !itemStack.getItemMeta().hasDisplayName())
                 .map(ItemStack::getAmount)
                 .reduce((sum, amount) -> sum += amount)
                 .orElse(0) >= count;
@@ -34,9 +47,21 @@ public class SpigotInventoryUtilities implements InventoryUtilities {
     @Override
     public void removeEmeralds(UUID playerUUID, int count) {
 
+        removeItems(playerUUID, "EMERALD", count);
+    }
+
+    @Override
+    public void removeItems(UUID playerUUID, String materialName, int count) {
+
         Player player = Bukkit.getPlayer(playerUUID);
 
         if (player == null) {
+            return;
+        }
+
+        Material material = Material.getMaterial(materialName);
+
+        if (material == null) {
             return;
         }
 
@@ -46,7 +71,7 @@ public class SpigotInventoryUtilities implements InventoryUtilities {
                 break;
             }
 
-            if (content.getType() != Material.EMERALD) {
+            if (content == null || content.getType() != material) {
                 continue;
             }
 
@@ -76,64 +101,7 @@ public class SpigotInventoryUtilities implements InventoryUtilities {
         player.getInventory().addItem(anItemStack()
                 .withMaterial(material)
                 .withAmount(count)
-                .build());
-    }
-
-    @Override
-    public boolean hasItem(UUID playerUUID, String materialName, int count) {
-
-        Player player = Bukkit.getPlayer(playerUUID);
-
-        if (player == null) {
-            return false;
-        }
-
-        Material material = Material.getMaterial(materialName);
-
-        if (material == null) {
-            return false;
-        }
-
-        return Arrays.stream(player.getInventory().getContents())
-                .filter(Objects::nonNull)
-                .filter(item -> item.getType() == material)
-                .map(ItemStack::getAmount)
-                .reduce((sum, amount) -> sum += amount)
-                .orElse(0) >= count;
-
-    }
-
-    @Override
-    public void removeItems(UUID playerUUID, String materialName, int count) {
-        
-        Player player = Bukkit.getPlayer(playerUUID);
-
-        if (player == null) {
-            return;
-        }
-
-        Material material = Material.getMaterial(materialName);
-
-        if (material == null) {
-            return;
-        }
-
-        for (ItemStack content : player.getInventory().getContents()) {
-
-            if (count <= 0) {
-                break;
-            }
-
-            if (content.getType() != material) {
-                continue;
-            }
-
-            int amount = content.getAmount();
-            content.setAmount(amount - count);
-            count -= amount;
-
-        }
-
+                .buildSimple());
     }
 
     @Override

@@ -6,6 +6,7 @@ public class DatabaseConnectionBuilder {
     private String user;
     private String password;
     private String database;
+    private int port;
 
     private DatabaseConnectionBuilder() {
     }
@@ -34,6 +35,11 @@ public class DatabaseConnectionBuilder {
         return this;
     }
 
+    public DatabaseConnectionBuilder withPort(int port) {
+        this.port = port;
+        return this;
+    }
+
     public DatabaseConnection build() {
         return new DatabaseConnection(this);
     }
@@ -53,4 +59,9 @@ public class DatabaseConnectionBuilder {
     public String getDatabase() {
         return database;
     }
+
+    public int getPort() {
+        return port;
+    }
+
 }

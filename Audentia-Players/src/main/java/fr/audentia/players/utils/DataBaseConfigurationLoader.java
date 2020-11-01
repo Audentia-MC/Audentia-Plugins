@@ -1,10 +1,9 @@
 package fr.audentia.players.utils;
 
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.file.FileConfig;
 import fr.audentia.players.infrastructure.database.DatabaseConnection;
 
-import java.util.Optional;
+import java.io.File;
 
 import static fr.audentia.players.infrastructure.database.DatabaseConnectionBuilder.aDatabaseConnection;
 
@@ -12,10 +11,7 @@ public class DataBaseConfigurationLoader {
 
     public static DatabaseConnection loadConnection(String filePath) {
 
-        FileConfig fileConfig = CommentedFileConfig.builder(filePath)
-                .defaultResource("configuration.toml")
-                .autosave()
-                .build();
+        FileConfig fileConfig = FileConfig.of(filePath + File.separator + "configuration.toml");
 
         fileConfig.load();
 
@@ -23,6 +19,7 @@ public class DataBaseConfigurationLoader {
                 .withUser(fileConfig.getOrElse("database.user", ""))
                 .withPassword(fileConfig.getOrElse("database.password", ""))
                 .withHost(fileConfig.getOrElse("database.host", ""))
+                .withPort(fileConfig.getOrElse("database.port", 3306))
                 .withDatabase(fileConfig.getOrElse("database.database", ""))
                 .build();
 

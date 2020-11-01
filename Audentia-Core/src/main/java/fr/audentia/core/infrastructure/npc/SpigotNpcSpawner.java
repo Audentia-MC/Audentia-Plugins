@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Villager;
 import org.bukkit.util.Vector;
 
 public class SpigotNpcSpawner implements NpcSpawner {
@@ -20,7 +21,7 @@ public class SpigotNpcSpawner implements NpcSpawner {
 
     @Override
     public void spawnNpc(Npc npc, String worldName) {
-        Location location = buildLocation(npc);
+        Location location = buildLocation(npc, worldName);
 
         World world = Bukkit.getWorld(worldName);
 
@@ -28,11 +29,13 @@ public class SpigotNpcSpawner implements NpcSpawner {
             return;
         }
 
-        Entity entity = world.spawnEntity(location, EntityType.VILLAGER);
+        Villager entity = (Villager) world.spawnEntity(location, EntityType.VILLAGER);
         entity.setCustomNameVisible(true);
         entity.setCustomName(npc.name);
         entity.setInvulnerable(true);
         entity.setVelocity(new Vector(0, 0, 0));
+        entity.setAI(false);
+        entity.setInvulnerable(true);
     }
 
     @Override
@@ -42,23 +45,24 @@ public class SpigotNpcSpawner implements NpcSpawner {
 
     @Override
     public void deleteNpc(Npc npc, String worldName) {
-        Location location = buildLocation(npc);
 
+        Location location = buildLocation(npc, worldName);
         World world = Bukkit.getWorld(worldName);
 
         if (world == null) {
             return;
         }
 
-        world.getNearbyEntities(location, 1, 1, 1)
+        world.getNearbyEntities(location, 2, 2, 2)
                 .stream()
+                .filter(entity -> entity instanceof Villager)
                 .findAny()
                 .ifPresent(Entity::remove);
     }
 
-    private Location buildLocation(Npc npc) {
+    private Location buildLocation(Npc npc, String worldName) {
 
-        return new Location(Bukkit.getWorld(DEFAULT_WORLD_NAME),
+        return new Location(Bukkit.getWorld(worldName),
                 npc.x,
                 npc.y,
                 npc.z,

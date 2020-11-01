@@ -53,13 +53,13 @@ class KickActionTest {
     }
 
     @Test
-    @DisplayName("ban should do nothing when player isn't staff")
+    @DisplayName("ban should do nothing when player isn't high staff")
     void ban_shouldDoNothingWhenPlayerIsNotStaff() {
 
         when(rolesRepository.getRole(any())).thenReturn(aRole()
                 .withName("Admin")
                 .withColor(Color.BLACK)
-                .withNumber(0)
+                .withNumber(3)
                 .withHomeCount(1)
                 .isPlayer(true)
                 .isStaff(false)

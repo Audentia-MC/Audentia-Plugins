@@ -6,8 +6,10 @@ import fr.audentia.protect.domain.house.HouseAction;
 import fr.audentia.protect.domain.model.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -22,7 +24,7 @@ public class ListenerSign implements Listener {
         this.buyHouseAction = buyHouseAction;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onSignBreak(BlockBreakEvent event) {
 
         Block block = event.getBlock();
@@ -32,8 +34,15 @@ public class ListenerSign implements Listener {
             return;
         }
 
+        Sign sign = (Sign) block.getState();
+
+        if (!sign.getLine(0).contains("vendre")) {
+            return;
+        }
+
         org.bukkit.Location location = block.getLocation();
-        boolean cancel = houseAction.breakSign(new Location(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
+        Location modelLocation = new Location(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+        boolean cancel = houseAction.isRegisteredSign(modelLocation);
 
         event.setCancelled(cancel);
     }
@@ -57,9 +66,19 @@ public class ListenerSign implements Listener {
             return;
         }
 
+        Sign sign = (Sign) block.getState();
+
+        if (!sign.getLine(0).contains("vendre")) {
+            return;
+        }
+
         Player player = event.getPlayer();
         org.bukkit.Location location = block.getLocation();
         Location modelLocation = new Location(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+
+        if (!houseAction.isRegisteredSign(modelLocation)) {
+            return;
+        }
 
         if (!this.buyHouseAction.isSecondClick(player.getUniqueId(), modelLocation)) {
             player.sendMessage(ChatUtils.format("<success>Cliquez une deuxième fois pour confirmer l'achat."));
@@ -73,6 +92,7 @@ public class ListenerSign implements Listener {
         }
 
         player.sendMessage(ChatUtils.format(result));
+        event.setCancelled(true);
     }
 
 }

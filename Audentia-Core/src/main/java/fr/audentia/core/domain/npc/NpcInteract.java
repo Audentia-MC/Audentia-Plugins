@@ -23,24 +23,22 @@ public class NpcInteract {
         this.netherNpcRepository = netherNpcRepository;
     }
 
-    public void interactWithNpc(UUID playerUUID, String npcName) {
+    public String interactWithNpc(UUID playerUUID, String npcName) {
 
         if (npcName.isEmpty()) {
-            return;
+            return "";
         }
 
         if (Optional.of(npcName).equals(bankNpcProvider.getName())) {
-            bankInventoryOpen.openInventory(playerUUID);
-            return;
+            return bankInventoryOpen.openInventory(playerUUID);
         }
 
         String netherNpcName = netherNpcRepository.getNetherNpcName();
         if (netherNpcName != null && netherNpcName.equals(npcName)) {
-            netherShopInventoryOpen.openShop(playerUUID, npcName);
-            return;
+            return netherShopInventoryOpen.openShop(playerUUID, npcName);
         }
 
-        this.shopInventoryOpen.openShop(playerUUID, npcName);
+        return this.shopInventoryOpen.openShop(playerUUID, npcName);
     }
 
 }

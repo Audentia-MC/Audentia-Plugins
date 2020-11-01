@@ -21,7 +21,7 @@ public class SignsManage {
 
         Role role = rolesRepository.getRole(playerUUID);
 
-        if (!role.staff) {
+        if (role.number > 2) {
             return "<error>Vous ne pouvez pas exécuter cette commande.";
         }
 

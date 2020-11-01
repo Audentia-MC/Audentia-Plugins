@@ -38,7 +38,7 @@ public class MoveManage {
             return false;
         }
 
-        return gameStateManage.isPlaying() || role.number <= 6 || gamesInfosRepository.getStartTimeInSeconds() > 15 * 60;
+        return gameStateManage.isPlaying() || role.number < 8 || gamesInfosRepository.getStartTimeInSeconds() > 15 * 60;
     }
 
 }

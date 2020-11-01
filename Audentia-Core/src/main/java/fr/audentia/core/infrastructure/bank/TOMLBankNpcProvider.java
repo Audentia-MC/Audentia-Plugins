@@ -1,9 +1,9 @@
 package fr.audentia.core.infrastructure.bank;
 
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.file.FileConfig;
 import fr.audentia.core.domain.bank.BankNpcProvider;
 
+import java.io.File;
 import java.util.Optional;
 
 public class TOMLBankNpcProvider implements BankNpcProvider {
@@ -17,10 +17,7 @@ public class TOMLBankNpcProvider implements BankNpcProvider {
     @Override
     public Optional<String> getName() {
 
-        FileConfig fileConfig = CommentedFileConfig.builder(filePath)
-                .defaultResource("configuration.toml")
-                .autosave()
-                .build();
+        FileConfig fileConfig = FileConfig.of(filePath + File.separator + "configuration.toml");
 
         fileConfig.load();
 

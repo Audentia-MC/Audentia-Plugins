@@ -31,7 +31,7 @@ public class DefaultTeleportRepository implements TeleportRepository {
 
     @Override
     public Set<UUID> getTeleportedPlayers() {
-        return this.teleportations.keySet();
+        return new HashSet<>(this.teleportations.keySet());
     }
     
 }

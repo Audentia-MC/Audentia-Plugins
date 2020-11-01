@@ -17,7 +17,7 @@ public class TasksManager {
     public void startTasks() {
 
         new BuyHouseClicksTasks(provider.buyHouseAction).runTaskTimerAsynchronously(plugin, 0, 20);
-        new SignsTask(provider.signsManage).runTaskAsynchronously(plugin);
+        new SignsTask(provider.signsManage).runTask(plugin);
 
     }
 
