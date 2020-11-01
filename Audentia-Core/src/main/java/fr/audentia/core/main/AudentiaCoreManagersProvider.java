@@ -14,6 +14,8 @@ import fr.audentia.core.domain.home.*;
 import fr.audentia.core.domain.npc.*;
 import fr.audentia.core.domain.players.JoinGameModeManage;
 import fr.audentia.core.domain.players.MoveManage;
+import fr.audentia.core.domain.protect.CityInfosRepository;
+import fr.audentia.core.domain.protect.CityProtect;
 import fr.audentia.core.domain.scoreboard.EventsRepository;
 import fr.audentia.core.domain.scoreboard.ScoreboardManage;
 import fr.audentia.core.domain.scoreboard.ScoreboardsRepository;
@@ -52,6 +54,7 @@ import fr.audentia.core.infrastructure.npc.SpigotNpcSpawner;
 import fr.audentia.core.infrastructure.npc.SpigotWorldNpcFinder;
 import fr.audentia.core.infrastructure.npc.TOMLNetherNpcRepository;
 import fr.audentia.core.infrastructure.npc.TOMLNpcRepository;
+import fr.audentia.core.infrastructure.protect.TOMLCityInfosRepository;
 import fr.audentia.core.infrastructure.scoreboard.FastBoardScoreboardsRepository;
 import fr.audentia.core.infrastructure.scoreboard.MariaDbEventsRepository;
 import fr.audentia.core.infrastructure.shop.SpigotShopInventoryOpener;
@@ -99,6 +102,7 @@ public class AudentiaCoreManagersProvider {
     public final GameStarter gameStarter;
     public final TeleportationsManage teleportationsManage;
     public final BankNpcSpawn bankNpcSpawn;
+    public final CityProtect cityProtect;
 
     public AudentiaCoreManagersProvider(AudentiaPlayersManagersProvider audentiaPlayersManagersProvider, String path) {
 
@@ -132,6 +136,7 @@ public class AudentiaCoreManagersProvider {
         PlayerMessageSender playerMessageSender = new SpigotPlayerMessageSender();
         TeleportRepository teleportRepository = new DefaultTeleportRepository();
         TimeProtectionAtStartProvider timeProtectionAtStartProvider = new TOMLTimeProtectionAtStartProvider(path);
+        CityInfosRepository cityInfosRepository = new TOMLCityInfosRepository(path);
 
         this.banAction = new BanAction(playerBanner, banRepository, audentiaPlayersManagersProvider.rolesRepository);
         this.kickAction = new KickAction(playerKicker, audentiaPlayersManagersProvider.rolesRepository);
@@ -148,6 +153,7 @@ public class AudentiaCoreManagersProvider {
         this.gameDayModifier = new GameDayModifier(gamesInfosRepository);
         this.joinGameModeManage = new JoinGameModeManage(audentiaPlayersManagersProvider.rolesRepository, playerGameModeManage);
         this.gameStarter = new GameStarter(audentiaPlayersManagersProvider.rolesRepository, playerGameModeManage, playerFinder, audentiaPlayersManagersProvider.teamsManager, inventoryUtilities, gamesInfosRepository, playerMessageSender);
+        this.cityProtect = new CityProtect(audentiaPlayersManagersProvider.rolesRepository, cityInfosRepository);
 
         ShopItemBuyAction shopItemBuyAction = new ShopItemBuyAction(inventoryUtilities);
 

@@ -27,7 +27,8 @@ public class ListenersManager {
                 new ListenerPlayerConnect(provider.scoreboardManage, provider.joinGameModeManage),
                 new ListenerPlayerInteract(provider.gameStateManage),
                 new ListenerNpcInteract(provider.npcInteract),
-                new ListenerPlayerDamage(provider.playerDamage, provider.teleportationsManage)
+                new ListenerPlayerDamage(provider.playerDamage, provider.teleportationsManage),
+                new ListenerBlock(provider.cityProtect)
         );
 
     }

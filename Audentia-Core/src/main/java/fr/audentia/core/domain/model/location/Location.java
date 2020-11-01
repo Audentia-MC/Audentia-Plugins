@@ -33,4 +33,8 @@ public class Location {
         return Math.pow(x - location.x, 2) + Math.pow(y - location.y, 2) + Math.pow(z - location.z, 2);
     }
 
+    public double distanceSquared2D(Location location) {
+        return Math.pow(x - location.x, 2) + Math.pow(z - location.z, 2);
+    }
+
 }
