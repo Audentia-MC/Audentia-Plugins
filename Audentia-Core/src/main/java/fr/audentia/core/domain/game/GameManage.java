@@ -8,7 +8,7 @@ import fr.audentia.players.domain.teams.TeamsManager;
 import java.util.List;
 import java.util.UUID;
 
-public class GameStarter {
+public class GameManage {
 
     private final RolesRepository rolesRepository;
     private final PlayerGameModeManage playerGameModeManage;
@@ -18,7 +18,7 @@ public class GameStarter {
     private final GamesInfosRepository gamesInfosRepository;
     private final PlayerMessageSender playerMessageSender;
 
-    public GameStarter(RolesRepository rolesRepository, PlayerGameModeManage playerGameModeManage, PlayerFinder playerFinder, TeamsManager teamsManager, InventoryUtilities inventoryUtilities, GamesInfosRepository gamesInfosRepository, PlayerMessageSender playerMessageSender) {
+    public GameManage(RolesRepository rolesRepository, PlayerGameModeManage playerGameModeManage, PlayerFinder playerFinder, TeamsManager teamsManager, InventoryUtilities inventoryUtilities, GamesInfosRepository gamesInfosRepository, PlayerMessageSender playerMessageSender) {
         this.rolesRepository = rolesRepository;
         this.playerGameModeManage = playerGameModeManage;
         this.playerFinder = playerFinder;
@@ -60,6 +60,30 @@ public class GameStarter {
         int durationInSeconds = Integer.parseInt(days) * 24 * 60 * 60;
         gamesInfosRepository.addEntry(startInSeconds, durationInSeconds);
         return "<success>Partie lancée.";
+    }
+
+    public void checkEndGame() {
+
+        GameState gameState = gamesInfosRepository.getGameState();
+
+        if (gameState != GameState.PLAYING) {
+            return;
+        }
+
+        long startTimeInSeconds = gamesInfosRepository.getStartTimeInSeconds();
+        long gameDurationInSeconds = gamesInfosRepository.getGameDurationInSeconds();
+
+        if (System.currentTimeMillis() / 1000 < startTimeInSeconds + gameDurationInSeconds) {
+            return;
+        }
+
+        gamesInfosRepository.setState(GameState.ENDED);
+
+        List<UUID> players = playerFinder.getAllPlayers();
+
+        for (UUID player : players) {
+            playerMessageSender.sendMessage(player, "<success>La partie est terminée, bravo à tous !");
+        }
     }
 
 }

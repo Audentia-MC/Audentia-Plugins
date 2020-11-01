@@ -55,7 +55,7 @@ class ScoreboardManageTest {
     @DisplayName("updateScoreboard should return scoreboard of the team when player is a player")
     void updateScoreboard_shouldReturnScoreboardWithTeamAndBalance_whenPlayerIsAPlayer() {
 
-        Team tony = new Team(Color.RED, new Balance(1), new HashMap<>(), "Tony", 0);
+        Team tony = new Team(Color.RED, new Balance(1), new HashMap<>(), new HashMap<>(), "Tony", 0);
         when(teamsManager.getTeamOfPlayer(any())).thenReturn(tony);
         when(rolesRepository.getRole(any())).thenReturn(aRole()
                 .withName("Admin")
@@ -86,7 +86,7 @@ class ScoreboardManageTest {
     @DisplayName("updateScoreboard should have an s at the end of the emeralds line when team has many emeralds")
     void updateScoreboard_shouldHaveAnSAtTheEndOfTheEmeraldsLine_whenTeamHasManyEmeralds() {
 
-        Team tony = new Team(Color.RED, new Balance(2), new HashMap<>(), "Manu", 0);
+        Team tony = new Team(Color.RED, new Balance(2), new HashMap<>(), new HashMap<>(), "Manu", 0);
         when(teamsManager.getTeamOfPlayer(any())).thenReturn(tony);
         when(rolesRepository.getRole(any())).thenReturn(aRole()
                 .withName("Admin")
@@ -117,7 +117,7 @@ class ScoreboardManageTest {
     @DisplayName("updateScoreboard shouldn't have an event line when there is 0 futur event")
     void updateScoreboard_shouldNotHaveEventLine_whenThereIsFuturEvent() {
 
-        Team tony = new Team(Color.RED, new Balance(2), new HashMap<>(), "Manu", 0);
+        Team tony = new Team(Color.RED, new Balance(2), new HashMap<>(), new HashMap<>(), "Manu", 0);
         when(teamsManager.getTeamOfPlayer(any())).thenReturn(tony);
         when(rolesRepository.getRole(any())).thenReturn(aRole()
                 .withName("Admin")
@@ -147,7 +147,7 @@ class ScoreboardManageTest {
     @DisplayName("updateScoreboard should return empty scoreboard when player is not a player")
     void updateScoreboard_shouldReturnEmptyScoreboard_whenPlayerIsNotAPlayer() {
 
-        Team tony = new Team(Color.RED, new Balance(2), new HashMap<>(), "Manu", 0);
+        Team tony = new Team(Color.RED, new Balance(2), new HashMap<>(), new HashMap<>(), "Manu", 0);
         when(teamsManager.getTeamOfPlayer(any())).thenReturn(tony);
         when(rolesRepository.getRole(any())).thenReturn(aRole()
                 .withName("Admin")

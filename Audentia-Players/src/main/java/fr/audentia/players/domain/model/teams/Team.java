@@ -12,13 +12,15 @@ public class Team {
     public final Color color;
     public final Balance balance;
     public final Map<Day, DayTransfers> transfers;
+    public final Map<Day, ColiseumKills> coliseumKills;
     public final String name;
     public final int houseId;
 
-    public Team(Color color, Balance balance, Map<Day, DayTransfers> transfers, String name, int houseId) {
+    public Team(Color color, Balance balance, Map<Day, DayTransfers> transfers, Map<Day, ColiseumKills> coliseumKills, String name, int houseId) {
         this.color = color;
         this.balance = balance;
         this.transfers = transfers;
+        this.coliseumKills = coliseumKills;
         this.name = name;
         this.houseId = houseId;
     }

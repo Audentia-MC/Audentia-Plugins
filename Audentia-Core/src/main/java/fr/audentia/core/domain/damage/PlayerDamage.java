@@ -5,12 +5,16 @@ import fr.audentia.core.domain.bank.TimeProvider;
 import fr.audentia.core.domain.game.GamesInfosRepository;
 import fr.audentia.core.domain.model.location.Location;
 import fr.audentia.core.domain.protect.CityInfosRepository;
+import fr.audentia.players.domain.model.Day;
 import fr.audentia.players.domain.model.roles.Role;
+import fr.audentia.players.domain.model.teams.ColiseumKill;
+import fr.audentia.players.domain.model.teams.ColiseumKills;
 import fr.audentia.players.domain.model.teams.Team;
 import fr.audentia.players.domain.teams.RolesRepository;
 import fr.audentia.players.domain.teams.TeamsManager;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class PlayerDamage {
@@ -50,8 +54,19 @@ public class PlayerDamage {
         Location coliseumLocation = coliseumLocationRepository.getColiseumLocation();
         int coliseumSize = coliseumLocationRepository.getColiseumSize();
 
-        if (location.distanceSquared(coliseumLocation) <= Math.pow(coliseumSize, 2)) {
+        Team team = teamsManager.getTeamOfPlayer(damagerUUID);
+        Day day = gamesInfosRepository.getDay();
+
+        if (!team.coliseumKills.containsKey(day)) {
+            team.coliseumKills.put(day, new ColiseumKills(new ArrayList<>()));
+        }
+
+        int kills = team.coliseumKills.get(day).kills.size();
+
+        if (kills < 10 && location.distanceSquared(coliseumLocation) <= Math.pow(coliseumSize, 2)) {
             percentage = 0.05f;
+            team.coliseumKills.get(day).kills.add(new ColiseumKill(damagerUUID, damagedUUID, (int) (System.currentTimeMillis() / 100)));
+            teamsManager.saveTeam(team);
         }
 
         double toMove = Math.ceil(Integer.parseInt(damagedBalance) * percentage);

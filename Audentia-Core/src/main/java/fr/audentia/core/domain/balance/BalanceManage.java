@@ -1,19 +1,23 @@
 package fr.audentia.core.domain.balance;
 
+import fr.audentia.core.domain.game.GamesInfosRepository;
+import fr.audentia.players.domain.model.Day;
 import fr.audentia.players.domain.model.balance.Balance;
+import fr.audentia.players.domain.model.teams.DayTransfers;
 import fr.audentia.players.domain.model.teams.Team;
 import fr.audentia.players.domain.teams.TeamsManager;
 import fr.audentia.players.utils.ColorsUtils;
 
-import java.util.HashMap;
 import java.util.UUID;
 
 public class BalanceManage {
 
     private final TeamsManager teamsManager;
+    private final GamesInfosRepository gamesInfosRepository;
 
-    public BalanceManage(TeamsManager teamsManager) {
+    public BalanceManage(TeamsManager teamsManager, GamesInfosRepository gamesInfosRepository) {
         this.teamsManager = teamsManager;
+        this.gamesInfosRepository = gamesInfosRepository;
     }
 
     public String getBalanceWithMessage(UUID playerUUID) {
@@ -45,7 +49,12 @@ public class BalanceManage {
             return "<error>Votre groupe ne peut pas déposer d'émeraude dans la banque.";
         }
 
-        team = new Team(team.color, balance.add(count), team.transfers, team.name, team.houseId);
+        Day day = gamesInfosRepository.getDay();
+
+        DayTransfers add = team.transfers.get(day).add(count);
+        team.transfers.put(day, add);
+
+        team = new Team(team.color, balance.add(count), team.transfers, team.coliseumKills, team.name, team.houseId);
         teamsManager.saveTeam(team);
         return "<success>Dépôt effectué.";
     }
@@ -59,7 +68,7 @@ public class BalanceManage {
             return "<error>Votre groupe ne peut pas déposer d'émeraude dans la banque.";
         }
 
-        team = new Team(team.color, balance.remove(count), team.transfers, team.name, team.houseId);
+        team = new Team(team.color, balance.remove(count), team.transfers, team.coliseumKills, team.name, team.houseId);
         teamsManager.saveTeam(team);
         return "<success>Retrait effectué.";
     }
@@ -73,7 +82,7 @@ public class BalanceManage {
             return;
         }
 
-        team = new Team(team.color, balance.add(count), team.transfers, team.name, team.houseId);
+        team = new Team(team.color, balance.add(count), team.transfers, team.coliseumKills, team.name, team.houseId);
         teamsManager.saveTeam(team);
     }
 
@@ -86,7 +95,7 @@ public class BalanceManage {
             return;
         }
 
-        team = new Team(team.color, balance.remove(count), team.transfers, team.name, team.houseId);
+        team = new Team(team.color, balance.remove(count), team.transfers, team.coliseumKills, team.name, team.houseId);
         teamsManager.saveTeam(team);
     }
 

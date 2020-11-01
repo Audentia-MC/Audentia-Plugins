@@ -1,6 +1,6 @@
 package fr.audentia.core.application.commands;
 
-import fr.audentia.core.domain.game.GameStarter;
+import fr.audentia.core.domain.game.GameManage;
 import fr.audentia.players.utils.ChatUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,10 +9,10 @@ import org.bukkit.entity.Player;
 
 public class CommandStart implements CommandExecutor {
 
-    private final GameStarter gameStarter;
+    private final GameManage gameManage;
 
-    public CommandStart(GameStarter gameStarter) {
-        this.gameStarter = gameStarter;
+    public CommandStart(GameManage gameManage) {
+        this.gameManage = gameManage;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class CommandStart implements CommandExecutor {
         Player player = (Player) sender;
 
         String days = args.length != 0 ? args[0] : "a";
-        String result = gameStarter.startGame(player.getUniqueId(), days);
+        String result = gameManage.startGame(player.getUniqueId(), days);
 
         player.sendMessage(ChatUtils.format(result));
 

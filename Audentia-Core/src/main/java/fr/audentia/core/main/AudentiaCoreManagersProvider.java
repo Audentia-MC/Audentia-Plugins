@@ -99,7 +99,7 @@ public class AudentiaCoreManagersProvider {
     public final MoveManage moveManage;
     public final GameDayModifier gameDayModifier;
     public final JoinActions joinActions;
-    public final GameStarter gameStarter;
+    public final GameManage gameManage;
     public final TeleportationsManage teleportationsManage;
     public final BankNpcSpawn bankNpcSpawn;
     public final CityProtect cityProtect;
@@ -142,7 +142,7 @@ public class AudentiaCoreManagersProvider {
         this.kickAction = new KickAction(playerKicker, audentiaPlayersManagersProvider.rolesRepository);
         this.teleportAction = new TeleportAction(playerTeleporterToOther, audentiaPlayersManagersProvider.rolesRepository, worldPlayerFinder);
         this.lookInventoryAction = new LookInventoryAction(playerInventoryOpener, audentiaPlayersManagersProvider.rolesRepository, worldPlayerFinder);
-        this.balanceManage = new BalanceManage(audentiaPlayersManagersProvider.teamsManager);
+        this.balanceManage = new BalanceManage(audentiaPlayersManagersProvider.teamsManager, gamesInfosRepository);
         this.bankManage = new BankManage(balanceManage, gamesInfosRepository, bankSlotsRepository, timeProvider, audentiaPlayersManagersProvider.teamsManager);
         this.bankInventoryInteract = new BankInventoryInteract(inventoryUtilities, bankManage);
         this.gradeChangeAction = new GradeChangeAction(audentiaPlayersManagersProvider.rolesRepository);
@@ -152,7 +152,7 @@ public class AudentiaCoreManagersProvider {
         this.moveManage = new MoveManage(audentiaPlayersManagersProvider.rolesRepository, audentiaPlayersManagersProvider.teamsManager, gameStateManage, gamesInfosRepository);
         this.gameDayModifier = new GameDayModifier(gamesInfosRepository);
         this.joinActions = new JoinActions(audentiaPlayersManagersProvider.rolesRepository, playerGameModeManage, audentiaPlayersManagersProvider.playersRepository);
-        this.gameStarter = new GameStarter(audentiaPlayersManagersProvider.rolesRepository, playerGameModeManage, playerFinder, audentiaPlayersManagersProvider.teamsManager, inventoryUtilities, gamesInfosRepository, playerMessageSender);
+        this.gameManage = new GameManage(audentiaPlayersManagersProvider.rolesRepository, playerGameModeManage, playerFinder, audentiaPlayersManagersProvider.teamsManager, inventoryUtilities, gamesInfosRepository, playerMessageSender);
         this.cityProtect = new CityProtect(audentiaPlayersManagersProvider.rolesRepository, cityInfosRepository);
 
         ShopItemBuyAction shopItemBuyAction = new ShopItemBuyAction(inventoryUtilities);

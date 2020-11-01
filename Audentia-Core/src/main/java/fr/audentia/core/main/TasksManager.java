@@ -24,6 +24,7 @@ public class TasksManager {
         new TeleportTask(provider.teleportationsManage).runTaskTimer(this.plugin, 0, 20);
         new NpcSpawnerTask(provider.npcSpawn, provider.bankNpcSpawn).runTask(this.plugin);
         new WorldBorderTask(provider.borderCreate).runTaskAsynchronously(this.plugin);
+        new EndGameTask(provider.gameManage).runTaskTimerAsynchronously(this.plugin, 0, 20 * 30);
 
     }
 

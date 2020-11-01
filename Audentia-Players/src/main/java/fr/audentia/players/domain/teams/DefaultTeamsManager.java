@@ -19,7 +19,7 @@ public class DefaultTeamsManager implements TeamsManager {
     @Override
     public Team getTeamOfPlayer(UUID playerUUID) {
 
-        Team defaultTeam = new Team(Color.BLACK, new Balance(-1), new HashMap<>(), "Default team", -1);
+        Team defaultTeam = new Team(Color.BLACK, new Balance(-1), new HashMap<>(), new HashMap<>(), "Default team", -1);
 
         return teamsRepository.getTeamOfPlayer(playerUUID).orElse(defaultTeam);
     }
@@ -28,14 +28,13 @@ public class DefaultTeamsManager implements TeamsManager {
     public void saveTeam(Team team) {
 
         teamsRepository.saveTeam(team);
-
     }
 
     @Override
     public void setHouse(UUID playerUUID, int id) {
 
         Team team = getTeamOfPlayer(playerUUID);
-        Team newTeam = new Team(team.color, team.balance, team.transfers, team.name, id);
+        Team newTeam = new Team(team.color, team.balance, team.transfers, team.coliseumKills, team.name, id);
 
         saveTeam(newTeam);
     }
@@ -44,7 +43,7 @@ public class DefaultTeamsManager implements TeamsManager {
     public void resetTeam(UUID playerUUID) {
 
         Team team = getTeamOfPlayer(playerUUID);
-        team = new Team(team.color, new Balance(0), new HashMap<>(), team.name, -1);
+        team = new Team(team.color, new Balance(0), new HashMap<>(), new HashMap<>(), team.name, -1);
 
         saveTeam(team);
     }
