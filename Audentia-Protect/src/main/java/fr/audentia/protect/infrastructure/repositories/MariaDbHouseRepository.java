@@ -6,7 +6,6 @@ import fr.audentia.protect.domain.model.House;
 import fr.audentia.protect.domain.model.HouseBloc;
 import fr.audentia.protect.domain.model.Location;
 import org.jooq.Record;
-import org.jooq.Record1;
 import org.jooq.Result;
 
 import java.sql.Connection;
@@ -126,6 +125,10 @@ public class MariaDbHouseRepository implements HouseRepository {
             throwables.printStackTrace();
         }
 
+        if (result.isEmpty()) {
+            return new ArrayList<>();
+        }
+
         List<House> houses = new ArrayList<>();
 
         int id = -1;
@@ -180,7 +183,7 @@ public class MariaDbHouseRepository implements HouseRepository {
     public int getHouseId(Location location) {
 
         Connection connection = databaseConnection.getConnection();
-        Record1<Object> record = databaseConnection.getDatabaseContext(connection)
+        int id = databaseConnection.getDatabaseContext(connection)
                 .select(field(name("house_id")))
                 .from(table(name("house")))
                 .where(field(name("sign_x")).eq(location.x)
@@ -198,7 +201,11 @@ public class MariaDbHouseRepository implements HouseRepository {
                 .or(field(name("sign_x")).eq(location.x)
                         .and(field(name("sign_y")).eq(location.y))
                         .and(field(name("sign_z")).eq(location.z + 1)))
-                .fetchOne();
+                .stream()
+                .findAny()
+                .map(record -> record.get(field(name("house_id")), Integer.class))
+                .orElse(-1);
+
 
         try {
             connection.close();
@@ -206,7 +213,7 @@ public class MariaDbHouseRepository implements HouseRepository {
             throwables.printStackTrace();
         }
 
-        return record.get(field(name("house_id")), Integer.class);
+        return id;
     }
 
     @Override
@@ -223,10 +230,13 @@ public class MariaDbHouseRepository implements HouseRepository {
                 .set(field(name("sign_z")), house.signLocation.z)
                 .execute();
 
+        long houseId = getHouseId(house.signLocation);
+
         for (HouseBloc bloc : house.blocs) {
 
             databaseConnection.getDatabaseContext(connection)
                     .insertInto(table(name("house_bloc")))
+                    .set(field(name("bloc_house_id")), houseId)
                     .set(field(name("x0")), bloc.location1.x)
                     .set(field(name("y0")), bloc.location1.y)
                     .set(field(name("z0")), bloc.location1.z)
@@ -297,7 +307,7 @@ public class MariaDbHouseRepository implements HouseRepository {
         return new House(id, price, level, blocs, new Location(signX, signY, signZ), blockFace);
     }
 
-    @Override // TODO: to check
+    @Override
     public boolean isBoughtBySign(Location location) {
 
         Connection connection = databaseConnection.getConnection();

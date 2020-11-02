@@ -20,7 +20,7 @@ public class ListenerHouseBlockInteract implements Listener {
         this.houseAction = houseAction;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onBlockPlace(BlockPlaceEvent event) {
 
         UUID uuid = event.getPlayer().getUniqueId();
@@ -39,11 +39,14 @@ public class ListenerHouseBlockInteract implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
 
-
         UUID uuid = event.getPlayer().getUniqueId();
         Block block = event.getClickedBlock();
 
         if (block == null) {
+            return;
+        }
+
+        if (!block.getType().name().toLowerCase().contains("door")) {
             return;
         }
 
@@ -53,8 +56,8 @@ public class ListenerHouseBlockInteract implements Listener {
     private boolean isCancel(UUID uuid, Block block) {
 
         org.bukkit.Location spigotLocation = block.getLocation();
-
         Location location = new Location(spigotLocation.getBlockX(), spigotLocation.getBlockY(), spigotLocation.getBlockZ());
+
         return !houseAction.canInteract(uuid, location);
     }
 
