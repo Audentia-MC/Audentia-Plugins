@@ -14,29 +14,23 @@ public class BankManage {
 
     private final BalanceManage balanceManage;
     private final GamesInfosRepository gamesInfosRepository;
-    private final BankSlotsRepository bankSlotsRepository;
-    private final TimeProvider timeProvider;
     private final TeamsManager teamsManager;
+    private final InventoryUtilities inventoryUtilities;
 
-    public BankManage(BalanceManage balanceManage, GamesInfosRepository gamesInfosRepository, BankSlotsRepository bankSlotsRepository, TimeProvider timeProvider, TeamsManager teamsManager) {
+    public BankManage(BalanceManage balanceManage, GamesInfosRepository gamesInfosRepository, TeamsManager teamsManager, InventoryUtilities inventoryUtilities) {
         this.balanceManage = balanceManage;
         this.gamesInfosRepository = gamesInfosRepository;
-        this.bankSlotsRepository = bankSlotsRepository;
-        this.timeProvider = timeProvider;
         this.teamsManager = teamsManager;
+        this.inventoryUtilities = inventoryUtilities;
     }
 
     public String depositEmeralds(UUID playerUUID, int count) {
 
         Day day = gamesInfosRepository.getDay();
-        Team team = teamsManager.getTeamOfPlayer(playerUUID);
+        Team team = teamsManager.getTeam(playerUUID);
 
         if (team.color == Color.BLACK) {
             return "<error>Votre groupe ne peut pas accéder à la banque.";
-        }
-
-        if (!bankSlotsRepository.getBankOpenSlots(day).isOpen(timeProvider.getHour())) {
-            return "<error>La banque est fermée.";
         }
 
         if (!team.transfers.containsKey(day)) {
@@ -49,12 +43,18 @@ public class BankManage {
             return "<error>Vous avez déjà déposé le maximum d'émeraudes possible pour aujourd'hui.";
         }
 
-        return balanceManage.addToBalance(playerUUID, finalCount);
+        String result = balanceManage.addToBalance(playerUUID, finalCount);
+
+        if (result.startsWith("<success>")) {
+            inventoryUtilities.removeEmeralds(playerUUID, finalCount);
+        }
+
+        return result;
     }
 
     public String removeEmeralds(UUID playerUUID, int count) {
 
-        Team team = teamsManager.getTeamOfPlayer(playerUUID);
+        Team team = teamsManager.getTeam(playerUUID);
 
         if (team.color == Color.BLACK) {
             return "<error>Votre groupe ne peut pas accéder à la banque.";

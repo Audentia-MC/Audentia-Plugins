@@ -56,7 +56,7 @@ class ScoreboardManageTest {
     void updateScoreboard_shouldReturnScoreboardWithTeamAndBalance_whenPlayerIsAPlayer() {
 
         Team tony = new Team(Color.RED, new Balance(1), new HashMap<>(), new HashMap<>(), "Tony", 0);
-        when(teamsManager.getTeamOfPlayer(any())).thenReturn(tony);
+        when(teamsManager.getTeam(any())).thenReturn(tony);
         when(rolesRepository.getRole(any())).thenReturn(aRole()
                 .withName("Admin")
                 .withColor(Color.BLACK)
@@ -87,7 +87,7 @@ class ScoreboardManageTest {
     void updateScoreboard_shouldHaveAnSAtTheEndOfTheEmeraldsLine_whenTeamHasManyEmeralds() {
 
         Team tony = new Team(Color.RED, new Balance(2), new HashMap<>(), new HashMap<>(), "Manu", 0);
-        when(teamsManager.getTeamOfPlayer(any())).thenReturn(tony);
+        when(teamsManager.getTeam(any())).thenReturn(tony);
         when(rolesRepository.getRole(any())).thenReturn(aRole()
                 .withName("Admin")
                 .withColor(Color.BLACK)
@@ -118,7 +118,7 @@ class ScoreboardManageTest {
     void updateScoreboard_shouldNotHaveEventLine_whenThereIsFuturEvent() {
 
         Team tony = new Team(Color.RED, new Balance(2), new HashMap<>(), new HashMap<>(), "Manu", 0);
-        when(teamsManager.getTeamOfPlayer(any())).thenReturn(tony);
+        when(teamsManager.getTeam(any())).thenReturn(tony);
         when(rolesRepository.getRole(any())).thenReturn(aRole()
                 .withName("Admin")
                 .withColor(Color.BLACK)
@@ -148,7 +148,7 @@ class ScoreboardManageTest {
     void updateScoreboard_shouldReturnEmptyScoreboard_whenPlayerIsNotAPlayer() {
 
         Team tony = new Team(Color.RED, new Balance(2), new HashMap<>(), new HashMap<>(), "Manu", 0);
-        when(teamsManager.getTeamOfPlayer(any())).thenReturn(tony);
+        when(teamsManager.getTeam(any())).thenReturn(tony);
         when(rolesRepository.getRole(any())).thenReturn(aRole()
                 .withName("Admin")
                 .withColor(Color.BLACK)

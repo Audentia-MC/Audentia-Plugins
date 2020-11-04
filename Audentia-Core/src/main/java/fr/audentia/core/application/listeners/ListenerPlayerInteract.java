@@ -6,6 +6,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import java.util.UUID;
+
 public class ListenerPlayerInteract implements Listener {
 
     private final GameStateManage gameStateManage;
@@ -17,7 +19,9 @@ public class ListenerPlayerInteract implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
 
-        if (this.gameStateManage.isPlaying()) {
+        UUID playerUUID = event.getPlayer().getUniqueId();
+
+        if (this.gameStateManage.isPlaying() || this.gameStateManage.isStaff(playerUUID)) {
             return;
         }
 

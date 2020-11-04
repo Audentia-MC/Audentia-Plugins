@@ -43,7 +43,7 @@ public class HouseCreation {
             creation = creation.withSignLocation(location);
             creation = creation.withSignFace(blockFace);
             houseCreationRepository.saveCreation(playerUUID, creation);
-            return "<success>Position du panneau enregistrée, entrez le niveau de la maison (entre 1 compris et 3 compris).";
+            return "<success>Position du panneau enregistrée, entrez le niveau de la maison (1, 2 ou 3).";
         }
 
         if (creation.level == -1 || creation.price == -1) {
@@ -74,7 +74,7 @@ public class HouseCreation {
 
         if (creation.level == -1) {
             if (!entry.matches("[1-3]")) {
-                return "<error>Entrez un nombre entre 1 compris et 3 compris.";
+                return "<error>Entrez un nombre valide (1, 2 ou 3).";
             }
 
             int intLevel = Integer.parseInt(entry);

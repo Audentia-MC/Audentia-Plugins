@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface TeamsRepository {
 
-    Optional<Team> getTeamOfPlayer(UUID playerUUID);
+    Optional<Team> getTeam(UUID playerUUID);
 
     void saveTeam(Team team);
 

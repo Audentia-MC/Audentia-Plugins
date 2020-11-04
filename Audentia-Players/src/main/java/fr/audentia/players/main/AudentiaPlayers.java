@@ -3,6 +3,7 @@ package fr.audentia.players.main;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 public class AudentiaPlayers extends JavaPlugin {
 
@@ -29,7 +30,7 @@ public class AudentiaPlayers extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        System.out.println("Le plugin Audentia Players s'allume.");
+        Logger.getLogger("Minecraft").info("Le plugin Audentia Players s'allume.");
 
         loadPlugin();
 
@@ -42,7 +43,7 @@ public class AudentiaPlayers extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        System.out.println("Le plugin Audentia Players s'éteint.");
+        Logger.getLogger("Minecraft").info("Le plugin Audentia Players s'allume.");
 
     }
 

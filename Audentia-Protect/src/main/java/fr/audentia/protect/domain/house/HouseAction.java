@@ -40,7 +40,7 @@ public class HouseAction {
 
         Role role = rolesRepository.getRole(playerUUIO);
 
-        if (role.number < 5) {
+        if (role.staff) {
             return true;
         }
 
@@ -53,7 +53,7 @@ public class HouseAction {
             return true;
         }
 
-        Team team = teamsManager.getTeamOfPlayer(playerUUIO);
+        Team team = teamsManager.getTeam(playerUUIO);
         House house = houseRepository.getHouse(team.houseId);
 
         if (house == null) {
@@ -79,7 +79,7 @@ public class HouseAction {
             return "<error>Ce panneau n'est relié à aucune maison.";
         }
 
-        Team team = teamsManager.getTeamOfPlayer(playerUUID);
+        Team team = teamsManager.getTeam(playerUUID);
 
         if (team.houseId != -1) {
             return "<error>Votre équipe possède déjà une maison.";

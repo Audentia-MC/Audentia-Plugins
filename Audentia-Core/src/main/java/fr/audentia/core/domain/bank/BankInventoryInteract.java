@@ -18,13 +18,7 @@ public class BankInventoryInteract {
             return "<error>Vous n'avez pas assez d'émeraudes dans votre inventaire.";
         }
 
-        String result = bankManage.depositEmeralds(playerUUID, count);
-
-        if (result.startsWith("<success>")) {
-            inventoryUtilities.removeEmeralds(playerUUID, count);
-        }
-
-        return result;
+        return bankManage.depositEmeralds(playerUUID, count);
     }
 
 }

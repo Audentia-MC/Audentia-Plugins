@@ -57,7 +57,7 @@ class BankManageTest {
         when(gamesInfosRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
         when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(10);
-        when(teamsManager.getTeamOfPlayer(any())).thenReturn(team);
+        when(teamsManager.getTeam(any())).thenReturn(team);
 
         String result = bankManage.depositEmeralds(UUID.randomUUID(), 1);
 
@@ -78,7 +78,7 @@ class BankManageTest {
         when(gamesInfosRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
         when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(10);
-        when(teamsManager.getTeamOfPlayer(any())).thenReturn(team);
+        when(teamsManager.getTeam(any())).thenReturn(team);
 
         String result = bankManage.depositEmeralds(UUID.randomUUID(), 20);
 
@@ -94,7 +94,7 @@ class BankManageTest {
 
         when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(9);
-        when(teamsManager.getTeamOfPlayer(any())).thenReturn(team);
+        when(teamsManager.getTeam(any())).thenReturn(team);
 
         String result = bankManage.depositEmeralds(UUID.randomUUID(), 1);
 
@@ -110,7 +110,7 @@ class BankManageTest {
 
         when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(12);
-        when(teamsManager.getTeamOfPlayer(any())).thenReturn(team);
+        when(teamsManager.getTeam(any())).thenReturn(team);
 
         String result = bankManage.depositEmeralds(UUID.randomUUID(), 1);
 
@@ -130,7 +130,7 @@ class BankManageTest {
         when(gamesInfosRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
         when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(10);
-        when(teamsManager.getTeamOfPlayer(any())).thenReturn(team);
+        when(teamsManager.getTeam(any())).thenReturn(team);
 
         String result = bankManage.depositEmeralds(UUID.randomUUID(), 1);
 
@@ -144,7 +144,7 @@ class BankManageTest {
 
         Team team = new Team(Color.BLACK, new Balance(0), new HashMap<>(), new HashMap<>(), "Tony", 0);
 
-        when(teamsManager.getTeamOfPlayer(any())).thenReturn(team);
+        when(teamsManager.getTeam(any())).thenReturn(team);
 
         String result = bankManage.depositEmeralds(UUID.randomUUID(), 1);
 

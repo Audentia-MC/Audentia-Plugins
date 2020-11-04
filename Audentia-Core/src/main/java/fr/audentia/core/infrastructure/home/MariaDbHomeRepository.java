@@ -40,6 +40,7 @@ public class MariaDbHomeRepository implements HomeRepository {
                         home.z,
                         home.name)
                 .onDuplicateKeyUpdate()
+                .set(field(name("home_number")), home.number)
                 .set(field(name("x")), home.x)
                 .set(field(name("y")), home.y)
                 .set(field(name("z")), home.z)

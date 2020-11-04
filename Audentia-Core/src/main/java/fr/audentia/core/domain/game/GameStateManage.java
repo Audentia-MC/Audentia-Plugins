@@ -46,4 +46,8 @@ public class GameStateManage {
         return "<success>Partie relancée.";
     }
 
+    public boolean isStaff(UUID playerUUID) {
+        return rolesRepository.getRole(playerUUID).staff;
+    }
+
 }

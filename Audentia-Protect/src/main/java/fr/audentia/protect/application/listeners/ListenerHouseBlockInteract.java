@@ -6,6 +6,7 @@ import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -23,42 +24,44 @@ public class ListenerHouseBlockInteract implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockPlace(BlockPlaceEvent event) {
 
-        UUID uuid = event.getPlayer().getUniqueId();
-
-        event.setCancelled(isCancel(uuid, event.getBlockPlaced()));
+        Block block = event.getBlock();
+        boolean cancel = needToCancel(event.getPlayer().getUniqueId(), block);
+        event.setCancelled(cancel);
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockBreak(BlockBreakEvent event) {
 
-        UUID uuid = event.getPlayer().getUniqueId();
-
-        event.setCancelled(isCancel(uuid, event.getBlock()));
+        boolean cancel = needToCancel(event.getPlayer().getUniqueId(), event.getBlock());
+        event.setCancelled(cancel);
     }
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
 
-        UUID uuid = event.getPlayer().getUniqueId();
         Block block = event.getClickedBlock();
+
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
 
         if (block == null) {
             return;
         }
 
-        if (!block.getType().name().toLowerCase().contains("door")) {
-            return;
-        }
-
-        event.setCancelled(isCancel(uuid, block));
+        UUID playerUUID = event.getPlayer().getUniqueId();
+        boolean cancel = needToCancel(playerUUID, block);
+        boolean cancel2 = needToCancel(playerUUID, block.getRelative(event.getBlockFace()));
+        event.setCancelled(cancel && cancel2);
     }
 
-    private boolean isCancel(UUID uuid, Block block) {
+    private boolean needToCancel(UUID uuid, Block block) {
 
         org.bukkit.Location spigotLocation = block.getLocation();
         Location location = new Location(spigotLocation.getBlockX(), spigotLocation.getBlockY(), spigotLocation.getBlockZ());
 
-        return !houseAction.canInteract(uuid, location);
+        boolean canInteract = houseAction.canInteract(uuid, location);
+        return !canInteract;
     }
 
 }

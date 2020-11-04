@@ -42,7 +42,7 @@ public class PlayerDamage {
     public boolean canBeDamaged(UUID playerUUID) {
 
         Role role = rolesRepository.getRole(playerUUID);
-        return role.staff;
+        return !role.staff;
     }
 
     public void executeDeath(UUID damagedUUID, UUID damagerUUID, Location location) {
@@ -54,7 +54,7 @@ public class PlayerDamage {
         Location coliseumLocation = coliseumLocationRepository.getColiseumLocation();
         int coliseumSize = coliseumLocationRepository.getColiseumSize();
 
-        Team team = teamsManager.getTeamOfPlayer(damagerUUID);
+        Team team = teamsManager.getTeam(damagerUUID);
         Day day = gamesInfosRepository.getDay();
 
         if (!team.coliseumKills.containsKey(day)) {
@@ -99,7 +99,7 @@ public class PlayerDamage {
             Location coliseumLocation = coliseumLocationRepository.getColiseumLocation();
             double coliseumSizeSquared = Math.pow(coliseumLocationRepository.getColiseumSize(), 2);
 
-            if (location.distanceSquared2D(coliseumLocation) > coliseumSizeSquared) {
+            if (location.distanceSquared2D(coliseumLocation) < coliseumSizeSquared) {
                 temp = false;
             }
 
@@ -109,9 +109,9 @@ public class PlayerDamage {
             return false;
         }
 
-        Team teamOfPlayer = teamsManager.getTeamOfPlayer(damagerUUID);
+        Team team = teamsManager.getTeam(damagerUUID);
 
-        return !teamsManager.getTeamOfPlayer(damagedUUID).equals(teamOfPlayer) && teamOfPlayer.color != Color.BLACK;
+        return !teamsManager.getTeam(damagedUUID).equals(team) && team.color != Color.BLACK;
     }
 
 }

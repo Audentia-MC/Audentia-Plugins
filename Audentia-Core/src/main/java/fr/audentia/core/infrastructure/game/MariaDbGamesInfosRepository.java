@@ -144,6 +144,11 @@ public class MariaDbGamesInfosRepository implements GamesInfosRepository {
     public void addEntry(long startInSeconds, long durationInSeconds) {
 
         Connection connection = databaseConnection.getConnection();
+
+        databaseConnection.getDatabaseContext(connection)
+                .truncateTable(table(name("game_infos")))
+                .execute();
+
         databaseConnection.getDatabaseContext(connection)
                 .insertInto(table(name("game_infos")))
                 .columns(field(name("day")), field(name("start")), field(name("duration")), field(name("state")))

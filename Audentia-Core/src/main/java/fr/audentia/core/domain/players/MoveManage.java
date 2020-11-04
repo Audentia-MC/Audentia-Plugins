@@ -1,5 +1,6 @@
 package fr.audentia.core.domain.players;
 
+import fr.audentia.core.domain.bank.TimeProvider;
 import fr.audentia.core.domain.game.GameStateManage;
 import fr.audentia.core.domain.game.GamesInfosRepository;
 import fr.audentia.players.domain.model.roles.Role;
@@ -16,12 +17,14 @@ public class MoveManage {
     private final TeamsManager teamsManager;
     private final GameStateManage gameStateManage;
     private final GamesInfosRepository gamesInfosRepository;
+    private final TimeProvider timeProvider;
 
-    public MoveManage(RolesRepository rolesRepository, TeamsManager teamsManager, GameStateManage gameStateManage, GamesInfosRepository gamesInfosRepository) {
+    public MoveManage(RolesRepository rolesRepository, TeamsManager teamsManager, GameStateManage gameStateManage, GamesInfosRepository gamesInfosRepository, TimeProvider timeProvider) {
         this.rolesRepository = rolesRepository;
         this.teamsManager = teamsManager;
         this.gameStateManage = gameStateManage;
         this.gamesInfosRepository = gamesInfosRepository;
+        this.timeProvider = timeProvider;
     }
 
     public boolean canMove(UUID playerUUID) {
@@ -36,13 +39,14 @@ public class MoveManage {
             return false;
         }
 
-        Team team = teamsManager.getTeamOfPlayer(playerUUID);
+        Team team = teamsManager.getTeam(playerUUID);
 
         if (!gameStateManage.isPlaying() || team.color == Color.BLACK) {
             return false;
         }
 
-        return gameStateManage.isPlaying() || role.number < 8 || gamesInfosRepository.getStartTimeInSeconds() > 15 * 60;
+        long passedTime = timeProvider.getActualTimeInSeconds() - gamesInfosRepository.getStartTimeInSeconds();
+        return gameStateManage.isPlaying() && (role.number < 8 || passedTime > 15 * 60);
     }
 
 }

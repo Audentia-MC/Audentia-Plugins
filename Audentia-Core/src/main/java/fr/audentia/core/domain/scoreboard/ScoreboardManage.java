@@ -16,7 +16,7 @@ import static fr.audentia.core.domain.model.scoreboard.ScoreboardBuilder.aScoreb
 
 public class ScoreboardManage {
 
-    public static final String DURATION_FORMAT = "dd:HH:mm:ss";
+    public static final String DURATION_FORMAT = "ddj HH:mm";
 
     private final TeamsManager teamsManager;
     private final RolesRepository rolesRepository;
@@ -41,10 +41,10 @@ public class ScoreboardManage {
 
     public void updateScoreboard(UUID playerUUID) {
 
-        Team team = teamsManager.getTeamOfPlayer(playerUUID);
+        Team team = teamsManager.getTeam(playerUUID);
         Role role = rolesRepository.getRole(playerUUID);
 
-        ScoreboardBuilder builder = aScoreboard().withHeader("----=  Audentia  =----");
+        ScoreboardBuilder builder = aScoreboard().withHeader("---=  Audentia  =---");
 
         builder.addContent("&" + ColorsUtils.fromColorToHexadecimal(team.color) + team.name);
 
@@ -55,7 +55,7 @@ public class ScoreboardManage {
 
         addTimedInfos(builder);
 
-        scoreboardsRepository.updateScoreboard(playerUUID, builder.withFooter("----= audentia.fr =----").build());
+        scoreboardsRepository.updateScoreboard(playerUUID, builder.withFooter("---= audentia.fr =---").build());
     }
 
     private void addTimedInfos(ScoreboardBuilder builder) {
@@ -68,12 +68,13 @@ public class ScoreboardManage {
         long actualTime = timeProvider.getActualTimeInSeconds();
         long actualTimeInGame = actualTime - startTimeInSeconds;
         long gameDuration = gamesInfosRepository.getGameDurationInSeconds();
-        builder.addContent("Temps : " + getDuration(actualTimeInGame) + " / " + getDuration(gameDuration));
+        builder.addContent("Temps : " + getDuration(actualTimeInGame));
+        builder.addContent("Total : " + getDuration(gameDuration));
 
         long nextEventTime = eventsRepository.getNextEvent().time;
 
-        if (nextEventTime != 0) {
-            builder.addContent("Prochain event : " + getDuration(nextEventTime - actualTime));
+        if (nextEventTime != -1) {
+            builder.addContent("Event dans : " + getDuration(nextEventTime - actualTime));
         }
     }
 

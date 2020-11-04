@@ -43,7 +43,7 @@ public class TOMLColiseumLocationRepository implements ColiseumLocationRepositor
             return 0;
         }
 
-        return fileConfig.get("coliseum.radius");
+        return fileConfig.get("coliseum.size");
     }
 
     private FileConfig loadFile() {

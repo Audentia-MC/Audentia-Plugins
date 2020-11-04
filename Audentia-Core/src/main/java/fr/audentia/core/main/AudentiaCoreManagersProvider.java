@@ -119,7 +119,7 @@ public class AudentiaCoreManagersProvider {
         WorldPlayerFinder worldPlayerFinder = new SpigotWorldPlayerFinder();
         PlayerInventoryOpener playerInventoryOpener = new SpigotPlayerInventoryOpener();
         TimeProvider timeProvider = new DefaultTimeProvider();
-        EventsRepository eventsRepository = new MariaDbEventsRepository(gamesInfosRepository, audentiaPlayersManagersProvider.databaseConnection);
+        EventsRepository eventsRepository = new MariaDbEventsRepository(audentiaPlayersManagersProvider.databaseConnection);
         ScoreboardsRepository scoreboardsRepository = new FastBoardScoreboardsRepository();
         BankNpcProvider bankNpcProvider = new TOMLBankNpcProvider(path);
         InventoryUtilities inventoryUtilities = new SpigotInventoryUtilities();
@@ -144,13 +144,13 @@ public class AudentiaCoreManagersProvider {
         this.teleportAction = new TeleportAction(playerTeleporterToOther, audentiaPlayersManagersProvider.rolesRepository, worldPlayerFinder);
         this.lookInventoryAction = new LookInventoryAction(playerInventoryOpener, audentiaPlayersManagersProvider.rolesRepository, worldPlayerFinder);
         this.balanceManage = new BalanceManage(audentiaPlayersManagersProvider.teamsManager, gamesInfosRepository);
-        this.bankManage = new BankManage(balanceManage, gamesInfosRepository, bankSlotsRepository, timeProvider, audentiaPlayersManagersProvider.teamsManager);
+        this.bankManage = new BankManage(balanceManage, gamesInfosRepository, audentiaPlayersManagersProvider.teamsManager, inventoryUtilities);
         this.bankInventoryInteract = new BankInventoryInteract(inventoryUtilities, bankManage);
         this.gradeChangeAction = new GradeChangeAction(audentiaPlayersManagersProvider.rolesRepository);
         this.playerDamage = new PlayerDamage(audentiaPlayersManagersProvider.teamsManager, audentiaPlayersManagersProvider.rolesRepository, balanceManage, coliseumLocationRepository, gamesInfosRepository, timeProvider, timeProtectionAtStartProvider, cityInfosRepository);
         this.netherNpcSpawn = new NetherNpcSpawn(npcSpawner, netherNpcRepository, worldNpcFinder, (NetherTimesRepository) netherNpcRepository);
         this.gameStateManage = new GameStateManage(gamesInfosRepository, audentiaPlayersManagersProvider.rolesRepository);
-        this.moveManage = new MoveManage(audentiaPlayersManagersProvider.rolesRepository, audentiaPlayersManagersProvider.teamsManager, gameStateManage, gamesInfosRepository);
+        this.moveManage = new MoveManage(audentiaPlayersManagersProvider.rolesRepository, audentiaPlayersManagersProvider.teamsManager, gameStateManage, gamesInfosRepository, timeProvider);
         this.gameDayModifier = new GameDayModifier(gamesInfosRepository);
         this.joinActions = new JoinActions(audentiaPlayersManagersProvider.rolesRepository, playerGameModeManage, audentiaPlayersManagersProvider.playersRepository);
         this.gameManage = new GameManage(audentiaPlayersManagersProvider.rolesRepository, playerGameModeManage, playerFinder, audentiaPlayersManagersProvider.teamsManager, inventoryUtilities, gamesInfosRepository, playerMessageSender);
@@ -162,7 +162,7 @@ public class AudentiaCoreManagersProvider {
         BankInventoryOpener bankInventoryOpener = new DefaultBankInventoryOpener(bankInventoryInteract);
         GradeInventoryOpener gradeInventoryOpener = new DefaultGradeInventoryOpener(gradeChangeAction, audentiaPlayersManagersProvider.rolesRepository);
 
-        BankInventoryOpen bankInventoryOpen = new BankInventoryOpen(audentiaPlayersManagersProvider.teamsManager, bankInventoryOpener, audentiaPlayersManagersProvider.rolesRepository);
+        BankInventoryOpen bankInventoryOpen = new BankInventoryOpen(audentiaPlayersManagersProvider.teamsManager, bankInventoryOpener, audentiaPlayersManagersProvider.rolesRepository, gamesInfosRepository, bankSlotsRepository, timeProvider);
         ShopInventoryOpen shopInventoryOpen = new ShopInventoryOpen(shopRepository, shopInventoryOpener);
         ShopInventoryOpen netherShopInventoryOpen = new ShopInventoryOpen(netherShopRepository, shopInventoryOpener);
         this.gradeInventoryAction = new GradeInventoryAction(audentiaPlayersManagersProvider.rolesRepository, gradeInventoryOpener);

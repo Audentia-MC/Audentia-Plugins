@@ -28,11 +28,15 @@ public class TeleportationsManage {
 
     private void computePlayerTeleportation(UUID playerUUID) {
 
-        ZonedDateTime actualTime = ZonedDateTime.now();
-
         Teleport teleport = teleportRepository.getTeleport(playerUUID);
+
+        if (teleport.time == -1) {
+            return;
+        }
+
         ZonedDateTime startTime = ZonedDateTime.ofInstant(Instant.ofEpochSecond(teleport.time), ZoneId.of("Europe/Paris"));
 
+        ZonedDateTime actualTime = ZonedDateTime.now();
         long timeBeforeTeleport = 5 - ChronoUnit.SECONDS.between(startTime, actualTime);
 
         playerMessageSender.sendMessage(playerUUID, "<success>" + timeBeforeTeleport);

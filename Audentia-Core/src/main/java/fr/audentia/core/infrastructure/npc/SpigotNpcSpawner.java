@@ -53,7 +53,7 @@ public class SpigotNpcSpawner implements NpcSpawner {
             return;
         }
 
-        world.getNearbyEntities(location, 2, 2, 2)
+        world.getNearbyEntities(location, 1, 1, 1)
                 .stream()
                 .filter(entity -> entity instanceof Villager)
                 .findAny()

@@ -22,7 +22,7 @@ public class BalanceManage {
 
     public String getBalanceWithMessage(UUID playerUUID) {
 
-        Team team = this.teamsManager.getTeamOfPlayer(playerUUID);
+        Team team = this.teamsManager.getTeam(playerUUID);
         String message = "<error>Votre groupe ne possède pas de compte en banque.";
 
         Balance balance = team.balance;
@@ -36,13 +36,13 @@ public class BalanceManage {
 
     public String getBalance(UUID playerUUID) {
 
-        Team team = this.teamsManager.getTeamOfPlayer(playerUUID);
+        Team team = this.teamsManager.getTeam(playerUUID);
         return team.balance.toString();
     }
 
     public String addToBalance(UUID playerUUID, int count) {
 
-        Team team = teamsManager.getTeamOfPlayer(playerUUID);
+        Team team = teamsManager.getTeam(playerUUID);
         Balance balance = team.balance;
 
         if (!balance.hasBalance()) {
@@ -50,6 +50,10 @@ public class BalanceManage {
         }
 
         Day day = gamesInfosRepository.getDay();
+
+        if (!team.transfers.containsKey(day)) {
+            team.transfers.put(day, new DayTransfers(0));
+        }
 
         DayTransfers add = team.transfers.get(day).add(count);
         team.transfers.put(day, add);
@@ -61,7 +65,7 @@ public class BalanceManage {
 
     public String removeFromBalance(UUID playerUUID, int count) {
 
-        Team team = teamsManager.getTeamOfPlayer(playerUUID);
+        Team team = teamsManager.getTeam(playerUUID);
         Balance balance = team.balance;
 
         if (!balance.hasBalance()) {
@@ -75,7 +79,7 @@ public class BalanceManage {
 
     public void forceAddToBalance(UUID playerUUID, int count) {
 
-        Team team = teamsManager.getTeamOfPlayer(playerUUID);
+        Team team = teamsManager.getTeam(playerUUID);
         Balance balance = team.balance;
 
         if (!balance.hasBalance()) {
@@ -88,7 +92,7 @@ public class BalanceManage {
 
     public void forceRemoveFromBalance(UUID playerUUID, int count) {
 
-        Team team = teamsManager.getTeamOfPlayer(playerUUID);
+        Team team = teamsManager.getTeam(playerUUID);
         Balance balance = team.balance;
 
         if (!balance.hasBalance()) {

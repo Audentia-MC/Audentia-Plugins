@@ -11,7 +11,7 @@ public class DefaultTeleportRepository implements TeleportRepository {
     
     @Override
     public void addPlayer(UUID playerUUID, int home) {
-        this.teleportations.put(playerUUID, new Teleport(System.currentTimeMillis(), home));
+        this.teleportations.put(playerUUID, new Teleport(System.currentTimeMillis() / 1000, home));
     }
 
     @Override

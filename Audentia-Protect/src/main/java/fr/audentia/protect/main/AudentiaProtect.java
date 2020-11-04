@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 public class AudentiaProtect extends JavaPlugin {
 
@@ -35,7 +36,7 @@ public class AudentiaProtect extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        System.out.println("Le plugin Audentia Protect s'allume.");
+        Logger.getLogger("Minecraft").info("Le plugin Audentia Protect s'allume.");
 
         loadPlugin();
 
@@ -48,7 +49,7 @@ public class AudentiaProtect extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        System.out.println("Le plugin Audentia Protect s'éteint.");
+        Logger.getLogger("Minecraft").info("Le plugin Audentia Protect s'allume.");
 
     }
 

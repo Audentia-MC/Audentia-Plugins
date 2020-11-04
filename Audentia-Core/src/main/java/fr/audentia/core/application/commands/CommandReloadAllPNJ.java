@@ -1,5 +1,6 @@
 package fr.audentia.core.application.commands;
 
+import fr.audentia.core.domain.bank.BankNpcSpawn;
 import fr.audentia.core.domain.npc.NpcSpawn;
 import fr.audentia.players.domain.model.roles.Role;
 import fr.audentia.players.domain.teams.RolesRepository;
@@ -12,10 +13,12 @@ import org.bukkit.entity.Player;
 public class CommandReloadAllPNJ implements CommandExecutor {
 
     private final RolesRepository rolesRepository;
+    private final BankNpcSpawn bankNpcSpawn;
     private final NpcSpawn npcSpawn;
 
-    public CommandReloadAllPNJ(RolesRepository rolesRepository, NpcSpawn npcSpawn) {
+    public CommandReloadAllPNJ(RolesRepository rolesRepository, BankNpcSpawn bankNpcSpawn, NpcSpawn npcSpawn) {
         this.rolesRepository = rolesRepository;
+        this.bankNpcSpawn = bankNpcSpawn;
         this.npcSpawn = npcSpawn;
     }
 
@@ -36,6 +39,7 @@ public class CommandReloadAllPNJ implements CommandExecutor {
         }
 
         String result = npcSpawn.reloadAllNpcs();
+        bankNpcSpawn.reloadBankNpc();
         player.sendMessage(ChatUtils.format(result));
         return true;
     }

@@ -3,7 +3,8 @@ package fr.audentia.core.domain.model.bank;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BankSlots {
+public class
+BankSlots {
 
     private final List<Slot> slots;
 

@@ -20,7 +20,7 @@ public class MessageFormat {
     public String formatMessage(UUID playerUUID) {
 
         Role role = rolesRepository.getRole(playerUUID);
-        Team team = teamsManager.getTeamOfPlayer(playerUUID);
+        Team team = teamsManager.getTeam(playerUUID);
 
         Color color = role.color != Color.white ? role.color : team.color;
 

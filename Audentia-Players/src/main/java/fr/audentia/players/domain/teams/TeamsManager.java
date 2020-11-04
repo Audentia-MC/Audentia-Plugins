@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface TeamsManager {
 
-    Team getTeamOfPlayer(UUID playerUUID);
+    Team getTeam(UUID playerUUID);
 
     void saveTeam(Team team);
 

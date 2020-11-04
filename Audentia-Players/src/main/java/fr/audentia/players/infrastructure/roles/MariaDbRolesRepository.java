@@ -6,6 +6,7 @@ import fr.audentia.players.infrastructure.database.DatabaseConnection;
 import fr.audentia.players.utils.ColorsUtils;
 import org.jooq.Record6;
 
+import java.awt.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.UUID;
@@ -42,6 +43,17 @@ public class MariaDbRolesRepository implements RolesRepository {
             connection.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }
+
+        if (record == null) {
+            return aRole()
+                    .withName("Étranger")
+                    .withColor(Color.BLACK)
+                    .withNumber(10)
+                    .withHomeCount(0)
+                    .isPlayer(false)
+                    .isStaff(false)
+                    .build();
         }
 
         return aRole()

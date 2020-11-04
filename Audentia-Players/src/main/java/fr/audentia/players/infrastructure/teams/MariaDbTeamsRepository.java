@@ -30,7 +30,7 @@ public class MariaDbTeamsRepository implements TeamsRepository {
     }
 
     @Override
-    public Optional<Team> getTeamOfPlayer(UUID playerUUID) {
+    public Optional<Team> getTeam(UUID playerUUID) {
 
         Connection connection = databaseConnection.getConnection();
         Result<Record10<Object, Object, Object, Object, Object, Object, Object, Object, Object, Object>> result = databaseConnection.getDatabaseContext(connection)
@@ -137,11 +137,12 @@ public class MariaDbTeamsRepository implements TeamsRepository {
 
             databaseConnection.getDatabaseContext(connection)
                     .insertInto(table(name("transferts")))
-                    .set(field(name("day")), entry.getKey().day)
+                    .set(field(name("transferts_team_id")), id)
+                    .set(field(name("transfert_day")), entry.getKey().day)
                     .set(field(name("amount")), entry.getValue().value)
                     .onDuplicateKeyUpdate()
-                    .set(field(name("amount")), entry.getValue())
-                    .where(field(name("team_id")).eq(id))
+                    .set(field(name("amount")), entry.getValue().value)
+                    .where(field(name("transferts_team_id")).eq(id))
                     .execute();
 
         }
@@ -152,6 +153,7 @@ public class MariaDbTeamsRepository implements TeamsRepository {
 
                 databaseConnection.getDatabaseContext(connection)
                         .insertInto(table(name("coliseum_kills")))
+                        .set(field(name("killer_team_id")), id)
                         .set(field(name("kill_day")), entry.getKey().day)
                         .set(field(name("killer_uuid")), kill.killer.toString())
                         .set(field(name("killed_uuid")), kill.killed.toString())
