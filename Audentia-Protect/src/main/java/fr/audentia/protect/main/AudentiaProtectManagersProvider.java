@@ -34,7 +34,7 @@ public class AudentiaProtectManagersProvider {
         buyHouseAction = new BuyHouseAction(clicksRepository);
         portalCreateCheck = new PortalCreateCheck(audentiaPlayersManagersProvider.rolesRepository, netherLocationRepository);
         signsManage = new SignsManage(audentiaPlayersManagersProvider.rolesRepository, houseRepository, signUtils);
-        houseCreation = new HouseCreation(audentiaPlayersManagersProvider.rolesRepository, houseCreationRepository, houseRepository, signsManage);
+        houseCreation = new HouseCreation(audentiaPlayersManagersProvider.rolesRepository, houseCreationRepository, houseRepository);
     }
 
 }

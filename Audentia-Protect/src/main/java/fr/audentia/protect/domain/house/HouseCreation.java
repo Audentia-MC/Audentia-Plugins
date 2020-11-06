@@ -12,13 +12,11 @@ public class HouseCreation {
     private final RolesRepository rolesRepository;
     private final HouseCreationRepository houseCreationRepository;
     private final HouseRepository houseRepository;
-    private final SignsManage signsManage;
 
-    public HouseCreation(RolesRepository rolesRepository, HouseCreationRepository houseCreationRepository, HouseRepository houseRepository, SignsManage signsManage) {
+    public HouseCreation(RolesRepository rolesRepository, HouseCreationRepository houseCreationRepository, HouseRepository houseRepository) {
         this.rolesRepository = rolesRepository;
         this.houseCreationRepository = houseCreationRepository;
         this.houseRepository = houseRepository;
-        this.signsManage = signsManage;
     }
 
     public String startCreation(UUID playerUUID) {
@@ -60,7 +58,7 @@ public class HouseCreation {
         return "<success>Position 1 enregistrée, cliquez sur le 2e bloc.";
     }
 
-    public String onChat(UUID playerUUID, String entry) { // TODO: add price
+    public String onChat(UUID playerUUID, String entry) {
 
         if (!houseCreationRepository.isRunningCreation(playerUUID)) {
             return "";
