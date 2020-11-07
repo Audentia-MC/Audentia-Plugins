@@ -22,11 +22,11 @@ public class HouseCreation {
     public String startCreation(UUID playerUUID) {
 
         if (!rolesRepository.getRole(playerUUID).staff) {
-            return "<error>Vous n'avez pas la permission de créer une nouvelle maison.";
+            return "<error>Vous n'avez pas la permission de créer une nouvelle maison !";
         }
 
         houseCreationRepository.startCreation(playerUUID);
-        return "<success>Création d'une nouvelle maison lancée, cliquez sur le bloc où apparaitra le panneau.";
+        return "<success>Création d'une nouvelle maison lancée. Cliquez sur le bloc où apparaitra le panneau.";
     }
 
     public String onInteract(UUID playerUUID, Location location, char blockFace) {
@@ -41,7 +41,7 @@ public class HouseCreation {
             creation = creation.withSignLocation(location);
             creation = creation.withSignFace(blockFace);
             houseCreationRepository.saveCreation(playerUUID, creation);
-            return "<success>Position du panneau enregistrée, entrez le niveau de la maison (1, 2 ou 3).";
+            return "<success>Position du panneau enregistrée. Entrez le niveau de la maison (1, 2 ou 3).";
         }
 
         if (creation.level == -1 || creation.price == -1) {
@@ -52,10 +52,10 @@ public class HouseCreation {
         houseCreationRepository.saveCreation(playerUUID, creation);
 
         if (creation.tempLocation == null) {
-            return "<success>Espace enregistré, cliquez sur le premier bloc du prochain espace ou entrez n'importe quoi dans le chat pour finir la création de la maison.";
+            return "<success>Espace enregistré. Cliquez sur le premier bloc du prochain espace ou entrez n'importe quoi dans le chat pour finir la création de la maison.";
         }
 
-        return "<success>Position 1 enregistrée, cliquez sur le 2e bloc.";
+        return "<success>Position 1 enregistrée. Cliquez sur le second bloc.";
     }
 
     public String onChat(UUID playerUUID, String entry) {

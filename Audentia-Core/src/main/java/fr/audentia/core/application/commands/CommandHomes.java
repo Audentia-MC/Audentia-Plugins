@@ -25,7 +25,7 @@ public class CommandHomes implements CommandExecutor {
         Player player = (Player) sender;
 
         String result = homesProvide.getHomes(player.getUniqueId());
-        player.sendMessage(ChatUtils.format(result));
+        player.sendMessage(ChatUtils.formatWithPrefix(result));
         return true;
     }
 

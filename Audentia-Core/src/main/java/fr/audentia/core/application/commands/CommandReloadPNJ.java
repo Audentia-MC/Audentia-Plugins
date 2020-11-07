@@ -25,12 +25,12 @@ public class CommandReloadPNJ implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            player.sendMessage(ChatUtils.format("<error>/reloadNpc <name>"));
+            player.sendMessage(ChatUtils.formatWithPrefix("<error>/reloadNpc <name>"));
             return false;
         }
 
         String result = npcSpawn.reloadNpc(player.getUniqueId(), args[0]);
-        player.sendMessage(ChatUtils.format(result));
+        player.sendMessage(ChatUtils.formatWithPrefix(result));
         return true;
     }
 

@@ -57,10 +57,10 @@ public class SpigotSignUtils implements SignUtils {
         signData.setFacing(getBlockFace(house.signFace));
 
         Sign sign = (Sign) block.getState();
-        sign.setLine(0, "A vendre");
-        sign.setLine(1, ChatUtils.format("&#E9BA20Prix : <green>" + house.price));
-        sign.setLine(2, ChatUtils.format("&#E9BA20Niveau : <green>" + house.level));
-        sign.setLine(3, "");
+        sign.setLine(0, ChatUtils.format("&8[&l&7CitéAudentia&8]"));
+        sign.setLine(1, ChatUtils.format("&nA vendre"));
+        sign.setLine(2, ChatUtils.format("&#E9BA20Prix: <green>" + house.price));
+        sign.setLine(3, ChatUtils.format("&#E9BA20Niveau: <green>" + house.level));
         sign.setBlockData(signData);
         sign.update();
     }
@@ -72,7 +72,7 @@ public class SpigotSignUtils implements SignUtils {
         ArmorStand armorstand = (ArmorStand) block.getWorld().spawnEntity(block.getLocation().add(0.5, 0.5, 0), EntityType.ARMOR_STAND);
         armorstand.setHealth(20);
         armorstand.setGravity(true);
-        armorstand.setCustomName(ChatUtils.format("&" + ColorsUtils.fromColorToHexadecimal(team.color) + team.name));
+        armorstand.setCustomName(ChatUtils.formatWithPrefix("&" + ColorsUtils.fromColorToHexadecimal(team.color) + team.name));
         armorstand.setCustomNameVisible(true);
         armorstand.setVisible(false);
     }

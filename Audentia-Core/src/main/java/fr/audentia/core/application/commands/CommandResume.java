@@ -24,7 +24,7 @@ public class CommandResume implements CommandExecutor {
 
         Player player = (Player) sender;
         String result = gameStateManage.resume(player.getUniqueId());
-        player.sendMessage(ChatUtils.format(result));
+        player.sendMessage(ChatUtils.formatWithPrefix(result));
 
         return true;
     }

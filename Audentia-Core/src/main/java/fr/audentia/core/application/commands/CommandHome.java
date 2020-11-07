@@ -34,7 +34,7 @@ public class CommandHome implements CommandExecutor {
             message = homeManage.registerTeleport(player.getUniqueId(), args[0]);
         }
 
-        player.sendMessage(ChatUtils.format(message));
+        player.sendMessage(ChatUtils.formatWithPrefix(message));
         return true;
     }
 

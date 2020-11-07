@@ -34,13 +34,13 @@ public class CommandReloadAllPNJ implements CommandExecutor {
         Role role = rolesRepository.getRole(player.getUniqueId());
 
         if (role.number > 2) {
-            player.sendMessage(ChatUtils.format("<error>Vous ne pouvez pas effectuer cette action."));
+            player.sendMessage(ChatUtils.formatWithPrefix("<error>Vous ne pouvez pas effectuer cette action."));
             return true;
         }
 
         String result = npcSpawn.reloadAllNpcs();
         bankNpcSpawn.reloadBankNpc();
-        player.sendMessage(ChatUtils.format(result));
+        player.sendMessage(ChatUtils.formatWithPrefix(result));
         return true;
     }
 

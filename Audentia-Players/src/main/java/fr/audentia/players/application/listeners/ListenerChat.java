@@ -21,7 +21,7 @@ public class ListenerChat implements Listener {
         Player player = event.getPlayer();
 
         String message = messageFormat.formatMessage(player.getUniqueId());
-        event.setFormat(ChatUtils.format(message));
+        event.setFormat(ChatUtils.formatWithPrefix(message));
     }
 
 }

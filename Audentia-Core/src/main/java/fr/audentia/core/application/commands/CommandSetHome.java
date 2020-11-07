@@ -27,12 +27,12 @@ public class CommandSetHome implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args.length < 2) {
-            player.sendMessage(ChatUtils.format("<error>/sethome <numéro> <nom>"));
+            player.sendMessage(ChatUtils.formatWithPrefix("<error>/sethome <numéro> <nom>"));
             return true;
         }
 
         if (!args[0].matches("[0-9]+")) {
-            player.sendMessage(ChatUtils.format("<error>/sethome <numéro> <nom>"));
+            player.sendMessage(ChatUtils.formatWithPrefix("<error>/sethome <numéro> <nom>"));
             return true;
         }
 
@@ -42,7 +42,7 @@ public class CommandSetHome implements CommandExecutor {
         Home home = new Home(homeNumber, args[1], location.getBlockX(), location.getBlockY(), location.getBlockZ());
 
         String message = setHomeManage.saveHome(player.getUniqueId(), home);
-        player.sendMessage(ChatUtils.format(message));
+        player.sendMessage(ChatUtils.formatWithPrefix(message));
         return true;
     }
 

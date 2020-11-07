@@ -25,7 +25,7 @@ public class ListenerNpcInteract implements Listener {
         String result = npcInteract.interactWithNpc(event.getPlayer().getUniqueId(), event.getRightClicked().getName());
 
         if (!result.isEmpty()) {
-            event.getPlayer().sendMessage(ChatUtils.format(result));
+            event.getPlayer().sendMessage(ChatUtils.formatWithPrefix(result));
         }
     }
 

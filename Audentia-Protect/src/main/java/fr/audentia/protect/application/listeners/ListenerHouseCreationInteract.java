@@ -4,7 +4,6 @@ import fr.audentia.players.utils.ChatUtils;
 import fr.audentia.protect.domain.house.HouseCreation;
 import fr.audentia.protect.domain.model.Location;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -41,7 +40,7 @@ public class ListenerHouseCreationInteract implements Listener {
         String result = houseCreation.onInteract(player.getUniqueId(), location, blockFace);
 
         if (!result.isEmpty()) {
-            player.sendMessage(ChatUtils.format(result));
+            player.sendMessage(ChatUtils.formatWithPrefix(result));
             event.setCancelled(true);
         }
 

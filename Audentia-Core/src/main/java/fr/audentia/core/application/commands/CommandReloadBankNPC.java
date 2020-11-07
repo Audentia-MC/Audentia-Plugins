@@ -24,7 +24,7 @@ public class CommandReloadBankNPC implements CommandExecutor {
         }
 
         String result = bankNpcSpawn.reloadBankNpc();
-        sender.sendMessage(ChatUtils.format(result));
+        sender.sendMessage(ChatUtils.formatWithPrefix(result));
 
         return true;
     }

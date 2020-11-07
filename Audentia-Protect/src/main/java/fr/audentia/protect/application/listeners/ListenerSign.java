@@ -81,7 +81,7 @@ public class ListenerSign implements Listener {
         }
 
         if (!this.buyHouseAction.isSecondClick(player.getUniqueId(), modelLocation)) {
-            player.sendMessage(ChatUtils.format("<success>Cliquez une deuxième fois pour confirmer l'achat."));
+            player.sendMessage(ChatUtils.formatWithPrefix("<success>Cliquez une deuxième fois pour confirmer l'achat."));
             return;
         }
 
@@ -91,7 +91,7 @@ public class ListenerSign implements Listener {
             return;
         }
 
-        player.sendMessage(ChatUtils.format(result));
+        player.sendMessage(ChatUtils.formatWithPrefix(result));
         event.setCancelled(true);
     }
 

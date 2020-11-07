@@ -19,7 +19,7 @@ public class CommandEvent implements CommandExecutor {
 
         String nextEvent = eventProvider.getNextEvent();
 
-        sender.sendMessage(ChatUtils.format(nextEvent));
+        sender.sendMessage(ChatUtils.formatWithPrefix(nextEvent));
         return true;
     }
 

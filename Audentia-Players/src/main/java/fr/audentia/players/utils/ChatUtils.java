@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 public class ChatUtils {
 
     static public final String WITH_DELIMITER = "((?<=%1$s)|(?=%1$s))";
+    public static final String PREFIX = "&8[&l&7CitéAudentia&8] ";
 
     private ChatUtils() {
     }
@@ -19,7 +20,15 @@ public class ChatUtils {
     }
 
     public static String format(String message) {
-        String newMessage = message
+        return translateColorCodes(replaceColors(message));
+    }
+
+    public static String formatWithPrefix(String message) {
+        return translateColorCodes(PREFIX + replaceColors(message));
+    }
+
+    private static String replaceColors(String message) {
+        return message
                 .replace("<success>", ChatColor.GREEN.toString())
                 .replace("<error>", ChatColor.RED.toString())
                 .replace("<blue>", ChatColor.BLUE.toString())
@@ -40,8 +49,6 @@ public class ChatUtils {
                 .replace("<pinkC>", ChatColor.LIGHT_PURPLE + "rose")
                 .replace("<cyanC>", ChatColor.AQUA + "cyan")
                 .replace("<whiteC>", ChatColor.WHITE + "blanche");
-
-        return translateColorCodes(newMessage);
     }
 
     private static String translateColorCodes(String text) {

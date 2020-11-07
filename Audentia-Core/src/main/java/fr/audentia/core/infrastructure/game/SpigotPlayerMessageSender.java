@@ -18,7 +18,7 @@ public class SpigotPlayerMessageSender implements PlayerMessageSender {
             return;
         }
 
-        player.sendMessage(ChatUtils.format(message));
+        player.sendMessage(ChatUtils.formatWithPrefix(message));
     }
 
 }

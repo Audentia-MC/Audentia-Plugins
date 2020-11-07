@@ -55,7 +55,7 @@ public class KickInventory implements InventoryProvider {
                         .build(),
                 event -> {
                     String result = kickAction.kick(player.getUniqueId(), targetUUID);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                     if (result.startsWith("<success>")) player.closeInventory();
                 }
         ));

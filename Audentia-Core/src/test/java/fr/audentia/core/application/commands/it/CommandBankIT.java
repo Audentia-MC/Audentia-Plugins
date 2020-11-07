@@ -52,7 +52,7 @@ public class CommandBankIT {
 
         verify(gamesInfosRepository, times(1)).getDay();
         verify(bankSlotsRepository, times(1)).getBankOpenSlots(any());
-        verify(player, times(1)).sendMessage(ChatUtils.format("&#FCB91FLes horaires d'ouverture de la banque pour aujourd'hui sont : 8h-10h, 16h-18h."));
+        verify(player, times(1)).sendMessage(ChatUtils.formatWithPrefix("&#FCB91FLes horaires d'ouverture de la banque pour aujourd'hui sont : 8h-10h, 16h-18h."));
         assertThat(result).isEqualTo(true);
     }
 

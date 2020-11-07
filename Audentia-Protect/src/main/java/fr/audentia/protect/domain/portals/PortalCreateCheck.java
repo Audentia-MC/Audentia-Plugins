@@ -21,20 +21,20 @@ public class PortalCreateCheck {
         Role role = rolesRepository.getRole(playerUUID);
 
         if (role.number > 4) {
-            return "<error>Vous ne pouvez pas créer de portail.";
+            return "<error>Vous ne pouvez pas créer de portail !";
         }
 
         Location portalLocation = netherLocationRepository.getPortalLocation();
 
         if (portalLocation == null) {
-            return "<error>Aucune position n'est enregistrée pour le portail du nether.";
+            return "<error>Aucune position n'est enregistrée pour le portail du nether !";
         }
 
         if (portalLocation.distanceSquared(location) > 100) {
-            return "<error>Votre position ne correspond pas à la position enregistrée pour le portail du nether.";
+            return "<error>Votre position ne correspond pas à la position enregistrée pour le portail du nether !";
         }
 
-        return "<success>Portail du nether créé.";
+        return "<success>Portail du nether créé avec succès !";
     }
 
 }

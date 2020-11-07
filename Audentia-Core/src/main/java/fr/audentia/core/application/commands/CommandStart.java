@@ -27,7 +27,7 @@ public class CommandStart implements CommandExecutor {
         String days = args.length != 0 ? args[0] : "a";
         String result = gameManage.startGame(player.getUniqueId(), days);
 
-        player.sendMessage(ChatUtils.format(result));
+        player.sendMessage(ChatUtils.formatWithPrefix(result));
 
         return true;
     }

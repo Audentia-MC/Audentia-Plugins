@@ -28,7 +28,7 @@ public class ListenerPlayerChatHouseCreation implements Listener {
         String result = houseCreation.onChat(player.getUniqueId(), entry);
 
         if (!result.isEmpty()) {
-            player.sendMessage(ChatUtils.format(result));
+            player.sendMessage(ChatUtils.formatWithPrefix(result));
             event.setCancelled(true);
         }
 

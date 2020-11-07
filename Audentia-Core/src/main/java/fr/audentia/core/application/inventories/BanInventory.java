@@ -54,7 +54,7 @@ public class BanInventory implements InventoryProvider {
                         .build(),
                 event -> {
                     String result = banAction.ban(player.getUniqueId(), targetUUID);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                     if (result.startsWith("<success>")) player.closeInventory();
                 }
         ));

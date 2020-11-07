@@ -25,7 +25,7 @@ public class CommandNewHouse implements CommandExecutor {
         Player player = (Player) sender;
         String result = houseCreation.startCreation(player.getUniqueId());
 
-        player.sendMessage(ChatUtils.format(result));
+        player.sendMessage(ChatUtils.formatWithPrefix(result));
 
         return true;
     }

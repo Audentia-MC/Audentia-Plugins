@@ -26,15 +26,15 @@ public class CommandHelp implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        player.sendMessage(ChatUtils.format("<success>----- Commandes -----"));
+        player.sendMessage(ChatUtils.formatWithPrefix("<success>----- Commandes -----"));
 
         loadedCommands.keySet().stream()
                 .map(Command::getName)
                 .map(name -> "<success>" + name)
-                .map(ChatUtils::format)
+                .map(ChatUtils::formatWithPrefix)
                 .forEach(player::sendMessage);
 
-        player.sendMessage(ChatUtils.format("<success>---------------------"));
+        player.sendMessage(ChatUtils.formatWithPrefix("<success>---------------------"));
 
         return false;
     }

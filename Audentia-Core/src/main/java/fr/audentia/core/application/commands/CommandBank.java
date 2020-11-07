@@ -19,7 +19,7 @@ public class CommandBank implements CommandExecutor {
 
         String bankSlots = bankSlotsProvide.getBankSlots();
 
-        sender.sendMessage(ChatUtils.format(bankSlots));
+        sender.sendMessage(ChatUtils.formatWithPrefix(bankSlots));
 
         return true;
     }

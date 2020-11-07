@@ -97,7 +97,7 @@ public class StaffInventory implements InventoryProvider {
                         .build(),
                 event -> {
                     String result = gradeInventoryAction.openGradeInventory(player.getUniqueId(), targetUUID);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 
@@ -110,7 +110,7 @@ public class StaffInventory implements InventoryProvider {
                         .build(),
                 event -> {
                     String result = teleportAction.teleport(player.getUniqueId(), targetUUID);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                     if (result.startsWith("<success>")) player.closeInventory();
                 }
         ));
@@ -124,7 +124,7 @@ public class StaffInventory implements InventoryProvider {
                         .build(),
                 event -> {
                     String result = lookInventoryAction.lookInventory(player.getUniqueId(), targetUUID);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 

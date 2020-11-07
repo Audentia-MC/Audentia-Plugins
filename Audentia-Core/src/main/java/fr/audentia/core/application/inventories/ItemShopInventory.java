@@ -68,11 +68,11 @@ public class ItemShopInventory implements InventoryProvider {
                 event -> {
                     if (event.isLeftClick()) {
                         String result = shopItemBuyAction.sell(player.getUniqueId(), item, 1);
-                        player.sendMessage(ChatUtils.format(result));
+                        player.sendMessage(ChatUtils.formatWithPrefix(result));
                         return;
                     }
                     String result = shopItemBuyAction.buy(player.getUniqueId(), item, 1);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 
@@ -86,11 +86,11 @@ public class ItemShopInventory implements InventoryProvider {
                 event -> {
                     if (event.isLeftClick()) {
                         String result = shopItemBuyAction.sell(player.getUniqueId(), item, 10);
-                        player.sendMessage(ChatUtils.format(result));
+                        player.sendMessage(ChatUtils.formatWithPrefix(result));
                         return;
                     }
                     String result = shopItemBuyAction.buy(player.getUniqueId(), item, 10);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 
@@ -104,11 +104,11 @@ public class ItemShopInventory implements InventoryProvider {
                 event -> {
                     if (event.isLeftClick()) {
                         String result = shopItemBuyAction.sell(player.getUniqueId(), item, 32);
-                        player.sendMessage(ChatUtils.format(result));
+                        player.sendMessage(ChatUtils.formatWithPrefix(result));
                         return;
                     }
                     String result = shopItemBuyAction.buy(player.getUniqueId(), item, 32);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 
@@ -122,11 +122,11 @@ public class ItemShopInventory implements InventoryProvider {
                 event -> {
                     if (event.isLeftClick()) {
                         String result = shopItemBuyAction.sell(player.getUniqueId(), item, 64);
-                        player.sendMessage(ChatUtils.format(result));
+                        player.sendMessage(ChatUtils.formatWithPrefix(result));
                         return;
                     }
                     String result = shopItemBuyAction.buy(player.getUniqueId(), item, 64);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 

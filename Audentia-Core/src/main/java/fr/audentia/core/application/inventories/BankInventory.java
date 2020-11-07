@@ -45,7 +45,7 @@ public class BankInventory implements InventoryProvider {
                         .build(),
                 event -> {
                     String result = bankInventoryInteract.interact(player.getUniqueId(), 1);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 
@@ -56,7 +56,7 @@ public class BankInventory implements InventoryProvider {
                         .build(),
                 event -> {
                     String result = bankInventoryInteract.interact(player.getUniqueId(), 10);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 
@@ -67,7 +67,7 @@ public class BankInventory implements InventoryProvider {
                         .build(),
                 event -> {
                     String result = bankInventoryInteract.interact(player.getUniqueId(), 32);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 
@@ -78,7 +78,7 @@ public class BankInventory implements InventoryProvider {
                         .build(),
                 event -> {
                     String result = bankInventoryInteract.interact(player.getUniqueId(), 64);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 

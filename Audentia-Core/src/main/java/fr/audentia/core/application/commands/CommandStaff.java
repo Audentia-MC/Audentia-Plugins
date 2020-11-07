@@ -19,20 +19,20 @@ public class CommandStaff implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatUtils.format("<error>Seuls les joueurs peuvent exécuter cette commande."));
+            sender.sendMessage(ChatUtils.formatWithPrefix("<error>Seuls les joueurs peuvent exécuter cette commande."));
             return false;
         }
 
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            player.sendMessage(ChatUtils.format("<error>/staff <nom du joueur>."));
+            player.sendMessage(ChatUtils.formatWithPrefix("<error>/staff <nom du joueur>."));
             return false;
         }
 
 
         String result = staffInventoryOpen.openInventory(player.getUniqueId(), args[0]);
-        player.sendMessage(ChatUtils.format(result));
+        player.sendMessage(ChatUtils.formatWithPrefix(result));
         return true;
     }
 

@@ -22,11 +22,11 @@ public class SignsManage {
         Role role = rolesRepository.getRole(playerUUID);
 
         if (role.number > 2) {
-            return "<error>Vous ne pouvez pas exécuter cette commande.";
+            return "<error>Vous ne pouvez pas exécuter cette commande !";
         }
 
         forceReloadAllSigns();
-        return "<success>Tous les panneaux ont bien été rechargés.";
+        return "<success>Tous les panneaux ont bien été rechargé !.";
     }
 
     public void forceReloadAllSigns() {

@@ -59,7 +59,7 @@ public class GradeInventory implements InventoryProvider {
                         .build(),
                 event -> {
                     String result = gradeChangeAction.changeGrade(player.getUniqueId(), targetUUID, 0);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 
@@ -71,7 +71,7 @@ public class GradeInventory implements InventoryProvider {
                         .build(),
                 event -> {
                     String result = gradeChangeAction.changeGrade(player.getUniqueId(), targetUUID, 1);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 
@@ -83,7 +83,7 @@ public class GradeInventory implements InventoryProvider {
                         .build(),
                 event -> {
                     String result = gradeChangeAction.changeGrade(player.getUniqueId(), targetUUID, 2);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 
@@ -95,7 +95,7 @@ public class GradeInventory implements InventoryProvider {
                         .build(),
                 event -> {
                     String result = gradeChangeAction.changeGrade(player.getUniqueId(), targetUUID, 3);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 
@@ -107,7 +107,7 @@ public class GradeInventory implements InventoryProvider {
                         .build(),
                 event -> {
                     String result = gradeChangeAction.changeGrade(player.getUniqueId(), targetUUID, 4);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 
@@ -119,7 +119,7 @@ public class GradeInventory implements InventoryProvider {
                         .build(),
                 event -> {
                     String result = gradeChangeAction.changeGrade(player.getUniqueId(), targetUUID, 5);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 
@@ -131,7 +131,7 @@ public class GradeInventory implements InventoryProvider {
                         .build(),
                 event -> {
                     String result = gradeChangeAction.changeGrade(player.getUniqueId(), targetUUID, 6);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 
@@ -143,7 +143,7 @@ public class GradeInventory implements InventoryProvider {
                         .build(),
                 event -> {
                     String result = gradeChangeAction.changeGrade(player.getUniqueId(), targetUUID, 7);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 
@@ -155,7 +155,7 @@ public class GradeInventory implements InventoryProvider {
                         .build(),
                 event -> {
                     String result = gradeChangeAction.changeGrade(player.getUniqueId(), targetUUID, 8);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 
@@ -167,7 +167,7 @@ public class GradeInventory implements InventoryProvider {
                         .build(),
                 event -> {
                     String result = gradeChangeAction.changeGrade(player.getUniqueId(), targetUUID, 9);
-                    player.sendMessage(ChatUtils.format(result));
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
 
