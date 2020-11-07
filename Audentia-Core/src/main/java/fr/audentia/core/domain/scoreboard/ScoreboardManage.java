@@ -17,7 +17,7 @@ import static fr.audentia.core.domain.model.scoreboard.ScoreboardBuilder.aScoreb
 
 public class ScoreboardManage {
 
-    public static final String DURATION_FORMAT = "ddj HH:mm";
+    public static final String DURATION_FORMAT = "ddj HH:mm:ss";
 
     private final TeamsManager teamsManager;
     private final RolesRepository rolesRepository;

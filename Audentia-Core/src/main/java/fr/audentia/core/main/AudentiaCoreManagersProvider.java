@@ -56,7 +56,6 @@ import fr.audentia.core.infrastructure.npc.TOMLNetherNpcRepository;
 import fr.audentia.core.infrastructure.npc.TOMLNpcRepository;
 import fr.audentia.core.infrastructure.protect.TOMLCityInfosRepository;
 import fr.audentia.core.infrastructure.scoreboard.FastBoardScoreboardsRepository;
-import fr.audentia.core.infrastructure.scoreboard.MariaDbEventsRepository;
 import fr.audentia.core.infrastructure.scoreboard.TOMLEventsRepository;
 import fr.audentia.core.infrastructure.shop.SpigotShopInventoryOpener;
 import fr.audentia.core.infrastructure.shop.TOMLNetherShopRepository;
@@ -178,7 +177,7 @@ public class AudentiaCoreManagersProvider {
         this.bankSlotsProvide = new BankSlotsProvide(gamesInfosRepository, bankSlotsRepository);
         this.staffInventoryOpen = new StaffInventoryOpen(audentiaPlayersManagersProvider.rolesRepository, staffInventoryOpener, worldPlayerFinder);
         this.scoreboardManage = new ScoreboardManage(audentiaPlayersManagersProvider.teamsManager, audentiaPlayersManagersProvider.rolesRepository, gamesInfosRepository, timeProvider, eventsRepository, scoreboardsRepository);
-        this.eventProvider = new EventProvider(eventsRepository, gamesInfosRepository);
+        this.eventProvider = new EventProvider(eventsRepository, gamesInfosRepository, timeProvider);
         this.npcInteract = new NpcInteract(bankNpcProvider, bankInventoryOpen, shopInventoryOpen, netherShopInventoryOpen, netherNpcRepository);
         this.npcSpawn = new NpcSpawn(npcSpawner, npcRepository, worldNpcFinder, audentiaPlayersManagersProvider.rolesRepository);
         this.bankNpcSpawn = new BankNpcSpawn(bankNpcProvider, npcSpawn);

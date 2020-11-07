@@ -1,5 +1,6 @@
 package fr.audentia.core.domain.event;
 
+import fr.audentia.core.domain.bank.TimeProvider;
 import fr.audentia.core.domain.game.GamesInfosRepository;
 import fr.audentia.core.domain.scoreboard.EventsRepository;
 import org.apache.commons.lang.time.DurationFormatUtils;
@@ -8,28 +9,33 @@ import java.time.ZonedDateTime;
 
 public class EventProvider {
 
-    public static final String DURATION_FORMAT = "ddj HH:mm";
+    public static final String DURATION_FORMAT = "ddj HH:mm:ss";
 
     private final EventsRepository eventsRepository;
     private final GamesInfosRepository gamesInfosRepository;
+    private final TimeProvider timeProvider;
 
-    public EventProvider(EventsRepository eventsRepository, GamesInfosRepository gamesInfosRepository) {
+    public EventProvider(EventsRepository eventsRepository, GamesInfosRepository gamesInfosRepository, TimeProvider timeProvider) {
         this.eventsRepository = eventsRepository;
         this.gamesInfosRepository = gamesInfosRepository;
+        this.timeProvider = timeProvider;
     }
 
     public String getNextEvent() {
+        long startTimeInSeconds = gamesInfosRepository.getStartTimeInSeconds();
 
-        ZonedDateTime nextEvent = eventsRepository.getNextEvent();
+        if (startTimeInSeconds == -1) {
+            return "<error>Aucun event n'est prévu.";
+        }
 
-        return "<success>Le prochain event aura lieu dans : <yellow>" + getDuration(nextEvent.toEpochSecond()) + "<success>.";
+        long actualTime = timeProvider.getActualTimeInSeconds();
+        ZonedDateTime nextEventTime = eventsRepository.getNextEvent();
+
+        return "<success>Le prochain event aura lieu dans : <yellow>" + getDuration(nextEventTime.toEpochSecond() - actualTime) + "<success>.";
     }
 
     private String getDuration(long time) {
-
-        long startTimeInSeconds = gamesInfosRepository.getStartTimeInSeconds();
-
-        return DurationFormatUtils.formatDuration((time - startTimeInSeconds) * 1_000L, DURATION_FORMAT, true);
+        return DurationFormatUtils.formatDuration(time * 1_000L, DURATION_FORMAT, true);
     }
 
 }
