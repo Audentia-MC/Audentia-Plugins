@@ -10,6 +10,7 @@ import fr.audentia.players.domain.teams.TeamsManager;
 import fr.audentia.players.utils.ColorsUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import static fr.audentia.core.domain.model.scoreboard.ScoreboardBuilder.aScoreboard;
@@ -71,10 +72,10 @@ public class ScoreboardManage {
         builder.addContent("Temps : " + getDuration(actualTimeInGame));
         builder.addContent("Total : " + getDuration(gameDuration));
 
-        long nextEventTime = eventsRepository.getNextEvent().time;
+        ZonedDateTime nextEventTime = eventsRepository.getNextEvent();
 
-        if (nextEventTime != -1) {
-            builder.addContent("Event dans : " + getDuration(nextEventTime - actualTime));
+        if (nextEventTime != null) {
+            builder.addContent("Event dans : " + getDuration(nextEventTime.toEpochSecond() - actualTime));
         }
     }
 

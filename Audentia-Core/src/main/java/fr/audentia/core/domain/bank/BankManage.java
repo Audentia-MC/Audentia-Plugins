@@ -16,12 +16,14 @@ public class BankManage {
     private final GamesInfosRepository gamesInfosRepository;
     private final TeamsManager teamsManager;
     private final InventoryUtilities inventoryUtilities;
+    private final EmeraldsLimitationRepository emeraldsLimitationRepository;
 
-    public BankManage(BalanceManage balanceManage, GamesInfosRepository gamesInfosRepository, TeamsManager teamsManager, InventoryUtilities inventoryUtilities) {
+    public BankManage(BalanceManage balanceManage, GamesInfosRepository gamesInfosRepository, TeamsManager teamsManager, InventoryUtilities inventoryUtilities, EmeraldsLimitationRepository emeraldsLimitationRepository) {
         this.balanceManage = balanceManage;
         this.gamesInfosRepository = gamesInfosRepository;
         this.teamsManager = teamsManager;
         this.inventoryUtilities = inventoryUtilities;
+        this.emeraldsLimitationRepository = emeraldsLimitationRepository;
     }
 
     public String depositEmeralds(UUID playerUUID, int count) {
@@ -37,7 +39,7 @@ public class BankManage {
             team.transfers.put(day, new DayTransfers(0));
         }
 
-        int finalCount = gamesInfosRepository.getEmeraldsLimitation(day).computePossibleTransfer(count, team.transfers.get(day));
+        int finalCount = emeraldsLimitationRepository.getEmeraldsLimitation(day).computePossibleTransfer(count, team.transfers.get(day));
 
         if (finalCount == -1) {
             return "<error>Vous avez déjà déposé le maximum d'émeraudes possible pour aujourd'hui.";

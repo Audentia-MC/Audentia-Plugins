@@ -57,6 +57,7 @@ import fr.audentia.core.infrastructure.npc.TOMLNpcRepository;
 import fr.audentia.core.infrastructure.protect.TOMLCityInfosRepository;
 import fr.audentia.core.infrastructure.scoreboard.FastBoardScoreboardsRepository;
 import fr.audentia.core.infrastructure.scoreboard.MariaDbEventsRepository;
+import fr.audentia.core.infrastructure.scoreboard.TOMLEventsRepository;
 import fr.audentia.core.infrastructure.shop.SpigotShopInventoryOpener;
 import fr.audentia.core.infrastructure.shop.TOMLNetherShopRepository;
 import fr.audentia.core.infrastructure.shop.TOMLShopRepository;
@@ -111,7 +112,7 @@ public class AudentiaCoreManagersProvider {
         PlayerTeleport playerTeleporter = new SpigotPlayerTeleport();
         WorldNameFinder worldNameFinder = new SpigotWorldNameFinder();
         GamesInfosRepository gamesInfosRepository = new MariaDbGamesInfosRepository(audentiaPlayersManagersProvider.databaseConnection);
-        BankSlotsRepository bankSlotsRepository = new MariaDbBankSlotsRepository(audentiaPlayersManagersProvider.databaseConnection);
+        BankSlotsRepository bankSlotsRepository = new TOMLBankSlotsRepository(path);
         PlayerBanner playerBanner = new SpigotPlayerBanner();
         BanRepository banRepository = new MariaDbBanRepository(audentiaPlayersManagersProvider.databaseConnection);
         PlayerKicker playerKicker = new SpigotPlayerKicker();
@@ -119,7 +120,7 @@ public class AudentiaCoreManagersProvider {
         WorldPlayerFinder worldPlayerFinder = new SpigotWorldPlayerFinder();
         PlayerInventoryOpener playerInventoryOpener = new SpigotPlayerInventoryOpener();
         TimeProvider timeProvider = new DefaultTimeProvider();
-        EventsRepository eventsRepository = new MariaDbEventsRepository(audentiaPlayersManagersProvider.databaseConnection);
+        EventsRepository eventsRepository = new TOMLEventsRepository(path);
         ScoreboardsRepository scoreboardsRepository = new FastBoardScoreboardsRepository();
         BankNpcProvider bankNpcProvider = new TOMLBankNpcProvider(path);
         InventoryUtilities inventoryUtilities = new SpigotInventoryUtilities();
@@ -137,6 +138,7 @@ public class AudentiaCoreManagersProvider {
         PlayerMessageSender playerMessageSender = new SpigotPlayerMessageSender();
         TeleportRepository teleportRepository = new DefaultTeleportRepository();
         TimeProtectionAtStartProvider timeProtectionAtStartProvider = new TOMLTimeProtectionAtStartProvider(path);
+        EmeraldsLimitationRepository emeraldsLimitationRepository = new TOMLEmeraldsLimitationRepository(path);
         cityInfosRepository = new TOMLCityInfosRepository(path);
 
         this.banAction = new BanAction(playerBanner, banRepository, audentiaPlayersManagersProvider.rolesRepository);
@@ -144,7 +146,7 @@ public class AudentiaCoreManagersProvider {
         this.teleportAction = new TeleportAction(playerTeleporterToOther, audentiaPlayersManagersProvider.rolesRepository, worldPlayerFinder);
         this.lookInventoryAction = new LookInventoryAction(playerInventoryOpener, audentiaPlayersManagersProvider.rolesRepository, worldPlayerFinder);
         this.balanceManage = new BalanceManage(audentiaPlayersManagersProvider.teamsManager, gamesInfosRepository);
-        this.bankManage = new BankManage(balanceManage, gamesInfosRepository, audentiaPlayersManagersProvider.teamsManager, inventoryUtilities);
+        this.bankManage = new BankManage(balanceManage, gamesInfosRepository, audentiaPlayersManagersProvider.teamsManager, inventoryUtilities, emeraldsLimitationRepository);
         this.bankInventoryInteract = new BankInventoryInteract(inventoryUtilities, bankManage);
         this.gradeChangeAction = new GradeChangeAction(audentiaPlayersManagersProvider.rolesRepository);
         this.playerDamage = new PlayerDamage(audentiaPlayersManagersProvider.teamsManager, audentiaPlayersManagersProvider.rolesRepository, balanceManage, coliseumLocationRepository, gamesInfosRepository, timeProvider, timeProtectionAtStartProvider, cityInfosRepository);

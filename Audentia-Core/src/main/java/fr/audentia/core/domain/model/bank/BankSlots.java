@@ -14,8 +14,7 @@ BankSlots {
 
     public boolean isOpen(int hour) {
 
-        return slots.stream()
-                .anyMatch(slot -> slot.start <= hour && hour < slot.end);
+        return slots.stream().anyMatch(slot -> slot.start <= hour && hour < slot.end);
     }
 
     @Override
@@ -24,4 +23,5 @@ BankSlots {
                 .map(Slot::toString)
                 .collect(Collectors.joining(", "));
     }
+
 }

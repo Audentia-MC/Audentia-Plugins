@@ -30,6 +30,9 @@ class BankManageTest {
     private GamesInfosRepository gamesInfosRepository;
 
     @Mock
+    private EmeraldsLimitationRepository emeraldsLimitationRepository;
+
+    @Mock
     private TimeProvider timeProvider;
 
     @Mock
@@ -39,13 +42,16 @@ class BankManageTest {
     private BankSlotsRepository bankSlotsRepository;
 
     @Mock
+    private InventoryUtilities inventoryUtilities;
+
+    @Mock
     private BalanceManage balanceManage;
 
     private BankManage bankManage;
 
     @BeforeEach
     void setUp() {
-        bankManage = new BankManage(balanceManage, gamesInfosRepository, bankSlotsRepository, timeProvider, teamsManager);
+        bankManage = new BankManage(balanceManage, gamesInfosRepository, teamsManager, inventoryUtilities, emeraldsLimitationRepository);
     }
 
     @Test
@@ -54,7 +60,7 @@ class BankManageTest {
 
         Team team = new Team(Color.RED, new Balance(0), new HashMap<>(), new HashMap<>(), "Tony", 0);
         when(balanceManage.addToBalance(any(), anyInt())).thenReturn("<success>Dépôt effectué.");
-        when(gamesInfosRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
+        when(emeraldsLimitationRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
         when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(10);
         when(teamsManager.getTeam(any())).thenReturn(team);
@@ -75,7 +81,7 @@ class BankManageTest {
 
         when(gamesInfosRepository.getDay()).thenReturn(new Day(1));
         when(balanceManage.addToBalance(any(), anyInt())).thenReturn("<success>Dépôt effectué.");
-        when(gamesInfosRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
+        when(emeraldsLimitationRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
         when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(10);
         when(teamsManager.getTeam(any())).thenReturn(team);
@@ -127,7 +133,7 @@ class BankManageTest {
         Team team = new Team(Color.RED, new Balance(0), transfers, new HashMap<>(), "Tony", 0);
 
         when(gamesInfosRepository.getDay()).thenReturn(new Day(1));
-        when(gamesInfosRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
+        when(emeraldsLimitationRepository.getEmeraldsLimitation(any())).thenReturn(new EmeraldsLimitation(128));
         when(bankSlotsRepository.getBankOpenSlots(any())).thenReturn(new BankSlots(Collections.singletonList(new Slot(10, 12))));
         when(timeProvider.getHour()).thenReturn(10);
         when(teamsManager.getTeam(any())).thenReturn(team);

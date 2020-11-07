@@ -1,18 +1,45 @@
 [bank]
 npcName = "Tony"
 
+
+[bank_slots]
+
+[1]
+start = [
+    11,
+    17
+]
+end = [
+    12,
+    19
+]
+
+
+[emeralds_limitations]
+1 = 125
+2 = 125
+3 = 1000
+
+
 [game]
 time_protection = 60   # En minutes, les 15 premières minutes exclusives aux légats sont comprises
+events = [
+    "2020-11-03T10:15:30",
+    "2020-11-04T10:15:30"
+]
+
 
 [border]
 size = 314    # Longueur d'un côté du carré formé par la bordure
 x = 0
 z = 0
 
+
 [city]
 radius = 10    # Longueur du rayon de la cité
 x = 0
 z = 0
+
 
 [coliseum]
 radius = 10    # Longueur du rayon du colisée

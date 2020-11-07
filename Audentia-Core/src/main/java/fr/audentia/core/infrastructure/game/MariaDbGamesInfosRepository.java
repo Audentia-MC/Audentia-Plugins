@@ -2,7 +2,6 @@ package fr.audentia.core.infrastructure.game;
 
 import fr.audentia.core.domain.game.GameState;
 import fr.audentia.core.domain.game.GamesInfosRepository;
-import fr.audentia.core.domain.model.bank.EmeraldsLimitation;
 import fr.audentia.players.domain.model.Day;
 import fr.audentia.players.infrastructure.database.DatabaseConnection;
 import org.jooq.Record1;
@@ -36,26 +35,6 @@ public class MariaDbGamesInfosRepository implements GamesInfosRepository {
         }
 
         return new Day(record.get(field(name("day")), Integer.class));
-    }
-
-    @Override
-    public EmeraldsLimitation getEmeraldsLimitation(Day day) {
-
-        Connection connection = databaseConnection.getConnection();
-        Record1<Object> record = databaseConnection.getDatabaseContext(connection)
-                .select(field(name("limitation")))
-                .from(table(name("emeralds_limitation"))
-                        .join(table("game_infos"))
-                        .on(field(name("day_number")).eq(field(name("day")))))
-                .fetchOne();
-
-        try {
-            connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return new EmeraldsLimitation(record.get(field(name("limitation")), Integer.class));
     }
 
     @Override

@@ -1,13 +1,14 @@
 package fr.audentia.core.domain.event;
 
 import fr.audentia.core.domain.game.GamesInfosRepository;
-import fr.audentia.core.domain.model.scoreboard.Event;
 import fr.audentia.core.domain.scoreboard.EventsRepository;
 import org.apache.commons.lang.time.DurationFormatUtils;
 
+import java.time.ZonedDateTime;
+
 public class EventProvider {
 
-    public static final String DURATION_FORMAT = "dd:HH:mm:ss";
+    public static final String DURATION_FORMAT = "ddj HH:mm";
 
     private final EventsRepository eventsRepository;
     private final GamesInfosRepository gamesInfosRepository;
@@ -19,9 +20,9 @@ public class EventProvider {
 
     public String getNextEvent() {
 
-        Event nextEvent = eventsRepository.getNextEvent();
+        ZonedDateTime nextEvent = eventsRepository.getNextEvent();
 
-        return "<success>Le prochain event aura lieu dans : <yellow>" + getDuration(nextEvent.time) + "<success>.";
+        return "<success>Le prochain event aura lieu dans : <yellow>" + getDuration(nextEvent.toEpochSecond()) + "<success>.";
     }
 
     private String getDuration(long time) {
