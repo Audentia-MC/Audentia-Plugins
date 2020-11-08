@@ -1,7 +1,6 @@
 package fr.audentia.core.domain.staff.teleport;
 
 import fr.audentia.core.domain.staff.WorldPlayerFinder;
-import fr.audentia.players.domain.model.roles.Role;
 import fr.audentia.players.domain.teams.RolesRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -44,10 +43,7 @@ class TeleportActionTest {
         when(rolesRepository.getRole(any())).thenReturn(aRole()
                 .withName("Admin")
                 .withColor(Color.BLACK)
-                .withNumber(0)
-                .withHomeCount(1)
-                .isPlayer(true)
-                .isStaff(true)
+                .withEchelon(999)
                 .build());
         when(worldPlayerFinder.isInWorld((UUID) any())).thenReturn(true);
 
@@ -64,10 +60,7 @@ class TeleportActionTest {
         when(rolesRepository.getRole(any())).thenReturn(aRole()
                 .withName("Admin")
                 .withColor(Color.BLACK)
-                .withNumber(0)
-                .withHomeCount(1)
-                .isPlayer(true)
-                .isStaff(false)
+                .withEchelon(100)
                 .build());
 
         String result = teleportAction.teleport(UUID.randomUUID(), UUID.randomUUID());
@@ -84,10 +77,7 @@ class TeleportActionTest {
         when(rolesRepository.getRole(any())).thenReturn(aRole()
                 .withName("Admin")
                 .withColor(Color.BLACK)
-                .withNumber(0)
-                .withHomeCount(1)
-                .isPlayer(true)
-                .isStaff(true)
+                .withEchelon(999)
                 .build());
         when(worldPlayerFinder.isInWorld((UUID) any())).thenReturn(false);
 

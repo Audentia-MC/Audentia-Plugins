@@ -32,7 +32,7 @@ public class GameManage {
 
         Role role = rolesRepository.getRole(playerUUID);
 
-        if (role.number > 1) {
+        if (role.hasModerationPermission()) {
             return "<error>Vous n'avez pas le pouvoir de lancer une partie.";
         }
 
@@ -47,7 +47,7 @@ public class GameManage {
             role = rolesRepository.getRole(player);
             playerMessageSender.sendMessage(player, "<success>La partie se lance, bonne chance !");
 
-            if (role.staff) {
+            if (role.isStaff()) {
                 continue;
             }
 

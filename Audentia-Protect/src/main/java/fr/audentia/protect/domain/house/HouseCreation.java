@@ -21,7 +21,7 @@ public class HouseCreation {
 
     public String startCreation(UUID playerUUID) {
 
-        if (!rolesRepository.getRole(playerUUID).staff) {
+        if (!rolesRepository.getRole(playerUUID).isStaff()) {
             return "<error>Vous n'avez pas la permission de créer une nouvelle maison !";
         }
 

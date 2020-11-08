@@ -1,6 +1,5 @@
 package fr.audentia.core.domain.staff.ban;
 
-import fr.audentia.players.domain.model.roles.Role;
 import fr.audentia.players.domain.teams.RolesRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -43,10 +42,7 @@ class BanActionTest {
         when(rolesRepository.getRole(any())).thenReturn(aRole()
                 .withName("Admin")
                 .withColor(Color.BLACK)
-                .withNumber(0)
-                .withHomeCount(1)
-                .isPlayer(true)
-                .isStaff(true)
+                .withEchelon(999)
                 .build());
 
         String result = banAction.ban(UUID.randomUUID(), UUID.randomUUID());
@@ -63,10 +59,7 @@ class BanActionTest {
         when(rolesRepository.getRole(any())).thenReturn(aRole()
                 .withName("Admin")
                 .withColor(Color.BLACK)
-                .withNumber(3)
-                .withHomeCount(1)
-                .isPlayer(true)
-                .isStaff(false)
+                .withEchelon(100)
                 .build());
 
         String result = banAction.ban(UUID.randomUUID(), UUID.randomUUID());

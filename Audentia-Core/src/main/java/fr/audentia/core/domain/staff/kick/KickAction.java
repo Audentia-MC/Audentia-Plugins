@@ -19,7 +19,7 @@ public class KickAction {
 
         Role role = rolesRepository.getRole(staffUUID);
 
-        if (role.number > 2) {
+        if (role.hasModerationPermission()) {
             return "<error>Vous ne pouvez pas kick de joueur.";
         }
 

@@ -1,6 +1,5 @@
 package fr.audentia.core.domain.staff.kick;
 
-import fr.audentia.players.domain.model.roles.Role;
 import fr.audentia.players.domain.teams.RolesRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -40,10 +39,7 @@ class KickActionTest {
         when(rolesRepository.getRole(any())).thenReturn(aRole()
                 .withName("Admin")
                 .withColor(Color.BLACK)
-                .withNumber(0)
-                .withHomeCount(1)
-                .isPlayer(true)
-                .isStaff(true)
+                .withEchelon(999)
                 .build());
 
         String result = banAction.kick(UUID.randomUUID(), UUID.randomUUID());
@@ -59,10 +55,7 @@ class KickActionTest {
         when(rolesRepository.getRole(any())).thenReturn(aRole()
                 .withName("Admin")
                 .withColor(Color.BLACK)
-                .withNumber(3)
-                .withHomeCount(1)
-                .isPlayer(true)
-                .isStaff(false)
+                .withEchelon(999)
                 .build());
 
         String result = banAction.kick(UUID.randomUUID(), UUID.randomUUID());

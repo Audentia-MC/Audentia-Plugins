@@ -20,7 +20,7 @@ public class LookInventoryAction {
 
     public String lookInventory(UUID staffUUID, UUID targetUUID) {
 
-        if (!rolesRepository.getRole(staffUUID).staff) {
+        if (!rolesRepository.getRole(staffUUID).isStaff()) {
             return "<error>Vous ne pouvez pas ouvrir l'inventaire de quelqu'un.";
         }
 

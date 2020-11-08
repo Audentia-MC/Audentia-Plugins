@@ -36,12 +36,12 @@ public class BankInventoryOpen {
             return "<error>La banque est fermée.";
         }
 
-        if (role.staff) {
+        if (role.isStaff()) {
             bankInventoryOpener.open(playerUUID, teamsManager.getTeam(playerUUID).color);
             return "<success>Bienvenue dans la banque fictive.";
         }
 
-        if (role.player) {
+        if (role.isPlayer()) {
             bankInventoryOpener.open(playerUUID, teamsManager.getTeam(playerUUID).color);
             return "<success>Bienvenue dans la banque.";
         }

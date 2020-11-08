@@ -19,7 +19,7 @@ public class TeleportAction {
 
     public String teleport(UUID playerUUID, UUID targetUUID) {
 
-        if (!rolesRepository.getRole(playerUUID).staff) {
+        if (!rolesRepository.getRole(playerUUID).isStaff()) {
             return "<error>Vous ne pouvez pas vous tp à quelqu'un.";
         }
 

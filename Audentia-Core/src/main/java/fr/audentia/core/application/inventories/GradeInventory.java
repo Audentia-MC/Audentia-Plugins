@@ -194,7 +194,7 @@ public class GradeInventory implements InventoryProvider {
 
     private Material getCurrentRoleMaterial() {
 
-        return getMaterial(rolesRepository.getRole(targetUUID).number);
+        return getMaterial(rolesRepository.getRole(targetUUID).echelon);
     }
 
     private Material getMaterial(int number) { // TODO: review new roles

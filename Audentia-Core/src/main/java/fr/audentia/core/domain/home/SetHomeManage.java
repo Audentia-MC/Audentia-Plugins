@@ -26,7 +26,7 @@ public class SetHomeManage {
             return "<error>Ce numéro est indisponible.";
         }
 
-        if (home.number > role.homeCount) {
+        if (home.number > role.getHomeCount()) {
             return "<error>Votre role ne vous permet pas d'avoir un home n°" + home.number + ".";
         }
 

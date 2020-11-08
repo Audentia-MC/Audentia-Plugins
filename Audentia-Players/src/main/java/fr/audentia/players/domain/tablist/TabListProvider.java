@@ -30,7 +30,7 @@ public class TabListProvider {
 
         Color color = role.color != Color.white ? role.color : team.color;
 
-        String number = String.valueOf(role.number);
+        String number = String.valueOf(role.echelon);
         StringBuilder toAdd = new StringBuilder();
 
         for (int i = 0; i < 4 - number.length(); i++) {

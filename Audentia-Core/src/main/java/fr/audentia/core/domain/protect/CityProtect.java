@@ -20,7 +20,7 @@ public class CityProtect {
 
         Role role = rolesRepository.getRole(playerUUID);
 
-        if (role.staff) {
+        if (role.isStaff()) {
             return true;
         }
 

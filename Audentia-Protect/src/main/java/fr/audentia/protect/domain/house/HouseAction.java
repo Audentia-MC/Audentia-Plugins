@@ -40,7 +40,7 @@ public class HouseAction {
 
         Role role = rolesRepository.getRole(playerUUIO);
 
-        if (role.staff) {
+        if (role.isStaff()) {
             return true;
         }
 
@@ -93,11 +93,11 @@ public class HouseAction {
         House house = houseRepository.getHouse(location);
         Role role = rolesRepository.getRole(playerUUID);
 
-        if (role.staff) {
+        if (role.isStaff()) {
             return "<error>Vous ne pouvez pas acheter une maison.";
         }
 
-        if (house.level > 10 - role.number) {
+        if (!role.hasHousePermission(house.level)) {
             return "<error>Cette maison est réservée à un grade plus grand que le votre.";
         }
 

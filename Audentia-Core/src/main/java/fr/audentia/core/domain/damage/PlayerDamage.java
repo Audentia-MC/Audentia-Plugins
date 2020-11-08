@@ -42,7 +42,7 @@ public class PlayerDamage {
     public boolean canBeDamaged(UUID playerUUID) {
 
         Role role = rolesRepository.getRole(playerUUID);
-        return !role.staff;
+        return !role.isStaff();
     }
 
     public void executeDeath(UUID damagedUUID, UUID damagerUUID, Location location) {

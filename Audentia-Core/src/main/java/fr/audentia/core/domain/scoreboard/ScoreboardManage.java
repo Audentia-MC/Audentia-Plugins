@@ -49,7 +49,7 @@ public class ScoreboardManage {
 
         builder.addContent("&" + ColorsUtils.fromColorToHexadecimal(team.color) + team.name);
 
-        if (role.player && !role.staff) {
+        if (role.isPlayer() && !role.isStaff()) {
             String balance = team.balance.toString();
             builder.addContent(balance + " émeraude" + ("0 1".contains(balance) ? "" : "s"));
         }

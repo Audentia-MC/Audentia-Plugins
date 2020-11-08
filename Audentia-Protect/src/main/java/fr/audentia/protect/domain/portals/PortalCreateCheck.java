@@ -20,7 +20,7 @@ public class PortalCreateCheck {
 
         Role role = rolesRepository.getRole(playerUUID);
 
-        if (role.number > 4) {
+        if (role.hasBuilderPermission()) {
             return "<error>Vous ne pouvez pas créer de portail !";
         }
 

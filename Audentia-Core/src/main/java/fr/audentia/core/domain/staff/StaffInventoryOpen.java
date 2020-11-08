@@ -25,7 +25,7 @@ public class StaffInventoryOpen {
             return "<error>Ce joueur n'existe pas.";
         }
 
-        if (role.number > 2) {
+        if (role.hasModerationPermission()) {
             return "<error>Vous ne pouvez pas utiliser cette commande.";
         }
 

@@ -31,11 +31,11 @@ public class MoveManage {
 
         Role role = rolesRepository.getRole(playerUUID);
 
-        if (role.staff) {
+        if (role.isStaff()) {
             return true;
         }
 
-        if (!role.player) {
+        if (!role.isPlayer()) {
             return false;
         }
 
@@ -46,7 +46,7 @@ public class MoveManage {
         }
 
         long passedTime = timeProvider.getActualTimeInSeconds() - gamesInfosRepository.getStartTimeInSeconds();
-        return gameStateManage.isPlaying() && (role.number < 8 || passedTime > 15 * 60);
+        return gameStateManage.isPlaying() && (role.isVipPlayer() || passedTime > 15 * 60);
     }
 
 }

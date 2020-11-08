@@ -23,7 +23,7 @@ public class JoinActions {
 
         Role role = rolesRepository.getRole(playerUUID);
 
-        if (role.staff) {
+        if (role.isStaff()) {
             return;
         }
 

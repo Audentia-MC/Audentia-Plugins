@@ -44,10 +44,7 @@ class SetHomeManageTest {
         when(rolesRepository.getRole(any(UUID.class))).thenReturn(aRole()
                 .withName("Admin")
                 .withColor(Color.BLACK)
-                .withNumber(0)
-                .withHomeCount(1)
-                .isPlayer(false)
-                .isStaff(false)
+                .withEchelon(999)
                 .build());
         when(worldNameFinder.getWorldName(any(UUID.class))).thenReturn("world");
 
@@ -64,10 +61,7 @@ class SetHomeManageTest {
         when(rolesRepository.getRole(any(UUID.class))).thenReturn(aRole()
                 .withName("Admin")
                 .withColor(Color.BLACK)
-                .withNumber(0)
-                .withHomeCount(1)
-                .isPlayer(false)
-                .isStaff(false)
+                .withEchelon(999)
                 .build());
 
         String result = setHomeManager.saveHome(UUID.randomUUID(), any(Home.class));
@@ -83,10 +77,7 @@ class SetHomeManageTest {
         when(rolesRepository.getRole(any(UUID.class))).thenReturn(aRole()
                 .withName("Admin")
                 .withColor(Color.BLACK)
-                .withNumber(0)
-                .withHomeCount(1)
-                .isPlayer(true)
-                .isStaff(false)
+                .withEchelon(999)
                 .build());
         when(worldNameFinder.getWorldName(any(UUID.class))).thenReturn("nether");
 
