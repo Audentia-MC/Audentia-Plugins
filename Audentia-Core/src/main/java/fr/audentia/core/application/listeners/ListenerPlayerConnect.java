@@ -19,7 +19,12 @@ public class ListenerPlayerConnect implements Listener {
 
     @EventHandler
     public void onConnect(PlayerJoinEvent event) {
-        joinActions.onJoin(event.getPlayer().getUniqueId());
+        boolean kick = joinActions.onJoin(event.getPlayer().getUniqueId());
+
+        if (kick) {
+            event.getPlayer().kickPlayer("Vous n'êtes pas autorisé à vous connecter");
+        }
+
     }
 
     @EventHandler

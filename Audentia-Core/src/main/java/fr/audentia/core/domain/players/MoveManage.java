@@ -9,6 +9,7 @@ import fr.audentia.players.domain.teams.RolesRepository;
 import fr.audentia.players.domain.teams.TeamsManager;
 
 import java.awt.*;
+import java.time.Duration;
 import java.util.UUID;
 
 public class MoveManage {
@@ -45,8 +46,8 @@ public class MoveManage {
             return false;
         }
 
-        long passedTime = timeProvider.getActualTimeInSeconds() - gamesInfosRepository.getStartTimeInSeconds();
-        return gameStateManage.isPlaying() && (role.isVipPlayer() || passedTime > 15 * 60);
+        long passedMinutes = Duration.between(gamesInfosRepository.getStart(), timeProvider.getActualTime()).toMinutes();
+        return gameStateManage.isPlaying() && (role.isVipPlayer() || passedMinutes > 15);
     }
 
 }

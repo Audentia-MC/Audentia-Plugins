@@ -7,10 +7,10 @@ import java.util.UUID;
 
 public interface TeamsRepository {
 
-    Optional<Team> getTeam(UUID playerUUID);
+    Optional<Team> get(UUID playerUUID);
 
-    void saveTeam(Team team);
+    void save(Team team);
 
-    Optional<Team> getTeamByHouseId(int houseId);
+    Optional<Team> getByHouseId(int houseId);
 
 }

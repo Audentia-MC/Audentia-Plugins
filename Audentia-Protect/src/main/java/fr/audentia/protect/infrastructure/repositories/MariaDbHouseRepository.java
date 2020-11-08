@@ -28,30 +28,30 @@ public class MariaDbHouseRepository implements HouseRepository {
 
         Connection connection = databaseConnection.getConnection();
         boolean present = databaseConnection.getDatabaseContext(connection)
-                .selectFrom(table(name("house")))
-                .where(field(name("sign_x")).eq(location.x)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z)))
-                .or(field(name("sign_x")).eq(location.x - 1)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z)))
-                .or(field(name("sign_x")).eq(location.x + 1)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z)))
-                .or(field(name("sign_x")).eq(location.x)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z - 1)))
-                .or(field(name("sign_x")).eq(location.x)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z + 1)))
+                .selectFrom(table("houses"))
+                .where(field("sign_x").eq(location.x)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z)))
+                .or(field("sign_x").eq(location.x - 1)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z)))
+                .or(field("sign_x").eq(location.x + 1)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z)))
+                .or(field("sign_x").eq(location.x)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z - 1)))
+                .or(field("sign_x").eq(location.x)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z + 1)))
                 .stream()
                 .findAny()
                 .isPresent();
 
         try {
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
         return present;
@@ -62,19 +62,19 @@ public class MariaDbHouseRepository implements HouseRepository {
 
         Connection connection = databaseConnection.getConnection();
         Result<Record> record = databaseConnection.getDatabaseContext(connection)
-                .selectFrom(table(name("house"))
-                        .leftJoin(table(name("house_bloc")))
-                        .on(field(name("house_id")).eq(field(name("bloc_house_id")))))
-                .where(field(name("house_id")).eq(houseId))
+                .selectFrom(table("houses")
+                        .leftJoin(table("houses_blocks"))
+                        .on(field("houses.id").eq(field("house_id")))
+                        .where(field("houses.id").eq(1)))
                 .fetch();
 
         try {
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
-        return getHouse(record);
+        return buildHouse(record);
     }
 
     @Override
@@ -82,32 +82,32 @@ public class MariaDbHouseRepository implements HouseRepository {
 
         Connection connection = databaseConnection.getConnection();
         Result<Record> record = databaseConnection.getDatabaseContext(connection)
-                .selectFrom(table(name("house")).leftJoin(table(name("house_bloc")))
-                        .on(field(name("house_id")).eq(field(name("bloc_house_id")))))
-                .where(field(name("sign_x")).eq(location.x)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z)))
-                .or(field(name("sign_x")).eq(location.x - 1)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z)))
-                .or(field(name("sign_x")).eq(location.x + 1)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z)))
-                .or(field(name("sign_x")).eq(location.x)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z - 1)))
-                .or(field(name("sign_x")).eq(location.x)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z + 1)))
+                .selectFrom(table("houses").leftJoin(table("houses_blocks"))
+                        .on(field("houses.id").eq(field("house_id"))))
+                .where(field("sign_x").eq(location.x)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z)))
+                .or(field("sign_x").eq(location.x - 1)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z)))
+                .or(field("sign_x").eq(location.x + 1)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z)))
+                .or(field("sign_x").eq(location.x)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z - 1)))
+                .or(field("sign_x").eq(location.x)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z + 1)))
                 .fetch();
 
         try {
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
-        return getHouse(record);
+        return buildHouse(record);
     }
 
     @Override
@@ -115,14 +115,14 @@ public class MariaDbHouseRepository implements HouseRepository {
 
         Connection connection = databaseConnection.getConnection();
         Result<Record> result = databaseConnection.getDatabaseContext(connection)
-                .selectFrom(table(name("house")).leftJoin(table(name("house_bloc")))
-                        .on(field(name("house_id")).eq(field(name("bloc_house_id")))))
+                .selectFrom(table("houses").leftJoin(table("houses_blocks"))
+                        .on(field("houses.id").eq(field("house_id"))))
                 .fetch();
 
         try {
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
         if (result.isEmpty()) {
@@ -134,7 +134,7 @@ public class MariaDbHouseRepository implements HouseRepository {
         int id = -1;
         int price = -1;
         int level = -1;
-        List<HouseBloc> blocs = new ArrayList<>();
+        List<HouseBloc> blocks = new ArrayList<>();
         int signX = -1;
         int signY = -1;
         int signZ = -1;
@@ -142,38 +142,40 @@ public class MariaDbHouseRepository implements HouseRepository {
 
         for (Record record : result) {
 
-            int tempId = record.get(field(name("house_id")), Integer.class);
+            int tempId = record.get(field(name("house_id"), Integer.class));
 
             if (id != -1 && tempId != id) {
-                houses.add(new House(id, price, level, blocs, new Location(signX, signY, signZ), blockFace));
-                blocs = new ArrayList<>();
+                houses.add(new House(id, price, level, blocks, new Location(signX, signY, signZ), blockFace));
+                blocks = new ArrayList<>();
             }
 
             id = tempId;
-            price = record.get(field(name("price")), Integer.class);
-            level = record.get(field(name("level")), Integer.class);
+            price = record.get(field("price", Integer.class));
+            level = record.get(field("level", Integer.class));
 
-            int x0 = record.get(field(name("x0")), Integer.class);
-            int y0 = record.get(field(name("y0")), Integer.class);
-            int z0 = record.get(field(name("z0")), Integer.class);
-            int x1 = record.get(field(name("x1")), Integer.class);
-            int y1 = record.get(field(name("y1")), Integer.class);
-            int z1 = record.get(field(name("z1")), Integer.class);
+            int x0 = record.get(field("x0", Integer.class));
+            int y0 = record.get(field("y0", Integer.class));
+            int z0 = record.get(field("z0", Integer.class));
+            int x1 = record.get(field("x1", Integer.class));
+            int y1 = record.get(field("y1", Integer.class));
+            int z1 = record.get(field("z1", Integer.class));
 
             Location location1 = new Location(x0, y0, z0);
             Location location2 = new Location(x1, y1, z1);
-            blocs.add(new HouseBloc(location1, location2));
+            blocks.add(new HouseBloc(location1, location2));
 
-            signX = record.get(field(name("sign_x")), Integer.class);
-            signY = record.get(field(name("sign_y")), Integer.class);
-            signZ = record.get(field(name("sign_z")), Integer.class);
+            signX = record.get(field("sign_x", Integer.class));
+            signY = record.get(field("sign_y", Integer.class));
+            signZ = record.get(field("sign_z", Integer.class));
 
-            blockFace = record.get(field(name("sign_face")), Character.class);
+            blockFace = record.get(field("sign_face"), Character.class);
 
         }
 
-        if (id != -1) {
-            houses.add(new House(id, price, level, blocs, new Location(signX, signY, signZ), blockFace));
+        House house = new House(id, price, level, blocks, new Location(signX, signY, signZ), blockFace);
+
+        if (house.id == -1) {
+            houses.add(new House(id, price, level, blocks, new Location(signX, signY, signZ), blockFace));
         }
 
         return houses;
@@ -183,37 +185,37 @@ public class MariaDbHouseRepository implements HouseRepository {
     public int getHouseId(Location location) {
 
         Connection connection = databaseConnection.getConnection();
-        int id = databaseConnection.getDatabaseContext(connection)
-                .select(field(name("house_id")))
-                .from(table(name("house")))
-                .where(field(name("sign_x")).eq(location.x)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z)))
-                .or(field(name("sign_x")).eq(location.x - 1)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z)))
-                .or(field(name("sign_x")).eq(location.x + 1)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z)))
-                .or(field(name("sign_x")).eq(location.x)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z - 1)))
-                .or(field(name("sign_x")).eq(location.x)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z + 1)))
+        int houseId = databaseConnection.getDatabaseContext(connection)
+                .select(field("house_id"))
+                .from(table("houses"))
+                .where(field("sign_x").eq(location.x)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z)))
+                .or(field("sign_x").eq(location.x - 1)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z)))
+                .or(field("sign_x").eq(location.x + 1)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z)))
+                .or(field("sign_x").eq(location.x)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z - 1)))
+                .or(field("sign_x").eq(location.x)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z + 1)))
                 .stream()
                 .findAny()
-                .map(record -> record.get(field(name("house_id")), Integer.class))
+                .map(record -> record.get(field("house_id", Integer.class)))
                 .orElse(-1);
 
 
         try {
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
-        return id;
+        return houseId;
     }
 
     @Override
@@ -221,41 +223,41 @@ public class MariaDbHouseRepository implements HouseRepository {
 
         Connection connection = databaseConnection.getConnection();
         databaseConnection.getDatabaseContext(connection)
-                .insertInto(table(name("house")))
-                .set(field(name("price")), house.price)
-                .set(field(name("level")), house.level)
-                .set(field(name("sign_face")), String.valueOf(house.signFace))
-                .set(field(name("sign_x")), house.signLocation.x)
-                .set(field(name("sign_y")), house.signLocation.y)
-                .set(field(name("sign_z")), house.signLocation.z)
+                .insertInto(table("houses"))
+                .set(field("price"), house.price)
+                .set(field("level"), house.level)
+                .set(field("sign_face"), String.valueOf(house.signFace))
+                .set(field("sign_x"), house.signLocation.x)
+                .set(field("sign_y"), house.signLocation.y)
+                .set(field("sign_z"), house.signLocation.z)
                 .execute();
 
         long houseId = getHouseId(house.signLocation);
 
-        for (HouseBloc bloc : house.blocs) {
+        for (HouseBloc block : house.blocs) {
 
             databaseConnection.getDatabaseContext(connection)
-                    .insertInto(table(name("house_bloc")))
-                    .set(field(name("bloc_house_id")), houseId)
-                    .set(field(name("x0")), bloc.location1.x)
-                    .set(field(name("y0")), bloc.location1.y)
-                    .set(field(name("z0")), bloc.location1.z)
-                    .set(field(name("x1")), bloc.location2.x)
-                    .set(field(name("y1")), bloc.location2.y)
-                    .set(field(name("z1")), bloc.location2.z)
+                    .insertInto(table("houses_blocks"))
+                    .set(field("house_id"), houseId)
+                    .set(field("x0"), block.location1.x)
+                    .set(field("y0"), block.location1.y)
+                    .set(field("z0"), block.location1.z)
+                    .set(field("x1"), block.location2.x)
+                    .set(field("y1"), block.location2.y)
+                    .set(field("z1"), block.location2.z)
                     .execute();
 
         }
 
         try {
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
     }
 
-    private House getHouse(Result<Record> result) {
+    private House buildHouse(Result<Record> result) {
 
         if (result == null) {
             return null;
@@ -264,7 +266,7 @@ public class MariaDbHouseRepository implements HouseRepository {
         int id = -1;
         int price = -1;
         int level = -1;
-        List<HouseBloc> blocs = new ArrayList<>();
+        List<HouseBloc> blocks = new ArrayList<>();
         int signX = -1;
         int signY = -1;
         int signZ = -1;
@@ -272,39 +274,39 @@ public class MariaDbHouseRepository implements HouseRepository {
 
         for (Record record : result) {
 
-            int tempId = record.get(field(name("house_id")), Integer.class);
+            int tempId = record.get(field(name("house_id"), Integer.class));
 
             if (id != -1 && tempId != id) {
-                blocs = new ArrayList<>();
+                blocks = new ArrayList<>();
             }
 
             id = tempId;
-            price = record.get(field(name("price")), Integer.class);
-            level = record.get(field(name("level")), Integer.class);
+            price = record.get(field("price", Integer.class));
+            level = record.get(field("level", Integer.class));
 
-            int x0 = record.get(field(name("x0")), Integer.class);
-            int y0 = record.get(field(name("y0")), Integer.class);
-            int z0 = record.get(field(name("z0")), Integer.class);
-            int x1 = record.get(field(name("x1")), Integer.class);
-            int y1 = record.get(field(name("y1")), Integer.class);
-            int z1 = record.get(field(name("z1")), Integer.class);
+            int x0 = record.get(field("x0", Integer.class));
+            int y0 = record.get(field("y0", Integer.class));
+            int z0 = record.get(field("z0", Integer.class));
+            int x1 = record.get(field("x1", Integer.class));
+            int y1 = record.get(field("y1", Integer.class));
+            int z1 = record.get(field(("z"), Integer.class));
 
             Location location1 = new Location(x0, y0, z0);
             Location location2 = new Location(x1, y1, z1);
-            blocs.add(new HouseBloc(location1, location2));
+            blocks.add(new HouseBloc(location1, location2));
 
-            signX = record.get(field(name("sign_x")), Integer.class);
-            signY = record.get(field(name("sign_y")), Integer.class);
-            signZ = record.get(field(name("sign_z")), Integer.class);
+            signX = record.get(field("sign_x", Integer.class));
+            signY = record.get(field("sign_y", Integer.class));
+            signZ = record.get(field("sign_z", Integer.class));
 
-            blockFace = record.get(field(name("sign_face")), Character.class);
+            blockFace = record.get(field("sign_face", Character.class));
         }
 
         if (id == -1) {
             return null;
         }
 
-        return new House(id, price, level, blocs, new Location(signX, signY, signZ), blockFace);
+        return new House(id, price, level, blocks, new Location(signX, signY, signZ), blockFace);
     }
 
     @Override
@@ -313,32 +315,32 @@ public class MariaDbHouseRepository implements HouseRepository {
         Connection connection = databaseConnection.getConnection();
 
         boolean present = databaseConnection.getDatabaseContext(connection)
-                .selectFrom(table(name("house"))
-                        .join(table(name("team")))
-                        .on(field(name("house_id")).eq(field(name("team_house_id")))))
-                .where(field(name("sign_x")).eq(location.x)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z)))
-                .or(field(name("sign_x")).eq(location.x - 1)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z)))
-                .or(field(name("sign_x")).eq(location.x + 1)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z)))
-                .or(field(name("sign_x")).eq(location.x)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z - 1)))
-                .or(field(name("sign_x")).eq(location.x)
-                        .and(field(name("sign_y")).eq(location.y))
-                        .and(field(name("sign_z")).eq(location.z + 1)))
+                .selectFrom(table("houses")
+                        .join(table("teams"))
+                        .on(field("house.id").eq(field("house_id"))))
+                .where(field("sign_x").eq(location.x)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z)))
+                .or(field("sign_x").eq(location.x - 1)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z)))
+                .or(field("sign_x").eq(location.x + 1)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z)))
+                .or(field("sign_x").eq(location.x)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z - 1)))
+                .or(field("sign_x").eq(location.x)
+                        .and(field("sign_y").eq(location.y))
+                        .and(field("sign_z").eq(location.z + 1)))
                 .stream()
                 .findAny()
                 .isPresent();
 
         try {
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
         return present;

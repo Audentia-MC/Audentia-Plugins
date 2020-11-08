@@ -1,17 +1,18 @@
 package fr.audentia.players.domain.model.teams;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class ColiseumKill {
 
     public final UUID killer;
     public final UUID killed;
-    public final int timeInSeconds;
+    public final LocalDateTime time;
 
-    public ColiseumKill(UUID killer, UUID killed, int timeInSeconds) {
+    public ColiseumKill(UUID killer, UUID killed, LocalDateTime time) {
         this.killer = killer;
         this.killed = killed;
-        this.timeInSeconds = timeInSeconds;
+        this.time = time;
     }
 
 }

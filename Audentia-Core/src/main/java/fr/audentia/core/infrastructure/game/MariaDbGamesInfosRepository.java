@@ -8,8 +8,13 @@ import org.jooq.Record1;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 
-import static org.jooq.impl.DSL.*;
+import static org.jooq.impl.DSL.field;
+import static org.jooq.impl.DSL.table;
 
 public class MariaDbGamesInfosRepository implements GamesInfosRepository {
 
@@ -22,59 +27,77 @@ public class MariaDbGamesInfosRepository implements GamesInfosRepository {
     @Override
     public Day getDay() {
 
+        GameState gameState = getGameState();
+
+        if (gameState != GameState.PLAYING) {
+            return new Day(-1);
+        }
+
         Connection connection = databaseConnection.getConnection();
         Record1<Object> record = databaseConnection.getDatabaseContext(connection)
-                .select(field(name("day")))
-                .from(table(name("game_infos")))
+                .select(field("start_date"))
+                .from(table("seasons"))
+                .where(field("active").eq(true))
                 .fetchOne();
+
+        LocalDateTime startDate = record.get(field("start_date", Timestamp.class)).toLocalDateTime();
+        int day = (int) ChronoUnit.DAYS.between(startDate, ZonedDateTime.now()) + 1;
 
         try {
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
-        return new Day(record.get(field(name("day")), Integer.class));
+        return new Day(day);
     }
 
     @Override
-    public long getStartTimeInSeconds() {
+    public LocalDateTime getStart() {
+
+        GameState gameState = getGameState();
+
+        if (gameState != GameState.PLAYING) {
+            return LocalDateTime.MIN;
+        }
 
         Connection connection = databaseConnection.getConnection();
         Record1<Object> record = databaseConnection.getDatabaseContext(connection)
-                .select(field(name("start")))
-                .from(table(name("game_infos")))
+                .select(field("start_date"))
+                .from(table("seasons"))
+                .where(field("active").eq(true))
                 .fetchOne();
+
+        LocalDateTime startDate = record.get(field("start_date", Timestamp.class)).toLocalDateTime();
 
         try {
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
-        if (record == null) {
-            return -1;
-        }
-
-        return record.get(field(name("start")), Long.class);
+        return startDate;
     }
 
     @Override
-    public long getGameDurationInSeconds() {
+    public LocalDateTime getEnd() {
 
         Connection connection = databaseConnection.getConnection();
         Record1<Object> record = databaseConnection.getDatabaseContext(connection)
-                .select(field(name("duration")))
-                .from(table(name("game_infos")))
+                .select(field("end_date"))
+                .from(table("seasons"))
+                .where(field("active").eq(true))
                 .fetchOne();
+
+        LocalDateTime endDate = record.get(field("end_date", Timestamp.class)).toLocalDateTime();
 
         try {
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
-        return record.get(field(name("duration")), Long.class);
+        return endDate;
     }
 
     @Override
@@ -82,62 +105,41 @@ public class MariaDbGamesInfosRepository implements GamesInfosRepository {
 
         Connection connection = databaseConnection.getConnection();
         Record1<Object> record = databaseConnection.getDatabaseContext(connection)
-                .select(field(name("state")))
-                .from(table(name("game_infos")))
+                .select(field("state"))
+                .from(table("seasons"))
+                .where(field("active").eq(true))
                 .fetchOne();
 
         try {
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
-        return GameState.fromText(record.get(field(name("state")), String.class));
+        return GameState.fromText(record.get(field("state", String.class)));
     }
 
     @Override
-    public void setDay(long day) {
-
-        Day storedDay = getDay();
-
-        if (storedDay.day == day) {
-            return;
-        }
-
-        Connection connection = databaseConnection.getConnection();
-        databaseConnection.getDatabaseContext(connection)
-                .update(table(name("game_infos")))
-                .set(field(name("day")), day)
-                .where(field(name("day")).eq(storedDay.day))
-                .execute();
-
-        try {
-            connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public void addEntry(long startInSeconds, long durationInSeconds) {
+    public void startSeason(LocalDateTime start, LocalDateTime end) {
 
         Connection connection = databaseConnection.getConnection();
 
         databaseConnection.getDatabaseContext(connection)
-                .truncateTable(table(name("game_infos")))
+                .truncateTable(table("game_infos"))
                 .execute();
 
         databaseConnection.getDatabaseContext(connection)
-                .insertInto(table(name("game_infos")))
-                .columns(field(name("day")), field(name("start")), field(name("duration")), field(name("state")))
-                .values(1, startInSeconds, durationInSeconds, "playing")
+                .update(table("seasons"))
+                .set(field("start_date"), start)
+                .set(field("end_date"), end)
+                .set(field("state"), "playing")
+                .where(field("active").eq(true))
                 .execute();
 
         try {
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
     }
@@ -147,15 +149,15 @@ public class MariaDbGamesInfosRepository implements GamesInfosRepository {
 
         Connection connection = databaseConnection.getConnection();
         databaseConnection.getDatabaseContext(connection)
-                .update(table(name("game_infos")))
-                .set(field(name("state")), gameState.toString())
-                .where(field(name("day")).eq(getDay().day))
+                .update(table("seasons"))
+                .set(field("state"), gameState.toString())
+                .where(field("active").eq(true))
                 .execute();
 
         try {
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
     }

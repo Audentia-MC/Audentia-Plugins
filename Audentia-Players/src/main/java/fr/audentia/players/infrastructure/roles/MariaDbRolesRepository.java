@@ -27,13 +27,13 @@ public class MariaDbRolesRepository implements RolesRepository {
 
         Connection connection = databaseConnection.getConnection();
         Record record = databaseConnection.getDatabaseContext(connection)
-                .select(field("id", Integer.class),
-                        field("color", String.class),
-                        field("name", String.class),
-                        field("echelon", Integer.class))
-                .from(table("users")
-                        .join(table("roles"))
-                        .on("users.role_id = roles.id"))
+                .select(field("roles.id"),
+                        field("color"),
+                        field("roles.name"),
+                        field("echelon"))
+                .from(table("roles")
+                        .join(table("users"))
+                        .on(field("roles.id").eq(field("users.role_id"))))
                 .where(field("minecraft_uuid").eq(playerUUID))
                 .fetchOne();
 
@@ -53,7 +53,7 @@ public class MariaDbRolesRepository implements RolesRepository {
 
         return aRole()
                 .withColor(ColorsUtils.fromHexadecimalToColor(record.get(field("color", String.class))))
-                .withName(record.get(field("name", String.class)))
+                .withName(record.get(field("roles.name", String.class)))
                 .withEchelon(record.get(field("echelon", Integer.class)))
                 .build();
     }
@@ -63,7 +63,7 @@ public class MariaDbRolesRepository implements RolesRepository {
 
         Connection connection = databaseConnection.getConnection();
         databaseConnection.getDatabaseContext(connection)
-                .update(table("players"))
+                .update(table("users"))
                 .set(field("role_id"), roleId)
                 .where(field("minecraft_uuid").eq(playerUUID.toString()))
                 .execute();

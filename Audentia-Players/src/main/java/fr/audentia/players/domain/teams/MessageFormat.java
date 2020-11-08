@@ -22,9 +22,12 @@ public class MessageFormat {
         Role role = rolesRepository.getRole(playerUUID);
         Team team = teamsManager.getTeam(playerUUID);
 
-        Color color = role.color != Color.white ? role.color : team.color;
+        String color = team.color != Color.BLACK && !role.isStaff() ? ColorsUtils.fromColorToHexadecimal(team.color) : ColorsUtils.fromColorToHexadecimal(role.color);
+        String name = role.isStaff() ? role.name : (team.name.length() > 10 ? team.name.substring(0, 7) + "..." : team.name);
 
-        return "&" + ColorsUtils.fromColorToHexadecimal(color) + "[" + role.name + "] %s <white>: %s";
+        String format = String.format("%s[%s]", "&" + color, name);
+
+        return format + " %s <white>: %s";
     }
 
 }

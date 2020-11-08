@@ -9,7 +9,7 @@ public interface TeamsManager {
 
     Team getTeam(UUID playerUUID);
 
-    void saveTeam(Team team);
+    void save(Team team);
 
     void setHouse(UUID playerUUID, int id);
 

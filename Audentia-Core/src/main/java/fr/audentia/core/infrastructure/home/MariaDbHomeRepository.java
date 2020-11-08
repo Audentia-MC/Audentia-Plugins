@@ -3,6 +3,7 @@ package fr.audentia.core.infrastructure.home;
 import fr.audentia.core.domain.home.HomeRepository;
 import fr.audentia.core.domain.model.home.Home;
 import fr.audentia.players.infrastructure.database.DatabaseConnection;
+import org.jooq.Record;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -11,7 +12,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static org.jooq.impl.DSL.*;
+import static org.jooq.impl.DSL.field;
+import static org.jooq.impl.DSL.table;
 
 public class MariaDbHomeRepository implements HomeRepository {
 
@@ -25,32 +27,33 @@ public class MariaDbHomeRepository implements HomeRepository {
     public void saveHome(UUID playerUUID, Home home) {
 
         Connection connection = databaseConnection.getConnection();
+
+        long count = databaseConnection.getDatabaseContext(connection)
+                .selectFrom(table("homes"))
+                .where(field("minecraft_uuid").eq(playerUUID.toString()))
+                .stream()
+                .count();
+
         databaseConnection.getDatabaseContext(connection)
-                .insertInto(table(name("home")))
-                .columns(field(name("player_uuid")),
-                        field(name("home_number")),
-                        field(name("x")),
-                        field(name("y")),
-                        field(name("z")),
-                        field(name("name")))
-                .values(playerUUID.toString(),
-                        home.number,
-                        home.x,
-                        home.y,
-                        home.z,
-                        home.name)
+                .insertInto(table("homes"))
+                .set(field("minecraft_uuid"), playerUUID.toString())
+                .set(field("name"), home.name)
+                .set(field("number"), ++count)
+                .set(field("x"), home.x)
+                .set(field("y"), home.y)
+                .set(field("z"), home.z)
                 .onDuplicateKeyUpdate()
-                .set(field(name("home_number")), home.number)
-                .set(field(name("x")), home.x)
-                .set(field(name("y")), home.y)
-                .set(field(name("z")), home.z)
-                .set(field(name("name")), home.name)
+                .set(field("name"), home.name)
+                .set(field("number"), home.number)
+                .set(field("x"), home.x)
+                .set(field("y"), home.y)
+                .set(field("z"), home.z)
                 .execute();
 
         try {
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
     }
@@ -60,23 +63,18 @@ public class MariaDbHomeRepository implements HomeRepository {
 
         Connection connection = databaseConnection.getConnection();
         Optional<Home> home = databaseConnection.getDatabaseContext(connection)
-                .selectFrom(table(name("home")))
-                .where(field(name("player_uuid")).eq(playerUUID.toString()))
-                .and(field(name("home_number")).eq(homeNumber))
+                .selectFrom(table("homes"))
+                .where(field("minecraft_uuid").eq(playerUUID.toString()))
+                .and(field("number").eq(homeNumber))
                 .fetch()
-                .map(record -> new Home(
-                        record.get(field(name("home_number")), Integer.class),
-                        record.get(field(name("name")), String.class),
-                        record.get(field(name("x")), Integer.class),
-                        record.get(field(name("y")), Integer.class),
-                        record.get(field(name("z")), Integer.class)))
+                .map(this::buildHome)
                 .stream()
                 .findFirst();
 
         try {
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
         return home;
@@ -87,23 +85,18 @@ public class MariaDbHomeRepository implements HomeRepository {
 
         Connection connection = databaseConnection.getConnection();
         Optional<Home> home = databaseConnection.getDatabaseContext(connection)
-                .selectFrom(table(name("home")))
-                .where(field(name("player_uuid")).eq(playerUUID.toString()))
-                .and(field(name("name")).eq(name))
+                .selectFrom(table("homes"))
+                .where(field("minecraft_uuid").eq(playerUUID.toString()))
+                .and(field("name").eq(name))
                 .fetch()
-                .map(record -> new Home(
-                        record.get(field(name("home_number")), Integer.class),
-                        record.get(field(name("name")), String.class),
-                        record.get(field(name("x")), Integer.class),
-                        record.get(field(name("y")), Integer.class),
-                        record.get(field(name("z")), Integer.class)))
+                .map(this::buildHome)
                 .stream()
                 .findFirst();
 
         try {
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
         return home;
@@ -114,26 +107,29 @@ public class MariaDbHomeRepository implements HomeRepository {
 
         Connection connection = databaseConnection.getConnection();
         List<Home> homes = databaseConnection.getDatabaseContext(connection)
-                .selectFrom(table(name("home")))
-                .where(field(name("player_uuid")).eq(playerUUID.toString()))
-                .orderBy(field(name("home_number")))
+                .selectFrom(table("homes"))
+                .where(field("minecraft_uuid").eq(playerUUID.toString()))
+                .orderBy(field("number"))
                 .fetch()
                 .stream()
-                .map(record -> new Home(
-                        record.get(field(name("home_number")), Integer.class),
-                        record.get(field(name("name")), String.class),
-                        record.get(field(name("x")), Integer.class),
-                        record.get(field(name("y")), Integer.class),
-                        record.get(field(name("z")), Integer.class)))
+                .map(this::buildHome)
                 .collect(Collectors.toList());
 
         try {
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
         return homes;
+    }
+
+    private Home buildHome(Record record) {
+        return new Home(record.get(field("number", Integer.class)),
+                record.get(field("name", String.class)),
+                record.get(field("x", Integer.class)),
+                record.get(field("y", Integer.class)),
+                record.get(field("z", Integer.class)));
     }
 
 }

@@ -30,7 +30,7 @@ class BalanceManageTest {
 
     @BeforeEach
     void setUp() {
-        this.balanceManage = new BalanceManage(teamsManager, gamesInfosRepository);
+        this.balanceManage = new BalanceManage(teamsManager, gamesInfosRepository, transfersRepository);
     }
 
     @Test
@@ -87,7 +87,7 @@ class BalanceManageTest {
         String result = balanceManage.addToBalance(any(), 1);
 
         assertThat(result).isEqualTo("<success>Dépôt effectué.");
-        verify(teamsManager, times(1)).saveTeam(expectedTeam);
+        verify(teamsManager, times(1)).save(expectedTeam);
     }
 
     @Test

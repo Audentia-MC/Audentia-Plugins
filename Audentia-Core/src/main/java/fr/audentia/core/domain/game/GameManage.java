@@ -5,6 +5,8 @@ import fr.audentia.players.domain.model.roles.Role;
 import fr.audentia.players.domain.teams.RolesRepository;
 import fr.audentia.players.domain.teams.TeamsManager;
 
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,9 +58,8 @@ public class GameManage {
             inventoryUtilities.clearInventory(player);
         }
 
-        long startInSeconds = System.currentTimeMillis() / 1000;
-        int durationInSeconds = Integer.parseInt(days) * 24 * 60 * 60;
-        gamesInfosRepository.addEntry(startInSeconds, durationInSeconds);
+        LocalDateTime start = ZonedDateTime.now().toLocalDateTime();
+        gamesInfosRepository.startSeason(start, start.plusDays(Long.parseLong(days)));
         return "<success>Partie lancée.";
     }
 
@@ -70,10 +71,7 @@ public class GameManage {
             return;
         }
 
-        long startTimeInSeconds = gamesInfosRepository.getStartTimeInSeconds();
-        long gameDurationInSeconds = gamesInfosRepository.getGameDurationInSeconds();
-
-        if (System.currentTimeMillis() / 1000 < startTimeInSeconds + gameDurationInSeconds) {
+        if (ZonedDateTime.now().toLocalDateTime().isBefore(gamesInfosRepository.getEnd())) {
             return;
         }
 

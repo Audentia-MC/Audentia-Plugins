@@ -14,7 +14,8 @@ import fr.audentia.players.domain.teams.RolesRepository;
 import fr.audentia.players.domain.teams.TeamsManager;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PlayerDamage {
@@ -27,8 +28,9 @@ public class PlayerDamage {
     private final TimeProvider timeProvider;
     private final TimeProtectionAtStartProvider timeProtectionAtStartProvider;
     private final CityInfosRepository cityInfosRepository;
+    private final ColiseumKillsRepository coliseumKillsRepository;
 
-    public PlayerDamage(TeamsManager teamsManager, RolesRepository rolesRepository, BalanceManage balanceManage, ColiseumLocationRepository coliseumLocationRepository, GamesInfosRepository gamesInfosRepository, TimeProvider timeProvider, TimeProtectionAtStartProvider timeProtectionAtStartProvider, CityInfosRepository cityInfosRepository) {
+    public PlayerDamage(TeamsManager teamsManager, RolesRepository rolesRepository, BalanceManage balanceManage, ColiseumLocationRepository coliseumLocationRepository, GamesInfosRepository gamesInfosRepository, TimeProvider timeProvider, TimeProtectionAtStartProvider timeProtectionAtStartProvider, CityInfosRepository cityInfosRepository, ColiseumKillsRepository coliseumKillsRepository) {
         this.teamsManager = teamsManager;
         this.rolesRepository = rolesRepository;
         this.balanceManage = balanceManage;
@@ -37,6 +39,7 @@ public class PlayerDamage {
         this.timeProvider = timeProvider;
         this.timeProtectionAtStartProvider = timeProtectionAtStartProvider;
         this.cityInfosRepository = cityInfosRepository;
+        this.coliseumKillsRepository = coliseumKillsRepository;
     }
 
     public boolean canBeDamaged(UUID playerUUID) {
@@ -58,15 +61,14 @@ public class PlayerDamage {
         Day day = gamesInfosRepository.getDay();
 
         if (!team.coliseumKills.containsKey(day)) {
-            team.coliseumKills.put(day, new ColiseumKills(new ArrayList<>()));
+            team.coliseumKills.put(day, new ColiseumKills(0));
         }
 
-        int kills = team.coliseumKills.get(day).kills.size();
+        int kills = team.coliseumKills.get(day).kills;
 
         if (kills < 10 && location.distanceSquared(coliseumLocation) <= Math.pow(coliseumSize, 2)) {
             percentage = 0.05f;
-            team.coliseumKills.get(day).kills.add(new ColiseumKill(damagerUUID, damagedUUID, (int) (System.currentTimeMillis() / 100)));
-            teamsManager.saveTeam(team);
+            coliseumKillsRepository.registerKill(team.color, new ColiseumKill(damagerUUID, damagedUUID, LocalDateTime.now()));
         }
 
         double toMove = Math.ceil(Integer.parseInt(damagedBalance) * percentage);
@@ -77,14 +79,14 @@ public class PlayerDamage {
 
     public boolean canBeDamaged(UUID damagedUUID, UUID damagerUUID, Location location) {
 
-        if (gamesInfosRepository.getStartTimeInSeconds() == -1) {
+        if (gamesInfosRepository.getStart().isBefore(LocalDateTime.now())) {
             return false;
         }
 
-        long actualTimeInGame = timeProvider.getActualTimeInSeconds() - gamesInfosRepository.getStartTimeInSeconds();
+        Duration actualTimeInGame = Duration.between(gamesInfosRepository.getStart(), timeProvider.getActualTime());
         int minutesOfProtection = timeProtectionAtStartProvider.getMinutesOfProtection();
 
-        if (actualTimeInGame / 60 < minutesOfProtection) {
+        if (actualTimeInGame.toMinutes() < minutesOfProtection) {
             return false;
         }
 

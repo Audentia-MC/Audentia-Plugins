@@ -1,7 +1,6 @@
 package fr.audentia.core.domain.players;
 
 import fr.audentia.core.domain.game.PlayerGameModeManage;
-import fr.audentia.players.domain.PlayersRepository;
 import fr.audentia.players.domain.model.roles.Role;
 import fr.audentia.players.domain.teams.RolesRepository;
 
@@ -11,24 +10,26 @@ public class JoinActions {
 
     private final RolesRepository rolesRepository;
     private final PlayerGameModeManage playerGameModeManage;
-    private final PlayersRepository playersRepository;
 
-    public JoinActions(RolesRepository rolesRepository, PlayerGameModeManage playerGameModeManage, PlayersRepository playersRepository) {
+    public JoinActions(RolesRepository rolesRepository, PlayerGameModeManage playerGameModeManage) {
         this.rolesRepository = rolesRepository;
         this.playerGameModeManage = playerGameModeManage;
-        this.playersRepository = playersRepository;
     }
 
-    public void onJoin(UUID playerUUID) {
+    public boolean onJoin(UUID playerUUID) {
 
         Role role = rolesRepository.getRole(playerUUID);
 
-        if (role.isStaff()) {
-            return;
+        if (!role.isPlayer()) {
+            return false;
         }
 
-        playersRepository.addPlayerIfNotRegistered(playerUUID);
+        if (role.isStaff()) {
+            return true;
+        }
+
         playerGameModeManage.changeGameModeToSurvival(playerUUID);
+        return true;
     }
 
 }

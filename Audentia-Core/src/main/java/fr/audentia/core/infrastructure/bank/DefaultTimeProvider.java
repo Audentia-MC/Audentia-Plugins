@@ -12,8 +12,8 @@ public class DefaultTimeProvider implements TimeProvider {
     }
 
     @Override
-    public long getActualTimeInSeconds() { // TO DO : test if seconds matches with france
-        return Instant.now().getEpochSecond();
+    public LocalDateTime getActualTime() { // TO DO : test if seconds matches with france
+        return ZonedDateTime.now().toLocalDateTime();
     }
 
 }

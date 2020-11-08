@@ -1,23 +1,22 @@
 package fr.audentia.core.domain.balance;
 
-import fr.audentia.core.domain.game.GamesInfosRepository;
-import fr.audentia.players.domain.model.Day;
+import fr.audentia.core.domain.model.balance.BankTransfer;
 import fr.audentia.players.domain.model.balance.Balance;
-import fr.audentia.players.domain.model.teams.DayTransfers;
 import fr.audentia.players.domain.model.teams.Team;
 import fr.audentia.players.domain.teams.TeamsManager;
 import fr.audentia.players.utils.ColorsUtils;
 
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public class BalanceManage {
 
     private final TeamsManager teamsManager;
-    private final GamesInfosRepository gamesInfosRepository;
+    private final TransfersRepository transfersRepository;
 
-    public BalanceManage(TeamsManager teamsManager, GamesInfosRepository gamesInfosRepository) {
+    public BalanceManage(TeamsManager teamsManager, TransfersRepository transfersRepository) {
         this.teamsManager = teamsManager;
-        this.gamesInfosRepository = gamesInfosRepository;
+        this.transfersRepository = transfersRepository;
     }
 
     public String getBalanceWithMessage(UUID playerUUID) {
@@ -40,7 +39,7 @@ public class BalanceManage {
         return team.balance.toString();
     }
 
-    public String addToBalance(UUID playerUUID, int count) {
+    public String addToBalance(UUID playerUUID, int amount) {
 
         Team team = teamsManager.getTeam(playerUUID);
         Balance balance = team.balance;
@@ -49,17 +48,10 @@ public class BalanceManage {
             return "<error>Votre groupe ne peut pas déposer d'émeraude dans la banque.";
         }
 
-        Day day = gamesInfosRepository.getDay();
+        transfersRepository.registerTransfer(team.color, new BankTransfer(ZonedDateTime.now().toLocalDateTime(), amount));
 
-        if (!team.transfers.containsKey(day)) {
-            team.transfers.put(day, new DayTransfers(0));
-        }
-
-        DayTransfers add = team.transfers.get(day).add(count);
-        team.transfers.put(day, add);
-
-        team = new Team(team.color, balance.add(count), team.transfers, team.coliseumKills, team.name, team.houseId);
-        teamsManager.saveTeam(team);
+        team = new Team(team.color, balance.add(amount), team.transfers, team.coliseumKills, team.name, team.houseId);
+        teamsManager.save(team);
         return "<success>Dépôt effectué.";
     }
 
@@ -73,7 +65,7 @@ public class BalanceManage {
         }
 
         team = new Team(team.color, balance.remove(count), team.transfers, team.coliseumKills, team.name, team.houseId);
-        teamsManager.saveTeam(team);
+        teamsManager.save(team);
         return "<success>Retrait effectué.";
     }
 
@@ -87,7 +79,7 @@ public class BalanceManage {
         }
 
         team = new Team(team.color, balance.add(count), team.transfers, team.coliseumKills, team.name, team.houseId);
-        teamsManager.saveTeam(team);
+        teamsManager.save(team);
     }
 
     public void forceRemoveFromBalance(UUID playerUUID, int count) {
@@ -100,7 +92,7 @@ public class BalanceManage {
         }
 
         team = new Team(team.color, balance.remove(count), team.transfers, team.coliseumKills, team.name, team.houseId);
-        teamsManager.saveTeam(team);
+        teamsManager.save(team);
     }
 
 }

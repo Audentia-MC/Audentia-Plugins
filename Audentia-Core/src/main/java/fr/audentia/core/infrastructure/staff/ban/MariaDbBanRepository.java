@@ -21,16 +21,35 @@ public class MariaDbBanRepository implements BanRepository {
     public void ban(UUID staffUUID, UUID bannedUUID) {
 
         Connection connection = databaseConnection.getConnection();
+
+        int staffID = databaseConnection.getDatabaseContext(connection)
+                .select(field("id"))
+                .from(table("users"))
+                .where(field("minecraft_uuid").eq(staffUUID.toString()))
+                .stream()
+                .findAny()
+                .map(record -> record.get(field("id", Integer.class)))
+                .orElse(-1);
+
+        int playerID = databaseConnection.getDatabaseContext(connection)
+                .select(field("id"))
+                .from(table("users"))
+                .where(field("minecraft_uuid").eq(bannedUUID.toString()))
+                .stream()
+                .findAny()
+                .map(record -> record.get(field("id", Integer.class)))
+                .orElse(-1);
+
         databaseConnection.getDatabaseContext(connection)
-                .insertInto(table(name("ban")))
-                .columns(field(name("player_uuid")), field(name("staff_uuid")))
-                .values(bannedUUID.toString(), staffUUID.toString())
+                .insertInto(table(name("logs")))
+                .set(field("source_user_id"), staffID)
+                .set(field("target_user_id"), playerID)
                 .execute();
 
         try {
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
     }
