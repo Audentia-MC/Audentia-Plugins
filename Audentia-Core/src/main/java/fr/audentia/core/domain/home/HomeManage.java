@@ -18,31 +18,14 @@ public class HomeManage {
         this.playerTeleporter = playerTeleporter;
     }
 
-    public String registerTeleport(UUID playerUUID) {
-        return registerTeleport(playerUUID, 1);
-    }
-
-    public String registerTeleport(UUID playerUUID, int homeNumber) {
-
-        Optional<Home> optionalHomeLocation = homeRepository.getHome(playerUUID, homeNumber);
-        String result = "<error>Votre home n°" + homeNumber + " n'est pas défini.";
-
-        if (optionalHomeLocation.isPresent()) {
-            result = "<success>Téléportation dans :";
-            teleportRepository.addPlayer(playerUUID, homeNumber);
-        }
-
-        return result;
-    }
-
     public String registerTeleport(UUID playerUUID, String name) {
 
         Optional<Home> optionalHomeLocation = homeRepository.getHome(playerUUID, name);
-        String result = "<error>Votre home n°" + name + " n'est pas défini.";
+        String result = "<error>Votre home \"" + name + "\" n'est pas défini.";
 
         if (optionalHomeLocation.isPresent()) {
             result = "<success>Téléportation dans :";
-            teleportRepository.addPlayer(playerUUID, optionalHomeLocation.get().number);
+            teleportRepository.addPlayer(playerUUID, optionalHomeLocation.get().name);
         }
 
         return result;
@@ -56,9 +39,9 @@ public class HomeManage {
             return "<error>Une erreur s'est produite.";
         }
 
-        int homeNumber = teleport.home;
-        Optional<Home> optionalHomeLocation = homeRepository.getHome(playerUUID, homeNumber);
-        String result = "<error>Votre home n°" + homeNumber + " n'est pas défini.";
+        String homeName = teleport.name;
+        Optional<Home> optionalHomeLocation = homeRepository.getHome(playerUUID, homeName);
+        String result = "<error>Votre home \"" + homeName + "\" n'est pas défini.";
 
         if (optionalHomeLocation.isPresent()) {
             result = "<success>Téléportation réussie.";

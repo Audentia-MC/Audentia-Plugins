@@ -30,8 +30,6 @@ public class HomesProvide {
         for (Home home : homes) {
 
             message.append("\n")
-                    .append(home.number)
-                    .append(", ")
                     .append(home.name)
                     .append(", ")
                     .append("- x: ")

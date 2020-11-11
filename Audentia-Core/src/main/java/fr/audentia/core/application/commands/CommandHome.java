@@ -27,13 +27,10 @@ public class CommandHome implements CommandExecutor {
         String message;
 
         if (args.length == 0) {
-            message = homeManage.registerTeleport(player.getUniqueId(), 1);
-        } else if (args[0].matches("[0-9]+")) {
-            message = homeManage.registerTeleport(player.getUniqueId(), Integer.parseInt(args[0]));
-        } else {
-            message = homeManage.registerTeleport(player.getUniqueId(), args[0]);
+            player.sendMessage(ChatUtils.formatWithPrefix("<error>/home <nom>"));
         }
 
+        message = homeManage.registerTeleport(player.getUniqueId(), args[0]);
         player.sendMessage(ChatUtils.formatWithPrefix(message));
         return true;
     }

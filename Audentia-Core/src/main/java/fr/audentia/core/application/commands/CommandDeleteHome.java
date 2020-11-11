@@ -1,19 +1,17 @@
 package fr.audentia.core.application.commands;
 
 import fr.audentia.core.domain.home.SetHomeManage;
-import fr.audentia.core.domain.model.home.Home;
 import fr.audentia.players.utils.ChatUtils;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CommandSetHome implements CommandExecutor {
+public class CommandDeleteHome implements CommandExecutor {
 
     private final SetHomeManage setHomeManage;
 
-    public CommandSetHome(SetHomeManage setHomeManage) {
+    public CommandDeleteHome(SetHomeManage setHomeManage) {
         this.setHomeManage = setHomeManage;
     }
 
@@ -26,17 +24,15 @@ public class CommandSetHome implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        if (args.length < 1) {
-            player.sendMessage(ChatUtils.formatWithPrefix("<error>/sethome <nom>"));
+        if (args.length == 0) {
+            player.sendMessage(ChatUtils.formatWithPrefix("<error>/deleteHome <nom>"));
             return true;
         }
 
-        Location location = player.getLocation();
-        Home home = new Home(args[1], location.getBlockX(), location.getBlockY(), location.getBlockZ());
-
-        String message = setHomeManage.saveHome(player.getUniqueId(), home);
-        player.sendMessage(ChatUtils.formatWithPrefix(message));
-        return true;
+        String name = args[0];
+        String result = setHomeManage.deleteHome(player.getUniqueId(), name);
+        player.sendMessage(ChatUtils.formatWithPrefix(result));
+        return false;
     }
 
 }

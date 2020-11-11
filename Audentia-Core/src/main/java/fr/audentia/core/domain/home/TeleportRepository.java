@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface TeleportRepository {
 
-    void addPlayer(UUID playerUUID, int home);
+    void addPlayer(UUID playerUUID, String name);
 
     void removePlayer(UUID playerUUID);
 

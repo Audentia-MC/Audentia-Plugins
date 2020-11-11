@@ -10,8 +10,8 @@ public class DefaultTeleportRepository implements TeleportRepository {
     private final Map<UUID, Teleport> teleportations = new HashMap<>();
     
     @Override
-    public void addPlayer(UUID playerUUID, int home) {
-        this.teleportations.put(playerUUID, new Teleport(System.currentTimeMillis() / 1000, home));
+    public void addPlayer(UUID playerUUID, String name) {
+        this.teleportations.put(playerUUID, new Teleport(System.currentTimeMillis() / 1000, name));
     }
 
     @Override
@@ -23,7 +23,7 @@ public class DefaultTeleportRepository implements TeleportRepository {
     public Teleport getTeleport(UUID playerUUID) {
 
         if (!this.teleportations.containsKey(playerUUID)) {
-            return new Teleport(-1, 0);
+            return new Teleport(-1, "");
         }
 
         return this.teleportations.get(playerUUID);

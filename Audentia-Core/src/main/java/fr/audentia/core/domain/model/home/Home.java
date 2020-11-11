@@ -4,14 +4,12 @@ import java.util.Objects;
 
 public class Home {
 
-    public final int number;
     public final String name;
     public final int x;
     public final int y;
     public final int z;
 
-    public Home(int number, String name, int x, int y, int z) {
-        this.number = number;
+    public Home(String name, int x, int y, int z) {
         this.name = name;
         this.x = x;
         this.y = y;
