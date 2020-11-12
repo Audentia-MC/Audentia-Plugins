@@ -32,7 +32,7 @@ public class CommandSetHome implements CommandExecutor {
         }
 
         Location location = player.getLocation();
-        Home home = new Home(args[1], location.getBlockX(), location.getBlockY(), location.getBlockZ());
+        Home home = new Home(args[0], location.getBlockX(), location.getBlockY(), location.getBlockZ());
 
         String message = setHomeManage.saveHome(player.getUniqueId(), home);
         player.sendMessage(ChatUtils.formatWithPrefix(message));

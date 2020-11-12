@@ -18,6 +18,8 @@ commands:
     description: display list of homes
   sethome:
     description: set a home
+  deletehome:
+    description: delete a home
   bank:
     description: display open solts of bank
   staff:

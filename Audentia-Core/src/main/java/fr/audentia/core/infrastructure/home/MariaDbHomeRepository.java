@@ -79,7 +79,7 @@ public class MariaDbHomeRepository implements HomeRepository {
         databaseConnection.getDatabaseContext(connection)
                 .deleteFrom(table("homes"))
                 .where(field("minecraft_uuid").eq(playerUUID.toString())
-                        .and(field("name").eq("name")))
+                        .and(field("name").eq(name)))
                 .execute();
 
         try {
@@ -96,7 +96,6 @@ public class MariaDbHomeRepository implements HomeRepository {
         List<Home> homes = databaseConnection.getDatabaseContext(connection)
                 .selectFrom(table("homes"))
                 .where(field("minecraft_uuid").eq(playerUUID.toString()))
-                .orderBy(field("number"))
                 .fetch()
                 .stream()
                 .map(this::buildHome)

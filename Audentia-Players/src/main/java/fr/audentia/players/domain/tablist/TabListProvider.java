@@ -28,7 +28,7 @@ public class TabListProvider {
         Role role = rolesRepository.getRole(playerUUID);
         Team team = teamsManager.getTeam(playerUUID);
 
-        Color color = role.color != Color.white ? role.color : team.color;
+        Color color = team.color != Color.BLACK && !role.isStaff() ? team.color : role.color;
 
         String number = String.valueOf(role.echelon);
         StringBuilder toAdd = new StringBuilder();

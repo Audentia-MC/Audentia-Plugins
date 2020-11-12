@@ -557,4 +557,5 @@ public class FastBoard {
             return VERSION_TYPE.ordinal() >= ordinal();
         }
     }
+
 }

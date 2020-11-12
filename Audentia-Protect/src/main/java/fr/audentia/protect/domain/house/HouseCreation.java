@@ -99,7 +99,6 @@ public class HouseCreation {
         House house = new House(creation);
         houseRepository.registerNewHouse(house);
         houseCreationRepository.stopCreation(playerUUID);
-//        signsManage.forceReloadAllSigns();
 
         return "<success>Création d'une nouvelle maison effectuée avec succès. /reloadsigns pour charger le panneau.";
     }

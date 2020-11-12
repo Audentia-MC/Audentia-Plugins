@@ -25,7 +25,7 @@ public class CommandDeleteHome implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            player.sendMessage(ChatUtils.formatWithPrefix("<error>/deleteHome <nom>"));
+            player.sendMessage(ChatUtils.formatWithPrefix("<error>/deletehome <nom>"));
             return true;
         }
 

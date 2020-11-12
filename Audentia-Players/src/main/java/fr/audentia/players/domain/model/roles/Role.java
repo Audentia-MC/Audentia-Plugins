@@ -19,7 +19,7 @@ public class Role {
     }
 
     public boolean isPlayer() {
-        return echelon == 1;
+        return echelon >= 1;
     }
 
     public int getHomeCount() {

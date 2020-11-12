@@ -1,11 +1,9 @@
 package fr.audentia.core.main;
 
 import fr.audentia.players.main.AudentiaPlayers;
-import fr.audentia.players.main.AudentiaPlayersManagersProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.util.logging.Logger;
 
 public class AudentiaCore extends JavaPlugin {

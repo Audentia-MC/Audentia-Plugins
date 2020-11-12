@@ -47,7 +47,7 @@ public class MoveManage {
         }
 
         long passedMinutes = Duration.between(gamesInfosRepository.getStart(), timeProvider.getActualTime()).toMinutes();
-        return gameStateManage.isPlaying() && (role.isVipPlayer() || passedMinutes > 15);
+        return role.isVipPlayer() || passedMinutes > 15;
     }
 
 }
