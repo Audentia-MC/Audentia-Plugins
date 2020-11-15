@@ -17,11 +17,11 @@ public class GradeChangeAction {
 
         Role role = rolesRepository.getRole(staffUUID);
 
-        if (role.hasModerationPermission()) {
+        if (!role.hasModerationPermission()) {
             return "<error>Vous ne pouvez pas gérer le rôle d'une joueur.";
         }
 
-        if (gradeNumber < 6 && role.hasModerationPermission()) {
+        if (gradeNumber < 6 && !role.hasModerationPermission()) {
             return "<error>Vous ne pouvez pas changer le rôle d'un membre du staff'.";
         }
 

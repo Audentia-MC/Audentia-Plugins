@@ -26,7 +26,7 @@ public class GameStateManage {
 
         Role role = rolesRepository.getRole(playerUUID);
 
-        if (role.hasMaxPermission()) {
+        if (!role.hasMaxPermission()) {
             return "<error>Vous n'avez pas le pouvoir de mettre la partie en pause.";
         }
 
@@ -38,7 +38,7 @@ public class GameStateManage {
 
         Role role = rolesRepository.getRole(playerUUID);
 
-        if (role.hasMaxPermission()) {
+        if (!role.hasMaxPermission()) {
             return "<error>Vous n'avez pas le pouvoir de relancer la partie.";
         }
 

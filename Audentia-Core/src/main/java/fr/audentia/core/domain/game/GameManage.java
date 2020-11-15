@@ -34,7 +34,7 @@ public class GameManage {
 
         Role role = rolesRepository.getRole(playerUUID);
 
-        if (role.hasModerationPermission()) {
+        if (!role.hasMaxPermission()) {
             return "<error>Vous n'avez pas le pouvoir de lancer une partie.";
         }
 

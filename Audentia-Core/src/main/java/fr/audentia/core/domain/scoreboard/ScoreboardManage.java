@@ -64,7 +64,8 @@ public class ScoreboardManage {
     private void addTimedInfos(ScoreboardBuilder builder) {
         LocalDateTime start = gamesInfosRepository.getStart();
 
-        if (start.isBefore(LocalDateTime.now())) {
+        LocalDateTime now = ZonedDateTime.now().toLocalDateTime();
+        if (start.isBefore(now.minusYears(20)) || start.isAfter(now)) {
             return;
         }
 

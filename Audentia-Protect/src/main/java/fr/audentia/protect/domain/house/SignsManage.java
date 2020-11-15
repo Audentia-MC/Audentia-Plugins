@@ -21,7 +21,7 @@ public class SignsManage {
 
         Role role = rolesRepository.getRole(playerUUID);
 
-        if (role.hasModerationPermission()) {
+        if (!role.hasModerationPermission()) {
             return "<error>Vous ne pouvez pas exécuter cette commande !";
         }
 

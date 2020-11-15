@@ -39,7 +39,7 @@ public class Role {
     }
 
     public boolean isVipPlayer() {
-        return echelon >= 400;
+        return echelon >= 300;
     }
 
     public boolean hasHousePermission(int houseLevel) {

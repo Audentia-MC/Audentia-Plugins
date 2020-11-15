@@ -68,7 +68,7 @@ public class NpcSpawn {
 
         Role role = rolesRepository.getRole(playerUUID);
 
-        if (role.hasModerationPermission()) {
+        if (!role.hasModerationPermission()) {
             return "<error>Vous ne pouvez pas effectuer cette action.";
         }
 

@@ -19,7 +19,7 @@ public class GradeInventoryAction {
 
         Role role = rolesRepository.getRole(staffUUID);
 
-        if (role.hasModerationPermission()) {
+        if (!role.hasModerationPermission()) {
             return "<error>Vous ne pouvez pas gérer le rôle d'une joueur.";
         }
 
