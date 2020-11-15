@@ -11,10 +11,10 @@ public interface TeamsManager {
 
     void save(Team team);
 
-    void setHouse(UUID playerUUID, int id);
+    void setHouse(UUID playerUUID, long id);
 
     void resetTeam(UUID playerUUID);
 
-    Optional<Team> getTeamByHouseId(int houseId);
+    Optional<Team> getTeamByHouseId(long houseId);
 
 }

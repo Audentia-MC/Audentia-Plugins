@@ -6,14 +6,14 @@ import java.util.List;
 
 public class House {
 
-    public final int id;
+    public final long id;
     public final int price;
     public final int level;
     public final List<HouseBloc> blocs;
     public final Location signLocation;
     public final char signFace;
 
-    public House(int id, int price, int level, List<HouseBloc> blocs, Location signLocation, char signFace) {
+    public House(long id, int price, int level, List<HouseBloc> blocs, Location signLocation, char signFace) {
         this.id = id;
         this.price = price;
         this.level = level;

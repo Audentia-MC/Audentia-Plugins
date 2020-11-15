@@ -36,7 +36,7 @@ public class ListenerSign implements Listener {
 
         Sign sign = (Sign) block.getState();
 
-        if (!sign.getLine(0).contains("vendre")) {
+        if (!sign.getLine(1).contains("vendre")) {
             return;
         }
 
@@ -68,7 +68,7 @@ public class ListenerSign implements Listener {
 
         Sign sign = (Sign) block.getState();
 
-        if (!sign.getLine(0).contains("vendre")) {
+        if (!sign.getLine(1).contains("vendre")) {
             return;
         }
 
@@ -86,10 +86,6 @@ public class ListenerSign implements Listener {
         }
 
         String result = houseAction.buyHouse(modelLocation, player.getUniqueId());
-
-        if (result.isEmpty()) {
-            return;
-        }
 
         player.sendMessage(ChatUtils.formatWithPrefix(result));
         event.setCancelled(true);

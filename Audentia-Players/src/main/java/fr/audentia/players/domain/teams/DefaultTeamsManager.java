@@ -38,7 +38,7 @@ public class DefaultTeamsManager implements TeamsManager {
     }
 
     @Override
-    public void setHouse(UUID playerUUID, int id) {
+    public void setHouse(UUID playerUUID, long id) {
 
         Team team = getTeam(playerUUID);
         Team newTeam = new Team(team.color, team.balance, team.transfers, team.coliseumKills, team.name, id);
@@ -56,7 +56,7 @@ public class DefaultTeamsManager implements TeamsManager {
     }
 
     @Override
-    public Optional<Team> getTeamByHouseId(int houseId) {
+    public Optional<Team> getTeamByHouseId(long houseId) {
 
         return teamsRepository.getByHouseId(houseId);
     }

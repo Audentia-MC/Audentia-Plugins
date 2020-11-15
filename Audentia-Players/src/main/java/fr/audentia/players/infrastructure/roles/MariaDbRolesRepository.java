@@ -31,9 +31,9 @@ public class MariaDbRolesRepository implements RolesRepository {
                         field("color"),
                         field("roles.name"),
                         field("echelon"))
-                .from(table("roles")
+                .from(table("roles"))
                         .join(table("users"))
-                        .on(field("roles.id").eq(field("users.role_id"))))
+                        .on(field("roles.id").eq(field("users.role_id")))
                 .where(field("minecraft_uuid").eq(playerUUID))
                 .fetchOne();
 

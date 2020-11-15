@@ -5,8 +5,7 @@ import fr.audentia.protect.domain.house.HouseRepository;
 import fr.audentia.protect.domain.model.House;
 import fr.audentia.protect.domain.model.HouseBloc;
 import fr.audentia.protect.domain.model.Location;
-import org.jooq.Record;
-import org.jooq.Result;
+import org.jooq.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -58,14 +57,27 @@ public class MariaDbHouseRepository implements HouseRepository {
     }
 
     @Override
-    public House getHouse(int houseId) {
+    public House getHouse(long houseId) {
 
         Connection connection = databaseConnection.getConnection();
-        Result<Record> record = databaseConnection.getDatabaseContext(connection)
-                .selectFrom(table("houses")
+        Result<Record13<Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object>> record = databaseConnection.getDatabaseContext(connection)
+                .select(field("level"),
+                        field("price"),
+                        field("sign_x"),
+                        field("sign_y"),
+                        field("sign_z"),
+                        field("sign_face"),
+                        field("house_id"),
+                        field("x1"),
+                        field("y1"),
+                        field("z1"),
+                        field("x2"),
+                        field("y2"),
+                        field("z2"))
+                .from(table("houses"))
                         .leftJoin(table("houses_blocks"))
-                        .on(field("houses.id").eq(field("house_id")))
-                        .where(field("houses.id").eq(1)))
+                        .on(field("houses.id").eq(field("houses_blocks.house_id")))
+                        .where(field("houses.id").eq(houseId))
                 .fetch();
 
         try {
@@ -81,9 +93,23 @@ public class MariaDbHouseRepository implements HouseRepository {
     public House getHouse(Location location) {
 
         Connection connection = databaseConnection.getConnection();
-        Result<Record> record = databaseConnection.getDatabaseContext(connection)
-                .selectFrom(table("houses").leftJoin(table("houses_blocks"))
-                        .on(field("houses.id").eq(field("house_id"))))
+        Result<Record13<Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object>> record = databaseConnection.getDatabaseContext(connection)
+                .select(field("level"),
+                        field("price"),
+                        field("sign_x"),
+                        field("sign_y"),
+                        field("sign_z"),
+                        field("sign_face"),
+                        field("house_id"),
+                        field("x1"),
+                        field("y1"),
+                        field("z1"),
+                        field("x2"),
+                        field("y2"),
+                        field("z2"))
+                .from(table("houses"))
+                .leftJoin(table("houses_blocks"))
+                        .on(field("houses.id").eq(field("houses_blocks.house_id")))
                 .where(field("sign_x").eq(location.x)
                         .and(field("sign_y").eq(location.y))
                         .and(field("sign_z").eq(location.z)))
@@ -114,9 +140,23 @@ public class MariaDbHouseRepository implements HouseRepository {
     public List<House> getAllHouses() {
 
         Connection connection = databaseConnection.getConnection();
-        Result<Record> result = databaseConnection.getDatabaseContext(connection)
-                .selectFrom(table("houses").leftJoin(table("houses_blocks"))
-                        .on(field("houses.id").eq(field("house_id"))))
+        Result<Record13<Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object>> result = databaseConnection.getDatabaseContext(connection)
+                .select(field("level"),
+                        field("price"),
+                        field("sign_x"),
+                        field("sign_y"),
+                        field("sign_z"),
+                        field("sign_face"),
+                        field("house_id"),
+                        field("x1"),
+                        field("y1"),
+                        field("z1"),
+                        field("x2"),
+                        field("y2"),
+                        field("z2"))
+                .from(table("houses"))
+                .leftJoin(table("houses_blocks"))
+                        .on(field("houses.id").eq(field("houses_blocks.house_id")))
                 .fetch();
 
         try {
@@ -131,7 +171,7 @@ public class MariaDbHouseRepository implements HouseRepository {
 
         List<House> houses = new ArrayList<>();
 
-        int id = -1;
+        long id = -1;
         int price = -1;
         int level = -1;
         List<HouseBloc> blocks = new ArrayList<>();
@@ -142,7 +182,7 @@ public class MariaDbHouseRepository implements HouseRepository {
 
         for (Record record : result) {
 
-            int tempId = record.get(field(name("house_id"), Integer.class));
+            long tempId = record.get(field(name("house_id"), Long.class));
 
             if (id != -1 && tempId != id) {
                 houses.add(new House(id, price, level, blocks, new Location(signX, signY, signZ), blockFace));
@@ -153,12 +193,12 @@ public class MariaDbHouseRepository implements HouseRepository {
             price = record.get(field("price", Integer.class));
             level = record.get(field("level", Integer.class));
 
-            int x0 = record.get(field("x0", Integer.class));
-            int y0 = record.get(field("y0", Integer.class));
-            int z0 = record.get(field("z0", Integer.class));
-            int x1 = record.get(field("x1", Integer.class));
-            int y1 = record.get(field("y1", Integer.class));
-            int z1 = record.get(field("z1", Integer.class));
+            int x0 = record.get(field("x1", Integer.class));
+            int y0 = record.get(field("y1", Integer.class));
+            int z0 = record.get(field("z1", Integer.class));
+            int x1 = record.get(field("x2", Integer.class));
+            int y1 = record.get(field("y2", Integer.class));
+            int z1 = record.get(field("z2", Integer.class));
 
             Location location1 = new Location(x0, y0, z0);
             Location location2 = new Location(x1, y1, z1);
@@ -168,13 +208,10 @@ public class MariaDbHouseRepository implements HouseRepository {
             signY = record.get(field("sign_y", Integer.class));
             signZ = record.get(field("sign_z", Integer.class));
 
-            blockFace = record.get(field("sign_face"), Character.class);
-
+            blockFace = record.get(field("sign_face", String.class)).charAt(0);
         }
 
-        House house = new House(id, price, level, blocks, new Location(signX, signY, signZ), blockFace);
-
-        if (house.id == -1) {
+        if (id != -1) {
             houses.add(new House(id, price, level, blocks, new Location(signX, signY, signZ), blockFace));
         }
 
@@ -182,11 +219,11 @@ public class MariaDbHouseRepository implements HouseRepository {
     }
 
     @Override
-    public int getHouseId(Location location) {
+    public long getHouseId(Location location) {
 
         Connection connection = databaseConnection.getConnection();
-        int houseId = databaseConnection.getDatabaseContext(connection)
-                .select(field("house_id"))
+        long houseId = databaseConnection.getDatabaseContext(connection)
+                .select(field("id"))
                 .from(table("houses"))
                 .where(field("sign_x").eq(location.x)
                         .and(field("sign_y").eq(location.y))
@@ -205,8 +242,8 @@ public class MariaDbHouseRepository implements HouseRepository {
                         .and(field("sign_z").eq(location.z + 1)))
                 .stream()
                 .findAny()
-                .map(record -> record.get(field("house_id", Integer.class)))
-                .orElse(-1);
+                .map(record -> record.get(field("id", Long.class)))
+                .orElse(-1L);
 
 
         try {
@@ -239,12 +276,12 @@ public class MariaDbHouseRepository implements HouseRepository {
             databaseConnection.getDatabaseContext(connection)
                     .insertInto(table("houses_blocks"))
                     .set(field("house_id"), houseId)
-                    .set(field("x0"), block.location1.x)
-                    .set(field("y0"), block.location1.y)
-                    .set(field("z0"), block.location1.z)
-                    .set(field("x1"), block.location2.x)
-                    .set(field("y1"), block.location2.y)
-                    .set(field("z1"), block.location2.z)
+                    .set(field("x1"), block.location1.x)
+                    .set(field("y1"), block.location1.y)
+                    .set(field("z1"), block.location1.z)
+                    .set(field("x2"), block.location2.x)
+                    .set(field("y2"), block.location2.y)
+                    .set(field("z2"), block.location2.z)
                     .execute();
 
         }
@@ -257,13 +294,13 @@ public class MariaDbHouseRepository implements HouseRepository {
 
     }
 
-    private House buildHouse(Result<Record> result) {
+    private House buildHouse(Result<Record13<Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object>> result) {
 
         if (result == null) {
             return null;
         }
 
-        int id = -1;
+        long id = -1;
         int price = -1;
         int level = -1;
         List<HouseBloc> blocks = new ArrayList<>();
@@ -274,7 +311,7 @@ public class MariaDbHouseRepository implements HouseRepository {
 
         for (Record record : result) {
 
-            int tempId = record.get(field(name("house_id"), Integer.class));
+            long tempId = record.get(field(name("house_id"), Long.class));
 
             if (id != -1 && tempId != id) {
                 blocks = new ArrayList<>();
@@ -284,12 +321,12 @@ public class MariaDbHouseRepository implements HouseRepository {
             price = record.get(field("price", Integer.class));
             level = record.get(field("level", Integer.class));
 
-            int x0 = record.get(field("x0", Integer.class));
-            int y0 = record.get(field("y0", Integer.class));
-            int z0 = record.get(field("z0", Integer.class));
-            int x1 = record.get(field("x1", Integer.class));
-            int y1 = record.get(field("y1", Integer.class));
-            int z1 = record.get(field(("z"), Integer.class));
+            int x0 = record.get(field("x1", Integer.class));
+            int y0 = record.get(field("y1", Integer.class));
+            int z0 = record.get(field("z1", Integer.class));
+            int x1 = record.get(field("x2", Integer.class));
+            int y1 = record.get(field("y2", Integer.class));
+            int z1 = record.get(field("z2", Integer.class));
 
             Location location1 = new Location(x0, y0, z0);
             Location location2 = new Location(x1, y1, z1);
@@ -299,7 +336,7 @@ public class MariaDbHouseRepository implements HouseRepository {
             signY = record.get(field("sign_y", Integer.class));
             signZ = record.get(field("sign_z", Integer.class));
 
-            blockFace = record.get(field("sign_face", Character.class));
+            blockFace = record.get(field("sign_face", String.class)).charAt(0);
         }
 
         if (id == -1) {
@@ -317,7 +354,7 @@ public class MariaDbHouseRepository implements HouseRepository {
         boolean present = databaseConnection.getDatabaseContext(connection)
                 .selectFrom(table("houses")
                         .join(table("teams"))
-                        .on(field("house.id").eq(field("house_id"))))
+                        .on(field("houses.id").eq(field("teams.house_id"))))
                 .where(field("sign_x").eq(location.x)
                         .and(field("sign_y").eq(location.y))
                         .and(field("sign_z").eq(location.z)))

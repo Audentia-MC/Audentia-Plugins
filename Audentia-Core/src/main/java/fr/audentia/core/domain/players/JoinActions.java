@@ -21,15 +21,15 @@ public class JoinActions {
         Role role = rolesRepository.getRole(playerUUID);
 
         if (!role.isPlayer()) {
-            return false;
-        }
-
-        if (role.isStaff()) {
             return true;
         }
 
+        if (role.isStaff()) {
+            return false;
+        }
+
         playerGameModeManage.changeGameModeToSurvival(playerUUID);
-        return true;
+        return false;
     }
 
 }

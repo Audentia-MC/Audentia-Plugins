@@ -26,8 +26,7 @@ public class CommandReloadSigns implements CommandExecutor {
 
         String result = signsManage.reloadAllSigns(player.getUniqueId());
         player.sendMessage(ChatUtils.formatWithPrefix(result));
-
-        return false;
+        return true;
     }
 
 }

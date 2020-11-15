@@ -49,7 +49,7 @@ public class MariaDbTeamsRepository implements TeamsRepository {
                         field("bank_transfers.date"),
                         field("amount"),
                         field("coliseum_kills.date"))
-                .from(table("teams")
+                .from(table("teams"))
                         .join(table("seasons"))
                         .on(field("seasons.id").eq(field("enrolled_in")))
                         .join(table("users"))
@@ -57,7 +57,7 @@ public class MariaDbTeamsRepository implements TeamsRepository {
                         .leftJoin(table("bank_transfers"))
                         .on(field("bank_transfers.team_id").eq(field("teams.id")))
                         .leftJoin(table("coliseum_kills"))
-                        .on(field("coliseum_kills.team_id").eq(field("teams.id"))))
+                        .on(field("coliseum_kills.team_id").eq(field("teams.id")))
                 .where(field("minecraft_uuid").eq(playerUUID.toString()))
                 .and(field("active").eq(true))
                 .fetch();
@@ -67,14 +67,14 @@ public class MariaDbTeamsRepository implements TeamsRepository {
         Balance balance = null;
         Map<Day, DayTransfers> transfers = new HashMap<>();
         Map<Day, ColiseumKills> coliseumKills = new HashMap<>();
-        int houseId = -1;
+        long houseId = -1;
 
         for (Record7<Object, Object, Object, Object, Object, Object, Object> record : result) {
 
             color = ColorsUtils.fromHexadecimalToColor(record.get(field("color", String.class)));
             name = record.get(field("teams.name", String.class));
             balance = new Balance(record.get(field("balance", Integer.class)));
-            Integer recordHouseId = record.get(field("house_id", Integer.class));
+            Long recordHouseId = record.get(field("house_id", Long.class));
 
             if (recordHouseId != null) {
                 houseId = recordHouseId;
@@ -138,7 +138,7 @@ public class MariaDbTeamsRepository implements TeamsRepository {
     }
 
     @Override
-    public Optional<Team> getByHouseId(int houseId) {
+    public Optional<Team> getByHouseId(long houseId) {
 
         Connection connection = databaseConnection.getConnection();
 
@@ -157,7 +157,7 @@ public class MariaDbTeamsRepository implements TeamsRepository {
                         field("bank_transfers.date"),
                         field("amount"),
                         field("coliseum_kills.date"))
-                .from(table("teams")
+                .from(table("teams"))
                         .join(table("seasons"))
                         .on(field("seasons.id").eq(field("enrolled_in")))
                         .join(table("users"))
@@ -165,7 +165,7 @@ public class MariaDbTeamsRepository implements TeamsRepository {
                         .leftJoin(table("bank_transfers"))
                         .on(field("bank_transfers.team_id").eq(field("teams.id")))
                         .leftJoin(table("coliseum_kills"))
-                        .on(field("coliseum_kills.team_id").eq(field("teams.id"))))
+                        .on(field("coliseum_kills.team_id").eq(field("teams.id")))
                 .where(field("house_id").eq(houseId))
                 .and(field("active").eq(true))
                 .fetch();

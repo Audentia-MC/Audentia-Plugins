@@ -117,7 +117,7 @@ public class HouseAction {
             return Optional.empty();
         }
 
-        int houseId = houseRepository.getHouseId(signLocation);
+        long houseId = houseRepository.getHouseId(signLocation);
         return teamsManager.getTeamByHouseId(houseId);
     }
 

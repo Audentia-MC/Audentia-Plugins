@@ -9,7 +9,7 @@ public interface HouseRepository {
 
     boolean isRegisteredSign(Location location);
 
-    House getHouse(int houseId);
+    House getHouse(long houseId);
 
     boolean isBoughtBySign(Location location);
 
@@ -17,7 +17,7 @@ public interface HouseRepository {
 
     List<House> getAllHouses();
 
-    int getHouseId(Location location);
+    long getHouseId(Location location);
 
     void registerNewHouse(House house);
 

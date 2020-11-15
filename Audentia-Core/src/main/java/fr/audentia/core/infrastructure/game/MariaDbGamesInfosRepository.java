@@ -125,10 +125,6 @@ public class MariaDbGamesInfosRepository implements GamesInfosRepository {
         Connection connection = databaseConnection.getConnection();
 
         databaseConnection.getDatabaseContext(connection)
-                .truncateTable(table("game_infos"))
-                .execute();
-
-        databaseConnection.getDatabaseContext(connection)
                 .update(table("seasons"))
                 .set(field("start_date"), start)
                 .set(field("end_date"), end)

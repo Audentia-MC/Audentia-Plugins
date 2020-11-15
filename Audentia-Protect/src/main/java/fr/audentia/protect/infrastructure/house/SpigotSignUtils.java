@@ -72,7 +72,7 @@ public class SpigotSignUtils implements SignUtils {
         ArmorStand armorstand = (ArmorStand) block.getWorld().spawnEntity(block.getLocation().add(0.5, 0.5, 0), EntityType.ARMOR_STAND);
         armorstand.setHealth(20);
         armorstand.setGravity(true);
-        armorstand.setCustomName(ChatUtils.formatWithPrefix("&" + ColorsUtils.fromColorToHexadecimal(team.color) + team.name));
+        armorstand.setCustomName(ChatUtils.format("&" + ColorsUtils.fromColorToHexadecimal(team.color) + team.name));
         armorstand.setCustomNameVisible(true);
         armorstand.setVisible(false);
     }
