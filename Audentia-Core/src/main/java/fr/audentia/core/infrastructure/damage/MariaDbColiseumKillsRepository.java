@@ -31,15 +31,18 @@ public class MariaDbColiseumKillsRepository implements ColiseumKillsRepository {
                 .select(field("id"))
                 .select(field("enrolled_in"))
                 .from(table("teams"))
+                .join(table("seasons"))
+                .on(field("enrolled_in").eq(field("seasons.id")))
                 .where(field("color").eq(ColorsUtils.fromColorToHexadecimal(teamColor)))
+                .and(field("active").eq(true))
                 .fetchOne();
 
         if (teamIdRecord == null) {
             return;
         }
 
-        int teamId = teamIdRecord.get(field("id", Integer.class));
-        int seasonId = teamIdRecord.get(field("enrolled_in", Integer.class));
+        long teamId = teamIdRecord.get(field("id", Long.class));
+        long seasonId = teamIdRecord.get(field("enrolled_in", Long.class));
 
         databaseConnection.getDatabaseContext(connection)
                 .insertInto(table("coliseum_kills"))

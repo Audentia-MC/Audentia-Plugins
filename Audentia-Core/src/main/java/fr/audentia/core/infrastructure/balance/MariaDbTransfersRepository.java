@@ -37,8 +37,8 @@ public class MariaDbTransfersRepository implements TransfersRepository {
             return;
         }
 
-        int teamId = teamIdRecord.get(field("id", Integer.class));
-        int seasonId = teamIdRecord.get(field("enrolled_in", Integer.class));
+        long teamId = teamIdRecord.get(field("id", Long.class));
+        long seasonId = teamIdRecord.get(field("enrolled_in", Long.class));
 
         databaseConnection.getDatabaseContext(connection)
                 .insertInto(table("bank_transfers"))

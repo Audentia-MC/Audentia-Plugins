@@ -22,28 +22,29 @@ public class MariaDbBanRepository implements BanRepository {
 
         Connection connection = databaseConnection.getConnection();
 
-        int staffID = databaseConnection.getDatabaseContext(connection)
+        long staffID = databaseConnection.getDatabaseContext(connection)
                 .select(field("id"))
                 .from(table("users"))
                 .where(field("minecraft_uuid").eq(staffUUID.toString()))
                 .stream()
                 .findAny()
-                .map(record -> record.get(field("id", Integer.class)))
-                .orElse(-1);
+                .map(record -> record.get(field("id", Long.class)))
+                .orElse(-1L);
 
-        int playerID = databaseConnection.getDatabaseContext(connection)
+        long playerID = databaseConnection.getDatabaseContext(connection)
                 .select(field("id"))
                 .from(table("users"))
                 .where(field("minecraft_uuid").eq(bannedUUID.toString()))
                 .stream()
                 .findAny()
-                .map(record -> record.get(field("id", Integer.class)))
-                .orElse(-1);
+                .map(record -> record.get(field("id", Long.class)))
+                .orElse(-1L);
 
         databaseConnection.getDatabaseContext(connection)
                 .insertInto(table(name("logs")))
                 .set(field("source_user_id"), staffID)
                 .set(field("target_user_id"), playerID)
+                .set(field("description"), "bannissement")
                 .execute();
 
         try {

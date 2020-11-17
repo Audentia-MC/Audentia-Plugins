@@ -54,19 +54,7 @@ public class GradeInventory implements InventoryProvider {
         contents.set(new SlotPos(2, 1), ClickableItem.of(
                 anItemStack()
                         .withName("Empereur")
-                        .withMaterial(getMaterial(0))
-                        .withAmount(1)
-                        .build(),
-                event -> {
-                    String result = gradeChangeAction.changeGrade(player.getUniqueId(), targetUUID, 0);
-                    player.sendMessage(ChatUtils.formatWithPrefix(result));
-                }
-        ));
-
-        contents.set(new SlotPos(2, 2), ClickableItem.of(
-                anItemStack()
-                        .withName("Ingénieur")
-                        .withMaterial(getMaterial(1))
+                        .withMaterial(getMaterial("Empereur"))
                         .withAmount(1)
                         .build(),
                 event -> {
@@ -75,10 +63,10 @@ public class GradeInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(2, 3), ClickableItem.of(
+        contents.set(new SlotPos(2, 2), ClickableItem.of(
                 anItemStack()
-                        .withName("Préfet")
-                        .withMaterial(getMaterial(2))
+                        .withName("Ingénieur")
+                        .withMaterial(getMaterial("Ingénieur"))
                         .withAmount(1)
                         .build(),
                 event -> {
@@ -87,10 +75,10 @@ public class GradeInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(3, 1), ClickableItem.of(
+        contents.set(new SlotPos(2, 3), ClickableItem.of(
                 anItemStack()
-                        .withName("Architecte")
-                        .withMaterial(getMaterial(3))
+                        .withName("Préfet")
+                        .withMaterial(getMaterial("Préfet"))
                         .withAmount(1)
                         .build(),
                 event -> {
@@ -99,10 +87,10 @@ public class GradeInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(3, 2), ClickableItem.of(
+        contents.set(new SlotPos(3, 1), ClickableItem.of(
                 anItemStack()
-                        .withName("Artiste")
-                        .withMaterial(getMaterial(4))
+                        .withName("Architecte")
+                        .withMaterial(getMaterial("Architecte"))
                         .withAmount(1)
                         .build(),
                 event -> {
@@ -111,10 +99,10 @@ public class GradeInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(3, 3), ClickableItem.of(
+        contents.set(new SlotPos(3, 2), ClickableItem.of(
                 anItemStack()
-                        .withName("Mécène")
-                        .withMaterial(getMaterial(5))
+                        .withName("Artiste")
+                        .withMaterial(getMaterial("Artiste"))
                         .withAmount(1)
                         .build(),
                 event -> {
@@ -123,10 +111,10 @@ public class GradeInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(2, 5), ClickableItem.of(
+        contents.set(new SlotPos(3, 3), ClickableItem.of(
                 anItemStack()
-                        .withName("Consul")
-                        .withMaterial(getMaterial(6))
+                        .withName("Mécène")
+                        .withMaterial(getMaterial("Mécène"))
                         .withAmount(1)
                         .build(),
                 event -> {
@@ -135,10 +123,10 @@ public class GradeInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(2, 6), ClickableItem.of(
+        contents.set(new SlotPos(2, 5), ClickableItem.of(
                 anItemStack()
-                        .withName("Légat")
-                        .withMaterial(getMaterial(7))
+                        .withName("Consul")
+                        .withMaterial(getMaterial("Consul"))
                         .withAmount(1)
                         .build(),
                 event -> {
@@ -147,10 +135,10 @@ public class GradeInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(2, 7), ClickableItem.of(
+        contents.set(new SlotPos(2, 6), ClickableItem.of(
                 anItemStack()
-                        .withName("Tribun")
-                        .withMaterial(getMaterial(8))
+                        .withName("Légat")
+                        .withMaterial(getMaterial("Légat"))
                         .withAmount(1)
                         .build(),
                 event -> {
@@ -159,14 +147,26 @@ public class GradeInventory implements InventoryProvider {
                 }
         ));
 
-        contents.set(new SlotPos(3, 6), ClickableItem.of(
+        contents.set(new SlotPos(2, 7), ClickableItem.of(
                 anItemStack()
-                        .withName("Centurion")
-                        .withMaterial(getMaterial(9))
+                        .withName("Tribun")
+                        .withMaterial(getMaterial("Tribun"))
                         .withAmount(1)
                         .build(),
                 event -> {
                     String result = gradeChangeAction.changeGrade(player.getUniqueId(), targetUUID, 9);
+                    player.sendMessage(ChatUtils.formatWithPrefix(result));
+                }
+        ));
+
+        contents.set(new SlotPos(3, 6), ClickableItem.of(
+                anItemStack()
+                        .withName("Centurion")
+                        .withMaterial(getMaterial("Centurion"))
+                        .withAmount(1)
+                        .build(),
+                event -> {
+                    String result = gradeChangeAction.changeGrade(player.getUniqueId(), targetUUID, 10);
                     player.sendMessage(ChatUtils.formatWithPrefix(result));
                 }
         ));
@@ -194,38 +194,38 @@ public class GradeInventory implements InventoryProvider {
 
     private Material getCurrentRoleMaterial() {
 
-        return getMaterial(rolesRepository.getRole(targetUUID).echelon);
+        return getMaterial(rolesRepository.getRole(targetUUID).name);
     }
 
-    private Material getMaterial(int number) { // TODO: review new roles
+    private Material getMaterial(String name) {
 
-        switch (number) {
+        switch (name.toLowerCase()) {
 
-            case 0:
+            case "empereur":
                 return Material.TRIDENT;
 
-            case 1:
+            case "ingénieur":
                 return Material.REDSTONE;
 
-            case 2:
+            case "préfet":
                 return Material.DIAMOND_SWORD;
 
-            case 3:
+            case "architecte":
                 return Material.DIAMOND_PICKAXE;
 
-            case 4:
+            case "artiste":
                 return Material.PAINTING;
 
-            case 5:
+            case "mécène":
                 return Material.GOLD_NUGGET;
 
-            case 6:
+            case "consul":
                 return Material.DIAMOND_CHESTPLATE;
 
-            case 7:
+            case "légat":
                 return Material.GOLDEN_CHESTPLATE;
 
-            case 8:
+            case "tribun":
                 return Material.IRON_CHESTPLATE;
 
             default:

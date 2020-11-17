@@ -13,7 +13,7 @@ public class GradeChangeAction {
         this.rolesRepository = rolesRepository;
     }
 
-    public String changeGrade(UUID staffUUID, UUID targetUUID, int gradeNumber) {
+    public String changeGrade(UUID staffUUID, UUID targetUUID, long gradeNumber) {
 
         Role role = rolesRepository.getRole(staffUUID);
 
@@ -21,8 +21,8 @@ public class GradeChangeAction {
             return "<error>Vous ne pouvez pas gérer le rôle d'une joueur.";
         }
 
-        if (gradeNumber < 6 && !role.hasModerationPermission()) {
-            return "<error>Vous ne pouvez pas changer le rôle d'un membre du staff'.";
+        if (gradeNumber < 2 && !role.hasMaxPermission()) {
+            return "<error>Vous ne pouvez pas mettre ce role.";
         }
 
         rolesRepository.changeRole(targetUUID, gradeNumber);

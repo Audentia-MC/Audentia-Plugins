@@ -160,13 +160,11 @@ public class MariaDbTeamsRepository implements TeamsRepository {
                 .from(table("teams"))
                         .join(table("seasons"))
                         .on(field("seasons.id").eq(field("enrolled_in")))
-                        .join(table("users"))
-                        .on(field("users.team_id").eq(field("teams.id")))
                         .leftJoin(table("bank_transfers"))
                         .on(field("bank_transfers.team_id").eq(field("teams.id")))
                         .leftJoin(table("coliseum_kills"))
                         .on(field("coliseum_kills.team_id").eq(field("teams.id")))
-                .where(field("house_id").eq(houseId))
+                .where(field("teams.house_id").eq(houseId))
                 .and(field("active").eq(true))
                 .fetch();
 

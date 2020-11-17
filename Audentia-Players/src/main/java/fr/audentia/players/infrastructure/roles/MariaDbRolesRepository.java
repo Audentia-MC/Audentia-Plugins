@@ -59,7 +59,7 @@ public class MariaDbRolesRepository implements RolesRepository {
     }
 
     @Override
-    public void changeRole(UUID playerUUID, int roleId) {
+    public void changeRole(UUID playerUUID, long roleId) {
 
         Connection connection = databaseConnection.getConnection();
         databaseConnection.getDatabaseContext(connection)
