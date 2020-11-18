@@ -29,7 +29,7 @@ import fr.audentia.core.domain.staff.StaffInventoryOpen;
 import fr.audentia.core.domain.staff.StaffInventoryOpener;
 import fr.audentia.core.domain.staff.WorldPlayerFinder;
 import fr.audentia.core.domain.staff.ban.BanAction;
-import fr.audentia.core.domain.staff.ban.BanRepository;
+import fr.audentia.core.domain.staff.ban.LogsRepository;
 import fr.audentia.core.domain.staff.ban.PlayerBanner;
 import fr.audentia.core.domain.staff.grade.GradeChangeAction;
 import fr.audentia.core.domain.staff.grade.GradeInventoryAction;
@@ -66,7 +66,7 @@ import fr.audentia.core.infrastructure.shop.TOMLNetherShopRepository;
 import fr.audentia.core.infrastructure.shop.TOMLShopRepository;
 import fr.audentia.core.infrastructure.staff.DefaultStaffInventoryOpener;
 import fr.audentia.core.infrastructure.staff.SpigotWorldPlayerFinder;
-import fr.audentia.core.infrastructure.staff.ban.MariaDbBanRepository;
+import fr.audentia.core.infrastructure.staff.ban.MariaDbLogsRepository;
 import fr.audentia.core.infrastructure.staff.ban.SpigotPlayerBanner;
 import fr.audentia.core.infrastructure.staff.grade.DefaultGradeInventoryOpener;
 import fr.audentia.core.infrastructure.staff.inventory.SpigotPlayerInventoryOpener;
@@ -116,7 +116,7 @@ public class AudentiaCoreManagersProvider {
         GamesInfosRepository gamesInfosRepository = new MariaDbGamesInfosRepository(audentiaPlayersManagersProvider.databaseConnection);
         BankSlotsRepository bankSlotsRepository = new TOMLBankSlotsRepository(path);
         PlayerBanner playerBanner = new SpigotPlayerBanner();
-        BanRepository banRepository = new MariaDbBanRepository(audentiaPlayersManagersProvider.databaseConnection);
+        LogsRepository logsRepository = new MariaDbLogsRepository(audentiaPlayersManagersProvider.databaseConnection);
         PlayerKicker playerKicker = new SpigotPlayerKicker();
         PlayerTeleporter playerTeleporterToOther = new SpigotPlayerTeleporter();
         WorldPlayerFinder worldPlayerFinder = new SpigotWorldPlayerFinder();
@@ -145,8 +145,8 @@ public class AudentiaCoreManagersProvider {
         TransfersRepository transfersRepository = new MariaDbTransfersRepository(audentiaPlayersManagersProvider.databaseConnection);
         cityInfosRepository = new TOMLCityInfosRepository(path);
 
-        this.banAction = new BanAction(playerBanner, banRepository, audentiaPlayersManagersProvider.rolesRepository);
-        this.kickAction = new KickAction(playerKicker, audentiaPlayersManagersProvider.rolesRepository);
+        this.banAction = new BanAction(playerBanner, logsRepository, audentiaPlayersManagersProvider.rolesRepository);
+        this.kickAction = new KickAction(playerKicker, audentiaPlayersManagersProvider.rolesRepository, logsRepository);
         this.teleportAction = new TeleportAction(playerTeleporterToOther, audentiaPlayersManagersProvider.rolesRepository, worldPlayerFinder);
         this.lookInventoryAction = new LookInventoryAction(playerInventoryOpener, audentiaPlayersManagersProvider.rolesRepository, worldPlayerFinder);
         this.balanceManage = new BalanceManage(audentiaPlayersManagersProvider.teamsManager, transfersRepository);

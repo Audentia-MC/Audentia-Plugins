@@ -23,7 +23,7 @@ class BanActionTest {
     private PlayerBanner playerBanner;
 
     @Mock
-    private BanRepository banRepository;
+    private LogsRepository logsRepository;
 
     @Mock
     private RolesRepository rolesRepository;
@@ -32,7 +32,7 @@ class BanActionTest {
 
     @BeforeEach
     void setUp() {
-        banAction = new BanAction(playerBanner, banRepository, rolesRepository);
+        banAction = new BanAction(playerBanner, logsRepository, rolesRepository);
     }
 
     @Test
@@ -48,7 +48,7 @@ class BanActionTest {
         String result = banAction.ban(UUID.randomUUID(), UUID.randomUUID());
 
         verify(playerBanner, times(1)).ban(any());
-        verify(banRepository, times(1)).ban(any(), any());
+        verify(logsRepository, times(1)).ban(any(), any());
         assertThat(result).isEqualTo("<success>Joueur banni.");
     }
 
@@ -65,7 +65,7 @@ class BanActionTest {
         String result = banAction.ban(UUID.randomUUID(), UUID.randomUUID());
 
         verifyNoInteractions(playerBanner);
-        verifyNoInteractions(banRepository);
+        verifyNoInteractions(logsRepository);
         assertThat(result).isEqualTo("<error>Vous ne pouvez pas bannir de joueur.");
     }
 

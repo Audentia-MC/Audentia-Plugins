@@ -8,12 +8,12 @@ import java.util.UUID;
 public class BanAction {
 
     private final PlayerBanner playerBanner;
-    private final BanRepository banRepository;
+    private final LogsRepository logsRepository;
     private final RolesRepository rolesRepository;
 
-    public BanAction(PlayerBanner playerBanner, BanRepository banRepository, RolesRepository rolesRepository) {
+    public BanAction(PlayerBanner playerBanner, LogsRepository logsRepository, RolesRepository rolesRepository) {
         this.playerBanner = playerBanner;
-        this.banRepository = banRepository;
+        this.logsRepository = logsRepository;
         this.rolesRepository = rolesRepository;
     }
 
@@ -26,7 +26,7 @@ public class BanAction {
         }
 
         playerBanner.ban(bannedUUID);
-        banRepository.ban(staffUUID, bannedUUID);
+        logsRepository.ban(staffUUID, bannedUUID);
         return "<success>Joueur banni.";
     }
 

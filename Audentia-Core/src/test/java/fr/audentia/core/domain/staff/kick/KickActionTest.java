@@ -1,5 +1,6 @@
 package fr.audentia.core.domain.staff.kick;
 
+import fr.audentia.core.domain.staff.ban.LogsRepository;
 import fr.audentia.players.domain.teams.RolesRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,11 +26,14 @@ class KickActionTest {
     @Mock
     private RolesRepository rolesRepository;
 
+    @Mock
+    private LogsRepository logsRepository;
+
     private KickAction banAction;
 
     @BeforeEach
     void setUp() {
-        banAction = new KickAction(playerKicker, rolesRepository);
+        banAction = new KickAction(playerKicker, rolesRepository, logsRepository);
     }
 
     @Test
