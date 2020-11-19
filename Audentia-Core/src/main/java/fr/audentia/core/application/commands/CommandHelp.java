@@ -29,8 +29,7 @@ public class CommandHelp implements CommandExecutor {
         player.sendMessage(ChatUtils.formatWithPrefix("<success>----- Commandes -----"));
 
         loadedCommands.keySet().stream()
-                .map(Command::getName)
-                .map(name -> "<success>" + name)
+                .map(pluginCommand -> "<success>" + pluginCommand.getName() + " - " + pluginCommand.getDescription())
                 .map(ChatUtils::formatWithPrefix)
                 .forEach(player::sendMessage);
 
