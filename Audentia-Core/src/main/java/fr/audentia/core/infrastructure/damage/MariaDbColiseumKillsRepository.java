@@ -28,7 +28,7 @@ public class MariaDbColiseumKillsRepository implements ColiseumKillsRepository {
         Connection connection = databaseConnection.getConnection();
 
         Record teamIdRecord = databaseConnection.getDatabaseContext(connection)
-                .select(field("id"))
+                .select(field("teams.id"))
                 .select(field("enrolled_in"))
                 .from(table("teams"))
                 .join(table("seasons"))
@@ -41,15 +41,39 @@ public class MariaDbColiseumKillsRepository implements ColiseumKillsRepository {
             return;
         }
 
-        long teamId = teamIdRecord.get(field("id", Long.class));
+        long teamId = teamIdRecord.get(field("teams.id", Long.class));
         long seasonId = teamIdRecord.get(field("enrolled_in", Long.class));
+
+        Long killerID = databaseConnection.getDatabaseContext(connection)
+                .select(field("id"))
+                .from(table("users"))
+                .where(field("minecraft_uuid").eq(kill.killer.toString()))
+                .fetch()
+                .stream()
+                .map(record -> record.get(field("id", Long.class)))
+                .findAny()
+                .orElse(-1L);
+
+        Long killedID = databaseConnection.getDatabaseContext(connection)
+                .select(field("id"))
+                .from(table("users"))
+                .where(field("minecraft_uuid").eq(kill.killed.toString()))
+                .fetch()
+                .stream()
+                .map(record -> record.get(field("id", Long.class)))
+                .findAny()
+                .orElse(-1L);
+
+        if (killerID == -1 || killedID == -1) {
+            return;
+        }
 
         databaseConnection.getDatabaseContext(connection)
                 .insertInto(table("coliseum_kills"))
                 .set(field("team_id"), teamId)
                 .set(field("season_id"), seasonId)
-                .set(field("source_user_id"), kill.killer.toString())
-                .set(field("target_user_id"), kill.killed.toString())
+                .set(field("source_user_id"), killerID)
+                .set(field("target_user_id"), killedID)
                 .set(field("date"), Timestamp.valueOf(kill.time))
                 .execute();
 

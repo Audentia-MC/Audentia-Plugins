@@ -79,10 +79,6 @@ public class PlayerDamage {
 
     public boolean canBeDamaged(UUID damagedUUID, UUID damagerUUID, Location location) {
 
-        if (gamesInfosRepository.getStart().isBefore(LocalDateTime.now())) {
-            return false;
-        }
-
         Duration actualTimeInGame = Duration.between(gamesInfosRepository.getStart(), timeProvider.getActualTime());
         int minutesOfProtection = timeProtectionAtStartProvider.getMinutesOfProtection();
 

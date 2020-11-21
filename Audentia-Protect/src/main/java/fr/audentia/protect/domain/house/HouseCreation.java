@@ -5,6 +5,9 @@ import fr.audentia.protect.domain.model.House;
 import fr.audentia.protect.domain.model.Location;
 import fr.audentia.protect.domain.model.house.HouseCreationModel;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 public class HouseCreation {
@@ -102,5 +105,5 @@ public class HouseCreation {
 
         return "<success>Création d'une nouvelle maison effectuée avec succès. /reloadsigns pour charger le panneau.";
     }
-
+    
 }

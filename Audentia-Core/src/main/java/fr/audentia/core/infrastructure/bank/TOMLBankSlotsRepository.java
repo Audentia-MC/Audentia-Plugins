@@ -25,11 +25,13 @@ public class TOMLBankSlotsRepository implements BankSlotsRepository {
 
         fileConfig.load();
 
-        if (fileConfig.isNull(String.valueOf(day.day))) {
+        List<Integer> start = fileConfig.get(day.day + ".start");
+
+        if (start == null) {
             return new BankSlots(new ArrayList<>());
         }
 
-        List<Slot> slots = buildSlots(fileConfig.get(day.day + ".start"), fileConfig.get(day.day + ".end"));
+        List<Slot> slots = buildSlots(start, fileConfig.get(day.day + ".end"));
 
         fileConfig.close();
 
