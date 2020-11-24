@@ -21,12 +21,12 @@ public class StaffInventoryOpen {
 
         Role role = rolesRepository.getRole(playerUUID);
 
-        if (!worldPlayerFinder.isInWorld(targetName)) {
-            return "<error>Ce joueur n'existe pas.";
-        }
-
         if (!role.hasModerationPermission()) {
             return "<error>Vous ne pouvez pas utiliser cette commande.";
+        }
+
+        if (!worldPlayerFinder.isInWorld(targetName)) {
+            return "<error>Ce joueur n'existe pas.";
         }
 
         staffInventoryOpener.openInventory(playerUUID, targetName);

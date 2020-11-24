@@ -35,9 +35,9 @@ class HomesTest {
     void homes_shouldReturnListOfHomes_whenPlayerHasHomesStored() {
 
         List<Home> homes = Arrays.asList(
-                new Home(0, "", 0, 0, 0),
-                new Home(0, "", 1, 2, 3),
-                new Home(0, "", 4, 1, 2)
+                new Home("", 0, 0, 0),
+                new Home("", 1, 2, 3),
+                new Home("", 4, 1, 2)
         );
         when(homeRepository.getHomes(any())).thenReturn(homes);
 

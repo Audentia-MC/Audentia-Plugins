@@ -25,7 +25,7 @@ public class TOMLShopRepository implements ShopRepository {
 
         List<ShopItem> items = fileConfig.getOrElse(npcName + ".items", new ArrayList<String>())
                 .stream()
-                .map(material -> new ShopItem(material, fileConfig.get(npcName + "." + material)))
+                .map(material -> new ShopItem(material, fileConfig.getOrElse(npcName + "." + material, 0.0)))
                 .collect(Collectors.toList());
 
         Shop shop = new Shop(npcName, items);

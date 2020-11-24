@@ -38,10 +38,10 @@ class HomeManageTest {
     @DisplayName("home 1 should tp player to home n°1 when it is set up")
     void home_shouldTpPlayerToHisHome_whenHomeIsSetUp() {
 
-        Home home = new Home(0, "", 0, 0, 0);
-        when(homeRepository.getHome(any(), anyInt())).thenReturn(Optional.of(home));
+        Home home = new Home("", 0, 0, 0);
+        when(homeRepository.getHome(any(), anyString())).thenReturn(Optional.of(home));
 
-        String result = homeManage.registerTeleport(UUID.randomUUID());
+        String result = homeManage.registerTeleport(UUID.randomUUID(), anyString());
 
         assertThat(result).isEqualTo("<success>Téléportation dans :");
     }
@@ -50,9 +50,9 @@ class HomeManageTest {
     @DisplayName("home 1 should do nothing when home isn't set up")
     void home_shouldDoNothing_whenHomeIsSetUp() {
 
-        when(homeRepository.getHome(any(), anyInt())).thenReturn(Optional.empty());
+        when(homeRepository.getHome(any(), anyString())).thenReturn(Optional.empty());
 
-        String result = homeManage.registerTeleport(UUID.randomUUID());
+        String result = homeManage.registerTeleport(UUID.randomUUID(), anyString());
 
         assertThat(result).isEqualTo("<error>Votre home n°1 n'est pas défini.");
     }

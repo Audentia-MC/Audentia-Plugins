@@ -15,7 +15,7 @@ public class ShopItemBuyAction {
 
     public String buy(UUID playerUUID, ShopItem item, int count) {
 
-        int price = (int) Math.max(item.price * count + 1, Math.round(item.price * count * 1.1));
+        int price = (int) Math.max(Math.floor(item.price * count) + 1, Math.round(Math.floor(item.price * count) * 1.1));
 
         if (!inventoryUtilities.hasEmeralds(playerUUID, price)) {
             return "<error>Vous n'avez pas assez d'émeraudes.";
@@ -29,7 +29,7 @@ public class ShopItemBuyAction {
 
     public String sell(UUID playerUUID, ShopItem item, int count) {
 
-        int price = item.price * count;
+        int price = (int) (Math.floor(item.price * count));
 
         if (!inventoryUtilities.hasItem(playerUUID, item.material, count)) {
             return "<error>Vous n'avez pas assez d'items dans votre inventaire.";

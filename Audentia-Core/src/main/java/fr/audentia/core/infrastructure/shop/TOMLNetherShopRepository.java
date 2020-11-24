@@ -25,7 +25,7 @@ public class TOMLNetherShopRepository implements ShopRepository {
 
         List<ShopItem> items = fileConfig.getOrElse("shop.items", new ArrayList<String>())
                 .stream()
-                .map(material -> new ShopItem(material, fileConfig.get("shop." + material)))
+                .map(material -> new ShopItem(material, fileConfig.getOrElse("shop." + material, 0.0)))
                 .collect(Collectors.toList());
 
         Shop shop = new Shop(npcName, items);

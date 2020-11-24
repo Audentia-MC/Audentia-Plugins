@@ -40,7 +40,7 @@ class SetHomeManageTest {
     @DisplayName("setHome should define new home 1 when player has default player role and is in default world")
     void setHome_shouldStoreHome1_whenPlayerIsDefaultPlayerAndIsInDefaultWorld() {
 
-        Home home = new Home(0, "", 0, 0, 0);
+        Home home = new Home("", 0, 0, 0);
         when(rolesRepository.getRole(any(UUID.class))).thenReturn(aRole()
                 .withName("Admin")
                 .withColor(Color.BLACK)

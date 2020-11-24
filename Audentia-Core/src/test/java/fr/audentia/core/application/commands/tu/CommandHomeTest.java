@@ -39,11 +39,11 @@ class CommandHomeTest {
     @DisplayName("home should call home manage to tp top home number 1 and send message when there isn't any argument")
     void home_shouldCallHomeManageToTpToHome1_whenThereIsNotAnyArgument() {
 
-        when(homeManage.registerTeleport(any(), eq(1))).thenReturn("");
+        when(homeManage.registerTeleport(any(), eq("maison"))).thenReturn("");
 
         boolean result = commandHome.onCommand(player, null, null, new String[0]);
 
-        verify(homeManage, times(1)).registerTeleport(any(), eq(1));
+        verify(homeManage, times(1)).registerTeleport(any(), eq("maison"));
         verify(player, times(1)).sendMessage(anyString());
         assertThat(result).isEqualTo(true);
     }
@@ -52,11 +52,11 @@ class CommandHomeTest {
     @DisplayName("home should call home manage to tp top home number 2 and send message when there is an argument")
     void home_shouldCallHomeManageToTpToHome2_whenThereIsArgument2() {
 
-        when(homeManage.registerTeleport(any(), eq(2))).thenReturn("");
+        when(homeManage.registerTeleport(any(), eq("maison"))).thenReturn("");
 
         boolean result = commandHome.onCommand(player, null, null, new String[]{"2"});
 
-        verify(homeManage, times(1)).registerTeleport(any(), eq(2));
+        verify(homeManage, times(1)).registerTeleport(any(), eq("maison"));
         verify(player, times(1)).sendMessage(anyString());
         assertThat(result).isEqualTo(true);
     }

@@ -1,6 +1,5 @@
 package fr.audentia.core.domain.balance;
 
-import fr.audentia.core.domain.game.GamesInfosRepository;
 import fr.audentia.players.domain.model.balance.Balance;
 import fr.audentia.players.domain.model.teams.Team;
 import fr.audentia.players.domain.teams.TeamsManager;
@@ -24,13 +23,13 @@ class BalanceManageTest {
     private TeamsManager teamsManager;
 
     @Mock
-    private GamesInfosRepository gamesInfosRepository;
+    private TransfersRepository transfersRepository;
 
     private BalanceManage balanceManage;
 
     @BeforeEach
     void setUp() {
-        this.balanceManage = new BalanceManage(teamsManager, gamesInfosRepository, transfersRepository);
+        this.balanceManage = new BalanceManage(teamsManager, transfersRepository);
     }
 
     @Test

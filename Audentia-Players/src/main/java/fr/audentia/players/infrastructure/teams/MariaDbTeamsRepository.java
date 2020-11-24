@@ -125,7 +125,7 @@ public class MariaDbTeamsRepository implements TeamsRepository {
         databaseConnection.getDatabaseContext(connection)
                 .update(table("teams"))
                 .set(field("balance"), Integer.parseInt(team.balance.toString()))
-                .set(field("house_id"), team.houseId)
+//                .set(field("house_id"), team.houseId)
                 .where(field("color").eq(ColorsUtils.fromColorToHexadecimal(team.color)))
                 .execute();
 

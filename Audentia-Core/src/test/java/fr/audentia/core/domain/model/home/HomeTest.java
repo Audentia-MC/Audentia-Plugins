@@ -14,7 +14,7 @@ public class HomeTest {
 
     @BeforeEach
     void setUp() {
-        home = new Home(0, "", 0, 0, 0);
+        home = new Home("", 0, 0, 0);
     }
 
     @Test
@@ -28,7 +28,7 @@ public class HomeTest {
     @DisplayName("equals should be true when compare to equals instance")
     void equals_shouldReturnTrue_whenCompareToEqualsInstance() {
 
-        Home otherHome = new Home(0, "", 0, 0, 0);
+        Home otherHome = new Home("", 0, 0, 0);
 
         assertThat(home.equals(otherHome)).isTrue();
     }
@@ -38,7 +38,7 @@ public class HomeTest {
     void equals_shouldReturnFalse_whenCompareToAnOtherScoreboard() {
 
 
-        Home otherHome = new Home(0, "", 1, 0, 0);
+        Home otherHome = new Home("", 1, 0, 0);
 
         assertThat(home.equals(otherHome)).isFalse();
     }
@@ -48,7 +48,7 @@ public class HomeTest {
     void equals_shouldReturnFalse_whenCompareToAnOtherScoreboard2() {
 
 
-        Home otherHome = new Home(0, "", 0, 1, 0);
+        Home otherHome = new Home("", 0, 1, 0);
 
         assertThat(home.equals(otherHome)).isFalse();
     }
@@ -58,7 +58,7 @@ public class HomeTest {
     void equals_shouldReturnFalse_whenCompareToAnOtherScoreboard3() {
 
 
-        Home otherHome = new Home(0, "", 0, 0, 1);
+        Home otherHome = new Home("", 0, 0, 1);
 
         assertThat(home.equals(otherHome)).isFalse();
     }
@@ -67,7 +67,7 @@ public class HomeTest {
     @DisplayName("equals should be false when compare to null")
     void equals_shouldReturnFalse_whenCompareToNull() {
 
-        assertThat(home.equals(null)).isFalse();
+            assertThat(home).isNotNull();
     }
 
 
