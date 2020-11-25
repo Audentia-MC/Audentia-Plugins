@@ -22,7 +22,12 @@ public class ListenerNpcInteract implements Listener {
             return;
         }
 
-        String result = npcInteract.interactWithNpc(event.getPlayer().getUniqueId(), event.getRightClicked().getName());
+        if (event.getRightClicked().getCustomName() == null) {
+            event.setCancelled(true);
+            return;
+        }
+
+        String result = npcInteract.interactWithNpc(event.getPlayer().getUniqueId(), event.getRightClicked().getCustomName());
 
         if (!result.isEmpty()) {
             event.getPlayer().sendMessage(ChatUtils.formatWithPrefix(result));

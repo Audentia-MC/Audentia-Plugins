@@ -28,7 +28,8 @@ public class ListenersManager {
                 new ListenerHouseBlockInteract(provider.houseAction),
                 new ListenerNetherPortailCreated(plugin, provider.portalCreateCheck),
                 new ListenerHouseCreationInteract(provider.houseCreation),
-                new ListenerPlayerChatHouseCreation(provider.houseCreation)
+                new ListenerPlayerChatHouseCreation(provider.houseCreation),
+                new ListenerBlockBreakEvent(plugin)
         );
 
     }

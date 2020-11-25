@@ -17,12 +17,21 @@ public class StaffInventoryOpen {
         this.worldPlayerFinder = worldPlayerFinder;
     }
 
-    public String openInventory(UUID playerUUID, String targetName) {
+    public String openInventory(UUID playerUUID, UUID targetUUID, String targetName) {
 
         Role role = rolesRepository.getRole(playerUUID);
+        Role role2 = rolesRepository.getRole(targetUUID);
 
         if (!role.hasModerationPermission()) {
             return "<error>Vous ne pouvez pas utiliser cette commande.";
+        }
+
+        if (playerUUID.equals(targetUUID)) {
+            return "<error>Vous ne pouvez pas interagir avec vous-même.";
+        }
+
+        if (role.echelon < 888 && role.echelon <= role2.echelon) {
+            return "<error>Vous ne pouvez pas interagir avec cette personne.";
         }
 
         if (!worldPlayerFinder.isInWorld(targetName)) {

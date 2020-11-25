@@ -2,6 +2,8 @@ package fr.audentia.core.application.commands;
 
 import fr.audentia.core.domain.staff.StaffInventoryOpen;
 import fr.audentia.players.utils.ChatUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,8 +32,13 @@ public class CommandStaff implements CommandExecutor {
             return false;
         }
 
+        OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+        if (!target.hasPlayedBefore()) {
+            player.sendMessage(ChatUtils.formatWithPrefix("<error>Ce joueur n'existe pas."));
+            return true;
+        }
 
-        String result = staffInventoryOpen.openInventory(player.getUniqueId(), args[0]);
+        String result = staffInventoryOpen.openInventory(player.getUniqueId(), target.getUniqueId(), args[0]);
         player.sendMessage(ChatUtils.formatWithPrefix(result));
         return true;
     }

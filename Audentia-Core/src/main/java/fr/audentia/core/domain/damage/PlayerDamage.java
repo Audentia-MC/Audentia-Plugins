@@ -77,7 +77,8 @@ public class PlayerDamage {
         balanceManage.forceRemoveFromBalance(damagedUUID, (int) toMove);
     }
 
-    public boolean canBeDamaged(UUID damagedUUID, UUID damagerUUID, Location location) {
+    public boolean
+    canBeDamaged(UUID damagedUUID, UUID damagerUUID, Location location) {
 
         Duration actualTimeInGame = Duration.between(gamesInfosRepository.getStart(), timeProvider.getActualTime());
         int minutesOfProtection = timeProtectionAtStartProvider.getMinutesOfProtection();
