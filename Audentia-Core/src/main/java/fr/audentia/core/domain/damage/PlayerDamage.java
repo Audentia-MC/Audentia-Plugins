@@ -87,6 +87,12 @@ public class PlayerDamage {
             return false;
         }
 
+        Team team = teamsManager.getTeam(damagerUUID);
+
+        if (teamsManager.getTeam(damagedUUID).equals(team)) {
+            return false;
+        }
+
         Location cityLocation = cityInfosRepository.getCityLocation();
         double radiusSquared = Math.pow(cityInfosRepository.getCityRadius(), 2);
         double distanceSquared = location.distanceSquared2D(cityLocation);
@@ -108,9 +114,7 @@ public class PlayerDamage {
             return false;
         }
 
-        Team team = teamsManager.getTeam(damagerUUID);
-
-        return !teamsManager.getTeam(damagedUUID).equals(team) && team.color != Color.BLACK;
+        return team.color != Color.BLACK;
     }
 
 }

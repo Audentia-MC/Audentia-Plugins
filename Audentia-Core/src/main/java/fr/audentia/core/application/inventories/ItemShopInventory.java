@@ -63,7 +63,7 @@ public class ItemShopInventory implements InventoryProvider {
                         .withMaterial(Material.getMaterial(item.material))
                         .withAmount(1)
                         .addLore("Clic gauche : vendre, " + Math.floor(item.price) + " émeraudes")
-                        .addLore("Clic droit : acheter, " + (Math.max(Math.floor(item.price) + 1, Math.round(Math.floor(item.price) * 1.1))) + " émeraudes")
+                        .addLore("Clic droit : acheter, " + (Math.max(Math.floor(item.price) + 1, Math.round(item.price * 1.1))) + " émeraudes")
                         .build(),
                 event -> {
                     if (event.isLeftClick()) {
@@ -81,7 +81,7 @@ public class ItemShopInventory implements InventoryProvider {
                         .withMaterial(Material.getMaterial(item.material))
                         .withAmount(10)
                         .addLore("Clic gauche : vendre, " + (Math.floor(item.price * 10)) + " émeraudes")
-                        .addLore("Clic droit : acheter, " + (Math.max(Math.floor(item.price) * 10 + 1, Math.round(Math.floor(item.price * 10) * 1.1))) + " émeraudes")
+                        .addLore("Clic droit : acheter, " + (Math.max(Math.floor(item.price) * 10 + 1, Math.round(item.price * 10 * 1.1))) + " émeraudes")
                         .build(),
                 event -> {
                     if (event.isLeftClick()) {
@@ -99,7 +99,7 @@ public class ItemShopInventory implements InventoryProvider {
                         .withMaterial(Material.getMaterial(item.material))
                         .withAmount(32)
                         .addLore("Clic gauche : vendre, " + (Math.floor(item.price * 32)) + " émeraudes")
-                        .addLore("Clic droit : acheter, " + (Math.max(Math.floor(item.price) * 32 + 1, Math.round(Math.floor(item.price * 32) * 1.1))) + " émeraudes")
+                        .addLore("Clic droit : acheter, " + (Math.max(Math.floor(item.price) * 32 + 1, Math.round(item.price * 32 * 1.1))) + " émeraudes")
                         .build(),
                 event -> {
                     if (event.isLeftClick()) {
@@ -117,7 +117,7 @@ public class ItemShopInventory implements InventoryProvider {
                         .withMaterial(Material.getMaterial(item.material))
                         .withAmount(64)
                         .addLore("Clic gauche : vendre, " + (Math.floor(item.price * 64)) + " émeraudes")
-                        .addLore("Clic droit : acheter, " + (Math.max(Math.floor(item.price) * 64 + 1, Math.round(Math.floor(item.price * 64) * 1.1))) + " émeraudes")
+                        .addLore("Clic droit : acheter, " + (Math.max(Math.floor(item.price) * 64 + 1, Math.round(item.price * 64 * 1.1))) + " émeraudes")
                         .build(),
                 event -> {
                     if (event.isLeftClick()) {

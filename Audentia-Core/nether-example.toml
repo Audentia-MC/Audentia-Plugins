@@ -12,8 +12,8 @@ items = [
     "EMERALD",
     "DIAMOND_SWORD"
 ]
-EMERALD = 10
-DIAMOND_SWORD = 20
+EMERALD = 10.0
+DIAMOND_SWORD = 20.0
 
 [locations]
 
@@ -21,19 +21,19 @@ DIAMOND_SWORD = 20
     x = 0
     y = 0
     z = 0
-    yaw = 0
-    pitch = 0
+    yaw = 0.0
+    pitch = 0.0
 
     [1]
     x = 0
     y = 0
     z = 0
-    yaw = 0
-    pitch = 0
+    yaw = 0.0
+    pitch = 0.0
 
     [2]
     x = 0
     y = 0
     z = 0
-    yaw = 0
-    pitch = 0
+    yaw = 0.0
+    pitch = 0.0
