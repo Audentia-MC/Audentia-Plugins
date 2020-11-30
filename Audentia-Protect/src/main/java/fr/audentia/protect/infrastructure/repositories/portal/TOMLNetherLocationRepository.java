@@ -15,18 +15,38 @@ public class TOMLNetherLocationRepository implements NetherLocationRepository {
     }
 
     @Override
-    public Location getPortalLocation() {
+    public Location getPortalLocationInOverworld() {
 
         FileConfig fileConfig = loadFile();
 
-        if (fileConfig.isNull("nether.x")) {
+        if (fileConfig.isNull("nether.overworld_x")) {
             return null;
         }
 
         Location location = new Location(
-                fileConfig.get("nether.x"),
-                fileConfig.get("nether.y"),
-                fileConfig.get("nether.z")
+                fileConfig.get("nether.overworld_x"),
+                fileConfig.get("nether.overworld_y"),
+                fileConfig.get("nether.overworld_z")
+        );
+
+        fileConfig.close();
+
+        return location;
+    }
+
+    @Override
+    public Location getPortalLocationInNether() {
+
+        FileConfig fileConfig = loadFile();
+
+        if (fileConfig.isNull("nether.nether_x")) {
+            return null;
+        }
+
+        Location location = new Location(
+                fileConfig.get("nether.nether_x"),
+                fileConfig.get("nether.nether_y"),
+                fileConfig.get("nether.nether_z")
         );
 
         fileConfig.close();

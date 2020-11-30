@@ -6,55 +6,23 @@ import fr.audentia.protect.domain.portals.PortalCreateCheck;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.world.PortalCreateEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class ListenerNetherPortailCreated implements Listener {
 
-    private final Plugin plugin;
     private final PortalCreateCheck portalCreateCheck;
-    private final List<UUID> players = new ArrayList<>();
 
-    public ListenerNetherPortailCreated(Plugin plugin, PortalCreateCheck portalCreateCheck) {
-        this.plugin = plugin;
+    public ListenerNetherPortailCreated(PortalCreateCheck portalCreateCheck) {
         this.portalCreateCheck = portalCreateCheck;
-    }
-
-    @EventHandler
-    public void onPlayerInteractInObsidian(PlayerInteractEvent event) {
-
-        Player player = event.getPlayer();
-
-        if (event.getClickedBlock() == null) {
-            return;
-        }
-
-        if (event.getClickedBlock().getType() != Material.OBSIDIAN) {
-            return;
-        }
-
-        ItemStack item = event.getItem();
-        if (item == null || item.getType() != Material.FLINT_AND_STEEL) {
-            return;
-        }
-
-        players.add(player.getUniqueId());
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                players.clear();
-            }
-        }.runTaskLaterAsynchronously(plugin, 20 * 2);
     }
 
     @EventHandler
@@ -68,26 +36,29 @@ public class ListenerNetherPortailCreated implements Listener {
             return;
         }
 
-        if (players.isEmpty()) {
-            return;
-        }
-
-        Player player = Bukkit.getPlayer(players.get(0));
-
-        if (player == null) {
-            return;
-        }
-
         org.bukkit.Location location = event.getBlocks().get(0).getLocation();
+        List<UUID> players = event.getWorld().getNearbyEntities(location, 10, 10, 10).stream()
+                .filter(entity -> entity instanceof Player)
+                .map(Entity::getUniqueId)
+                .collect(Collectors.toList());
+
+        if (players.isEmpty()) {
+            event.setCancelled(true);
+            return;
+        }
+
         Location domainLocation = new Location(location.getBlockX(), location.getBlockY(), location.getBlockZ());
 
-        String result = portalCreateCheck.canCreate(player.getUniqueId(), domainLocation);
+        String result = portalCreateCheck.canCreate(players, domainLocation);
 
         if (result.startsWith("<error>")) {
             event.setCancelled(true);
         }
 
-        player.sendMessage(ChatUtils.formatWithPrefix(result));
+        players.stream()
+                .map(Bukkit::getPlayer)
+                .filter(Objects::nonNull)
+                .forEach(player -> player.sendMessage(ChatUtils.formatWithPrefix(result)));
     }
 
 }

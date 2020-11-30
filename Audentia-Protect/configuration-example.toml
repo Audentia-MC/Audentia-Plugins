@@ -1,4 +1,7 @@
 [nether]
-x = 0
-y = 60
-z = 0
+overwolrd_x = 0
+overworld_y = 60
+overworld_z = 0
+nether_x = 0
+nether_Y = 0
+nether_z = 0

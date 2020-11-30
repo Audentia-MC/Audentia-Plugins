@@ -116,4 +116,27 @@ public class SpigotInventoryUtilities implements InventoryUtilities {
         player.getInventory().clear();
     }
 
+    @Override
+    public boolean canReceiveItems(UUID playerUUID, String materialName, int count) {
+
+        Player player = Bukkit.getPlayer(playerUUID);
+
+        if (player == null) {
+            return false;
+        }
+
+        Material material = Material.getMaterial(materialName);
+
+        if (material == null) {
+            return false;
+        }
+
+        return Arrays.stream(player.getInventory().getStorageContents())
+                .filter(item -> item == null || item.getType() == material || item.getType() == Material.AIR)
+                .filter(item -> item == null || !item.hasItemMeta() || !item.getItemMeta().hasDisplayName())
+                .map(item -> item == null ? 64 : 64 - item.getAmount())
+                .reduce((sum, amount) -> sum += amount)
+                .orElse(0) >= count;
+    }
+
 }

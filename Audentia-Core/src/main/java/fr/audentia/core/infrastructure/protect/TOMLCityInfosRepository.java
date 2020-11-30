@@ -25,7 +25,7 @@ public class TOMLCityInfosRepository implements CityInfosRepository {
 
         Location location = new Location(
                 fileConfig.get("city.x"),
-                0,
+                fileConfig.get("city.y"),
                 fileConfig.get("city.z")
         );
 

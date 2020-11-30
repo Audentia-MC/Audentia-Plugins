@@ -10,11 +10,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListenerBlockBreakEvent implements Listener {
+public class ListenerEntityExplode implements Listener {
 
     private final Plugin plugin;
 
-    public ListenerBlockBreakEvent(Plugin plugin) {
+    public ListenerEntityExplode(Plugin plugin) {
         this.plugin = plugin;
     }
 

@@ -4,6 +4,8 @@ import fr.audentia.players.main.AudentiaPlayers;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.time.ZonedDateTime;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
 public class AudentiaCore extends JavaPlugin {
@@ -32,6 +34,8 @@ public class AudentiaCore extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Paris"));
 
         Logger.getLogger("Minecraft").info("Le plugin Audentia Core s'allume.");
 

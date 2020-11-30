@@ -44,6 +44,7 @@ public class CommandsManager {
         loadedCommands.put(getCommand("start"), new CommandStart(provider.gameManage));
         loadedCommands.put(getCommand("pause"), new CommandPause(provider.gameStateManage));
         loadedCommands.put(getCommand("resume"), new CommandResume(provider.gameStateManage));
+        loadedCommands.put(getCommand("spawn"), new CommandSpawn(provider.spawnManage));
 
         loadedCommands.put(getCommand("ahelp"), new CommandHelp(loadedCommands));
 

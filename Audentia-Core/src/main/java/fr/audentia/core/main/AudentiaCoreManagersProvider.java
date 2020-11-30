@@ -25,6 +25,7 @@ import fr.audentia.core.domain.shop.ShopInventoryOpen;
 import fr.audentia.core.domain.shop.ShopInventoryOpener;
 import fr.audentia.core.domain.shop.ShopItemBuyAction;
 import fr.audentia.core.domain.shop.ShopRepository;
+import fr.audentia.core.domain.spawn.SpawnManage;
 import fr.audentia.core.domain.staff.StaffInventoryOpen;
 import fr.audentia.core.domain.staff.StaffInventoryOpener;
 import fr.audentia.core.domain.staff.WorldPlayerFinder;
@@ -107,6 +108,7 @@ public class AudentiaCoreManagersProvider {
     public final TeleportationsManage teleportationsManage;
     public final BankNpcSpawn bankNpcSpawn;
     public final CityProtect cityProtect;
+    public final SpawnManage spawnManage;
 
     public AudentiaCoreManagersProvider(AudentiaPlayersManagersProvider audentiaPlayersManagersProvider, String path) {
 
@@ -160,6 +162,7 @@ public class AudentiaCoreManagersProvider {
         this.joinActions = new JoinActions(audentiaPlayersManagersProvider.rolesRepository, playerGameModeManage);
         this.gameManage = new GameManage(audentiaPlayersManagersProvider.rolesRepository, playerGameModeManage, playerFinder, audentiaPlayersManagersProvider.teamsManager, inventoryUtilities, gamesInfosRepository, playerMessageSender);
         this.cityProtect = new CityProtect(audentiaPlayersManagersProvider.rolesRepository, cityInfosRepository);
+        this.spawnManage = new SpawnManage(cityInfosRepository, teleportRepository);
 
         ShopItemBuyAction shopItemBuyAction = new ShopItemBuyAction(inventoryUtilities);
 
@@ -174,8 +177,8 @@ public class AudentiaCoreManagersProvider {
 
         StaffInventoryOpener staffInventoryOpener = new DefaultStaffInventoryOpener(banAction, kickAction, teleportAction, lookInventoryAction, gradeInventoryAction);
 
-        this.homeManage = new HomeManage(homeRepository, teleportRepository, playerTeleporter);
-        this.teleportationsManage = new TeleportationsManage(homeManage, teleportRepository, playerMessageSender);
+        this.homeManage = new HomeManage(homeRepository, teleportRepository);
+        this.teleportationsManage = new TeleportationsManage(teleportRepository, playerMessageSender, playerTeleporter);
         this.setHomeManage = new SetHomeManage(homeRepository, audentiaPlayersManagersProvider.rolesRepository, worldNameFinder);
         this.homesProvide = new HomesProvide(homeRepository);
         this.bankSlotsProvide = new BankSlotsProvide(gamesInfosRepository, bankSlotsRepository);

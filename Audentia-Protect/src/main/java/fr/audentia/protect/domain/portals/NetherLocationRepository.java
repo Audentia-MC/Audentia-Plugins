@@ -4,6 +4,8 @@ import fr.audentia.protect.domain.model.Location;
 
 public interface NetherLocationRepository {
 
-    Location getPortalLocation();
+    Location getPortalLocationInOverworld();
+
+    Location getPortalLocationInNether();
 
 }

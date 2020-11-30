@@ -7,9 +7,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.*;
 
 public class ListenerBlock implements Listener {
 
@@ -29,6 +27,34 @@ public class ListenerBlock implements Listener {
     public void onBlockPlace(BlockPlaceEvent event) {
 
         cancelIfNeeded(event.getPlayer(), event, event);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onBlockPlace2(BlockPlaceEvent event) {
+
+        cancelIfNeeded(event.getPlayer(), event, event);
+    }
+
+    @EventHandler
+    public void onBurn(BlockBurnEvent event) {
+
+        org.bukkit.Location spigotLocation = event.getBlock().getLocation();
+        Location location = new Location(spigotLocation.getBlockX(), spigotLocation.getBlockY(), spigotLocation.getBlockZ());
+
+        if (cityProtect.isInCity(location)) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onIgnite(BlockIgniteEvent event) {
+
+        org.bukkit.Location spigotLocation = event.getBlock().getLocation();
+        Location location = new Location(spigotLocation.getBlockX(), spigotLocation.getBlockY(), spigotLocation.getBlockZ());
+
+        if (cityProtect.isInCity(location)) {
+            event.setCancelled(true);
+        }
     }
 
     private void cancelIfNeeded(Player player, BlockEvent blockEvent, Cancellable cancellable) {

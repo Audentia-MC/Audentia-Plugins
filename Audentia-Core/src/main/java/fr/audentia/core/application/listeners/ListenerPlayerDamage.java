@@ -31,7 +31,10 @@ public class ListenerPlayerDamage implements Listener {
 
         Player player = (Player) entity;
 
-        boolean receivedDamage = playerDamage.canBeDamaged(player.getUniqueId());
+        org.bukkit.Location location = player.getLocation();
+        Location domainLocation = new Location(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+
+        boolean receivedDamage = playerDamage.canBeDamaged(player.getUniqueId(), domainLocation);
 
         if (!receivedDamage) {
             event.setCancelled(true);

@@ -1,6 +1,7 @@
 package fr.audentia.protect.main;
 
 import fr.audentia.core.application.commands.CommandHelp;
+import fr.audentia.core.application.commands.CommandSpawn;
 import fr.audentia.protect.application.commands.CommandNewHouse;
 import fr.audentia.protect.application.commands.CommandReloadSigns;
 import org.bukkit.command.CommandExecutor;

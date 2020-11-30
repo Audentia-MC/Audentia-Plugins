@@ -19,9 +19,6 @@ import static org.mockito.Mockito.*;
 class HomeManageTest {
 
     @Mock
-    private PlayerTeleport playerTeleporter;
-
-    @Mock
     private TeleportRepository teleportRepository;
 
     @Mock
@@ -31,7 +28,7 @@ class HomeManageTest {
 
     @BeforeEach
     void setUp() {
-        homeManage = new HomeManage(homeRepository, teleportRepository, playerTeleporter);
+        homeManage = new HomeManage(homeRepository, teleportRepository);
     }
 
     @Test

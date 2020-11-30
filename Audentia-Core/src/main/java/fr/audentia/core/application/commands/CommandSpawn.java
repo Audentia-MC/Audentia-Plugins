@@ -1,18 +1,18 @@
 package fr.audentia.core.application.commands;
 
-import fr.audentia.core.domain.home.HomeManage;
+import fr.audentia.core.domain.spawn.SpawnManage;
 import fr.audentia.players.utils.ChatUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CommandHome implements CommandExecutor {
+public class CommandSpawn implements CommandExecutor {
 
-    private final HomeManage homeManage;
+    private final SpawnManage spawnManage;
 
-    public CommandHome(HomeManage homeManage) {
-        this.homeManage = homeManage;
+    public CommandSpawn(SpawnManage spawnManage) {
+        this.spawnManage = spawnManage;
     }
 
     @Override
@@ -24,14 +24,7 @@ public class CommandHome implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        String message;
-
-        if (args.length == 0) {
-            player.sendMessage(ChatUtils.formatWithPrefix("<error>/home <nom>"));
-            return true;
-        }
-
-        message = homeManage.registerTeleport(player.getUniqueId(), args[0]);
+        String message = spawnManage.registerSpawnTeleportation(player.getUniqueId());
         player.sendMessage(ChatUtils.formatWithPrefix(message));
         return true;
     }

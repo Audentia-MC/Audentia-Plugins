@@ -40,3 +40,5 @@ commands:
     description: resume the game
   ahelp:
     description: help command of core audentia plugin
+  spawn:
+    description: teleport to home

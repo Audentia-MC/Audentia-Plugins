@@ -28,7 +28,14 @@ public class CityProtect {
         double radiusSquared = Math.pow(cityInfosRepository.getCityRadius(), 2);
         double distanceSquared = location.distanceSquared2D(cityLocation);
 
-        return distanceSquared >= radiusSquared;
+        return distanceSquared > radiusSquared;
     }
 
+    public boolean isInCity(Location location) {
+        Location cityLocation = cityInfosRepository.getCityLocation();
+        double radiusSquared = Math.pow(cityInfosRepository.getCityRadius(), 2);
+        double distanceSquared = location.distanceSquared2D(cityLocation);
+
+        return distanceSquared <= radiusSquared;
+    }
 }

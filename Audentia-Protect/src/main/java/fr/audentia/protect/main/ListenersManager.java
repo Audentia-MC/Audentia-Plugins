@@ -25,11 +25,13 @@ public class ListenersManager {
 
         return Arrays.asList(
                 new ListenerSign(provider.houseAction, provider.buyHouseAction),
-                new ListenerHouseBlockInteract(provider.houseAction),
-                new ListenerNetherPortailCreated(plugin, provider.portalCreateCheck),
+                new ListenerHouseBlock(provider.houseAction),
+                new ListenerNetherPortailCreated(provider.portalCreateCheck),
                 new ListenerHouseCreationInteract(provider.houseCreation),
                 new ListenerPlayerChatHouseCreation(provider.houseCreation),
-                new ListenerBlockBreakEvent(plugin)
+                new ListenerEntityExplode(plugin),
+                new ListenerNPCVehicle(),
+                new ListenerBlock(provider.netherPortalProtection)
         );
 
     }

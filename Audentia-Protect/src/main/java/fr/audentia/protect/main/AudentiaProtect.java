@@ -6,6 +6,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.time.ZonedDateTime;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
 public class AudentiaProtect extends JavaPlugin {
@@ -35,6 +37,8 @@ public class AudentiaProtect extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Paris"));
 
         Logger.getLogger("Minecraft").info("Le plugin Audentia Protect s'allume.");
 

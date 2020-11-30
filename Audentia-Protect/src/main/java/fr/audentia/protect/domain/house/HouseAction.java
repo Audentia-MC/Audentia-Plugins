@@ -36,9 +36,9 @@ public class HouseAction {
         return houseRepository.isRegisteredSign(location);
     }
 
-    public boolean canInteract(UUID playerUUIO, Location location) {
+    public boolean canInteract(UUID playerUUID, Location location) {
 
-        Role role = rolesRepository.getRole(playerUUIO);
+        Role role = rolesRepository.getRole(playerUUID);
 
         if (role.isStaff()) {
             return true;
@@ -53,7 +53,7 @@ public class HouseAction {
             return true;
         }
 
-        Team team = teamsManager.getTeam(playerUUIO);
+        Team team = teamsManager.getTeam(playerUUID);
         House house = houseRepository.getHouse(team.houseId);
 
         if (house == null) {

@@ -4,6 +4,7 @@ import fr.audentia.core.main.AudentiaCoreManagersProvider;
 import fr.audentia.players.main.AudentiaPlayersManagersProvider;
 import fr.audentia.protect.domain.house.*;
 import fr.audentia.protect.domain.portals.NetherLocationRepository;
+import fr.audentia.protect.domain.portals.NetherPortalProtection;
 import fr.audentia.protect.domain.portals.PortalCreateCheck;
 import fr.audentia.protect.infrastructure.house.DefaultHouseCreationRepository;
 import fr.audentia.protect.infrastructure.house.SpigotSignUtils;
@@ -18,6 +19,7 @@ public class AudentiaProtectManagersProvider {
     public final PortalCreateCheck portalCreateCheck;
     public final SignsManage signsManage;
     public final HouseCreation houseCreation;
+    public final NetherPortalProtection netherPortalProtection;
 
     public AudentiaProtectManagersProvider(AudentiaPlayersManagersProvider audentiaPlayersManagersProvider, AudentiaCoreManagersProvider audentiaCoreManagersProvider, String path) {
 
@@ -35,6 +37,7 @@ public class AudentiaProtectManagersProvider {
         portalCreateCheck = new PortalCreateCheck(audentiaPlayersManagersProvider.rolesRepository, netherLocationRepository);
         signsManage = new SignsManage(audentiaPlayersManagersProvider.rolesRepository, houseRepository, signUtils);
         houseCreation = new HouseCreation(audentiaPlayersManagersProvider.rolesRepository, houseCreationRepository, houseRepository);
+        netherPortalProtection = new NetherPortalProtection(audentiaPlayersManagersProvider.rolesRepository, netherLocationRepository);
     }
 
 }

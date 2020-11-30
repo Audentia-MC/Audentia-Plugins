@@ -16,4 +16,6 @@ public interface InventoryUtilities {
 
     void clearInventory(UUID playerUUID);
 
+    boolean canReceiveItems(UUID playerUUID, String materialName, int count);
+
 }

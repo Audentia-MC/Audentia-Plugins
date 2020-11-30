@@ -6,6 +6,7 @@ import fr.audentia.protect.domain.model.Location;
 
 import java.time.*;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.UUID;
 
@@ -36,7 +37,7 @@ public class DefaultBuyHouseClicksRepository implements BuyHouseClicksRepository
     @Override
     public void clearOld() {
 
-        for (Map.Entry<UUID, HouseClick> entry : this.clicks.entrySet()) {
+        for (Map.Entry<UUID, HouseClick> entry : new HashSet<>(this.clicks.entrySet())) {
             if (ZonedDateTime.now().toEpochSecond() - entry.getValue().time > 8) {
                 UUID key = entry.getKey();
                 remove(key);

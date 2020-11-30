@@ -35,7 +35,7 @@ public class StaffInventoryOpen {
         }
 
         if (!worldPlayerFinder.isInWorld(targetName)) {
-            return "<error>Ce joueur n'existe pas.";
+            return "<error>Ce joueur n'est pas connecté.";
         }
 
         staffInventoryOpener.openInventory(playerUUID, targetName);

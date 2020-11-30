@@ -42,7 +42,28 @@ public class PlayerDamage {
         this.coliseumKillsRepository = coliseumKillsRepository;
     }
 
-    public boolean canBeDamaged(UUID playerUUID) {
+    public boolean canBeDamaged(UUID playerUUID, Location location) {
+
+        Location cityLocation = cityInfosRepository.getCityLocation();
+        double radiusSquared = Math.pow(cityInfosRepository.getCityRadius(), 2);
+        double distanceSquared = location.distanceSquared2D(cityLocation);
+
+        boolean temp = distanceSquared <= radiusSquared;
+
+        if (temp) {
+
+            Location coliseumLocation = coliseumLocationRepository.getColiseumLocation();
+            double coliseumSizeSquared = Math.pow(coliseumLocationRepository.getColiseumSize(), 2);
+
+            if (location.distanceSquared2D(coliseumLocation) < coliseumSizeSquared) {
+                temp = false;
+            }
+
+        }
+
+        if (temp) {
+            return false;
+        }
 
         Role role = rolesRepository.getRole(playerUUID);
         return !role.isStaff();
@@ -77,8 +98,7 @@ public class PlayerDamage {
         balanceManage.forceRemoveFromBalance(damagedUUID, (int) toMove);
     }
 
-    public boolean
-    canBeDamaged(UUID damagedUUID, UUID damagerUUID, Location location) {
+    public boolean canBeDamaged(UUID damagedUUID, UUID damagerUUID, Location location) {
 
         Duration actualTimeInGame = Duration.between(gamesInfosRepository.getStart(), timeProvider.getActualTime());
         int minutesOfProtection = timeProtectionAtStartProvider.getMinutesOfProtection();
