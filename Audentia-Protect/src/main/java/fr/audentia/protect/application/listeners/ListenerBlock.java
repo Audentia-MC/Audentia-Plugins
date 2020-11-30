@@ -10,6 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 public class ListenerBlock implements Listener {
 
@@ -56,6 +57,32 @@ public class ListenerBlock implements Listener {
         boolean canBreakBlock = netherPortalProtection.canPlaceBlock(event.getPlayer().getUniqueId(), domainLocation);
 
         if (!canBreakBlock) {
+            event.setCancelled(true);
+        }
+
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onInteract(PlayerInteractEvent event) {
+
+        Block block = event.getClickedBlock();
+
+        if (block == null) {
+            return;
+        }
+
+        World world = block.getWorld();
+
+        if (!world.getName().contains("nether")) {
+            return;
+        }
+
+        org.bukkit.Location location = block.getLocation();
+        Location domainLocation = new Location(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+
+        boolean canInteract = netherPortalProtection.canPlaceBlock(event.getPlayer().getUniqueId(), domainLocation);
+
+        if (!canInteract) {
             event.setCancelled(true);
         }
 

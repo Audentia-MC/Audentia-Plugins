@@ -27,7 +27,7 @@ public class HomeManage {
             result = "<success>Téléportation dans :";
             Home home = optionalHomeLocation.get();
             Location location = new Location(home.x, home.y, home.z);
-            teleportRepository.addPlayer(playerUUID, new Teleport(ZonedDateTime.now().toEpochSecond() - 300, location));
+            teleportRepository.addPlayer(playerUUID, new Teleport(ZonedDateTime.now().toEpochSecond() - 5, location));
         }
 
         return result;
