@@ -9,15 +9,60 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+@SuppressWarnings("unused")
 public class ListenerBlock implements Listener {
 
     private final NetherPortalProtection netherPortalProtection;
 
     public ListenerBlock(NetherPortalProtection netherPortalProtection) {
         this.netherPortalProtection = netherPortalProtection;
+    }
+
+    @EventHandler
+    public void onPlayerEmptyBucket(PlayerBucketEmptyEvent event) {
+
+        Block block = event.getBlock();
+        World world = block.getWorld();
+
+        if (!world.getName().contains("nether")) {
+            return;
+        }
+
+        org.bukkit.Location location = block.getLocation();
+        Location domainLocation = new Location(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+
+        boolean canPlaceBlock = netherPortalProtection.canPlaceBlock(event.getPlayer().getUniqueId(), domainLocation);
+
+        if (!canPlaceBlock) {
+            event.setCancelled(true);
+        }
+
+    }
+
+    @EventHandler
+    public void onLavaFlow(BlockFromToEvent event) {
+
+        Block block = event.getBlock();
+        World world = block.getWorld();
+
+        if (!world.getName().contains("nether")) {
+            return;
+        }
+
+        org.bukkit.Location location = block.getLocation();
+        Location domainLocation = new Location(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+
+        boolean canFlow = netherPortalProtection.isNextPortal(domainLocation);
+
+        if (!canFlow) {
+            event.setCancelled(true);
+        }
+
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

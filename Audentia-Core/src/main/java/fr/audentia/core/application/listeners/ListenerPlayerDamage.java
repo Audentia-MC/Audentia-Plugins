@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
+@SuppressWarnings("unused")
 public class ListenerPlayerDamage implements Listener {
 
     private final PlayerDamage playerDamage;

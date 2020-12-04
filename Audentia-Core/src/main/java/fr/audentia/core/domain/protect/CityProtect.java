@@ -36,6 +36,6 @@ public class CityProtect {
         double radiusSquared = Math.pow(cityInfosRepository.getCityRadius(), 2);
         double distanceSquared = location.distanceSquared2D(cityLocation);
 
-        return distanceSquared <= radiusSquared;
+        return distanceSquared <= radiusSquared * 1.25;
     }
 }

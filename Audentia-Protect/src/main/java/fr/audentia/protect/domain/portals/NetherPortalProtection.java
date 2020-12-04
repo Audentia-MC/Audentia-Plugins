@@ -44,4 +44,12 @@ public class NetherPortalProtection {
         return distance >= 100;
     }
 
+    public boolean isNextPortal(Location location) {
+
+        Location portalLocationInNether = netherLocationRepository.getPortalLocationInNether();
+        double distance = portalLocationInNether.distanceSquared(location);
+
+        return distance >= 100;
+    }
+
 }
